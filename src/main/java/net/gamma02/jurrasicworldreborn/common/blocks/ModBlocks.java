@@ -1,6 +1,7 @@
 package net.gamma02.jurrasicworldreborn.common.blocks;
 
 import net.gamma02.jurrasicworldreborn.common.CommonRegistries;
+import net.gamma02.jurrasicworldreborn.common.blocks.fossil.FloraFossil;
 import net.gamma02.jurrasicworldreborn.common.blocks.wood.ModSaplingBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -24,6 +25,9 @@ public class ModBlocks {
     public static RegistryObject<ModSaplingBlock> PheonixSapling = modBlocks.register("pheonix_sapling", () -> new ModSaplingBlock(CommonRegistries.PhoenixTreeFeature, BlockBehaviour.Properties.of(Material.REPLACEABLE_FIREPROOF_PLANT)));
 
     public static RegistryObject<ModSaplingBlock> PsaroniusSapling = modBlocks.register("psaronius_sapling", () -> new ModSaplingBlock(CommonRegistries.PsaroniusTreeFeature, BlockBehaviour.Properties.of(Material.REPLACEABLE_FIREPROOF_PLANT)));
+
+    public static RegistryObject<FloraFossil> FLORA_FOSSIL = modBlocks.register("flora_fossil", () -> new FloraFossil(BlockBehaviour.Properties.of(Material.STONE)));
+    public static RegistryObject<FloraFossil> DEEPSLATE_FLORA_FOSSIL = modBlocks.register("deepslate_flora_fossil", () -> new FloraFossil(BlockBehaviour.Properties.of(Material.STONE)));
 
 
     public static void register(IEventBus bus){

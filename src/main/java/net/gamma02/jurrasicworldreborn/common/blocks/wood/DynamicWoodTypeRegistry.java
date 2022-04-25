@@ -111,6 +111,9 @@ public class DynamicWoodTypeRegistry {
         WALL_SIGN("wall_sign", 13, null),
         LEAVES("leaves", 14, (color) -> {
             return new LeavesBlock(BlockBehaviour.Properties.of(Material.LEAVES).strength(0.2F).randomTicks().sound(SoundType.GRASS).noOcclusion().isValidSpawn(ProductType::ocelotOrParrot).isSuffocating(ProductType::no).isViewBlocking(ProductType::no));
+        }),
+        PETRIFIED_LOG("petrified_log", 15, (color) -> {
+            return log(color.getB(), color.getA());
         });
 
         private static boolean no(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos) {

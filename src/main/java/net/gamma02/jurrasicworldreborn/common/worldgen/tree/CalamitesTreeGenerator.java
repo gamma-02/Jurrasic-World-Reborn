@@ -6,10 +6,7 @@ import net.gamma02.jurrasicworldreborn.common.blocks.wood.DynamicWoodTypeRegistr
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.LeavesBlock;
-import net.minecraft.world.level.block.RotatedPillarBlock;
-import net.minecraft.world.level.block.SaplingBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
@@ -29,6 +26,8 @@ public class CalamitesTreeGenerator extends Feature<NoneFeatureConfiguration> {
         WorldGenLevel world = context.level();
         Random rand = context.random();
         BlockPos position = context.origin();
+
+        this.setBlockState(world, position, log);
 
         int height = rand.nextInt(10) + 10;
         int branchIndex = 0;
@@ -102,7 +101,7 @@ public class CalamitesTreeGenerator extends Feature<NoneFeatureConfiguration> {
 
     private void setBlockState(WorldGenLevel world, BlockPos pos, BlockState state) {
         Block block = world.getBlockState(pos).getBlock();
-        if (AraucariaTreeGenerator.isReplaceablePlant(world, pos) || block instanceof LeavesBlock || block instanceof SaplingBlock || block instanceof RotatedPillarBlock) {
+        if (AraucariaTreeGenerator.isReplaceablePlant(world, pos) || block instanceof LeavesBlock || block instanceof SaplingBlock || block instanceof RotatedPillarBlock || block == Blocks.AIR) {
             world.setBlock(pos, state, 19);
         }
     }

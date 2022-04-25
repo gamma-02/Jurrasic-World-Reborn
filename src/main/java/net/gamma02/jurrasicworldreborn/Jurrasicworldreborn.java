@@ -74,9 +74,13 @@ public class Jurrasicworldreborn {
         // Register the DynamicWoodTypeRegistry
         DynamicWoodTypeRegistry.register(modEventBus);
 
+        modFeatures.register(modEventBus);
+
         ModBlocks.register(modEventBus);
 
         ModItems.modItems.register(modEventBus);
+
+
 
 
 

@@ -5,10 +5,7 @@ import net.gamma02.jurrasicworldreborn.common.CommonRegistries;
 import net.gamma02.jurrasicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.LeavesBlock;
-import net.minecraft.world.level.block.RotatedPillarBlock;
-import net.minecraft.world.level.block.SaplingBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
@@ -31,6 +28,8 @@ public class PsaroniusTreeGenerator extends Feature<NoneFeatureConfiguration> {
         WorldGenLevel world = context.level();
         Random rand = context.random();
         BlockPos position = context.origin();
+
+        this.setBlockState(world, position, log);
         
         
         
@@ -78,14 +77,13 @@ public class PsaroniusTreeGenerator extends Feature<NoneFeatureConfiguration> {
 
     private void setBlockState(WorldGenLevel world, BlockPos pos, BlockState state) {
         Block block = world.getBlockState(pos).getBlock();
-        if (isReplaceablePlant(world, pos) || block instanceof LeavesBlock || block instanceof SaplingBlock || block instanceof RotatedPillarBlock) {
+        if (isReplaceablePlant(world, pos) || block instanceof LeavesBlock || block instanceof SaplingBlock || block instanceof RotatedPillarBlock || block == Blocks.AIR) {
             world.setBlock(pos, state, 19);
         }
     }
     static boolean isReplaceablePlant(WorldGenLevel p_67289_, BlockPos p_67290_) {
-        return p_67289_.isStateAtPosition(p_67290_, (p_160551_) -> {
-            Material material = p_160551_.getMaterial();
-            return material == Material.REPLACEABLE_PLANT;
+        return p_67289_.isStateAtPosition(p_67290_, (block) -> {
+            return block.getMaterial() == Material.REPLACEABLE_PLANT;
         });
     }
 }

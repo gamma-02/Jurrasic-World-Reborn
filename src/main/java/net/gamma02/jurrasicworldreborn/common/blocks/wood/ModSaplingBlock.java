@@ -13,11 +13,13 @@ import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.grower.AbstractTreeGrower;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraftforge.client.model.generators.VariantBlockStateBuilder;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -25,18 +27,14 @@ import java.util.Random;
 
 public class ModSaplingBlock extends BushBlock implements BonemealableBlock {
 
-    private final Feature<NoneFeatureConfiguration> feature;
+    public static final IntegerProperty STAGE = BlockStateProperties.STAGE;
+    private final RegistryObject<Feature<NoneFeatureConfiguration>> feature;
 
-    public ModSaplingBlock(Feature<NoneFeatureConfiguration> feature, Properties properties) {
+    public ModSaplingBlock(RegistryObject<Feature<NoneFeatureConfiguration>> feature, Properties properties) {
         super(properties);
         this.feature = feature;
 
-        StateDefinition.Builder<Block, BlockState> builder = new StateDefinition.Builder<>(this);
-        this.createBlockStateDefinition(builder);
-        builder.add(BlockStateProperties.AGE_3);
-
-        this.registerDefaultState(builder.create(Block::defaultBlockState, BlockState::new).any());
-
+        this.registerDefaultState(this.stateDefinition.any().setValue(STAGE, 0));
     }
 
     @Override
@@ -46,19 +44,34 @@ public class ModSaplingBlock extends BushBlock implements BonemealableBlock {
 
     @Override
     public boolean isBonemealSuccess(Level world, Random rand, BlockPos pos, BlockState state) {
-        if(Mth.nextInt(rand, 1, 5) == 1){
-            if(state.getValue(BlockStateProperties.AGE_3) == BlockStateProperties.MAX_AGE_3 && world instanceof ServerLevel s){
-                this.performBonemeal(s, rand, pos, state);
-                return true;
-            }
-            state.setValue(BlockStateProperties.AGE_3, state.getValue(BlockStateProperties.AGE_3)+1);
+        return (double)world.random.nextFloat() < 0.45D;
+    }
 
+    public void randomTick(@NotNull BlockState state, ServerLevel world, BlockPos pos, @NotNull Random rand) {
+        if (world.getMaxLocalRawBrightness(pos.above()) >= 9 && rand.nextInt(7) == 0) {
+            if (!world.isAreaLoaded(pos, 1)) return; // Forge: prevent loading unloaded chunks when checking neighbor's light <- lmaoooo hahahahaaaa
+            this.advanceTree(world, pos, state, rand);
         }
-        return true;
+
+    }
+
+    public void advanceTree(ServerLevel world, BlockPos pos, BlockState state, Random rand) {
+        if (state.getValue(STAGE) == 0) {
+            world.setBlock(pos, state.cycle(STAGE), 4);
+        } else {
+            if (!net.minecraftforge.event.ForgeEventFactory.saplingGrowTree(world, rand, pos)) return;
+            this.feature.get().place(NoneFeatureConfiguration.INSTANCE, world, world.getChunkSource().getGenerator(), rand, pos);
+        }
+
     }
 
     @Override
-    public void performBonemeal(@NotNull ServerLevel world, @NotNull Random p_50894_, @Nonnull BlockPos p_50895_, @Nonnull BlockState p_50896_) {
-        this.feature.place(NoneFeatureConfiguration.INSTANCE, world, world.getChunkSource().getGenerator(), p_50894_, p_50895_);
+    public void performBonemeal(@NotNull ServerLevel world, @NotNull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
+        this.advanceTree(world, pos, state, rand);
+    }
+
+
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> p_56001_) {
+        p_56001_.add(STAGE);
     }
 }

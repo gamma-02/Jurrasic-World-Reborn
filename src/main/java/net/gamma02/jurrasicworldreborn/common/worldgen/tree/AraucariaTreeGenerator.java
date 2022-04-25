@@ -35,6 +35,9 @@ public class AraucariaTreeGenerator extends Feature<NoneFeatureConfiguration> {
         BlockState leaves = DynamicWoodTypeRegistry.getProductFromWoodType(CommonRegistries.AraucariaType, DynamicWoodTypeRegistry.ProductType.LEAVES).defaultBlockState();
         BlockPos position = p_159749_.origin();
         Random rand = p_159749_.random();
+
+        this.setBlockState(world, position, log);
+
         int height = rand.nextInt(15) + 10;
         int branchHeight = (int) (height / 1.3);
         for (int y = 0; y < height; y++) {
@@ -103,7 +106,7 @@ public class AraucariaTreeGenerator extends Feature<NoneFeatureConfiguration> {
 
     private void setBlockState(WorldGenLevel world, BlockPos pos, BlockState state) {
         Block block = world.getBlockState(pos).getBlock();
-        if (isReplaceablePlant(world, pos) || block instanceof LeavesBlock || block instanceof SaplingBlock || block instanceof RotatedPillarBlock) {
+        if (isReplaceablePlant(world, pos) || block instanceof LeavesBlock || block instanceof SaplingBlock || block instanceof RotatedPillarBlock || block == Blocks.AIR) {
             world.setBlock(pos, state, 19);
         }
     }

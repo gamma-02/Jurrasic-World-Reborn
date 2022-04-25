@@ -7,10 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.LeavesBlock;
-import net.minecraft.world.level.block.RotatedPillarBlock;
-import net.minecraft.world.level.block.SaplingBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
@@ -33,6 +30,8 @@ public class GinkgoTreeGenerator extends Feature<NoneFeatureConfiguration> {
         Random rand = context.random();
         BlockPos position = context.origin();
         WorldGenLevel world = context.level();
+
+        this.setBlockState(world, position, log);
 
         int height = rand.nextInt(16) + 4;
 
@@ -103,7 +102,7 @@ public class GinkgoTreeGenerator extends Feature<NoneFeatureConfiguration> {
 
     private void setBlockState(WorldGenLevel world, BlockPos pos, BlockState state) {
         Block block = world.getBlockState(pos).getBlock();
-        if (isReplaceablePlant(world, pos) || block instanceof LeavesBlock || block instanceof SaplingBlock || block instanceof RotatedPillarBlock) {
+        if (isReplaceablePlant(world, pos) || block instanceof LeavesBlock || block instanceof SaplingBlock || block instanceof RotatedPillarBlock || block == Blocks.AIR) {
             world.setBlock(pos, state, 19);
         }
     }

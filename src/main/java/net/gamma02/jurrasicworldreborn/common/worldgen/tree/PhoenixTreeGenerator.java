@@ -5,10 +5,7 @@ import net.gamma02.jurrasicworldreborn.common.CommonRegistries;
 import net.gamma02.jurrasicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.LeavesBlock;
-import net.minecraft.world.level.block.RotatedPillarBlock;
-import net.minecraft.world.level.block.SaplingBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
@@ -31,6 +28,7 @@ public class PhoenixTreeGenerator extends Feature<NoneFeatureConfiguration> {
         WorldGenLevel world = ctx.level();
         Random rand = ctx.random();
         BlockPos position = ctx.origin();
+        this.setBlockState(world, position, log);
 
         int height = rand.nextInt(6) + 7;
 
@@ -127,7 +125,7 @@ public class PhoenixTreeGenerator extends Feature<NoneFeatureConfiguration> {
 
     private void setBlockState(WorldGenLevel world, BlockPos pos, BlockState state) {
         Block block = world.getBlockState(pos).getBlock();
-        if (isReplaceablePlant(world, pos) || block instanceof LeavesBlock || block instanceof SaplingBlock || block instanceof RotatedPillarBlock) {
+        if (isReplaceablePlant(world, pos) || block instanceof LeavesBlock || block instanceof SaplingBlock || block instanceof RotatedPillarBlock || block == Blocks.AIR) {
             world.setBlock(pos, state, 19);
         }
     }

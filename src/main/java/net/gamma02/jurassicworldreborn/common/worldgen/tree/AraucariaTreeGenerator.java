@@ -1,8 +1,8 @@
-package net.gamma02.jurrasicworldreborn.common.worldgen.tree;
+package net.gamma02.jurassicworldreborn.common.worldgen.tree;
 
 import com.mojang.serialization.Codec;
-import net.gamma02.jurrasicworldreborn.common.CommonRegistries;
-import net.gamma02.jurrasicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
+import net.gamma02.jurassicworldreborn.common.CommonRegistries;
+import net.gamma02.jurassicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;

@@ -1,4 +1,4 @@
-package net.gamma02.jurrasicworldreborn.common.util;
+package net.gamma02.jurassicworldreborn.common.util;
 
 public enum TimePeriod {
     /**

@@ -1,4 +1,4 @@
-package net.gamma02.jurrasicworldreborn.common.blocks.fossil;
+package net.gamma02.jurassicworldreborn.common.blocks.fossil;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;

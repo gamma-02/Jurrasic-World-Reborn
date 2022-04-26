@@ -1,7 +1,7 @@
-package net.gamma02.jurrasicworldreborn.common.blocks.fossil;
+package net.gamma02.jurassicworldreborn.common.blocks.fossil;
 
-import net.gamma02.jurrasicworldreborn.common.blocks.ModBlocks;
-import net.gamma02.jurrasicworldreborn.common.items.ModItems;
+import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
+import net.gamma02.jurassicworldreborn.common.items.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;

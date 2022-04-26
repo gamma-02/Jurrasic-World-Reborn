@@ -1,9 +1,9 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "net.gamma02.jurrasicworldreborn.mixin",
+  "package": "net.gamma02.jurassicworldreborn.mixin",
   "compatibilityLevel": "JAVA_8",
-  "refmap": "jurrasicworldreborn.refmap.json",
+  "refmap": "jurassicworldreborn.refmap.json",
   "mixins": [
     "DefaultFeaturesMixin"
   ],

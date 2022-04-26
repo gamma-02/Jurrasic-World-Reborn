@@ -1,4 +1,4 @@
-package net.gamma02.jurrasicworldreborn.common.blocks.wood;
+package net.gamma02.jurassicworldreborn.common.blocks.wood;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;

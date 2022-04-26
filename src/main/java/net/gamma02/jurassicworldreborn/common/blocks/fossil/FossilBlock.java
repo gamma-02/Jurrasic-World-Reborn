@@ -1,6 +1,6 @@
-package net.gamma02.jurrasicworldreborn.common.blocks.fossil;
+package net.gamma02.jurassicworldreborn.common.blocks.fossil;
 
-import net.gamma02.jurrasicworldreborn.common.util.TimePeriod;
+import net.gamma02.jurassicworldreborn.common.util.TimePeriod;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 

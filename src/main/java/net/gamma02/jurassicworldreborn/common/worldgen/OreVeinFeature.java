@@ -1,11 +1,11 @@
-package net.gamma02.jurrasicworldreborn.common.worldgen;
+package net.gamma02.jurassicworldreborn.common.worldgen;
 import com.mojang.serialization.Codec;
 import java.util.BitSet;
 import java.util.Random;
 import java.util.function.Function;
 
-import net.gamma02.jurrasicworldreborn.common.blocks.ModBlocks;
-import net.gamma02.jurrasicworldreborn.common.blocks.fossil.FloraFossil;
+import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
+import net.gamma02.jurassicworldreborn.common.blocks.fossil.FloraFossil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.util.Mth;

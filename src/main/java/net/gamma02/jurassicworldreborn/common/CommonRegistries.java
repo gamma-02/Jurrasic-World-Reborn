@@ -1,10 +1,9 @@
-package net.gamma02.jurrasicworldreborn.common;
+package net.gamma02.jurassicworldreborn.common;
 
 
-import net.gamma02.jurrasicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
-import net.gamma02.jurrasicworldreborn.common.worldgen.OreVeinFeature;
-import net.gamma02.jurrasicworldreborn.common.worldgen.tree.*;
-import net.minecraft.world.level.block.Blocks;
+import net.gamma02.jurassicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
+import net.gamma02.jurassicworldreborn.common.worldgen.OreVeinFeature;
+import net.gamma02.jurassicworldreborn.common.worldgen.tree.*;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
@@ -15,11 +14,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.util.List;
-
-import static net.gamma02.jurrasicworldreborn.Jurrasicworldreborn.modid;
-import static net.minecraft.data.worldgen.features.OreFeatures.DEEPSLATE_ORE_REPLACEABLES;
-import static net.minecraft.data.worldgen.features.OreFeatures.STONE_ORE_REPLACEABLES;
+import static net.gamma02.jurassicworldreborn.Jurassicworldreborn.modid;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CommonRegistries {

@@ -1,6 +1,6 @@
-package net.gamma02.jurrasicworldreborn.common.blocks.wood;
+package net.gamma02.jurassicworldreborn.common.blocks.wood;
 
-import net.gamma02.jurrasicworldreborn.Jurrasicworldreborn;
+import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.EntityType;
@@ -18,7 +18,6 @@ import net.minecraftforge.registries.RegistryObject;
 import oshi.util.tuples.Pair;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.Function;
@@ -45,7 +44,7 @@ public class DynamicWoodTypeRegistry {
 
     public static HashMap<WoodType, List<RegistryObject<Block>>> DynamicWoodTypes = new HashMap<>();
 
-    static DeferredRegister<Block> woodTypeRegister = DeferredRegister.create(ForgeRegistries.BLOCKS, Jurrasicworldreborn.modid);
+    static DeferredRegister<Block> woodTypeRegister = DeferredRegister.create(ForgeRegistries.BLOCKS, Jurassicworldreborn.modid);
 
 
 

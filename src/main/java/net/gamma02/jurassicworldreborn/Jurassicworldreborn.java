@@ -1,9 +1,9 @@
-package net.gamma02.jurrasicworldreborn;
+package net.gamma02.jurassicworldreborn;
 
-import net.gamma02.jurrasicworldreborn.common.CommonRegistries;
-import net.gamma02.jurrasicworldreborn.common.blocks.ModBlocks;
-import net.gamma02.jurrasicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
-import net.gamma02.jurrasicworldreborn.common.items.ModItems;
+import net.gamma02.jurassicworldreborn.common.CommonRegistries;
+import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
+import net.gamma02.jurassicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
+import net.gamma02.jurassicworldreborn.common.items.ModItems;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.core.Holder;
 import net.minecraft.data.worldgen.features.FeatureUtils;
@@ -33,15 +33,15 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static net.gamma02.jurrasicworldreborn.common.CommonRegistries.*;
+import static net.gamma02.jurassicworldreborn.common.CommonRegistries.*;
 import static net.minecraft.data.worldgen.features.OreFeatures.*;
 
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod("jurrasicworldreborn")
-public class Jurrasicworldreborn {
+@Mod("jurassicworldreborn")
+public class Jurassicworldreborn {
 
 
-    public static String modid = "jurrasicworldreborn";
+    public static String modid = "jurassicworldreborn";
 
     public static ResourceLocation resource(String resource){
         return new ResourceLocation(modid, resource);
@@ -73,7 +73,7 @@ public class Jurrasicworldreborn {
 
     public static IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-    public Jurrasicworldreborn() {
+    public Jurassicworldreborn() {
 
         // Register the client setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
@@ -99,11 +99,11 @@ public class Jurrasicworldreborn {
 
 
 
-//        CONFIGURED_ARAUCARIA = FeatureUtils.register("jurrasicworldreborn:configured_araucria_feature", AraucariaTreeFeature, NoneFeatureConfiguration.INSTANCE);
-//        CONFIGURED_GINKGO = FeatureUtils.register("jurrasicworldreborn:configured_ginkgo_feature", GinkgoTreeFeature, NoneFeatureConfiguration.INSTANCE);
-//        CONFIGURED_CALAMITES = FeatureUtils.register("jurrasicworldreborn:configured_calamites_feature", CalamitesTreeFeature, NoneFeatureConfiguration.INSTANCE);
-//        CONFIGURED_PHEONIX = FeatureUtils.register("jurrasicworldreborn:configured_pheonix_feature", PheonixTreeFeature, NoneFeatureConfiguration.INSTANCE);
-//        CONFIGURED_PSARONIUS = FeatureUtils.register("jurrasicworldreborn:configured_psaronius_feature", PsaroniusTreeFeature, NoneFeatureConfiguration.INSTANCE);
+//        CONFIGURED_ARAUCARIA = FeatureUtils.register("jurassicworldreborn:configured_araucria_feature", AraucariaTreeFeature, NoneFeatureConfiguration.INSTANCE);
+//        CONFIGURED_GINKGO = FeatureUtils.register("jurassicworldreborn:configured_ginkgo_feature", GinkgoTreeFeature, NoneFeatureConfiguration.INSTANCE);
+//        CONFIGURED_CALAMITES = FeatureUtils.register("jurassicworldreborn:configured_calamites_feature", CalamitesTreeFeature, NoneFeatureConfiguration.INSTANCE);
+//        CONFIGURED_PHEONIX = FeatureUtils.register("jurassicworldreborn:configured_pheonix_feature", PheonixTreeFeature, NoneFeatureConfiguration.INSTANCE);
+//        CONFIGURED_PSARONIUS = FeatureUtils.register("jurassicworldreborn:configured_psaronius_feature", PsaroniusTreeFeature, NoneFeatureConfiguration.INSTANCE);
         CONFIGURED_FLORA_FOSSIL = FeatureUtils.register("flora_fossil_configured", FLORA_FOSSIL_ORE.get(), new OreConfiguration(ORE_COAL_TARGET_LIST, 17));
         FLORA_FOSSIL_PLACEMENT = PlacementUtils.register("placement_flora_fossil", CONFIGURED_FLORA_FOSSIL, commonOrePlacement(15, HeightRangePlacement.uniform(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(64))));
         CONFIGURED_FAUNA_FOSSIL = FeatureUtils.register("fauna_fossil_configured", Feature.ORE, new OreConfiguration(ORE_FAUNA_FOSSIL_LIST, 3));
@@ -127,21 +127,6 @@ public class Jurrasicworldreborn {
             Sheets.addWoodType(CommonRegistries.PhoenixType);
             Sheets.addWoodType(CommonRegistries.PsaroniusType);
         });
-    }
-
-    private void enqueueIMC(final InterModEnqueueEvent event) {
-        // some example code to dispatch IMC to another mod
-        InterModComms.sendTo("jurrasicworldreborn", "helloworld", () -> {
-            LOGGER.info("Hello world from the MDK");
-            return "Hello world";
-        });
-    }
-
-    private void processIMC(final InterModProcessEvent event) {
-        // some example code to receive and process InterModComms from other mods
-        LOGGER.info("Got IMC {}", event.getIMCStream().
-                map(m -> m.messageSupplier().get()).
-                collect(Collectors.toList()));
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call

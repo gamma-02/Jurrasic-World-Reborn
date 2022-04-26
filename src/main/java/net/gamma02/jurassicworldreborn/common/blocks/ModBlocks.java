@@ -1,9 +1,9 @@
-package net.gamma02.jurrasicworldreborn.common.blocks;
+package net.gamma02.jurassicworldreborn.common.blocks;
 
-import net.gamma02.jurrasicworldreborn.common.CommonRegistries;
-import net.gamma02.jurrasicworldreborn.common.blocks.fossil.FaunaFossil;
-import net.gamma02.jurrasicworldreborn.common.blocks.fossil.FloraFossil;
-import net.gamma02.jurrasicworldreborn.common.blocks.wood.ModSaplingBlock;
+import net.gamma02.jurassicworldreborn.common.CommonRegistries;
+import net.gamma02.jurassicworldreborn.common.blocks.fossil.FaunaFossil;
+import net.gamma02.jurassicworldreborn.common.blocks.fossil.FloraFossil;
+import net.gamma02.jurassicworldreborn.common.blocks.wood.ModSaplingBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
@@ -15,7 +15,7 @@ import net.minecraftforge.registries.RegistryObject;
 public class ModBlocks {
 
 
-    public static DeferredRegister<Block> modBlocks = DeferredRegister.create(ForgeRegistries.BLOCKS, "jurrasicworldreborn");
+    public static DeferredRegister<Block> modBlocks = DeferredRegister.create(ForgeRegistries.BLOCKS, "jurassicworldreborn");
 
     public static RegistryObject<ModSaplingBlock> AraucariaSapling = modBlocks.register("araucria_sapling", () -> new ModSaplingBlock(CommonRegistries.AraucariaTreeFeature, BlockBehaviour.Properties.of(Material.REPLACEABLE_FIREPROOF_PLANT)));
 

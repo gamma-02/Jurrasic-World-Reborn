@@ -1,6 +1,6 @@
-package net.gamma02.jurrasicworldreborn.mixin;
+package net.gamma02.jurassicworldreborn.mixin;
 
-import net.gamma02.jurrasicworldreborn.Jurrasicworldreborn;
+import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.minecraft.data.worldgen.BiomeDefaultFeatures;
 import net.minecraft.world.level.biome.BiomeGenerationSettings;
 import net.minecraft.world.level.levelgen.GenerationStep;
@@ -14,6 +14,6 @@ public class DefaultFeaturesMixin {
 
     @Inject(method = "addDefaultOres(Lnet/minecraft/world/level/biome/BiomeGenerationSettings$Builder;Z)V", at = @At(value = "HEAD"))
     private static void addDeafultOresMixin(BiomeGenerationSettings.Builder builder, boolean bool, CallbackInfo ci){
-        builder.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, Jurrasicworldreborn.FLORA_FOSSIL_PLACEMENT);
+        builder.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, Jurassicworldreborn.FLORA_FOSSIL_PLACEMENT);
     }
 }

@@ -7,12 +7,12 @@ import net.gamma02.jurrasicworldreborn.common.items.ModItems;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.core.Holder;
 import net.minecraft.data.worldgen.features.FeatureUtils;
-import net.minecraft.data.worldgen.features.OreFeatures;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.placement.*;
@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static net.gamma02.jurrasicworldreborn.common.CommonRegistries.*;
-import static net.minecraft.data.worldgen.features.OreFeatures.ORE_COAL_TARGET_LIST;
+import static net.minecraft.data.worldgen.features.OreFeatures.*;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("jurrasicworldreborn")
@@ -62,6 +62,12 @@ public class Jurrasicworldreborn {
     public static Holder<ConfiguredFeature<OreConfiguration, ?>> CONFIGURED_FLORA_FOSSIL;
 
     public static Holder<PlacedFeature> FLORA_FOSSIL_PLACEMENT;
+
+    public static final List<OreConfiguration.TargetBlockState> ORE_FAUNA_FOSSIL_LIST = List.of(OreConfiguration.target(STONE_ORE_REPLACEABLES, ModBlocks.FAUNA_FOSSIL.get().defaultBlockState()), OreConfiguration.target(DEEPSLATE_ORE_REPLACEABLES, ModBlocks.DEEPSLATE_FAUNA_FOSSIL.get().defaultBlockState()));
+
+    public static Holder<ConfiguredFeature<OreConfiguration, ?>> CONFIGURED_FAUNA_FOSSIL;
+
+    public static Holder<PlacedFeature> FAUNA_FOSSIL_PLACEMENT;
 
 
 
@@ -99,7 +105,10 @@ public class Jurrasicworldreborn {
 //        CONFIGURED_PHEONIX = FeatureUtils.register("jurrasicworldreborn:configured_pheonix_feature", PheonixTreeFeature, NoneFeatureConfiguration.INSTANCE);
 //        CONFIGURED_PSARONIUS = FeatureUtils.register("jurrasicworldreborn:configured_psaronius_feature", PsaroniusTreeFeature, NoneFeatureConfiguration.INSTANCE);
         CONFIGURED_FLORA_FOSSIL = FeatureUtils.register("flora_fossil_configured", FLORA_FOSSIL_ORE.get(), new OreConfiguration(ORE_COAL_TARGET_LIST, 17));
-        FLORA_FOSSIL_PLACEMENT = PlacementUtils.register("ore_coal_upper", OreFeatures.ORE_COAL, commonOrePlacement(15, HeightRangePlacement.uniform(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(64))));
+        FLORA_FOSSIL_PLACEMENT = PlacementUtils.register("placement_flora_fossil", CONFIGURED_FLORA_FOSSIL, commonOrePlacement(15, HeightRangePlacement.uniform(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(64))));
+        CONFIGURED_FAUNA_FOSSIL = FeatureUtils.register("fauna_fossil_configured", Feature.ORE, new OreConfiguration(ORE_FAUNA_FOSSIL_LIST, 3));
+        FAUNA_FOSSIL_PLACEMENT = PlacementUtils.register("placement_fauna_fossil", CONFIGURED_FAUNA_FOSSIL, commonOrePlacement(10, HeightRangePlacement.uniform(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(64))));
+
 //????????? maybe this will work???????????
 
     }

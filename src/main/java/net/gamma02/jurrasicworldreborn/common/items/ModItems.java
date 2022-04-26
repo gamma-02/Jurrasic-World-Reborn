@@ -24,6 +24,8 @@ public class ModItems {
 
     public static RegistryObject<Item> PSARONIUS_SAPLING = modItems.register("psarons_sapling", () -> new BlockItem(ModBlocks.PsaroniusSapling.get(), new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)));
 
+    public static RegistryObject<Item> PLASTER_AND_BANDAGE = modItems.register("plaster_and_bandage", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
+
 
 
 }

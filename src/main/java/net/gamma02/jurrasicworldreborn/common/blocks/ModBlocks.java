@@ -1,6 +1,7 @@
 package net.gamma02.jurrasicworldreborn.common.blocks;
 
 import net.gamma02.jurrasicworldreborn.common.CommonRegistries;
+import net.gamma02.jurrasicworldreborn.common.blocks.fossil.FaunaFossil;
 import net.gamma02.jurrasicworldreborn.common.blocks.fossil.FloraFossil;
 import net.gamma02.jurrasicworldreborn.common.blocks.wood.ModSaplingBlock;
 import net.minecraft.world.level.block.Block;
@@ -28,6 +29,12 @@ public class ModBlocks {
 
     public static RegistryObject<FloraFossil> FLORA_FOSSIL = modBlocks.register("flora_fossil", () -> new FloraFossil(BlockBehaviour.Properties.of(Material.STONE)));
     public static RegistryObject<FloraFossil> DEEPSLATE_FLORA_FOSSIL = modBlocks.register("deepslate_flora_fossil", () -> new FloraFossil(BlockBehaviour.Properties.of(Material.STONE)));
+
+    public static RegistryObject<FaunaFossil> FAUNA_FOSSIL = modBlocks.register("fauna_fossil", () -> new FaunaFossil(BlockBehaviour.Properties.of(Material.STONE)));
+
+    public static RegistryObject<FaunaFossil> DEEPSLATE_FAUNA_FOSSIL = modBlocks.register("deepslate_fauna_fossil", () -> new FaunaFossil(BlockBehaviour.Properties.of(Material.STONE)));
+
+    public static RegistryObject<Block> ENCASED_FAUNA_FOSSIL = modBlocks.register("encased_fauna_fossil", () -> new Block(BlockBehaviour.Properties.of(Material.STONE)));
 
 
     public static void register(IEventBus bus){

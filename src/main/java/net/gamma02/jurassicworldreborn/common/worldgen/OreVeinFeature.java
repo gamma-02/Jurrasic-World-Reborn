@@ -27,6 +27,7 @@ public class OreVeinFeature extends Feature<OreConfiguration> {
     }
 
     public boolean place(FeaturePlaceContext<OreConfiguration> p_160177_) {
+        System.out.println("PLACING AT: " + p_160177_.origin());
         Random random = p_160177_.random();
         BlockPos blockpos = p_160177_.origin();
         WorldGenLevel worldgenlevel = p_160177_.level();

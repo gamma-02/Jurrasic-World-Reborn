@@ -4,12 +4,15 @@ import net.gamma02.jurassicworldreborn.common.CommonRegistries;
 import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
 import net.gamma02.jurassicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
 import net.gamma02.jurassicworldreborn.common.items.ModItems;
+import net.gamma02.jurassicworldreborn.common.util.JsonOutputGenerator;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.core.Holder;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -17,6 +20,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
@@ -59,21 +63,15 @@ public class Jurassicworldreborn {
 
     public static Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> CONFIGURED_PSARONIUS;
 
-    public static Holder<ConfiguredFeature<OreConfiguration, ?>> CONFIGURED_FLORA_FOSSIL;
 
-    public static Holder<PlacedFeature> FLORA_FOSSIL_PLACEMENT;
-
-    public static final List<OreConfiguration.TargetBlockState> ORE_FAUNA_FOSSIL_LIST = List.of(OreConfiguration.target(STONE_ORE_REPLACEABLES, ModBlocks.FAUNA_FOSSIL.get().defaultBlockState()), OreConfiguration.target(DEEPSLATE_ORE_REPLACEABLES, ModBlocks.DEEPSLATE_FAUNA_FOSSIL.get().defaultBlockState()));
-
-    public static Holder<ConfiguredFeature<OreConfiguration, ?>> CONFIGURED_FAUNA_FOSSIL;
-
-    public static Holder<PlacedFeature> FAUNA_FOSSIL_PLACEMENT;
 
 
 
     public static IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
     public Jurassicworldreborn() {
+        JsonOutputGenerator.doJsonProcessing();
+
 
         // Register the client setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
@@ -99,15 +97,13 @@ public class Jurassicworldreborn {
 
 
 
+
+
 //        CONFIGURED_ARAUCARIA = FeatureUtils.register("jurassicworldreborn:configured_araucria_feature", AraucariaTreeFeature, NoneFeatureConfiguration.INSTANCE);
 //        CONFIGURED_GINKGO = FeatureUtils.register("jurassicworldreborn:configured_ginkgo_feature", GinkgoTreeFeature, NoneFeatureConfiguration.INSTANCE);
 //        CONFIGURED_CALAMITES = FeatureUtils.register("jurassicworldreborn:configured_calamites_feature", CalamitesTreeFeature, NoneFeatureConfiguration.INSTANCE);
 //        CONFIGURED_PHEONIX = FeatureUtils.register("jurassicworldreborn:configured_pheonix_feature", PheonixTreeFeature, NoneFeatureConfiguration.INSTANCE);
 //        CONFIGURED_PSARONIUS = FeatureUtils.register("jurassicworldreborn:configured_psaronius_feature", PsaroniusTreeFeature, NoneFeatureConfiguration.INSTANCE);
-        CONFIGURED_FLORA_FOSSIL = FeatureUtils.register("flora_fossil_configured", FLORA_FOSSIL_ORE.get(), new OreConfiguration(ORE_COAL_TARGET_LIST, 17));
-        FLORA_FOSSIL_PLACEMENT = PlacementUtils.register("placement_flora_fossil", CONFIGURED_FLORA_FOSSIL, commonOrePlacement(15, HeightRangePlacement.uniform(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(64))));
-        CONFIGURED_FAUNA_FOSSIL = FeatureUtils.register("fauna_fossil_configured", Feature.ORE, new OreConfiguration(ORE_FAUNA_FOSSIL_LIST, 3));
-        FAUNA_FOSSIL_PLACEMENT = PlacementUtils.register("placement_fauna_fossil", CONFIGURED_FAUNA_FOSSIL, commonOrePlacement(10, HeightRangePlacement.uniform(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(64))));
 
 //????????? maybe this will work???????????
 
@@ -136,14 +132,22 @@ public class Jurassicworldreborn {
         LOGGER.info("HELLO from server starting");
     }
 
+    @SubscribeEvent
+    public void onBiomeLoad(BiomeLoadingEvent evt){
+        if(evt.getCategory() != Biome.BiomeCategory.NETHER && evt.getCategory() != Biome.BiomeCategory.THEEND){
+            evt.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, ICE_SHARD_ORE_PLACEMENT);
+            evt.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, FAUNA_FOSSIL_PLACEMENT);
+            evt.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, FLORA_FOSSIL_PLACEMENT);
+            evt.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, AMBER_ORE_PLACEMENT);
+            evt.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, PLACED_LARGE_PETRIFIED_TREE);
+            evt.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, PLACED_SMALL_PETRIFIED_TREE);
 
-    private static List<PlacementModifier> orePlacement(PlacementModifier p_195347_, PlacementModifier p_195348_) {
-        return List.of(p_195347_, InSquarePlacement.spread(), p_195348_, BiomeFilter.biome());
+
+        }
     }
 
-    private static List<PlacementModifier> commonOrePlacement(int p_195344_, PlacementModifier p_195345_) {
-        return orePlacement(CountPlacement.of(p_195344_), p_195345_);
-    }
+
+
 
 
 }

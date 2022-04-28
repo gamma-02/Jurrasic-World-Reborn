@@ -3,6 +3,7 @@ package net.gamma02.jurassicworldreborn.common.blocks;
 import net.gamma02.jurassicworldreborn.common.CommonRegistries;
 import net.gamma02.jurassicworldreborn.common.blocks.fossil.FaunaFossil;
 import net.gamma02.jurassicworldreborn.common.blocks.fossil.FloraFossil;
+import net.gamma02.jurassicworldreborn.common.blocks.machines.cleaner.CleanerBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.wood.ModSaplingBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -44,6 +45,8 @@ public class ModBlocks {
     public static RegistryObject<Block> DEEPSLATE_AMBER_ORE = modBlocks.register("deepslate_amber_ore", () -> new Block(BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops()));
 
     public static RegistryObject<Block> DEEPSLATE_ICE_SHARD_ORE = modBlocks.register("deepslate_ice_shard_ore", () -> new Block(BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops()));
+
+    public static RegistryObject<CleanerBlock> CLEANER_BLOCK = modBlocks.register("cleaner_block", () -> new CleanerBlock(BlockBehaviour.Properties.of(Material.STONE)));
 
 
 

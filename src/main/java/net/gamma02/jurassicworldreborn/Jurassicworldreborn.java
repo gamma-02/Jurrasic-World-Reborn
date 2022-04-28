@@ -70,7 +70,6 @@ public class Jurassicworldreborn {
     public static IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
     public Jurassicworldreborn() {
-        JsonOutputGenerator.doJsonProcessing();
 
 
         // Register the client setup method for modloading
@@ -81,6 +80,8 @@ public class Jurassicworldreborn {
 
         // Register wood types and get DynamicWoodTypeRegistry setup and running
         CommonRegistries.init();
+
+
 
         // Register the DynamicWoodTypeRegistry
         DynamicWoodTypeRegistry.register(modEventBus);

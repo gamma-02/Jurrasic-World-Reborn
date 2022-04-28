@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.WoodType;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 
@@ -29,24 +30,31 @@ public class PetrifiedTreeGenerator extends Feature<PetrifiedTreeConfig> {
     @Override
     public boolean place(FeaturePlaceContext<PetrifiedTreeConfig> context) {
         Random random = context.random();
-        float chance = random.nextFloat(1);
+        float chance = random.nextFloat(100);
         chance = Float.parseFloat(Float.toString(chance).substring(4));
-        if(context.config().chance >= chance) {
+//        if(context.config().chance >= chance) {
             WorldGenLevel world = context.level();
 
             BlockPos pos = context.origin();
 
+            System.out.println("PLACING AT: " + pos);
+
             int randPosX = world.getChunk(pos).getPos().x + random.nextInt(16) + 8;
             int randPosZ = world.getChunk(pos).getPos().z + random.nextInt(16) + 8;
-            int randPosY = random.nextInt(Math.max(1, Mth.ceil(world.getLevel().getBlockFloorHeight(new BlockPos(randPosX, 0, randPosZ)))) - 10);
+            int randPosY = random.nextInt(Math.max(1, world.getHeightmapPos(Heightmap.Types.WORLD_SURFACE_WG, pos).getY() - 10));
             ArrayList<WoodType> types = new ArrayList<WoodType>(woodTypes);
             Collections.shuffle(types);
             this.generatePetrifiedTree(world, types.get(0), randPosX, randPosY, randPosZ, random, context.config());
 
-            return world.getBlockState(pos).getBlock() instanceof RotatedPillarBlock;
-        }else{
-            return false;
-        }
+            if(world.getBlockState(pos).getBlock() instanceof RotatedPillarBlock) {
+                System.out.println("COMPLETED GENERATION");
+                return true;
+            }else {
+                return false;
+            }
+//        }else{
+//            return false;
+//        }
 
     }
 
@@ -64,19 +72,23 @@ public class PetrifiedTreeGenerator extends Feature<PetrifiedTreeConfig> {
         float yOffset = Mth.cos(rotY * (float) Math.PI / 180.0F) * horizontal;
 
         for (int i = 0; i < rand.nextInt(config.size) + 2; i++) {
+
             int blockX = x + Math.round(xOffset * i);
             int blockY = y + Math.round(vertical * i);
             int blockZ = z + Math.round(yOffset * i);
 
-            if (blockY > 0 && blockY < 256) {
+            if (blockY > world.getMinBuildHeight() && blockY < world.getMaxBuildHeight()) {
                 BlockPos pos = new BlockPos(blockX, blockY, blockZ);
+
                 Block previousBlock = world.getBlockState(pos).getBlock();
 
                 if (previousBlock != Blocks.BEDROCK && previousBlock != Blocks.AIR) {
                     world.setBlock(pos, state, 19);
                 }
+
             }
         }
+
     }
 
 }

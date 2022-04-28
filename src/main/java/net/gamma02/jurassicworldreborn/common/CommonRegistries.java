@@ -3,6 +3,7 @@ package net.gamma02.jurassicworldreborn.common;
 
 import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
 import net.gamma02.jurassicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
+import net.gamma02.jurassicworldreborn.common.util.JsonOutputGenerator;
 import net.gamma02.jurassicworldreborn.common.worldgen.OreVeinFeature;
 import net.gamma02.jurassicworldreborn.common.worldgen.tree.*;
 import net.gamma02.jurassicworldreborn.common.worldgen.tree.petrified.PetrifiedTreeConfig;
@@ -104,7 +105,7 @@ public class CommonRegistries {
         ConfiguredFeatureRegistries.init();
 
         //do Json processing for dynamic wood registry models
-
+//        JsonOutputGenerator.doJsonProcessing(DynamicWoodTypeRegistry.getJsonBlockStateModelDefinitions());
 
     }
 
@@ -149,13 +150,17 @@ public class CommonRegistries {
 
             CONFIGURED_SMALL_PETRIFIED_TREE = FeatureUtils.register(modid + ":configured_large_petrified_tree", PETRIFIED_TREE_GENERATOR, new PetrifiedTreeConfig(10, 0.2F));
             CONFIGURED_LARGE_PETRIFIED_TREE = FeatureUtils.register(modid + ":configured_small_petrified_tree", PETRIFIED_TREE_GENERATOR, new PetrifiedTreeConfig(15, 0.1F));
-            PLACED_LARGE_PETRIFIED_TREE = PlacementUtils.register(modid + ":placed_small_petrified_tree", CONFIGURED_LARGE_PETRIFIED_TREE);
-            PLACED_SMALL_PETRIFIED_TREE = PlacementUtils.register(modid + ":placed_large_petrified_tree", CONFIGURED_SMALL_PETRIFIED_TREE);
+            PLACED_LARGE_PETRIFIED_TREE = PlacementUtils.register(modid + ":placed_small_petrified_tree", CONFIGURED_LARGE_PETRIFIED_TREE, chancedOrePlacment(HeightRangePlacement.uniform(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(64))));
+            PLACED_SMALL_PETRIFIED_TREE = PlacementUtils.register(modid + ":placed_large_petrified_tree", CONFIGURED_SMALL_PETRIFIED_TREE, chancedOrePlacment(HeightRangePlacement.uniform(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(64))));
 
         }
 
         private static List<PlacementModifier> orePlacement(PlacementModifier p_195347_, PlacementModifier p_195348_) {
             return List.of(p_195347_, InSquarePlacement.spread(), p_195348_, BiomeFilter.biome());
+        }
+
+        private static List<PlacementModifier> chancedOrePlacment(PlacementModifier p_195348_){
+            return List.of(InSquarePlacement.spread(), p_195348_, BiomeFilter.biome());
         }
 
         private static List<PlacementModifier> commonOrePlacement(int p_195344_, PlacementModifier p_195345_) {

@@ -3,6 +3,9 @@ package net.gamma02.jurassicworldreborn.common.blocks.machines.cleaner;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -13,10 +16,12 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.fluids.capability.wrappers.BlockWrapper;
+import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
-public class CleanerBlock extends BaseEntityBlock implements MenuProvider {
+public class CleanerBlock extends BaseEntityBlock {
     public CleanerBlock(Properties p_49224_) {
         super(p_49224_);
     }
@@ -39,14 +44,17 @@ public class CleanerBlock extends BaseEntityBlock implements MenuProvider {
         };
     }
 
-    @Override
-    public Component getDisplayName() {
-        return new TranslatableComponent("block.jurassicworldreborn.cleaner_block_name");
-    }
 
-    @Nullable
+
+
+
     @Override
-    public AbstractContainerMenu createMenu(int p_39954_, Inventory p_39955_, Player p_39956_) {
-        return null;
+    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+        boolean b = false;
+        if(pLevel.getBlockEntity(pPos) instanceof CleanerBlockEntity e && pPlayer instanceof ServerPlayer p){
+            NetworkHooks.openGui(p, e);
+        }
+
+        return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
     }
 }

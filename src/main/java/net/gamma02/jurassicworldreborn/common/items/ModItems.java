@@ -25,10 +25,13 @@ public class ModItems {
 
     public static RegistryObject<Item> PLASTER_AND_BANDAGE = modItems.register("plaster_and_bandage", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
 
-    public static RegistryObject<Item>/*Item until I do custom dna n stuff*/ MOSQUITO_AMBER = modItems.register("mosquito_amber", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
-    public static RegistryObject<Item>/*Item until I do custom dna n stuff*/ APHID_AMBER = modItems.register("aphid_amber", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
+    public static RegistryObject<Item> MOSQUITO_AMBER = modItems.register("mosquito_amber", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
+    public static RegistryObject<Item> APHID_AMBER = modItems.register("aphid_amber", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
 
     public static RegistryObject<Item> SEA_LAMPREY = modItems.register("sea_lamprey", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
+
+    public static RegistryObject<Item> ENCASED_FAUNA_FOSSIL = modItems.register("encased_fauna_item", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
+
 
 
 

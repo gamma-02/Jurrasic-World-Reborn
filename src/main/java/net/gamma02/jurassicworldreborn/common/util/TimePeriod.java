@@ -1,5 +1,7 @@
 package net.gamma02.jurassicworldreborn.common.util;
 
+import net.minecraft.nbt.CompoundTag;
+
 public enum TimePeriod {
     /**
      * it will prefer the higher period on the list when using {@link TimePeriod#byYValue(int)}
@@ -61,6 +63,13 @@ public enum TimePeriod {
         }
         return NONE;//idk how this would work but there you go
 
+    }
+
+    public static TimePeriod fromNbt(CompoundTag nbt){
+        if(nbt != null){
+            return byYValue(nbt.getInt("TimePeriod"));
+        }
+        return NONE;
     }
 
 }

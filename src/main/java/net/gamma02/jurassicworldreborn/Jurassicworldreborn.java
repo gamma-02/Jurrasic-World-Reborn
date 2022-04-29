@@ -1,15 +1,21 @@
 package net.gamma02.jurassicworldreborn;
 
+import net.gamma02.jurassicworldreborn.client.screens.CleanerScreen;
 import net.gamma02.jurassicworldreborn.common.CommonRegistries;
 import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
+import net.gamma02.jurassicworldreborn.common.blocks.machines.modBlockEntities;
 import net.gamma02.jurassicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
 import net.gamma02.jurassicworldreborn.common.items.ModItems;
+import net.gamma02.jurassicworldreborn.common.recipies.cleaner.CleaningRecipie;
 import net.gamma02.jurassicworldreborn.common.util.JsonOutputGenerator;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.GenerationStep;
@@ -20,6 +26,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -38,6 +45,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static net.gamma02.jurassicworldreborn.common.CommonRegistries.*;
+import static net.gamma02.jurassicworldreborn.common.recipies.cleaner.CleaningRecipie.CLEANING_RECIPE_TYPE;
+import static net.gamma02.jurassicworldreborn.common.recipies.cleaner.CleaningRecipie.INSTANCE;
 import static net.minecraft.data.worldgen.features.OreFeatures.*;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -72,7 +81,6 @@ public class Jurassicworldreborn {
     public Jurassicworldreborn() {
 
 
-        // Register the client setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
 
         // Register ourselves for server and other game events we are interested in
@@ -80,6 +88,8 @@ public class Jurassicworldreborn {
 
         // Register wood types and get DynamicWoodTypeRegistry setup and running
         CommonRegistries.init();
+
+        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(RecipeSerializer.class, Jurassicworldreborn::registerRecipeSerializers);
 
 
 
@@ -92,6 +102,9 @@ public class Jurassicworldreborn {
 
         ModItems.modItems.register(modEventBus);
 
+        modBlockEntities.modBlockEntities.register(modEventBus);
+
+        modBlockEntities.modScreenTypes.modScreenTypes.register(modEventBus);
 
 
 
@@ -117,6 +130,7 @@ public class Jurassicworldreborn {
     }
 
     public void clientSetup(final FMLClientSetupEvent evt){
+        //wood type rendering
         evt.enqueueWork(() -> {
             Sheets.addWoodType(CommonRegistries.AraucariaType);
             Sheets.addWoodType(CommonRegistries.CalamitesType);
@@ -124,6 +138,23 @@ public class Jurassicworldreborn {
             Sheets.addWoodType(CommonRegistries.PhoenixType);
             Sheets.addWoodType(CommonRegistries.PsaroniusType);
         });
+
+
+        //Binding screens to types
+        MenuScreens.register(modBlockEntities.modScreenTypes.CleanerScreenType.get(), CleanerScreen::new);
+
+
+    }
+
+    public static void registerRecipeSerializers(RegistryEvent.Register<RecipeSerializer<?>> event) {
+
+        // Vanilla has a registry for recipe types, but it does not actively use this registry.
+        // While this makes registering your recipe type an optional step, I recommend
+        // registering it anyway to allow other mods to discover your custom recipe types.
+        Registry.register(Registry.RECIPE_TYPE, new ResourceLocation(CLEANING_RECIPE_TYPE.toString()), CLEANING_RECIPE_TYPE);
+
+        // Register the recipe serializer. This handles from json, from packet, and to packet.
+        event.getRegistry().register(CleaningRecipie.INSTANCE);
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
@@ -140,8 +171,10 @@ public class Jurassicworldreborn {
             evt.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, FAUNA_FOSSIL_PLACEMENT);
             evt.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, FLORA_FOSSIL_PLACEMENT);
             evt.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, AMBER_ORE_PLACEMENT);
-            evt.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, PLACED_LARGE_PETRIFIED_TREE);
-            evt.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, PLACED_SMALL_PETRIFIED_TREE);
+            if(evt.getCategory() != Biome.BiomeCategory.NONE) {
+                evt.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, PLACED_LARGE_PETRIFIED_TREE);
+                evt.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, PLACED_SMALL_PETRIFIED_TREE);
+            }
 
 
         }

@@ -31,8 +31,14 @@ public class CleanerScreen extends AbstractContainerScreen<CleanerMenu> {
 
     public CleanerScreen(CleanerMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
-        BlockEntity tempOwner = pPlayerInventory.player.getCommandSenderWorld().getBlockEntity( pPlayerInventory.player.getCommandSenderWorld().clip(new ClipContext( pPlayerInventory.player.getLookAngle(), pPlayerInventory.player.getLookAngle().add(5, 5, 5), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, pPlayerInventory.player)).getBlockPos());
-        pMenu.setInstance(tempOwner instanceof CleanerBlockEntity ? (CleanerBlockEntity) tempOwner : null);
+//        BlockEntity tempOwner = pPlayerInventory.player.getCommandSenderWorld().getBlockEntity( pPlayerInventory.player.getCommandSenderWorld().clip(new ClipContext( pPlayerInventory.player.getLookAngle(), pPlayerInventory.player.getLookAngle().add(5, 5, 5), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, pPlayerInventory.player)).getBlockPos());
+//        pMenu.setInstance(tempOwner instanceof CleanerBlockEntity ? (CleanerBlockEntity) tempOwner : null);
+    }
+
+    public CleanerScreen(CleanerMenu menu, Inventory inv, Component title, CleanerBlockEntity entity){
+        super(menu, inv, title);
+        menu.setInstance(entity);
+
     }
 
 

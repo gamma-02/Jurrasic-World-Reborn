@@ -2,6 +2,8 @@ package net.gamma02.jurassicworldreborn.common;
 
 
 import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
+import net.gamma02.jurassicworldreborn.common.blocks.machines.cleaner.CleanerMenu;
+import net.gamma02.jurassicworldreborn.common.blocks.machines.modBlockEntities;
 import net.gamma02.jurassicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
 import net.gamma02.jurassicworldreborn.common.util.JsonOutputGenerator;
 import net.gamma02.jurassicworldreborn.common.worldgen.OreVeinFeature;
@@ -106,6 +108,9 @@ public class CommonRegistries {
 
         //do Json processing for dynamic wood registry models
 //        JsonOutputGenerator.doJsonProcessing(DynamicWoodTypeRegistry.getJsonBlockStateModelDefinitions());
+
+
+        modBlockEntities.modScreenTypes.modMenuSupplier.put(modBlockEntities.modScreenTypes.CleanerScreenType.getId(), CleanerMenu::new);
 
     }
 

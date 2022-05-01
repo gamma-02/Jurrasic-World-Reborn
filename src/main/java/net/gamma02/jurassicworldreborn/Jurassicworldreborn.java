@@ -1,11 +1,15 @@
 package net.gamma02.jurassicworldreborn;
 
 import net.gamma02.jurassicworldreborn.client.screens.CleanerScreen;
+import net.gamma02.jurassicworldreborn.client.screens.ModScreens;
 import net.gamma02.jurassicworldreborn.common.CommonRegistries;
 import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
+import net.gamma02.jurassicworldreborn.common.blocks.machines.cleaner.CleanerBlockEntity;
+import net.gamma02.jurassicworldreborn.common.blocks.machines.cleaner.CleanerMenu;
 import net.gamma02.jurassicworldreborn.common.blocks.machines.modBlockEntities;
 import net.gamma02.jurassicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
 import net.gamma02.jurassicworldreborn.common.items.ModItems;
+import net.gamma02.jurassicworldreborn.common.network.Network;
 import net.gamma02.jurassicworldreborn.common.recipies.cleaner.CleaningRecipie;
 import net.gamma02.jurassicworldreborn.common.util.JsonOutputGenerator;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -106,6 +110,9 @@ public class Jurassicworldreborn {
 
         modBlockEntities.modScreenTypes.modScreenTypes.register(modEventBus);
 
+        Network.init();
+
+
 
 
 
@@ -141,7 +148,9 @@ public class Jurassicworldreborn {
 
 
         //Binding screens to types
-        MenuScreens.register(modBlockEntities.modScreenTypes.CleanerScreenType.get(), CleanerScreen::new);
+        MenuScreens.<CleanerMenu, CleanerScreen>register(modBlockEntities.modScreenTypes.CleanerScreenType.get(), CleanerScreen::new);
+
+        ModScreens.<CleanerBlockEntity, CleanerMenu, CleanerScreen>register(modBlockEntities.CLEANING_STATION.get(), CleanerScreen::new);
 
 
     }

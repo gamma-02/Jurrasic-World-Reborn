@@ -6,6 +6,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 import static net.gamma02.jurassicworldreborn.Jurassicworldreborn.resource;
 
@@ -21,27 +22,33 @@ public class CleanerMenu extends AbstractContainerMenu {
     }
 
 
-    public CleanerMenu(int pContainerId, Inventory playerInv, CleanerBlockEntity instance) {
+    public CleanerMenu(int pContainerId, Inventory playerInv, BlockEntity temp) {
         super(modBlockEntities.modScreenTypes.CleanerScreenType.get(), pContainerId);
-        for(int l = 0; l < 3; ++l) {
+        if(temp instanceof CleanerBlockEntity instance) {
+
+            for(int i = 0; i < 3; ++i) {
+                for(int j = 0; j < 9; ++j) {
+                    this.addSlot(new Slot(playerInv, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+                }
+            }
+
             for(int k = 0; k < 9; ++k) {
-                this.addSlot(new Slot(playerInv, k + l * 9 + 9, 8 + k * 18, l * 18 + 51));
+                this.addSlot(new Slot(playerInv, k, 8 + k * 18, 142));
             }
-        }
 
-        for(int i1 = 0; i1 < 9; ++i1) {
-            this.addSlot(new Slot(playerInv, i1, 8 + i1 * 18, 109));
-        }
+            this.addSlot(new Slot(instance, 0, 56, 17));
+            this.addSlot(new Slot(instance, 1, 56, 53));
 
-        this.addSlot(new Slot(instance, 0, 54, 16));
-        this.addSlot(new Slot(instance, 1, 54, 51));
-        for(int i = 0; i < 2; i++){
-            for(int j = 0; j < 3; j++){
-                this.addSlot(new Slot(instance, i+j+2, 124+9*j, 24+9*i));
-            }
+            this.addSlot(new Slot(instance, 2, 124, 24));
+            this.addSlot(new Slot(instance, 3, 124+9, 24));
+            this.addSlot(new Slot(instance, 4, 124+18, 24));
+            this.addSlot(new Slot(instance, 5, 124, 24+9));
+            this.addSlot(new Slot(instance, 6, 124+9, 24+9));
+            this.addSlot(new Slot(instance, 7, 124+18, 24+9));
+
+            this.instance = instance;
+            this.playerInv = playerInv;
         }
-        this.instance = instance;
-        this.playerInv = playerInv;
 
     }
 

@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.gamma02.jurassicworldreborn.common.blocks.machines.cleaner.CleanerBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.machines.cleaner.CleanerMenu;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
@@ -31,15 +32,25 @@ public class CleanerScreen extends AbstractContainerScreen<CleanerMenu> {
 
     public CleanerScreen(CleanerMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
+        this.itemRenderer = Minecraft.getInstance().getItemRenderer();
+
 //        BlockEntity tempOwner = pPlayerInventory.player.getCommandSenderWorld().getBlockEntity( pPlayerInventory.player.getCommandSenderWorld().clip(new ClipContext( pPlayerInventory.player.getLookAngle(), pPlayerInventory.player.getLookAngle().add(5, 5, 5), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, pPlayerInventory.player)).getBlockPos());
 //        pMenu.setInstance(tempOwner instanceof CleanerBlockEntity ? (CleanerBlockEntity) tempOwner : null);
     }
 
-    public CleanerScreen(CleanerMenu menu, Inventory inv, Component title, CleanerBlockEntity entity){
+    public CleanerScreen(CleanerMenu menu, Inventory inv, Component title, BlockEntity entity){
         super(menu, inv, title);
-        menu.setInstance(entity);
+        this.itemRenderer = Minecraft.getInstance().getItemRenderer();
+        this.minecraft = Minecraft.getInstance();
+        this.itemRenderer = minecraft.getItemRenderer();
+        this.font = minecraft.font;
+
+        if(entity instanceof CleanerBlockEntity e)
+            menu.setInstance(e);
 
     }
+
+
 
 
     @Override

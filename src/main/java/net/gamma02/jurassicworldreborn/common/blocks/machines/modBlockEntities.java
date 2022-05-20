@@ -1,7 +1,6 @@
 package net.gamma02.jurassicworldreborn.common.blocks.machines;
 
 import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
-import net.gamma02.jurassicworldreborn.common.blocks.fossil.FossilBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.machines.cleaner.CleanerBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.machines.cleaner.CleanerMenu;
 import net.minecraft.resources.ResourceLocation;
@@ -24,7 +23,6 @@ public class modBlockEntities<T extends BlockEntity> {
 
     public static RegistryObject<BlockEntityType<CleanerBlockEntity>> CLEANING_STATION = modBlockEntities.register("cleaning_station", () -> BlockEntityType.Builder.of(CleanerBlockEntity::new, ModBlocks.CLEANER_BLOCK.get()).build(null));
 
-    public static RegistryObject<BlockEntityType<?>> FOSSIL_BLOCK_ENTITY = modBlockEntities.register("fossil_entity", () -> BlockEntityType.Builder.of(FossilBlockEntity::new, ModBlocks.FAUNA_FOSSIL.get(), ModBlocks.DEEPSLATE_FAUNA_FOSSIL.get(), ModBlocks.FLORA_FOSSIL.get(), ModBlocks.DEEPSLATE_FLORA_FOSSIL.get()).build(null));
 
     public static class modScreenTypes{
 

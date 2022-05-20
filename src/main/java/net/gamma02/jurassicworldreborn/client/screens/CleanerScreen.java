@@ -61,6 +61,7 @@ public class CleanerScreen extends AbstractContainerScreen<CleanerMenu> {
         int i = this.leftPos;
         int j = this.topPos;
         this.blit(pPoseStack, i, j, 0, 0, 175, 165);
+
         boolean isInstanceNull = menu.isInstanceNull();
 
         //render progress bar

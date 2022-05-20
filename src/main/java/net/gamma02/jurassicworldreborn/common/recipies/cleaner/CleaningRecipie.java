@@ -3,6 +3,8 @@ package net.gamma02.jurassicworldreborn.common.recipies.cleaner;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.gamma02.jurassicworldreborn.common.blocks.machines.cleaner.CleanerBlockEntity;
+import net.gamma02.jurassicworldreborn.common.items.Bones.BoneItem;
+import net.gamma02.jurassicworldreborn.common.items.Bones.DynamicBoneRegistry;
 import net.gamma02.jurassicworldreborn.common.util.TimePeriod;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -13,13 +15,11 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.registries.ForgeRegistryEntry;
+import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import static net.gamma02.jurassicworldreborn.Jurassicworldreborn.resource;
 
@@ -31,32 +31,32 @@ public class CleaningRecipie implements Recipe<CleanerBlockEntity> {
 
     ResourceLocation id;
     ItemStack input;
-    List<ItemStack> output;
 
-    public CleaningRecipie(ResourceLocation id, ItemStack input, List<ItemStack> output){
+
+    public CleaningRecipie(ResourceLocation id, ItemStack input){
         this.id = id;
         this.input = input;
-        this.output = output;
     }
 
     @Override
     public boolean matches(CleanerBlockEntity pContainer, Level pLevel) {
-//        return (pContainer.getItem(0).getItem() == this.input.getItem() && input.getCount() <= pContainer.getItem(0).getCount() || this.input == pContainer.getItem(0)) && pContainer.getFluidAmount() >= 1000;
-        if(pContainer.getItem(0).getItem() == this.input.getItem() && TimePeriod.fromNbt(pContainer.getItem(0).getTag()) != null && TimePeriod.fromNbt(this.input.getTag()) != null && TimePeriod.fromNbt(pContainer.getItem(0).getTag()) == TimePeriod.fromNbt(this.input.getTag()) &&
-        pContainer.getItem(0).getCount() >= this.input.getCount()){
-            if(pContainer.getFluidAmount() > 0){
-                return true;
-            }
-        }
-        return false;
+        return (pContainer.getItem(0).getItem() == this.input.getItem() && input.getCount() <= pContainer.getItem(0).getCount() || this.input == pContainer.getItem(0)) && pContainer.getFluidAmount() >= 1000;
     }
 
     @Override
     @Nonnull
     public ItemStack assemble(CleanerBlockEntity pContainer) {
         pContainer.getItem(0).setCount(pContainer.getItem(0).getCount() - this.input.getCount());
-        Collections.shuffle(this.output);
-        return output.get(0);
+
+        Collection<ArrayList<RegistryObject<BoneItem>>> tempList = DynamicBoneRegistry.BoneMap.values();
+
+        List<ArrayList<RegistryObject<BoneItem>>> listt = new ArrayList<>(tempList.stream().toList());
+
+        Collections.shuffle(listt);
+
+        Collections.shuffle(listt.get(0));
+
+        return listt.get(0).get(0).get().getDefaultInstance();
     }
 
     @Override
@@ -66,8 +66,7 @@ public class CleaningRecipie implements Recipe<CleanerBlockEntity> {
 
     @Override
     public ItemStack getResultItem() {
-        Collections.shuffle(this.output);
-        return output.get(0);
+        return ItemStack.EMPTY;
     }
 
     @Override
@@ -94,32 +93,22 @@ public class CleaningRecipie implements Recipe<CleanerBlockEntity> {
 
         @Override
         public CleaningRecipie fromJson(ResourceLocation pRecipeId, JsonObject pSerializedRecipe) {
-            ItemStack input = CraftingHelper.getItemStack(pSerializedRecipe.getAsJsonObject("input"), true);
-            List<ItemStack> output = new ArrayList<>();
-            for(JsonElement e : pSerializedRecipe.getAsJsonArray("output")){
-                output.add(CraftingHelper.getItemStack(e.getAsJsonObject(), true));
-            }
-            return new CleaningRecipie(pRecipeId, input, output);
+            ItemStack input = CraftingHelper.getItemStack(pSerializedRecipe.getAsJsonObject("input"), false);
+
+            return new CleaningRecipie(pRecipeId, input);
         }
 
         @Nullable
         @Override
         public CleaningRecipie fromNetwork(ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
             ItemStack input = pBuffer.readItem();
-            int outputLength = pBuffer.readInt();
-            List<ItemStack> outputs = new ArrayList<>();
-            for(int i = 0; i < outputLength; i++){
-                outputs.add(pBuffer.readItem());
-            }
-            return new CleaningRecipie(pRecipeId, input, outputs);
+
+            return new CleaningRecipie(pRecipeId, input);
         }
 
         @Override
         public void toNetwork(FriendlyByteBuf pBuffer, CleaningRecipie pRecipe) {
-            for(ItemStack stack : pRecipe.output){
-                pBuffer.writeItemStack(stack, false);
-            }
-            pBuffer.writeInt(pRecipe.output.size());
+
             pBuffer.writeItemStack(pRecipe.input, false);
         }
     }

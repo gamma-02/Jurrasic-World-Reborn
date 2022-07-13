@@ -2,19 +2,34 @@ package net.gamma02.jurassicworldreborn.common.entities;
 
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.LegSolver;
+import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.model.animation.FixedChainBuffer;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.InventoryDinosaur;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.Animatable;
+import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.GrowthStage;
+import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.MetabolismContainer;
+import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.SleepTime;
+import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.ai.Family;
+import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.ai.Herd;
+import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.ai.Relationship;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.entity.EntityTypeTest;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
@@ -22,6 +37,7 @@ import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -119,7 +135,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
     private int messageTick = 0;
 
     public DinosaurEntity(Level world) {
-        super(world);//todo
+        super(world);// todo
         blocked = false;
         //Necessary to set the bounding box, rather than having NULL_BOX
         setSize(1, 1);
@@ -202,14 +218,23 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
 
 
 
-    private void eatEggs() {//TODO
-        for (Entity egg : level.)
-            if (egg instanceof DinosaurEggEntity) {
-                if (getDistance(egg) < 0.5) {
-                    egg.setDead();
-                    this.getMetabolism().setEnergy((int) (this.getMetabolism().getEnergy() + ((DinosaurEggEntity) egg).getDinosaur().getAdultHealth() * 0.4));
+    private void eatEggs() {
+        if(!level.isClientSide) {
+            List<Entity> eggs = new ArrayList<>();
+            ((ServerLevel) level).getEntities().get(EntityTypeTest.forClass(DinosaurEggEntity.class), new Consumer<DinosaurEggEntity>() {
+                @Override
+                public void accept(DinosaurEggEntity entity) {
+                    eggs.add(entity);
                 }
-            }
+            });
+            for (Entity egg : eggs)
+                if (egg instanceof DinosaurEggEntity) {
+                    if ((egg.getEyePosition().distanceTo(this.position())) < 0.5) {
+                        egg.kill();
+                        this.getMetabolism().setEnergy((int) (this.getMetabolism().getEnergy() + ((DinosaurEggEntity) egg).getDinosaur().getAdultHealth() * 0.4));
+                    }
+                }
+        }
     }
 
     public InventoryDinosaur getInventory() {
@@ -224,15 +249,15 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
         this.eatsEggs = eatsEggs;
     }
 
-    @Override
-    protected EntityBodyHelper createBodyHelper() {
-        return new SmartBodyHelper(this);
-    }
+//    @Override
+//    protected EntityBodyHelper createBodyHelper() {
+//        return new SmartBodyHelper(this);
+//    }
 
-    @Override
-    public EntityLookHelper getLookHelper() {
-        return this.lookHelper;
-    }
+//    @Override
+//    public EntityLookHelper getLookHelper() {
+//        return this.lookHelper;
+//    }
 
     private void initClient() {
         this.tailBuffer = new FixedChainBuffer();
@@ -247,14 +272,14 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
     }
 
     private boolean hasPredators() {
-        for (EntityLiving predator : this.world.getEntitiesWithinAABB(EntityLiving.class, new AxisAlignedBB(this.posX - 10F, this.posY - 5F, this.posZ - 10F, this.posX + 10F, this.posY + 5F, this.posZ + 10F), e -> e != DinosaurEntity.this)) {
+        for (LivingEntity predator : this.level.getEntitiesOfClass(LivingEntity.class, new AABB(this.getX() - 10F, this.getY() - 5F, this.getZ() - 10F, this.getX() + 10F, this.getY() + 5F, this.getZ() + 10F), e -> e != DinosaurEntity.this)) {
             boolean hasDinosaurPredator = false;
 
             if (predator instanceof DinosaurEntity) {
                 DinosaurEntity dinosaur = (DinosaurEntity) predator;
 
                 if (!dinosaur.isCarcass() || dinosaur.isSleeping) {
-                    for (Class<? extends EntityLivingBase> target : dinosaur.getAttackTargets()) {
+                    for (Class<?> target : dinosaur.getAttackTargets()) {
                         if (target.isAssignableFrom(this.getClass())) {
                             hasDinosaurPredator = true;
                             break;
@@ -263,7 +288,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
                 }
             }
 
-            if (this.getLastAttackedEntity() == predator || predator.getAttackTarget() == this || hasDinosaurPredator) {
+            if (this.getLastHurtByMob() == predator || hasDinosaurPredator) {
                 return true;
             }
         }
@@ -274,7 +299,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
     public int getDinosaurTime() {
         SleepTime sleepTime = this.dinosaur.getSleepTime();
 
-        long time = (this.world.getWorldTime() % 24000) - sleepTime.getWakeUpTime();
+        long time = (this.level.getGameTime() % 24000) - sleepTime.getWakeUpTime();
 
         if (time < 0) {
             time += 24000;
@@ -298,10 +323,10 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
         return this.owner;
     }
 
-    public void setOwner(EntityPlayer player) {
+    public void setOwner(Player player) {
         if (this.dinosaur.isImprintable()) {
             UUID prevOwner = this.owner;
-            this.owner = player.getUniqueID();
+            this.owner = player.getUUID();
 
             if (!this.owner.equals(prevOwner)) {
                 ArrayList<String> vowels = buildArray("a", "e", "i", "o", "u");
@@ -312,11 +337,11 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
                         break;
                     }
                 }
-                if(hasvowel) {
-                    player.sendMessage(new TextComponentString(LangUtils.translate(LangUtils.TAME).replace("{dinosaur}", LangUtils.getDinoName(this.dinosaur))));
-                } else {
-                    player.sendMessage(new TextComponentString(LangUtils.translate(LangUtils.TAME).replace("{dinosaur}", LangUtils.getDinoName(this.dinosaur)).replace("an", "a")));
-                }
+//                if(hasvowel) {
+//                    player.sendMessage(new TextComponentString(LangUtils.translate(LangUtils.TAME).replace("{dinosaur}", LangUtils.getDinoName(this.dinosaur))));
+//                } else {
+//                    player.sendMessage(new TextComponentString(LangUtils.translate(LangUtils.TAME).replace("{dinosaur}", LangUtils.getDinoName(this.dinosaur)).replace("an", "a")));
+//                }
             }
         }
     }
@@ -377,8 +402,8 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
 
     @Override
     public boolean attackEntityFrom(DamageSource damageSource, float amount) {
-        boolean canHarmInCreative = damageSource.canHarmInCreative();
-        Entity attacker = damageSource.getTrueSource();
+        boolean canHarmInCreative = damageSource.isBypassInvul();
+        Entity attacker = damageSource.getEntity();
 
         if (!this.isCarcass()) {
             if (this.getHealth() - amount <= 0.0F) {
@@ -496,7 +521,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
         if (stack.getCount() != 0 && stack.getItem() != null) {
             Random rand = new Random();
 
-            EntityItem item = new EntityItem(this.world, this.posX + ((rand.nextFloat() * this.width) - this.width / 2), this.posY + (double) offsetY, this.posZ + ((rand.nextFloat() * this.width) - this.width / 2), stack);
+            EntityItem item = new EntityItem(this.world, this.getX() + ((rand.nextFloat() * this.width) - this.width / 2), this.getY() + (double) offsetY, this.getZ() + ((rand.nextFloat() * this.width) - this.width / 2), stack);
             item.setDefaultPickupDelay();
 
             if (this.captureDrops) {
@@ -766,7 +791,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
                     } else {
                         entity = new DinosaurEggEntity(this.world, child, this);
                     }
-                    entity.setPosition(this.posX + (this.rand.nextFloat() - 0.5F), this.posY + 0.5F, this.posZ + (this.rand.nextFloat() - 0.5F));
+                    entity.setPosition(this.getX() + (this.rand.nextFloat() - 0.5F), this.getY() + 0.5F, this.getZ() + (this.rand.nextFloat() - 0.5F));
                     this.world.spawnEntity(entity);
                 }
             }
@@ -818,7 +843,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
 
         if (this.isClimbing()) {
             this.prevLimbSwingAmount = this.limbSwingAmount;
-            double deltaY = (this.posY - this.prevPosY) * 4.0F;
+            double deltaY = (this.getY() - this.prevgetY()) * 4.0F;
             if (deltaY > 1.0F) {
                 deltaY = 1.0F;
             }
@@ -1010,7 +1035,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
     public void onUpdate() {
         super.onUpdate();
         if(this.world.isRemote && this.dataManager.get(WATCHER_WAS_FED)) {
-            this.world.spawnParticle(EnumParticleTypes.VILLAGER_HAPPY, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, 0.0D, 0.0D, 0.0D);
+            this.world.spawnParticle(EnumParticleTypes.VILLAGER_HAPPY, this.getX() + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.getY() + 0.5D + (double)(this.rand.nextFloat() * this.height), this.getZ() + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, 0.0D, 0.0D, 0.0D);
         }
         if(this.ticksUntilDeath > 0) {
             if(--this.ticksUntilDeath == 0) {
@@ -1694,7 +1719,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
                 ", pos=" + this.getPosition() +
                 ", eyePos=" + this.getHeadPos() +
                 ", eyeHeight=" + this.getEyeHeight() +
-                ", lookX=" + this.getLookHelper().getLookPosX() + ", lookY=" + this.getLookHelper().getLookPosY() + ", lookZ=" + this.getLookHelper().getLookPosZ() +
+                ", lookX=" + this.getLookHelper().getLookgetX()() + ", lookY=" + this.getLookHelper().getLookgetY()() + ", lookZ=" + this.getLookHelper().getLookgetZ()() +
                 "\n    " +
                 ", width=" + this.width +
                 ", bb=" + this.getEntityBoundingBox() +
@@ -1724,7 +1749,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
         double headY = (((24 - headPos[1]) * 0.0625F) - dinosaur.getOffsetY()) * scale;
         double headZ = ((headPos[2] * 0.0625F) - dinosaur.getOffsetZ()) * scale;
 
-        return new Vec3d(this.posX + headX, this.posY + (headY), this.posZ + headZ);
+        return new Vec3d(this.getX() + headX, this.getY() + (headY), this.getZ() + headZ);
     }
 
     public boolean areEyelidsClosed() {
@@ -1797,7 +1822,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
                 }
             } else {
                 float halfWidth = this.width / 2.0F;
-                this.setEntityBoundingBox(new AxisAlignedBB(this.posX - halfWidth, this.posY, this.posZ - halfWidth, this.posX + halfWidth, this.posY + this.height, this.posZ + halfWidth));
+                this.setEntityBoundingBox(new AxisAlignedBB(this.getX() - halfWidth, this.getY(), this.getZ() - halfWidth, this.getX() + halfWidth, this.getY() + this.height, this.getZ() + halfWidth));
             }
         }
     }
@@ -1947,8 +1972,8 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
 
     @Override
     public boolean isMoving() {
-        float deltaX = (float) (this.posX - this.prevPosX);
-        float deltaZ = (float) (this.posZ - this.prevPosZ);
+        float deltaX = (float) (this.getX() - this.prevgetX());
+        float deltaZ = (float) (this.getZ() - this.prevgetZ());
         return deltaX * deltaX + deltaZ * deltaZ > 0.001F;
     }
 
@@ -2059,7 +2084,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
             return info;
         }
 
-        public static FieldGuideInfo serialize(ByteBuf buf, DinosaurEntity entity) {
+        public static FieldGuideInfo serialize(FriendlyByteBuf buf, DinosaurEntity entity) {
             MetabolismContainer metabolism = entity.getMetabolism();
             Herd herd = entity.herd;
             FieldGuideInfo info = new FieldGuideInfo();
@@ -2069,7 +2094,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
             info.thirst = metabolism.getWater();
             info.hungry = metabolism.isHungry();
             info.thirsty = metabolism.isThirsty();
-            info.poisoned = entity.
+            info.poisoned = entity.hasEffect(MobEffects.POISON);
             buf.writeBoolean(info.flocking);
             buf.writeBoolean(info.scared);
             buf.writeInt(info.hunger);

@@ -2,10 +2,12 @@ package net.gamma02.jurassicworldreborn.common.entities;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 
 import java.util.Random;
 
-public class DinosaurAttributes {
+public class DinosaurAttributes extends AttributeMap {
     private static final float MINIMUM_SCALE = 0.8F;
     private static final float MAXIMUM_SCALE = 1.2F;
     private static final float RARE_SCALE = 1.4F;
@@ -25,6 +27,7 @@ public class DinosaurAttributes {
     private float speedModifier;
 
     private DinosaurAttributes(float scaleModifier, float damageModifier, float healthModifier, float speedModifier) {
+        super();
         this.scaleModifier = scaleModifier;
         this.damageModifier = damageModifier;
         this.healthModifier = healthModifier;

@@ -2,8 +2,11 @@ package net.gamma02.jurassicworldreborn.common.entities;
 
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.LegSolver;
+import com.google.common.collect.Lists;
+import com.mojang.math.Vector3f;
 import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.model.animation.FixedChainBuffer;
+import net.gamma02.jurassicworldreborn.client.model.animation.PoseHandler;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.InventoryDinosaur;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.Animatable;
@@ -13,7 +16,9 @@ import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.SleepTime;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.ai.Family;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.ai.Herd;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.ai.Relationship;
+import net.gamma02.jurassicworldreborn.common.util.ai.OnionTraverser;
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.client.renderer.EffectInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -22,20 +27,29 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.entity.EntityTypeTest;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.io.IOException;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.logging.LogManager;
@@ -360,13 +374,13 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
             this.setAnimation(EntityAnimation.ATTACKING.get());
         }
 
-        while (entity.getRidingEntity() != null) {
-            entity = entity.getRidingEntity();
+        while (entity.getControllingPassenger() != null) {
+            entity = entity.getControllingPassenger();
         }
 
-        float damage = (float) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
+        float damage = (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
 
-        if (entity.attackEntityFrom(new DinosaurDamageSource("mob", this), damage)) {
+        if (entity.hurt(new DinosaurDamageSource("mob", this), damage)) {
             if (entity instanceof DinosaurEntity && ((DinosaurEntity) entity).isCarcass()) {
                 DinosaurEntity dinosaur = (DinosaurEntity) entity;
                 if (dinosaur.herd != null && this.herd != null && dinosaur.herd.fleeing && dinosaur.herd.enemies.contains(this)) {
@@ -1765,9 +1779,16 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
         this.useInertialTweens = parUseInertialTweens;
     }
 
+//    @Override
+//    public ItemStack getPickedResult(RayTraceResult target) {
+//        return new ItemStack(ItemHandler.SPAWN_EGG, 1, EntityHandler.getDinosaurId(this.dinosaur));
+//    }
+
+
+    @org.jetbrains.annotations.Nullable
     @Override
-    public ItemStack getPickedResult(RayTraceResult target) {
-        return new ItemStack(ItemHandler.SPAWN_EGG, 1, EntityHandler.getDinosaurId(this.dinosaur));
+    public ItemStack getPickResult() {
+        return null;//TODO: mob eggs
     }
 
     @Override
@@ -1775,13 +1796,13 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
         return 0.9F;
     }
 
-    @Override
-    public void moveRelative(float strafe, float up, float forward, float friction) {
-        if(this.inWater() && !this.canDinoSwim()) {
-            friction *= 10;//times by 5, but as friction is divided by 2 when in water do 5 * 2 instead
-        }
-        super.moveRelative(strafe, up, forward, friction);
-    }
+//    @Override
+//    public void moveRelative(float strafe, float up, float forward, float friction) {
+//        if(this.inWater() && !this.canDinoSwim()) {
+//            friction *= 10;//times by 5, but as friction is divided by 2 when in water do 5 * 2 instead - legacy comment /shrug
+//        }
+//        super.moveRelative(strafe, up, forward, friction);
+//    }
 
     public void giveBirth() {
         pregnantTime = 1;
@@ -1789,40 +1810,43 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
 
     public void setDeathIn(int ticks) { // :(
         this.ticksUntilDeath = ticks;
-        this.addPotionEffect(new PotionEffect(MobEffects.POISON, ticks));
+
+        this.addEffect(new MobEffectInstance(MobEffects.POISON, ticks));
+
     }
 
-    @Override
-    public void collideWithEntity(Entity entity) {
-        super.collideWithEntity(entity);
 
-        if (this.isSleeping && !this.isRidingSameEntity(entity)) {
-            if (!entity.noClip && !this.noClip) {
-                if (entity.getClass() != this.getClass()) {
-                    this.disturbSleep();
-                }
-            }
-        }
-    }
+
+//    public void (Entity entity) { todo: weak; disturb sleep
+//        super.collideWithEntity(entity);
+//
+//        if (this.isSleeping && !this.isRidingSameEntity(entity)) {
+//            if (!entity.noClip && !this.noClip) {
+//                if (entity.getClass() != this.getClass()) {
+//                    this.disturbSleep();
+//                }
+//            }
+//        }
+//    }
 
     @Override
     protected void setSize(float width, float height) {
-        if (width != this.width || height != this.height) {
-            float prevWidth = this.width;
-            this.width = width;
-            this.height = height;
+        if (width != this.getBbWidth() || height != this.getBbHeight()) {
+            float prevWidth = this.getBbWidth();
+            float tempWidth = width;
+            float tempHeight = height;
             if (!this.deserializing) {
-                AxisAlignedBB bounds = this.getEntityBoundingBox();
-                AxisAlignedBB newBounds = new AxisAlignedBB(bounds.minX, bounds.minY, bounds.minZ, bounds.minX + this.width, bounds.minY + this.height, bounds.minZ + this.width);
-                if (!this.world.collidesWithAnyBlock(newBounds)) {
-                    this.setEntityBoundingBox(newBounds);
-                    if (this.width > prevWidth && !this.firstUpdate && !this.world.isRemote) {
-                        this.move(MoverType.SELF, prevWidth - this.width, 0.0F, prevWidth - this.width);
+                AABB bounds = this.getBoundingBox();
+                AABB newBounds = new AABB(bounds.minX, bounds.minY, bounds.minZ, bounds.minX + tempWidth, bounds.minY + tempHeight, bounds.minZ + tempWidth);
+                if (!this.level.noCollision(newBounds)) {
+                    this.setBoundingBox(newBounds);
+                    if (this.getBbWidth() > prevWidth && !this.firstTick && !this.level.isClientSide) {
+                        this.move(MoverType.SELF, new Vec3(prevWidth - this.getBbWidth(), 0.0F, prevWidth - this.getBbWidth()));
                     }
                 }
             } else {
-                float halfWidth = this.width / 2.0F;
-                this.setEntityBoundingBox(new AxisAlignedBB(this.getX() - halfWidth, this.getY(), this.getZ() - halfWidth, this.getX() + halfWidth, this.getY() + this.height, this.getZ() + halfWidth));
+                float halfWidth = this.getBbWidth() / 2.0F;
+                this.setBoundingBox(new AABB(this.getX() - halfWidth, this.getY(), this.getZ() - halfWidth, this.getX() + halfWidth, this.getY() + this.getBbHeight(), this.getZ() + halfWidth));
             }
         }
     }
@@ -1834,67 +1858,69 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
     public void setFieldOrder(Order order) {
 
         this.order = order;
-        this.dataManager.set(WATCHER_CURRENT_ORDER, (byte) order.ordinal());
+        this.entityData.set(WATCHER_CURRENT_ORDER, (byte) order.ordinal());
 
     }
 
-    public void setOrder(Order order) {
+//    public void setOrder(Order order) { todo: networking
+//
+//        if (this.world.isRemote) {
+//            if (this.owner != null) {
+//                EntityPlayer player = this.world.getPlayerEntityByUUID(this.owner);
+//
+//                if (player != null) {
+//                    TextComponentString change = new TextComponentString(LangUtils.translate(LangUtils.SET_ORDER).replace("{order}", LangUtils.translate(LangUtils.ORDER_VALUE.get(order.name().toLowerCase(Locale.ENGLISH)))));
+//                    change.getStyle().setColor(TextFormatting.GOLD);
+//                    ClientProxy.MC.ingameGUI.addChatMessage(ChatType.GAME_INFO, change);
+//                }
+//            }
+//
+//            RebornMod.NETWORK_WRAPPER.sendToServer(new SetOrderMessage(this));
+//        }
+//    }
 
-        if (this.world.isRemote) {
-            if (this.owner != null) {
-                EntityPlayer player = this.world.getPlayerEntityByUUID(this.owner);
+//    @SafeVarargs todo: legacy, goals
+//    public final void target(Class<? extends LivingEntity>... targets) {
+//        this.targetSelector.addGoal(1, new TargetGoal(this, targets) {
+//        });
+//
+//        this.attackTargets.addAll(Lists.newArrayList((Class<? extends LivingEntity>) targets));
+//    }
 
-                if (player != null) {
-                    TextComponentString change = new TextComponentString(LangUtils.translate(LangUtils.SET_ORDER).replace("{order}", LangUtils.translate(LangUtils.ORDER_VALUE.get(order.name().toLowerCase(Locale.ENGLISH)))));
-                    change.getStyle().setColor(TextFormatting.GOLD);
-                    ClientProxy.MC.ingameGUI.addChatMessage(ChatType.GAME_INFO, change);
-                }
-            }
+//    public EntityAIBase getAttackAI() { todo:legacy, goals
+//        return new DinosaurAttackMeleeEntityAI(this, this.dinosaur.getAttackSpeed(), false);
+//    }
 
-            RebornMod.NETWORK_WRAPPER.sendToServer(new SetOrderMessage(this));
-        }
-    }
-
-    @SafeVarargs
-    public final void target(Class<? extends EntityLivingBase>... targets) {
-        this.targetTasks.addTask(1, new SelectTargetEntityAI(this, targets));
-
-        this.attackTargets.addAll(Lists.newArrayList(targets));
-    }
-
-    public EntityAIBase getAttackAI() {
-        return new DinosaurAttackMeleeEntityAI(this, this.dinosaur.getAttackSpeed(), false);
-    }
-
-    public List<Class<? extends EntityLivingBase>> getAttackTargets() {
+    public List<Class<? extends LivingEntity>> getAttackTargets() {
         return this.attackTargets;
     }
 
-    @Override
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData data) {
-        this.metabolism.setEnergy(this.metabolism.getMaxEnergy());
-        this.metabolism.setWater(this.metabolism.getMaxWater());
-        this.genetics = GeneticsHelper.randomGenetics(this.rand);
-        this.setFullyGrown();
-        this.setMale(this.rand.nextBoolean());
-        this.setDNAQuality(100);
+//    @Override
+//    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData data) {
+//        this.metabolism.setEnergy(this.metabolism.getMaxEnergy());
+//        this.metabolism.setWater(this.metabolism.getMaxWater());
+//        this.genetics = GeneticsHelper.randomGenetics(this.rand);
+//        this.setFullyGrown();
+//        this.setMale(this.rand.nextBoolean());
+//        this.setDNAQuality(100);
+//
+//        // Assure that the width and height attributes have proper values
+//        this.updateBounds();
+//        return data;
+//    }
 
-        // Assure that the width and height attributes have proper values
-        this.updateBounds();
-        return data;
-    }
 
     public int getAttackCooldown() {
         return this.attackCooldown;
     }
 
     public void resetAttackCooldown() {
-        this.attackCooldown = 50 + this.getRNG().nextInt(20);
+        this.attackCooldown = 50 + this.getRandom().nextInt(20);
     }
 
-    public void respondToAttack(EntityLivingBase attacker) {
-        if (attacker != null && !attacker.isDead && !(attacker instanceof EntityPlayer && ((EntityPlayer) attacker).capabilities.isCreativeMode)) {
-            List<EntityLivingBase> enemies = new LinkedList<>();
+    public void respondToAttack(LivingEntity attacker) {
+        if (attacker != null && !attacker.isDeadOrDying() && !(attacker instanceof Player && ((Player) attacker).isCreative())) {
+            List<LivingEntity> enemies = new LinkedList<>();
 
             if (attacker instanceof DinosaurEntity) {
                 DinosaurEntity enemyDinosaur = (DinosaurEntity) attacker;
@@ -1912,13 +1938,13 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
                 if (herd != null) {
                     herd.fleeing = !herd.shouldDefend(enemies) || this.dinosaur.shouldFlee();
 
-                    for (EntityLivingBase entity : enemies) {
+                    for (LivingEntity entity : enemies) {
                         if (!herd.enemies.contains(entity)) {
                             herd.enemies.add(entity);
                         }
                     }
                 } else {
-                    this.setAttackTarget(enemies.get(this.getRNG().nextInt(enemies.size())));
+                    this.setTarget(enemies.get(this.getRandom().nextInt(enemies.size())));
                 }
             }
         }
@@ -1930,12 +1956,14 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
 
     @Override
     public boolean isRunning() {
-        return this.dataManager.get(WATCHER_IS_RUNNING);
+        return this.entityData.get(WATCHER_IS_RUNNING);
     }
 
     @Override
-    public boolean getCanSpawnHere() {
-        return this.dimension == 0;
+    public boolean checkSpawnObstruction(LevelReader pLevel) {
+        if(!pLevel.isClientSide())
+            return super.checkSpawnObstruction(pLevel) && this.level.dimensionType().equals(getServer().overworld().dimensionType());
+        return false;
     }
 
     public boolean shouldEscapeWaterFast() {
@@ -1943,23 +1971,23 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
     }
 
     public BlockPos getClosestFeeder() {
-        if (this.ticksExisted - this.feederSearchTick > 200) {
-            this.feederSearchTick = this.ticksExisted;
-            OnionTraverser traverser = new OnionTraverser(this.getPosition(), 32);
+        if (this.dinosaurAge - this.feederSearchTick > 200) {
+            this.feederSearchTick = this.dinosaurAge;
+            OnionTraverser traverser = new OnionTraverser(this.getOnPos(), 32);
             for (BlockPos pos : traverser) {
-                IBlockState state = this.world.getBlockState(pos);
-                if (state.getBlock() instanceof FeederBlock) {
-                    TileEntity tile = this.world.getTileEntity(pos);
-                    if (tile instanceof FeederBlockEntity) {
-                        FeederBlockEntity feeder = (FeederBlockEntity) tile;
-                        if (feeder.canFeedDinosaur(this) && feeder.getFeeding() == null && feeder.openAnimation == 0) {
-                            Path path = this.getNavigator().getPathToPos(pos);
-                            if (path != null && path.getCurrentPathLength() != 0) {
-                                return this.closestFeeder = pos;
-                            }
-                        }
-                    }
-                }
+                BlockState state = this.level.getBlockState(pos);
+//                if (state.getBlock() instanceof FeederBlock) { todo: FeederBlock
+//                    BlockEntity tile = this.world.getTileEntity(pos);
+//                    if (tile instanceof FeederBlockEntity) {
+//                        FeederBlockEntity feeder = (FeederBlockEntity) tile;
+//                        if (feeder.canFeedDinosaur(this) && feeder.getFeeding() == null && feeder.openAnimation == 0) {
+//                            Path path = this.getNavigator().getPathToPos(pos);
+//                            if (path != null && path.getCurrentPathLength() != 0) {
+//                                return this.closestFeeder = pos;
+//                            }
+//                        }
+//                    }
+//                }
             }
         }
         return this.closestFeeder;
@@ -1972,8 +2000,8 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
 
     @Override
     public boolean isMoving() {
-        float deltaX = (float) (this.getX() - this.prevgetX());
-        float deltaZ = (float) (this.getZ() - this.prevgetZ());
+        float deltaX = (float) (this.getX() - this.xOld);
+        float deltaZ = (float) (this.getZ() - this.zOld);
         return deltaX * deltaX + deltaZ * deltaZ > 0.001F;
     }
 
@@ -1988,7 +2016,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
     }
 
     @Override
-    public <ENTITY extends EntityLivingBase & Animatable> PoseHandler<ENTITY> getPoseHandler() {
+    public <ENTITY extends LivingEntity & Animatable> PoseHandler<ENTITY> getPoseHandler() {
         return (PoseHandler<ENTITY>) this.dinosaur.getPoseHandler();
     }
 
@@ -2002,7 +2030,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
         return this.inLava;
     }
 
-    public DinosaurAttributes getAttributes() {
+    public DinosaurAttributes getLegacyAttributes() {
         return this.attributes;
     }
 
@@ -2018,7 +2046,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
         this.jumpHeight = jumpHeight;
     }
 
-    @Override
+//    @Override
     protected float getJumpUpwardsMotion() {
         return (float) Math.sqrt((this.jumpHeight + 0.2) * 0.27);
     }
@@ -2051,17 +2079,17 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
         return true;
     }
 
-    public Vector3f getDinosaurCultivatorRotation() {
+    public Vector3f getDinosaurCultivatorRotation() {///...what????
         this.setAnimation(EntityAnimation.GESTATED.get());
         return new Vector3f();
     }
 
-    @Override
-    protected void handleJumpWater() {
-        if(this.canDinoSwim()) {
-            super.handleJumpWater();
-        }
-    }
+//    Vector3f@Override
+//    protected void wa() {
+//        if(this.canDinoSwim()) {
+//            super.handleJumpWater();
+//        }
+//    }
 
     public static class FieldGuideInfo {
         public int hunger;
@@ -2072,7 +2100,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
         public boolean thirsty;
         public boolean poisoned;
 
-        public static FieldGuideInfo deserialize(ByteBuf buf) {
+        public static FieldGuideInfo deserialize(FriendlyByteBuf buf) {
             FieldGuideInfo info = new FieldGuideInfo();
             info.flocking = buf.readBoolean();
             info.scared = buf.readBoolean();

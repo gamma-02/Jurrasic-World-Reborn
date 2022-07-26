@@ -1,8 +1,12 @@
 package net.gamma02.jurassicworldreborn.common.entities;
 
+import com.github.alexthe666.citadel.ClientProxy;
 import com.github.alexthe666.citadel.animation.Animation;
+import com.github.alexthe666.citadel.animation.AnimationHandler;
 import com.github.alexthe666.citadel.animation.LegSolver;
 import com.google.common.collect.Lists;
+import com.mojang.math.Constants;
+import com.mojang.math.Vector3d;
 import com.mojang.math.Vector3f;
 import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.model.animation.FixedChainBuffer;
@@ -17,26 +21,33 @@ import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.ai.Family;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.ai.Herd;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.ai.Relationship;
 import net.gamma02.jurassicworldreborn.common.util.ai.OnionTraverser;
+import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EffectInstance;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
@@ -45,7 +56,10 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
+import org.apache.http.util.LangUtils;
+import org.checkerframework.checker.units.qual.C;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -165,7 +179,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
         this.navigator = new DinosaurPathNavigate(this, this.world);
         ((DinosaurPathNavigate) this.navigator).setCanSwim(true);
         this.lookHelper = new DinosaurLookHelper(this);
-        this.legSolver = this.world == null || !this.world.isRemote ? null : this.createLegSolver();
+        this.legSolver = this.world == null || !this.level.isClientSide ? null : this.createLegSolver();
 
         this.metabolism = new MetabolismContainer(this);
         this.inventory = new InventoryDinosaur(this);
@@ -217,7 +231,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
         this.animationTasks.addTask(3, new RoarAnimationAI(this));
         this.animationTasks.addTask(3, new LookAnimationAI(this));
         this.animationTasks.addTask(3, new HeadCockAnimationAI(this));
-        if (world.isRemote) {
+        if (level.isClientSide) {
             this.initClient();
         }
 
@@ -328,7 +342,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
 
     // public void setHasTracker(boolean hasTracker) {
     //     this.hasTracker = hasTracker;
-    //     if (!this.world.isRemote) {
+    //     if (!this.level.isClientSide) {
     //        this.dataManager.set(WATCHER_HAS_TRACKER, hasTracker);
     //     }
     // }
@@ -434,12 +448,12 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
 
                 return super.attackEntityFrom(damageSource, amount);
             } else {
-                if (this.getAnimation() == EntityAnimation.RESTING.get() && !this.world.isRemote) {
+                if (this.getAnimation() == EntityAnimation.RESTING.get() && !this.level.isClientSide) {
                     this.setAnimation(EntityAnimation.IDLE.get());
                     this.isSittingNaturally = false;
                 }
 
-                if (!this.world.isRemote) {
+                if (!this.level.isClientSide) {
                     if (!((float)this.hurtResistantTime > (float)this.maxHurtResistantTime / 2.0F))
                         this.setAnimation(EntityAnimation.INJURED.get());
                 }
@@ -454,7 +468,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
 
                 return super.attackEntityFrom(damageSource, amount);
             }
-        } else if (!this.world.isRemote) {
+        } else if (!this.level.isClientSide) {
 
             if(!(((float)this.hurtResistantTime > (float)this.maxHurtResistantTime / 2.0F))) {
                 boolean carcassAllowed = RebornConfig.ENTITIES.allowCarcass;
@@ -492,12 +506,12 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
 
     private Relationship getRelationship(Entity entity, boolean create) {
         for (Relationship relationship : this.relationships) {
-            if (relationship.getUUID().equals(entity.getUniqueID())) {
+            if (relationship.getUUID().equals(entity.getUUID())) {
                 return relationship;
             }
         }
         if (create) {
-            Relationship relationship = new Relationship(entity.getUniqueID(), (short) 0);
+            Relationship relationship = new Relationship(entity.getUUID(), (short) 0);
             this.relationships.add(relationship);
             return relationship;
         }
@@ -579,7 +593,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
 
         if (this.family != null) {
             UUID head = this.family.getHead();
-            if (head == null || head.equals(this.getUniqueID())) {
+            if (head == null || head.equals(this.getUUID())) {
                 this.family.update(this);
             }
         }
@@ -749,7 +763,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
         } else {
             this.blocked = false;
         }
-        if (!this.world.isRemote && this instanceof TyrannosaurusEntity) {
+        if (!this.level.isClientSide && this instanceof TyrannosaurusEntity) {
             if (this.moveTicks > 0) {
                 this.moveTicks--;
                 this.motionX = 0;
@@ -776,11 +790,11 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
             this.breedCooldown--;
         }
 
-        if(!this.world.isRemote && dinosaur.getDiet().canEat(this, FoodType.MEAT) && this.getMetabolism().isHungry()) {
+        if(!this.level.isClientSide && dinosaur.getDiet().canEat(this, FoodType.MEAT) && this.getMetabolism().isHungry()) {
             world.getEntitiesWithinAABB(EntityLivingBase.class, this.getEntityBoundingBox().grow(10, 10, 10), this::canEatEntity).stream().findAny().ifPresent(this::setAttackTarget);
         }
 
-        if (!this.isMale() && !this.world.isRemote && !this.dinosaur.isHybrid) {
+        if (!this.isMale() && !this.level.isClientSide && !this.dinosaur.isHybrid) {
             if (this.isPregnant()) {
                 if (--this.pregnantTime <= 0) {
                     this.navigator.clearPath();
@@ -797,7 +811,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
                         entity = child;
                         child.setAge(0);
                         if(this.family != null) {
-                            this.family.addChild(entity.getUniqueID());
+                            this.family.addChild(entity.getUUID());
                         }
                         if(child instanceof MammothEntity){
                             ((MammothEntity) child).setVariant(((MammothEntity)this).getVariant());
@@ -872,7 +886,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
 
             this.updateGrowth();
 
-            if (!this.world.isRemote) {
+            if (!this.level.isClientSide) {
                 if (this.metabolism.isHungry()) {
                     List<EntityItem> entitiesWithinAABB = this.world.getEntitiesWithinAABB(EntityItem.class, this.getEntityBoundingBox().expand(1.0, 1.0, 1.0));
                     for (EntityItem itemEntity : entitiesWithinAABB) {
@@ -932,7 +946,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
                 this.herd = new Herd(this);
             }
 
-            if (!this.world.isRemote) {
+            if (!this.level.isClientSide) {
                 if (this.order == Order.WANDER) {
                     if (this.herd.state == Herd.State.IDLE && this.getAttackTarget() == null && !this.metabolism.isThirsty() && !this.metabolism.isHungry() && this.getNavigator().noPath()) {
                         if (!this.isSleeping && this.onGround && !this.isInWater() && this.getAnimation() == EntityAnimation.IDLE.get() && this.rand.nextInt(800) == 0) {
@@ -954,7 +968,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
                 }
 
                 if (this.ticksExisted % 10 == 0) {
-                    if (this.family != null && (this.family.getHead() == null || this.family.getHead().equals(this.getUniqueID()))) {
+                    if (this.family != null && (this.family.getHead() == null || this.family.getHead().equals(this.getUUID()))) {
                         if (this.family.update(this)) {
                             this.family = null;
                         }
@@ -973,7 +987,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
                                 }
                             }
                             if (chosen != null) {
-                                this.family = new Family(this.getUniqueID(), chosen.getUniqueID());
+                                this.family = new Family(this.getUUID(), chosen.getUUID());
                                 chosenRelationship.setFamily();
                                 this.breedCooldown = this.rand.nextInt(1000) + 1000;
                                 chosen.breedCooldown = this.breedCooldown;
@@ -989,7 +1003,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
                         }
                         for (EntityLivingBase enemy : this.herd.enemies) {
                             if (enemy instanceof DinosaurEntity) {
-                                Relationship relationship = new Relationship(enemy.getUniqueID(), (short) -30);
+                                Relationship relationship = new Relationship(enemy.getUUID(), (short) -30);
                                 if (!this.relationships.contains(relationship)) {
                                     this.relationships.add(relationship);
                                 }
@@ -1024,12 +1038,12 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
             eatEggs();
         }
 
-        if(!this.world.isRemote && this.ticksExisted % 20 == 0)
+        if(!this.level.isClientSide && this.ticksExisted % 20 == 0)
             this.dataManager.set(WATCHER_WAS_FED, false);
     }
 
     private void updateGrowth() {
-        if (!this.isDead && this.ticksExisted % 8 == 0 && !this.world.isRemote) {
+        if (!this.isDead && this.ticksExisted % 8 == 0 && !this.level.isClientSide) {
             if (GameRuleHandler.DINO_GROWTH.getBoolean(this.world)) {
                 this.dinosaurAge += Math.min(this.growthSpeedOffset, 960) + 1;
                 this.metabolism.decreaseEnergy((int) ((Math.min(this.growthSpeedOffset, 960) + 1) * 0.1));
@@ -1048,7 +1062,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
     @Override
     public void onUpdate() {
         super.onUpdate();
-        if(this.world.isRemote && this.dataManager.get(WATCHER_WAS_FED)) {
+        if(this.level.isClientSide && this.dataManager.get(WATCHER_WAS_FED)) {
             this.world.spawnParticle(EnumParticleTypes.VILLAGER_HAPPY, this.getX() + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.getY() + 0.5D + (double)(this.rand.nextFloat() * this.height), this.getZ() + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, 0.0D, 0.0D, 0.0D);
         }
         if(this.ticksUntilDeath > 0) {
@@ -1063,7 +1077,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
             this.attackCooldown--;
         }
 
-        if (!this.world.isRemote) {
+        if (!this.level.isClientSide) {
             if (this.animation == EntityAnimation.LEAP.get()) {
                 if (this.motionY < 0) {
                     this.setAnimation(EntityAnimation.LEAP_LAND.get());
@@ -1090,7 +1104,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
             }
         }
 
-        if (!this.world.isRemote) {
+        if (!this.level.isClientSide) {
             this.dataManager.set(WATCHER_WAS_MOVED, this.wasMoved);
             this.dataManager.set(WATCHER_AGE, this.dinosaurAge);
             this.dataManager.set(WATCHER_IS_SLEEPING, this.isSleeping);
@@ -1136,7 +1150,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
             this.setAnimation(EntityAnimation.IDLE.get());
         }
 
-        if (!this.world.isRemote) {
+        if (!this.level.isClientSide) {
             if (this.isCarcass) {
                 if (this.getAnimation() != EntityAnimation.DYING.get()) {
                     this.setAnimation(EntityAnimation.DYING.get());
@@ -1153,7 +1167,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
                         }
                     }
 
-                    if (!this.shouldSleep() && !this.world.isRemote && tranquilizerTicks-- <= 0) {
+                    if (!this.shouldSleep() && !this.level.isClientSide && tranquilizerTicks-- <= 0) {
                         this.isSleeping = false;
                         this.tranquilizerTicks = 0;
                         this.tranqed = false;
@@ -1167,7 +1181,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
                         if (this.getAnimation() != EntityAnimation.RESTING.get()) {
                             this.setAnimation(EntityAnimation.RESTING.get());
                         }
-                    } else if (!this.isSittingNaturally && this.getAnimation() == EntityAnimation.RESTING.get() && !this.world.isRemote) {
+                    } else if (!this.isSittingNaturally && this.getAnimation() == EntityAnimation.RESTING.get() && !this.level.isClientSide) {
                         this.setAnimation(EntityAnimation.IDLE.get());
                     }
                 }
@@ -1240,7 +1254,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
 
     public void setAge(int age) {
         this.dinosaurAge = age;
-        if (!this.world.isRemote) {
+        if (!this.level.isClientSide) {
             this.dataManager.set(WATCHER_AGE, this.dinosaurAge);
         }
     }
@@ -1261,8 +1275,8 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
 
     private void dropStackWithGenetics(ItemStack stack) {
         NBTTagCompound nbt = new NBTTagCompound();
-        nbt.setInteger("DNAQuality", this.geneticsQuality);
-        nbt.setInteger("Dinosaur", EntityHandler.getDinosaurId(this.dinosaur));
+        nbt.putInt("DNAQuality", this.geneticsQuality);
+        nbt.putInt("Dinosaur", EntityHandler.getDinosaurId(this.dinosaur));
         nbt.setString("Genetics", this.genetics);
         stack.setTagCompound(nbt);
 
@@ -1275,13 +1289,13 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
     }
 
     public void setCarcass(boolean carcass) {
-        if(!this.world.isRemote && carcass != this.isCarcass && !this.wasMoved) {
+        if(!this.level.isClientSide && carcass != this.isCarcass && !this.wasMoved) {
             this.moveTicks = 18;
         }
         this.isCarcass = carcass;
 
         boolean carcassAllowed = RebornConfig.ENTITIES.allowCarcass;
-        if (!this.world.isRemote) {
+        if (!this.level.isClientSide) {
             this.dataManager.set(WATCHER_IS_CARCASS, this.isCarcass);
         }
         if (carcass && carcassAllowed) {
@@ -1297,87 +1311,87 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
     }
 
     @Override
-    public boolean processInteract(EntityPlayer player, EnumHand hand) {
-        ItemStack stack = player.getHeldItem(hand);
-        if (player.isSneaking() && hand == EnumHand.MAIN_HAND) {
+    public boolean processInteract(Player player, InteractionHand hand) {
+        ItemStack stack = player.getItemInHand(hand);
+        if (player.isCrouching() && hand == InteractionHand.MAIN_HAND) {
             if (this.isOwner(player)) {
                 if (this.getAgePercentage() > 75) {
-                    player.displayGUIChest(this.inventory);
-                } else {
-                    if (this.world.isRemote) {
-                        TextComponentString denied = new TextComponentString(LangUtils.translate("message.too_young.name"));
-                        denied.getStyle().setColor(TextFormatting.RED);
-                        ClientProxy.MC.ingameGUI.addChatMessage(ChatType.GAME_INFO, denied);
+//                    player.(this.inventory); todo: inventories
+                     } else {
+                    if (this.level.isClientSide) {
+                        TranslatableComponent denied = new TranslatableComponent("message.too_young.name");
+                        denied.getStyle().applyFormat(ChatFormatting.RED);
+                        Minecraft.getInstance().player.sendMessage(denied, null);
                     }
                 }
             } else {
-                if (this.world.isRemote) {
-                    TextComponentString denied = new TextComponentString(LangUtils.translate("message.not_owned.name"));
-                    denied.getStyle().setColor(TextFormatting.RED);
-                    ClientProxy.MC.ingameGUI.addChatMessage(ChatType.GAME_INFO, denied);
+                if (this.level.isClientSide) {
+                    TranslatableComponent denied = new TranslatableComponent("message.not_owned.name");
+                    denied.getStyle().applyFormat(ChatFormatting.RED);
+                    Minecraft.getInstance().player.sendMessage(denied, null);
                 }
             }
         } else {
-            if (stack.isEmpty() && hand == EnumHand.MAIN_HAND && this.world.isRemote) {
+            if (stack.isEmpty() && hand == InteractionHand.MAIN_HAND && this.level.isClientSide) {
                 if (this.isOwner(player)) {
-                    RebornMod.NETWORK_WRAPPER.sendToServer(new BiPacketOrder(this));
+//                    RebornMod.NETWORK_WRAPPER.sendToServer(new BiPacketOrder(this)); todo: networking
                 } else {
-                    TextComponentString denied = new TextComponentString(LangUtils.translate("message.not_owned.name"));
-                    denied.getStyle().setColor(TextFormatting.RED);
-                    ClientProxy.MC.ingameGUI.addChatMessage(ChatType.GAME_INFO, denied);
+                    TranslatableComponent denied = new TranslatableComponent("message.not_owned.name");
+                    denied.getStyle().applyFormat(ChatFormatting.RED);
+                    Minecraft.getInstance().player.sendMessage(denied, null);
                 }
             } else if (!stack.isEmpty()&& (this.metabolism.isThirsty() || this.metabolism.isHungry())) {
-                if (!this.world.isRemote) {
-                    Item item = stack.getItem();
-                    boolean fed = false;
-                    if (item == Items.POTIONITEM) {
-                        fed = true;
-                        this.metabolism.increaseWater(1000);
-                        this.setAnimation(EntityAnimation.DRINKING.get());
-                    } else if (FoodHelper.isEdible(this, this.dinosaur.getDiet(), item)) {
-                        fed = true;
-                        this.metabolism.eat(FoodHelper.getHealAmount(item));
-                        this.setAnimation(EntityAnimation.EATING.get());
-                        FoodHelper.applyEatEffects(this, item);
-                    }
-                    if (fed) {
-                        this.dataManager.set(WATCHER_WAS_FED, true);
-                        if (!player.capabilities.isCreativeMode) {
-                            stack.shrink(1);
-                            if (item == Items.POTIONITEM) {
-                                player.inventory.addItemStackToInventory(new ItemStack(Items.GLASS_BOTTLE));
-                            }
-                        }
-                        if (!this.isOwner(player)) {
-                            if (this.rand.nextFloat() < 0.30) {
-                                if (this.dinosaur.getDinosaurType() == Dinosaur.DinosaurType.AGGRESSIVE) {
-                                    if (this.rand.nextFloat() * 4.0F < (float) this.herd.members.size() / this.dinosaur.getMaxHerdSize()) {
-                                        this.herd.enemies.add(player);
-                                    } else {
-                                        this.attackEntityAsMob(player);
-                                    }
-                                } else if (this.dinosaur.getDinosaurType() == Dinosaur.DinosaurType.SCARED) {
-                                    this.herd.fleeing = true;
-                                    this.herd.enemies.add(player);
-                                }
-                            }
-                        }
-                        player.swingArm(hand);
-                    }
-                }
+//                if (!this.level.isClientSide) {
+//                    Item item = stack.getItem();
+//                    boolean fed = false;
+//                    if (item == Items.POTION) {
+//                        fed = true;
+//                        this.metabolism.increaseWater(1000);
+//                        this.setAnimation(EntityAnimation.DRINKING.get());
+//                    } else if (FoodHelper.isEdible(this, this.dinosaur.getDiet(), item)) {
+//                        fed = true;
+//                        this.metabolism.eat(FoodHelper.getHealAmount(item));
+//                        this.setAnimation(EntityAnimation.EATING.get());
+//                        FoodHelper.applyEatEffects(this, item);
+//                    }
+//                    if (fed) {
+//                        this.dataManager.set(WATCHER_WAS_FED, true);
+//                        if (!player.capabilities.isCreativeMode) {
+//                            stack.shrink(1);
+//                            if (item == Items.POTIONITEM) {
+//                                player.inventory.addItemStackToInventory(new ItemStack(Items.GLASS_BOTTLE));
+//                            }
+//                        }
+//                        if (!this.isOwner(player)) {
+//                            if (this.rand.nextFloat() < 0.30) {
+//                                if (this.dinosaur.getDinosaurType() == Dinosaur.DinosaurType.AGGRESSIVE) {
+//                                    if (this.rand.nextFloat() * 4.0F < (float) this.herd.members.size() / this.dinosaur.getMaxHerdSize()) {
+//                                        this.herd.enemies.add(player);
+//                                    } else {
+//                                        this.attackEntityAsMob(player);
+//                                    }
+//                                } else if (this.dinosaur.getDinosaurType() == Dinosaur.DinosaurType.SCARED) {
+//                                    this.herd.fleeing = true;
+//                                    this.herd.enemies.add(player);
+//                                }
+//                            }
+//                        }
+//                        player.swingArm(hand);
+//                    }
+//                }TODO: feeding
             }
         }
 
         return false;
     }
 
-    public boolean isOwner(EntityPlayer player) {
-        return player.getUniqueID().equals(this.getOwner());
+    public boolean isOwner(Player player) {
+        return player.getUUID().equals(this.getOwner());
     }
 
     @Override
-    public boolean canBeLeashedTo(EntityPlayer player) {
-        return !this.getLeashed() && (this.width < 1.5);
+    public boolean canBeLeashed(Player pPlayer) {
+        return !this.isLeashed() && (this.getBbWidth() < 1.5) && super.canBeLeashed(pPlayer);
     }
 
     public int getDNAQuality() {
@@ -1437,7 +1451,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
     }
 
     public boolean isAlive() {
-        return !this.isCarcass && !this.isDead;
+        return !this.isCarcass && !this.dead;
     }
 
     @Override
@@ -1513,84 +1527,87 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt = super.writeToNBT(nbt);
+    public void addAdditionalSaveData(CompoundTag nbt) {
+        super.addAdditionalSaveData(nbt);
 
-        nbt.setInteger("DinosaurAge", this.dinosaurAge);
-        nbt.setBoolean("IsCarcass", this.isCarcass);
-        nbt.setInteger("DNAQuality", this.geneticsQuality);
-        nbt.setString("Genetics", this.genetics);
-        nbt.setBoolean("IsMale", this.isMale);
-        nbt.setInteger("GrowthSpeedOffset", this.growthSpeedOffset);
-        nbt.setInteger("StayAwakeTime", this.stayAwakeTime);
-        nbt.setBoolean("IsSleeping", this.isSleeping);
-        nbt.setByte("Order", (byte) this.order.ordinal());
-        nbt.setInteger("CarcassHealth", this.carcassHealth);
-        nbt.setInteger("BreedCooldown", this.breedCooldown);
-        nbt.setInteger("PregnantTime", this.pregnantTime);
-        nbt.setBoolean("WasMoved", this.wasMoved);
+        nbt.putInt("DinosaurAge", this.dinosaurAge);
+        nbt.putBoolean("IsCarcass", this.isCarcass);
+        nbt.putInt("DNAQuality", this.geneticsQuality);
+        nbt.putString("Genetics", this.genetics);
+        nbt.putBoolean("IsMale", this.isMale);
+        nbt.putInt("GrowthSpeedOffset", this.growthSpeedOffset);
+        nbt.putInt("StayAwakeTime", this.stayAwakeTime);
+        nbt.putBoolean("IsSleeping", this.isSleeping);
+        nbt.putByte("Order", (byte) this.order.ordinal());
+        nbt.putInt("CarcassHealth", this.carcassHealth);
+        nbt.putInt("BreedCooldown", this.breedCooldown);
+        nbt.putInt("PregnantTime", this.pregnantTime);
+        nbt.putBoolean("WasMoved", this.wasMoved);
 
         this.metabolism.writeToNBT(nbt);
 
         if (this.owner != null) {
-            nbt.setString("OwnerUUID", this.owner.toString());
+            nbt.putString("OwnerUUID", this.owner.toString());
         }
 
         this.inventory.writeToNBT(nbt);
 
-        if (this.family != null && (this.family.getHead() == null || this.family.getHead().equals(this.getUniqueID()))) {
-            NBTTagCompound familyTag = new NBTTagCompound();
+        if (this.family != null && (this.family.getHead() == null || this.family.getHead().equals(this.getUUID()))) {
+            CompoundTag familyTag = new CompoundTag();
             this.family.writeToNBT(familyTag);
-            nbt.setTag("Family", familyTag);
+            nbt.put("Family", familyTag);
         }
 
-        NBTTagList relationshipList = new NBTTagList();
+        ListTag relationshipList = new ListTag();
 
         for (Relationship relationship : this.relationships) {
-            NBTTagCompound compound = new NBTTagCompound();
+            CompoundTag compound = new CompoundTag();
             relationship.writeToNBT(compound);
-            relationshipList.appendTag(compound);
+            relationshipList.add(compound);
         }
 
-        nbt.setTag("Relationships", relationshipList);
+        nbt.put("Relationships", relationshipList);
 
-        NBTTagCompound attributes = new NBTTagCompound();
+        CompoundTag attributes = new CompoundTag();
         this.attributes.writeToNBT(attributes);
-        nbt.setTag("GeneticAttributes", attributes);
+        nbt.put("GeneticAttributes", attributes);
 
         if (this.children.size() > 0) {
-            NBTTagList children = new NBTTagList();
+            ListTag children = new ListTag();
             for (DinosaurEntity child : this.children) {
                 if (child != null) {
-                    children.appendTag(child.writeToNBT(new NBTTagCompound()));
+                    CompoundTag temp = new CompoundTag();
+                    child.save(temp);
+                    children.add(temp);
                 }
             }
-            nbt.setTag("Children", children);
+            nbt.put("Children", children);
         }
 
-        nbt.setInteger("TranquilizerTicks", tranquilizerTicks);
-        nbt.setInteger("TicksUntilDeath", ticksUntilDeath);
-        return nbt;
+        nbt.putInt("TranquilizerTicks", tranquilizerTicks);
+        nbt.putInt("TicksUntilDeath", ticksUntilDeath);
     }
 
+    
+
     @Override
-    public void readFromNBT(NBTTagCompound nbt) {
+    public void readAdditionalSaveData(CompoundTag nbt) {
         this.deserializing = true;
 
-        super.readFromNBT(nbt);
+        super.readAdditionalSaveData(nbt);
         this.wasMoved = nbt.getBoolean("WasMoved");
-        this.setAge(nbt.getInteger("DinosaurAge"));
+        this.setAge(nbt.getInt("DinosaurAge"));
         this.setCarcass(nbt.getBoolean("IsCarcass"));
-        this.geneticsQuality = nbt.getInteger("DNAQuality");
+        this.geneticsQuality = nbt.getInt("DNAQuality");
         this.genetics = nbt.getString("Genetics");
         this.isMale = nbt.getBoolean("IsMale");
-        this.growthSpeedOffset = nbt.getInteger("GrowthSpeedOffset");
-        this.stayAwakeTime = nbt.getInteger("StayAwakeTime");
+        this.growthSpeedOffset = nbt.getInt("GrowthSpeedOffset");
+        this.stayAwakeTime = nbt.getInt("StayAwakeTime");
         this.setSleeping(nbt.getBoolean("IsSleeping"));
-        this.carcassHealth = nbt.getInteger("CarcassHealth");
+        this.carcassHealth = nbt.getInt("CarcassHealth");
         this.order = Order.values()[nbt.getByte("Order")];
-        this.breedCooldown = nbt.getInteger("BreedCooldown");
-        this.pregnantTime = nbt.getInteger("PregnantTime");
+        this.breedCooldown = nbt.getInt("BreedCooldown");
+        this.pregnantTime = nbt.getInt("PregnantTime");
         this.metabolism.readFromNBT(nbt);
 
         String ownerUUID = nbt.getString("OwnerUUID");
@@ -1599,38 +1616,40 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
             this.owner = UUID.fromString(ownerUUID);
         }
 
-        if (nbt.hasKey("Family")) {
-            NBTTagCompound familyTag = nbt.getCompoundTag("Family");
+        if (nbt.contains("Family")) {
+            CompoundTag familyTag = nbt.getCompound("Family");
             this.family = Family.readFromNBT(familyTag);
         }
 
         this.inventory.readFromNBT(nbt);
 
-        NBTTagList relationships = nbt.getTagList("Relationships", Constants.NBT.TAG_COMPOUND);
+        ListTag relationships = nbt.getList("Relationships", Tag.TAG_COMPOUND);
 
-        for (int i = 0; i < relationships.tagCount(); i++) {
-            NBTTagCompound compound = relationships.getCompoundTagAt(i);
+        for (int i = 0; i < relationships.size(); i++) {
+            CompoundTag compound = relationships.getCompound(i);
             this.relationships.add(Relationship.readFromNBT(compound));
         }
 
-        if (nbt.hasKey("GeneticAttributes")) {
-            NBTTagCompound attributes = nbt.getCompoundTag("GeneticAttributes");
+        if (nbt.contains("GeneticAttributes")) {
+            CompoundTag attributes = nbt.getCompound("GeneticAttributes");
             this.attributes = DinosaurAttributes.from(attributes);
         }
 
-        if (nbt.hasKey("Children")) {
-            NBTTagList children = nbt.getTagList("Children", Constants.NBT.TAG_COMPOUND);
-            for (int i = 0; i < children.tagCount(); i++) {
-                NBTTagCompound childTag = children.getCompoundTagAt(i);
-                Entity entity = EntityList.createEntityFromNBT(childTag, this.world);
+        if (nbt.contains("Children")) {
+            ListTag children = nbt.getList("Children", Tag.TAG_COMPOUND);
+            for (int i = 0; i < children.size(); i++) {
+                CompoundTag childTag = children.getCompound(i);
+                Entity entity = EntityType.loadEntityRecursive(childTag, level, (entity1) -> {
+                    return entity1;
+                });
                 if (entity instanceof DinosaurEntity) {
                     this.children.add((DinosaurEntity) entity);
                 }
             }
         }
 
-        tranquilizerTicks = nbt.getInteger("TranquilizerTicks");
-        ticksUntilDeath = nbt.getInteger("TicksUntilDeath");
+        tranquilizerTicks = nbt.getInt("TranquilizerTicks");
+        ticksUntilDeath = nbt.getInt("TicksUntilDeath");
 
         this.updateAttributes();
         this.updateBounds();
@@ -1639,7 +1658,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
     }
 
     @Override
-    public void writeSpawnData(ByteBuf buffer) {
+    public void writeSpawnData(FriendlyByteBuf buffer) {
         buffer.writeInt(this.dinosaurAge);
         buffer.writeBoolean(this.isCarcass);
         buffer.writeInt(this.geneticsQuality);
@@ -1649,7 +1668,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
     }
 
     @Override
-    public void readSpawnData(ByteBuf additionalData) {
+    public void readSpawnData(FriendlyByteBuf additionalData) {
         this.dinosaurAge = additionalData.readInt();
         this.isCarcass = additionalData.readBoolean();
         this.geneticsQuality = additionalData.readInt();
@@ -1665,12 +1684,13 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
         this.updateBounds();
     }
 
+
     public MetabolismContainer getMetabolism() {
         return this.metabolism;
     }
 
     public boolean setSleepLocation(BlockPos sleepLocation, boolean moveTo) {
-        return !moveTo || this.getNavigator().tryMoveToXYZ(sleepLocation.getX(), sleepLocation.getY(), sleepLocation.getZ(), 1.0);
+        return !moveTo || this.getNavigation().moveTo(sleepLocation.getX(), sleepLocation.getY(), sleepLocation.getZ(), 1.0);
     }
 
     @Override
@@ -1680,13 +1700,13 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
 
     public void setSleeping(boolean sleeping) {
         this.isSleeping = sleeping;
-        if (!this.world.isRemote) {
-            this.dataManager.set(WATCHER_IS_SLEEPING, this.isSleeping);
+        if (!this.level.isClientSide) {
+            this.entityData.set(WATCHER_IS_SLEEPING, this.isSleeping);
         }
     }
 
     public void tranquilize(int ticks) {
-        tranquilizerTicks = 50 + ticks + this.rand.nextInt(50);
+        tranquilizerTicks = 50 + ticks + this.random.nextInt(50);
         setSleeping(true);
         this.tranqed = true;
     }
@@ -1703,16 +1723,16 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
     }
 
     public void writeStatsToLog() {
-        LOGGER.info(this);
+        LOGGER.info(this.toString());
     }
 
     @Override
     public String toString() {
         return "DinosaurEntity{ " +
                 this.dinosaur.getName() +
-                ", id=" + this.getEntityId() +
-                ", remote=" + this.getEntityWorld().isRemote +
-                ", isDead=" + this.isDead +
+                ", id=" + this.getId() +
+                ", remote=" + this.getLevel().isClientSide +
+                ", isDead=" + this.isDeadOrDying() +
                 ", isCarcass=" + this.isCarcass +
                 ", isSleeping=" + this.isSleeping +
                 ", stayAwakeTime=" + this.stayAwakeTime +
@@ -1720,8 +1740,8 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
                 ", dinosaurAge=" + this.dinosaurAge +
                 ", prevAge=" + this.prevAge +
                 ", maxAge" + this.dinosaur.getMaximumAge() +
-                ", ticksExisted=" + this.ticksExisted +
-                ", entityAge=" + this.idleTime +
+                ", ticksExisted=" + this.tickCount +
+                ", entityAge=" + this.noActionTime +
                 ", isMale=" + this.isMale +
                 ", growthSpeedOffset=" + this.growthSpeedOffset +
                 "\n    " +
@@ -1730,13 +1750,13 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
                 ", digestingFood=" + this.metabolism.getDigestingFood() + " / " + MetabolismContainer.MAX_DIGESTION_AMOUNT +
                 ", health=" + this.getHealth() + " / " + this.getMaxHealth() +
                 "\n    " +
-                ", pos=" + this.getPosition() +
+                ", pos=" + this.getEyePosition() +
                 ", eyePos=" + this.getHeadPos() +
                 ", eyeHeight=" + this.getEyeHeight() +
-                ", lookX=" + this.getLookHelper().getLookgetX()() + ", lookY=" + this.getLookHelper().getLookgetY()() + ", lookZ=" + this.getLookHelper().getLookgetZ()() +
+                ", lookX=" + this.getLookAngle().x + ", lookY=" + this.getLookAngle().y + ", lookZ=" + this.getLookAngle().z +
                 "\n    " +
-                ", width=" + this.width +
-                ", bb=" + this.getEntityBoundingBox() +
+                ", width=" + this.getBbWidth() +
+                ", bb=" + this.getBoundingBox() +
 //                "\n    " +
 //                ", anim=" + animation + (animation != null ? ", duration" + animation.duration : "" ) +
 
@@ -1754,20 +1774,20 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
                 " }";
     }
 
-    public Vec3d getHeadPos() {
+    public Vector3d getHeadPos() {
         double scale = this.interpolate(dinosaur.getScaleInfant(), dinosaur.getScaleAdult());
 
-        double[] headPos = this.dinosaur.getHeadPosition(this.getGrowthStage(), ((360 - this.rotationYawHead)) % 360 - 180);
+        double[] headPos = this.dinosaur.getHeadPosition(this.getGrowthStage(), ((360 - this.yHeadRot)) % 360 - 180);
 
         double headX = ((headPos[0] * 0.0625F) - dinosaur.getOffsetX()) * scale;
         double headY = (((24 - headPos[1]) * 0.0625F) - dinosaur.getOffsetY()) * scale;
         double headZ = ((headPos[2] * 0.0625F) - dinosaur.getOffsetZ()) * scale;
 
-        return new Vec3d(this.getX() + headX, this.getY() + (headY), this.getZ() + headZ);
+        return new Vector3d(this.getX() + headX, this.getY() + (headY), this.getZ() + headZ);
     }
 
     public boolean areEyelidsClosed() {
-        return this.ticksExisted != 4 && !this.dinosaur.isMarineCreature() && ((this.isCarcass || this.isSleeping) || this.ticksExisted % 100 < 4);
+        return this.getDinosaurAge() != 4 && !this.dinosaur.isMarineCreature() && ((this.isCarcass || this.isSleeping) || this.tickCount % 100 < 4);
     }
 
     @Override
@@ -1829,7 +1849,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
 //        }
 //    }
 
-    @Override
+
     protected void setSize(float width, float height) {
         if (width != this.getBbWidth() || height != this.getBbHeight()) {
             float prevWidth = this.getBbWidth();
@@ -1864,7 +1884,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
 
 //    public void setOrder(Order order) { todo: networking
 //
-//        if (this.world.isRemote) {
+//        if (this.level.isClientSide) {
 //            if (this.owner != null) {
 //                EntityPlayer player = this.world.getPlayerEntityByUUID(this.owner);
 //
@@ -1971,8 +1991,8 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
     }
 
     public BlockPos getClosestFeeder() {
-        if (this.dinosaurAge - this.feederSearchTick > 200) {
-            this.feederSearchTick = this.dinosaurAge;
+        if (this.tickCount - this.feederSearchTick > 200) {
+            this.feederSearchTick = this.tickCount;
             OnionTraverser traverser = new OnionTraverser(this.getOnPos(), 32);
             for (BlockPos pos : traverser) {
                 BlockState state = this.level.getBlockState(pos);

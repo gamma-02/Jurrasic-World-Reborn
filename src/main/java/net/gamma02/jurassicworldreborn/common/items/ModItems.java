@@ -2,14 +2,23 @@ package net.gamma02.jurassicworldreborn.common.items;
 
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.lwjgl.system.CallbackI;
+
+import java.util.HashMap;
+import java.util.function.Supplier;
 
 public class ModItems {
+    public static void init(){
+
+    }
 
     public static DeferredRegister<Item> modItems = DeferredRegister.create(ForgeRegistries.ITEMS, Jurassicworldreborn.modid);
 
@@ -32,7 +41,17 @@ public class ModItems {
 
     public static RegistryObject<Item> ENCASED_FAUNA_FOSSIL = modItems.register("encased_fauna_item", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
 
+    public static RegistryObject<Item> DEFAULT_BONE = modItems.register("missing_bone", () -> new Item(new Item.Properties()));
 
+    public static HashMap<String, RegistryObject<Item>> BONES = new HashMap<>();
+
+    public static void registerBone(String name, Supplier<Item> sup, String dino){
+        BONES.put(dino.indexOf(':') >= 0 ? dino  : "jurassicworldreborn:" + dino, modItems.register(name, sup));
+    }
+
+    public static Item getBoneForDinosaur(EntityType<DinosaurEntity> type){
+        return BONES.get(type.toString()).orElse(DEFAULT_BONE.get());
+    }
 
 
 }

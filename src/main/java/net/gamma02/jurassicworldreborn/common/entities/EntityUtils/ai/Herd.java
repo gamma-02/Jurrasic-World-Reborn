@@ -1,6 +1,5 @@
 package net.gamma02.jurassicworldreborn.common.entities.EntityUtils.ai;
 
-import com.mojang.math.Vector3d;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
 import net.gamma02.jurassicworldreborn.common.util.BlockPosUtil;
@@ -123,7 +122,7 @@ public class Herd implements Iterable<DinosaurEntity> {
 
             for (DinosaurEntity entity : this) {
                 if (this.enemies.isEmpty() || this.fleeing) {
-                    if (!(entity.getMetabolism().isHungry() || entity.getMetabolism().isThirsty()) && !entity.isMovementBlocked() && !entity.isInWater() && (this.fleeing || entity.getNavigation().isDone()) && (this.state == State.MOVING || this.random.nextInt(50) == 0)) {
+                    if (!(entity.getMetabolism().isHungry() || entity.getMetabolism().isThirsty()) && !entity.isImmobile() && !entity.isInWater() && (this.fleeing || entity.getNavigation().isDone()) && (this.state == State.MOVING || this.random.nextInt(50) == 0)) {
                         float entityMoveX = this.moveX * 8.0F;
                         float entityMoveZ = this.moveZ * 8.0F;
 
@@ -173,7 +172,7 @@ public class Herd implements Iterable<DinosaurEntity> {
                                 }
                             }
                             attemptedPath = true;
-                            if (entity.distanceToSqr(BlockPosUtil.blockPosToVec(navigatePos)) > 16 && !entity.isMovementBlocked()) {
+                            if (entity.distanceToSqr(BlockPosUtil.blockPosToVec(navigatePos)) > 16 && !entity.isImmobile()) {
                                 boolean canMove = entity.getNavigation().moveTo(navigatePos.getX(), navigatePos.getY(), navigatePos.getZ(), speed);
                                 if (!canMove) {
                                     failedPaths++;

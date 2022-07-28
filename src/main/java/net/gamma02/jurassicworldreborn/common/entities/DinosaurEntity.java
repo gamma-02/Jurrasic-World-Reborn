@@ -845,7 +845,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
                                 child.setAge(0);
                                 child.setMale(this.random.nextDouble() > 0.5);
                                 child.setDNAQuality(100);
-                                DinosaurAttributes attributes = DinosaurAttributes.combine(this, (DinosaurAttributes) this.getAttributes(), (DinosaurAttributes)/*should hope this is a dinosaur... lol - gamma*/ this.breeding.getAttributes());
+//                                DinosaurAttributes attributes = DinosaurAttributes.combine(this, (DinosaurAttributes) this.getAttributes(), (DinosaurAttributes)/*should hope this is a dinosaur... lol - gamma*/ this.breeding.getAttributes());
                                 StringBuilder genetics = new StringBuilder();
                                 for (int c = 0; c < this.genetics.length(); c++) {
                                     if (this.random.nextBoolean()) {

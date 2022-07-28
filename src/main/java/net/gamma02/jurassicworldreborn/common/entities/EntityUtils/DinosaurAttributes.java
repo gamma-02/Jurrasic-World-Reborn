@@ -7,7 +7,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeMap;
 
 import java.util.Random;
 
-public class DinosaurAttributes extends AttributeMap {
+public class DinosaurAttributes {
     private static final float MINIMUM_SCALE = 0.8F;
     private static final float MAXIMUM_SCALE = 1.2F;
     private static final float RARE_SCALE = 1.4F;
@@ -27,6 +27,7 @@ public class DinosaurAttributes extends AttributeMap {
     private float speedModifier;
 
     private DinosaurAttributes(float scaleModifier, float damageModifier, float healthModifier, float speedModifier) {
+
 
         this.scaleModifier = scaleModifier;
         this.damageModifier = damageModifier;

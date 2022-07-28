@@ -15,14 +15,14 @@ import com.github.alexthe666.citadel.client.model.container.TabulaModelContainer
 
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.client.model.animation.PoseHandler;
-import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.GrowthStage;
-import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.SleepTime;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
+import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.*;
 import net.gamma02.jurassicworldreborn.common.legacy.tabula.TabulaModelHelper;
 import net.gamma02.jurassicworldreborn.common.util.TimePeriod;
 
-import net.minecraft.entity.player.EntityPlayer;
+
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.ResourceLocation;
+
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.biome.Biome;
 

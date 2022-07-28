@@ -44,13 +44,20 @@ public class ModItems {
     public static RegistryObject<Item> DEFAULT_BONE = modItems.register("missing_bone", () -> new Item(new Item.Properties()));
 
     public static HashMap<String, RegistryObject<Item>> BONES = new HashMap<>();
+    public static HashMap<String, RegistryObject<Item>> MEATS = new HashMap<>();
 
     public static void registerBone(String name, Supplier<Item> sup, String dino){
         BONES.put(dino.indexOf(':') >= 0 ? dino  : "jurassicworldreborn:" + dino, modItems.register(name, sup));
     }
+    public static void registerMeat(String name, Supplier<Item> sup, String dino){
+        MEATS.put(dino.indexOf(':') >= 0 ? dino  : "jurassicworldreborn:" + dino, modItems.register(name, sup));
+    }
 
     public static Item getBoneForDinosaur(EntityType<DinosaurEntity> type){
         return BONES.get(type.toString()).orElse(DEFAULT_BONE.get());
+    }
+    public static Item getMeatForDinosaur(EntityType<DinosaurEntity> type){
+        return MEATS.get(type.toString()).orElse(DEFAULT_BONE.get());
     }
 
 

@@ -124,7 +124,7 @@ public class DinosaurEggEntity extends Entity implements IEntityAdditionalSpawnD
             try {
                 this.entity.setPos(this.getX(), this.getY(), this.getZ());
                 this.level.addFreshEntity(this.entity);
-                this.entity.playLivingSound();
+                this.entity.playAmbientSound();
                 this.kill();
                 if(dinosaur == null) {
                     Optional<Entity> parentEntity =  (this.level.isClientSide ? Optional.empty() : ((ServerLevel) level).getEntity(this.parent) == null ? Optional.empty() : Optional.of(((ServerLevel) level).getEntity(this.parent)));

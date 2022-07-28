@@ -1,6 +1,5 @@
 package net.gamma02.jurassicworldreborn.common.util.ai;
 
-import net.gamma02.jurassicworldreborn.common.entities.DinosaurAttributes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import org.apache.logging.log4j.LogManager;

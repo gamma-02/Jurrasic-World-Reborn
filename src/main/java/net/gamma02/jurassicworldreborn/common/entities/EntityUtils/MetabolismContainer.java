@@ -74,7 +74,7 @@ public class MetabolismContainer {
         this.energy = Math.max(0, this.energy);
 
         if (this.isStarving() && this.dinosaur.tickCount % 40 == 0) {
-            this.dinosaur.attackEntityFrom(DamageSource.STARVE, 1.0F);
+            this.dinosaur.hurt(DamageSource.STARVE, 1.0F);
         }
     }
 
@@ -83,7 +83,7 @@ public class MetabolismContainer {
         this.water = Math.max(0, this.water);
 
         if (this.isDehydrated() && this.dinosaur.tickCount % 40 == 0) {
-            this.dinosaur.attackEntityFrom(DamageSource.STARVE, 1.0F);
+            this.dinosaur.hurt(DamageSource.STARVE, 1.0F);
         }
     }
 

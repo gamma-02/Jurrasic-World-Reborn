@@ -1,9 +1,9 @@
-package net.gamma02.jurassicworldreborn.common.entities;
+package net.gamma02.jurassicworldreborn.common.entities.EntityUtils;
 
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 
 import java.util.Random;
 
@@ -27,7 +27,7 @@ public class DinosaurAttributes extends AttributeMap {
     private float speedModifier;
 
     private DinosaurAttributes(float scaleModifier, float damageModifier, float healthModifier, float speedModifier) {
-        super();
+
         this.scaleModifier = scaleModifier;
         this.damageModifier = damageModifier;
         this.healthModifier = healthModifier;

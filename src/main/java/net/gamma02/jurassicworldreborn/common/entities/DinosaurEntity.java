@@ -71,7 +71,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
     private static final EntityDataAccessor<Boolean> WATCHER_IS_CARCASS = SynchedEntityData.defineId(DinosaurEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> WATCHER_AGE = SynchedEntityData.defineId(DinosaurEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> WATCHER_IS_SLEEPING = SynchedEntityData.defineId(DinosaurEntity.class, EntityDataSerializers.BOOLEAN);
-    // private static final DataParameter<Boolean> WATCHER_HAS_TRACKER = EntityentityData.createKey(DinosaurEntity.class, DataSerializers.BOOLEAN);
+    // private static final EntityDataAccessor<Boolean> WATCHER_HAS_TRACKER = EntityentityData.createKey(DinosaurEntity.class, DataSerializers.BOOLEAN);
     private static final EntityDataAccessor<String> WATCHER_OWNER_IDENTIFIER = SynchedEntityData.defineId(DinosaurEntity.class, EntityDataSerializers.STRING);
     private static final EntityDataAccessor<Byte> WATCHER_CURRENT_ORDER = SynchedEntityData.defineId(DinosaurEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Boolean> WATCHER_IS_RUNNING = SynchedEntityData.defineId(DinosaurEntity.class, EntityDataSerializers.BOOLEAN);
@@ -157,8 +157,8 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
 
     private int messageTick = 0;
 
-    public DinosaurEntity(Level world, EntityType<DinosaurEntity> type) {
-        super(type, world);// todo
+    public DinosaurEntity(Level world) {
+        super(null, world);// todo
         blocked = false;
         //Necessary to set the bounding box, rather than having NULL_BOX
         setSize(1, 1);

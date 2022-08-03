@@ -9,13 +9,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class FaunaFossil extends Block implements EncasedFossil{
+public class FaunaFossil extends Block implements EncasedFossil, EntityBlock {
     public FaunaFossil(Properties p_49795_) {
         super(p_49795_);
     }
@@ -31,7 +32,7 @@ public class FaunaFossil extends Block implements EncasedFossil{
     }
 
     @Override
-    public @NotNull InteractionResult use(BlockState state, @NotNull Level level, @NotNull BlockPos pos, Player player, @NotNull InteractionHand hand, BlockHitResult result) {
+    public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult result) {
         if(player.getItemInHand(hand).getItem() == ModItems.PLASTER_AND_BANDAGE.get()){
             level.setBlock(pos, this.getEncasedFossil(), 1);
         }
@@ -39,4 +40,9 @@ public class FaunaFossil extends Block implements EncasedFossil{
         return super.use(state, level, pos, player, hand, result);
     }
 
+    @Nullable
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
+        return null;
+    }
 }

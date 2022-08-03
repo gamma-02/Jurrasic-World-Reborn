@@ -1,7 +1,7 @@
 package net.gamma02.jurassicworldreborn.common.network;
 
 import net.gamma02.jurassicworldreborn.client.screens.ModScreens;
-import net.gamma02.jurassicworldreborn.common.blocks.machines.modBlockEntities;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.modBlockEntities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.BlockPos;

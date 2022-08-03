@@ -2,10 +2,9 @@ package net.gamma02.jurassicworldreborn.common;
 
 
 import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
-import net.gamma02.jurassicworldreborn.common.blocks.machines.cleaner.CleanerMenu;
-import net.gamma02.jurassicworldreborn.common.blocks.machines.modBlockEntities;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerMenu;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.modBlockEntities;
 import net.gamma02.jurassicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
-import net.gamma02.jurassicworldreborn.common.util.JsonOutputGenerator;
 import net.gamma02.jurassicworldreborn.common.worldgen.OreVeinFeature;
 import net.gamma02.jurassicworldreborn.common.worldgen.tree.*;
 import net.gamma02.jurassicworldreborn.common.worldgen.tree.petrified.PetrifiedTreeConfig;
@@ -13,7 +12,6 @@ import net.gamma02.jurassicworldreborn.common.worldgen.tree.petrified.PetrifiedT
 import net.minecraft.core.Holder;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;

@@ -1,0 +1,37 @@
+package net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities;
+
+import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
+import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
+import mod.reborn.server.entity.SwimmingDinosaurEntity;
+import com.github.alexthe666.citadel.animation.Animation;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.level.Level;
+
+public class MosasaurusEntity extends SwimmingDinosaurEntity {
+
+    public MosasaurusEntity(Level world) {
+        super(world);
+        this.target(EntityLivingBase.class);
+    }
+
+    @Override
+    public SoundEvent getSoundForAnimation(Animation animation) {
+        switch (EntityAnimation.getAnimation(animation)) {
+            case SPEAK:
+                return SoundHandler.MOSASAURUS_LIVING;
+            case CALLING:
+                return SoundHandler.MOSASAURUS_MATE_CALL;
+            case INJURED:
+                return SoundHandler.MOSASAURUS_HURT;
+            case DYING:
+                return SoundHandler.MOSASAURUS_DEATH;
+            case ROARING:
+                return SoundHandler.MOSASAURUS_ROAR;
+            case ATTACKING:
+                return SoundHandler.MOSASAURUS_ATTACK;
+            default:
+                return null;
+        }
+    }
+}

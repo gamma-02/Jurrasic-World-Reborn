@@ -3,7 +3,7 @@ package net.gamma02.jurassicworldreborn.common.blocks;
 import net.gamma02.jurassicworldreborn.common.CommonRegistries;
 import net.gamma02.jurassicworldreborn.common.blocks.fossil.FaunaFossil;
 import net.gamma02.jurassicworldreborn.common.blocks.fossil.FloraFossil;
-import net.gamma02.jurassicworldreborn.common.blocks.machines.cleaner.CleanerBlock;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.wood.ModSaplingBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -12,7 +12,6 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import org.lwjgl.system.CallbackI;
 
 public class ModBlocks {
 

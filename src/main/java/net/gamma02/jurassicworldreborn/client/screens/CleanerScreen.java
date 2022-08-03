@@ -2,18 +2,14 @@ package net.gamma02.jurassicworldreborn.client.screens;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.gamma02.jurassicworldreborn.common.blocks.machines.cleaner.CleanerBlockEntity;
-import net.gamma02.jurassicworldreborn.common.blocks.machines.cleaner.CleanerMenu;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerBlockEntity;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerMenu;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerListener;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 import static net.gamma02.jurassicworldreborn.Jurassicworldreborn.resource;

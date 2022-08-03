@@ -1,4 +1,4 @@
-package net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurList;
+package net.gamma02.jurassicLevelreborn.common.entities.Dinosaurs.DinosaurList;
 
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.Diet;
@@ -16,7 +16,7 @@ public class TitanisDinosaur extends Dinosaur {
         super();
 
         this.setName("Titanis");
-//        this.setDinosaurClass(TitanisEntity.class); <- todo: other dinos
+        this.setDinosaurClass(TitanisEntity.class); //<- todo: other dinos
         this.setDinosaurType(DinosaurType.AGGRESSIVE);
         this.setTimePeriod(TimePeriod.PALEOGENE);
         this.setEggColorMale(0xe5e1d3, 0x58598d);

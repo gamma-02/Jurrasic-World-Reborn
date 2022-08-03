@@ -2,56 +2,42 @@ package net.gamma02.jurassicworldreborn;
 
 import net.gamma02.jurassicworldreborn.client.screens.CleanerScreen;
 import net.gamma02.jurassicworldreborn.client.screens.ModScreens;
+import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.CommonRegistries;
 import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
-import net.gamma02.jurassicworldreborn.common.blocks.machines.cleaner.CleanerBlockEntity;
-import net.gamma02.jurassicworldreborn.common.blocks.machines.cleaner.CleanerMenu;
-import net.gamma02.jurassicworldreborn.common.blocks.machines.modBlockEntities;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerBlockEntity;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerMenu;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.modBlockEntities;
 import net.gamma02.jurassicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
 import net.gamma02.jurassicworldreborn.common.items.ModItems;
 import net.gamma02.jurassicworldreborn.common.network.Network;
 import net.gamma02.jurassicworldreborn.common.recipies.cleaner.CleaningRecipie;
-import net.gamma02.jurassicworldreborn.common.util.JsonOutputGenerator;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
-import net.minecraft.data.worldgen.features.FeatureUtils;
-import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
-import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import static net.gamma02.jurassicworldreborn.common.CommonRegistries.*;
 import static net.gamma02.jurassicworldreborn.common.recipies.cleaner.CleaningRecipie.CLEANING_RECIPE_TYPE;
-import static net.gamma02.jurassicworldreborn.common.recipies.cleaner.CleaningRecipie.INSTANCE;
-import static net.minecraft.data.worldgen.features.OreFeatures.*;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("jurassicworldreborn")
@@ -145,6 +131,8 @@ public class Jurassicworldreborn {
             Sheets.addWoodType(CommonRegistries.PhoenixType);
             Sheets.addWoodType(CommonRegistries.PsaroniusType);
         });
+
+        SoundHandler.registrer.register(FMLJavaModLoadingContext.get().getModEventBus());
 
 
         //Binding screens to types

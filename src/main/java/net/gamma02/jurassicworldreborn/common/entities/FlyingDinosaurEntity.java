@@ -1,13 +1,15 @@
 package net.gamma02.jurassicworldreborn.common.entities;
 
+import com.mojang.math.Vector3d;
 import net.gamma02.jurassicworldreborn.common.util.ai.OnionTraverser;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-public abstract class FlyingDinosaurEntity extends DinosaurEntity implements EntityFlying, IAnimals {
+public abstract class FlyingDinosaurEntity extends DinosaurEntity implements EntityFlying, Animal {
 
     private int ticksOnFloor;
     private int ticksInAir;
@@ -78,58 +80,56 @@ public abstract class FlyingDinosaurEntity extends DinosaurEntity implements Ent
 
 
     @Override
-    public void travel(float strafe, float vertical, float forward) {
+    public void travel(Vec3 vec) {
+        float strafe = Float.parseFloat(Double.toString(vec.x));
+        float vertical = Float.parseFloat(Double.toString(vec.z));
+        float forward = Float.parseFloat(Double.toString(vec.y));
         if(!this.tranqed && !isOnGround()) {
             if (this.inWater()) {
                 this.moveRelative(strafe, new Vec3(forward, 0.02F, 0F));
                 this.move(MoverType.SELF, this.getDeltaMovement());
-                this.motionX *= 0.800000011920929D;
-                this.motionY *= 0.800000011920929D;
-                this.motionZ *= 0.800000011920929D;
+
                 this.setDeltaMovement(this.getDeltaMovement().multiply(0.8, 0.8, 0.8));
                 return;
             } else if (this.inLava()) {
-                this.moveRelative(strafe, forward, 0.02F, 0F);
-                this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
-                this.motionX *= 0.5D;
-                this.motionY *= 0.5D;
-                this.motionZ *= 0.5D;
+                this.moveRelative(strafe, new Vec3(forward, 0.02F, 0F));
+                this.move(MoverType.SELF, this.getDeltaMovement());
+                this.setDeltaMovement(this.getDeltaMovement().multiply(0.5, 0.5, 0.5));
+
                 return;
             } else {
                 float friction = 0.91F;
 
                 if (this.onGround) {
-                    friction = this.world.getBlockState(new BlockPos(MathHelper.floor(this.getX()), MathHelper.floor(this.getEntityBoundingBox().minY) - 1, MathHelper.floor(this.getZ()))).getBlock().slipperiness * 0.91F;
+                    friction = this.level.getBlockState(new BlockPos(Mth.floor(this.getX()), Mth.floor(this.getBoundingBox().minY) - 1, Mth.floor(this.getZ()))).getBlock().getFriction() * 0.91F;
                 }
 
                 float f3 = 0.16277136F / (friction * friction * friction);
-                this.moveRelative(strafe, forward, this.onGround ? f3 * 0.1F : 0.02F, 0F);
+                this.moveRelative(strafe, new Vec3(forward, this.onGround ? f3 * 0.1F : 0.02F, 0F));
                 friction = 0.91F;
 
                 if (this.onGround) {
-                    friction = this.world.getBlockState(new BlockPos(MathHelper.floor(this.getX()), MathHelper.floor(this.getEntityBoundingBox().minY) - 1, MathHelper.floor(this.getZ()))).getBlock().slipperiness * 0.91F;
+                    friction = this.level.getBlockState(new BlockPos(Mth.floor(this.getX()), Mth.floor(this.getBoundingBox().minY) - 1, Mth.floor(this.getZ()))).getBlock().getFriction() * 0.91F;
                 }
 
-                this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
-                this.motionX *= friction;
-                this.motionY *= friction;
-                this.motionZ *= friction;
+                this.move(MoverType.SELF, this.getDeltaMovement());
+                this.setDeltaMovement(this.getDeltaMovement().multiply(friction, friction, friction));
             }
 
-            this.prevLimbSwingAmount = this.limbSwingAmount;
-            double moveX = this.getX() - this.prevPosX;
-            double moveZ = this.getZ() - this.prevPosZ;
-            float dist = MathHelper.sqrt(moveX * moveX + moveZ * moveZ) * 4.0F;
+            this.animationSpeedOld = this.animationSpeed;
+            double moveX = this.getX() - this.xo;
+            double moveZ = this.getZ() - this.zo;
+            float dist = Mth.sqrt((float) (moveX * moveX + moveZ * moveZ)) * 4.0F;
 
             if (dist > 1.0F) {
                 dist = 1.0F;
             }
 
-            this.limbSwingAmount += (dist - this.limbSwingAmount) * 0.4F;
-            this.limbSwing += this.limbSwingAmount;
+            this.animationSpeed += (dist - this.animationSpeed) * 0.4F;
+            this.animationPosition += this.animationSpeed;
             return;
         }
-        super.travel(strafe, vertical, forward);
+        super.travel(vec);
     }
 
     @Override
@@ -300,7 +300,7 @@ public abstract class FlyingDinosaurEntity extends DinosaurEntity implements Ent
 //
 //                if (this.timer-- <= 0) {
 //                    this.timer += this.parentEntity.getRNG().nextInt(5) + 2;
-//                    distance = MathHelper.sqrt(distance);
+//                    distance = Mth.sqrt(distance);
 //
 //                    if (this.isNotColliding(this.getX(), this.getY(), this.getZ(), distance)) {
 //                        this.parentEntity.motionX += distanceX / distance * this.speed * 0.1D;
@@ -407,3 +407,4 @@ public abstract class FlyingDinosaurEntity extends DinosaurEntity implements Ent
 //
 //    }
 }
+

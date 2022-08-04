@@ -21,7 +21,8 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.Mth;
+import net.minecraft.util.math.Mth;
 import net.minecraft.world.level.Level;
 
 public class DilophosaurusEntity extends DinosaurEntity implements IRangedAttackMob {
@@ -44,7 +45,7 @@ public class DilophosaurusEntity extends DinosaurEntity implements IRangedAttack
         double deltaX = target.posX - venom.posX;
         double deltaY = target.posY + (double) target.getEyeHeight() - 1.100000023841858D - venom.posY;
         double deltaZ = target.posZ - venom.posZ;
-        float yOffset = MathHelper.sqrt(deltaX * deltaX + deltaZ * deltaZ) * 0.2F;
+        float yOffset = Mth.sqrt(deltaX * deltaX + deltaZ * deltaZ) * 0.2F;
         venom.shoot(deltaX, deltaY + (double) yOffset, deltaZ, 1.5F, 0F);
         this.world.spawnEntity(venom);
     }

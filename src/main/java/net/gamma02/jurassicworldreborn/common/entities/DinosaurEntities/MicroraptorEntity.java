@@ -30,7 +30,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Mth;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.relauncher.Side;
@@ -245,8 +245,8 @@ public class MicroraptorEntity extends DinosaurEntity {
             float radius = (ridingIndex == 2 ? 0.0F : 0.35F) + (player.isElytraFlying() ? 2 : 0);
             float renderYawOffset = player.renderYawOffset;
             float angle = (float) Math.toRadians(renderYawOffset + (ridingIndex == 1 ? -90 : ridingIndex == 0 ? 90 : 0));
-            double offsetX = (double) (radius * MathHelper.sin((float) (Math.PI + angle)));
-            double offsetZ = (double) (radius * MathHelper.cos(angle));
+            double offsetX = (double) (radius * Mth.sin((float) (Math.PI + angle)));
+            double offsetZ = (double) (radius * Mth.cos(angle));
             double offsetY = (riding.isSneaking() ? 1.2 : 1.38) + (ridingIndex == 2 ? 0.4 : 0.0);
             this.rotationYaw = player.rotationYawHead;
             this.rotationYawHead = player.rotationYawHead;
@@ -281,7 +281,7 @@ public class MicroraptorEntity extends DinosaurEntity {
     public boolean shouldEscapeWaterFast() {
 	int radiusXZ = 4;
 	
-	for(BlockPos pos : BlockPos.getAllInBox(MathHelper.floor(this.posX - radiusXZ), MathHelper.floor(this.posY), MathHelper.floor(this.posZ - radiusXZ), MathHelper.ceil(this.posX + radiusXZ), MathHelper.ceil(this.posY), MathHelper.ceil(this.posZ + radiusXZ))) {
+	for(BlockPos pos : BlockPos.getAllInBox(Mth.floor(this.posX - radiusXZ), Mth.floor(this.posY), Mth.floor(this.posZ - radiusXZ), Mth.ceil(this.posX + radiusXZ), Mth.ceil(this.posY), Mth.ceil(this.posZ + radiusXZ))) {
 	    if(!world.getBlockState(pos).getMaterial().isLiquid()) {
 		return false;
 	    }

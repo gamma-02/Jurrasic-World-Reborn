@@ -771,8 +771,8 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
 //                this.moveTicks--;
 //                this.motionX = 0;
 //                this.motionZ = 0;
-//                this.motionX += MathHelper.sin(-(float) Math.toRadians(this.rotationYaw - 90)) * 0.03;
-//                this.motionZ += MathHelper.cos((float) Math.toRadians(this.rotationYaw - 90)) * 0.03;
+//                this.motionX += Mth.sin(-(float) Math.toRadians(this.rotationYaw - 90)) * 0.03;
+//                this.motionZ += Mth.cos((float) Math.toRadians(this.rotationYaw - 90)) * 0.03;
 //                this.motionX *= 6.3;
 //                this.motionZ *= 6.3;
 //            }
@@ -1998,6 +1998,8 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
     public boolean shouldEscapeWaterFast() {
         return true;
     }
+
+
 
     public BlockPos getClosestFeeder() {
         if (this.tickCount - this.feederSearchTick > 200) {

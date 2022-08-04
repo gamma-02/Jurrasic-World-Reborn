@@ -1,11 +1,14 @@
 package net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities;
 
 import mod.reborn.RebornMod;
+import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import com.github.alexthe666.citadel.animation.Animation;
 import net.minecraft.network.syncher.EntityDataAccessor;
+
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.entity.EntityCreature;
 
@@ -86,6 +89,6 @@ public class DiplodocusEntity extends DinosaurEntity {
         String formattedName = this.dinosaur.getName().toLowerCase(Locale.ENGLISH).replaceAll(" ", "_");
         String baseTextures = "textures/entities/" + formattedName + "/";
         String texture = baseTextures + formattedName;
-        return isMale()?new ResourceLocation(RebornMod.MODID, texture + "_male_" + "adult" + "_" + variant + ".png"):new ResourceLocation(RebornMod.MODID, texture + "_female_" + "adult" + "_" + variant +".png");
+        return isMale()?new ResourceLocation(Jurassicworldreborn.modid, texture + "_male_" + "adult" + "_" + variant + ".png"):new ResourceLocation(RebornMod.MODID, texture + "_female_" + "adult" + "_" + variant +".png");
     }
 }

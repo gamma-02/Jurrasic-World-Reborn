@@ -5,7 +5,7 @@ import mod.reborn.server.entity.Diet;
 import mod.reborn.server.entity.GrowthStage;
 import mod.reborn.server.entity.dinosaur.IndominusEntity;
 import mod.reborn.server.period.TimePeriod;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 public class IndominusDinosaur extends Dinosaur implements Hybrid
 {

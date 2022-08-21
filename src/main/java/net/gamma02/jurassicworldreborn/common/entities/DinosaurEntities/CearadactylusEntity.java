@@ -1,14 +1,13 @@
 package net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities;
 
+import com.github.alexthe666.citadel.animation.Animation;
 import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
-import mod.reborn.server.entity.FlyingDinosaurEntity;
-import com.github.alexthe666.citadel.animation.Animation;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.entity.player.EntityPlayer;
+import net.gamma02.jurassicworldreborn.common.entities.FlyingDinosaurEntity;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
 public class CearadactylusEntity extends FlyingDinosaurEntity
@@ -16,7 +15,28 @@ public class CearadactylusEntity extends FlyingDinosaurEntity
     public CearadactylusEntity(Level world)
     {
         super(world);
-        this.target(AlligatorGarEntity.class, AlvarezsaurusEntity.class, BeelzebufoEntity.class, CompsognathusEntity.class, CoelacanthEntity.class, MicroceratusEntity.class, MicroraptorEntity.class, MegapiranhaEntity.class, LeptictidiumEntity.class, LudodactylusEntity.class, OthnieliaEntity.class, OviraptorEntity.class, ProtoceratopsEntity.class, SegisaurusEntity.class, TroodonEntity.class, ZhenyuanopterusEntity.class, CrassigyrinusEntity.class, DiplocaulusEntity.class, DimorphodonEntity.class, EntityPlayer.class, EntityAnimal.class, EntityVillager.class);
+        this.target(AlligatorGarEntity.class,
+                AlvarezsaurusEntity.class,
+                BeelzebufoEntity.class,
+                CompsognathusEntity.class,
+                CoelacanthEntity.class,
+                MicroceratusEntity.class,
+                MicroraptorEntity.class,
+                MegapiranhaEntity.class,
+                LeptictidiumEntity.class,
+                LudodactylusEntity.class,
+                OthnieliaEntity.class,
+                OviraptorEntity.class,
+                ProtoceratopsEntity.class,
+                SegisaurusEntity.class,
+                TroodonEntity.class,
+                ZhenyuanopterusEntity.class,
+                CrassigyrinusEntity.class,
+                DiplocaulusEntity.class,
+                DimorphodonEntity.class,
+                Player.class
+                , Animal.class,
+                Villager.class);
     }
         @Override
         public SoundEvent getSoundForAnimation(Animation animation)

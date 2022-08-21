@@ -1,14 +1,13 @@
 package net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities;
 
-import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
-import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
-import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
+import com.github.alexthe666.citadel.animation.Animation;
 import mod.reborn.server.entity.LegSolverBiped;
 import mod.reborn.server.entity.ai.RaptorLeapEntityAI;
 import mod.reborn.server.entity.ai.animations.PeckGroundAnimationAI;
+import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
+import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.minecraft.entity.ai.EntityAIBase;
-
-import com.github.alexthe666.citadel.animation.Animation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.Level;
 

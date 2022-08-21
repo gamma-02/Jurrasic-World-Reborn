@@ -9,7 +9,7 @@ import mod.reborn.server.entity.dinosaur.CoelacanthEntity;
 import mod.reborn.server.food.FoodType;
 import mod.reborn.server.period.TimePeriod;
 import java.util.ArrayList;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.biome.Biome;
@@ -63,7 +63,7 @@ public class CoelacanthDinosaur extends Dinosaur {
     }
 
     @Override
-    public void applyMeatEffect(EntityPlayer player, boolean cooked) {
+    public void applyMeatEffect(Player player, boolean cooked) {
         if (!cooked) {
             player.addPotionEffect(new PotionEffect(MobEffects.POISON, 400, 1));
         }

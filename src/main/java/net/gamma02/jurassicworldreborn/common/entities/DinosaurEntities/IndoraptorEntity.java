@@ -1,41 +1,38 @@
 package net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities;
 
-import mod.reborn.RebornMod;
+import com.github.alexthe666.citadel.animation.Animation;
+import mod.reborn.server.entity.ai.LeapingMeleeEntityAI;
+import mod.reborn.server.entity.ai.RaptorLeapEntityAI;
+import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
-import mod.reborn.server.entity.ai.LeapingMeleeEntityAI;
-import mod.reborn.server.entity.ai.RaptorLeapEntityAI;
-import mod.reborn.server.entity.animal.GoatEntity;
-import com.github.alexthe666.citadel.animation.Animation;
-import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.datasync.EntityDataAccessor;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
 import java.util.Locale;
 
 public class IndoraptorEntity extends DinosaurEntity {
-    private static final EntityDataAccessor<Integer> VARIANT = EntityDataManager.createKey(IndoraptorEntity.class, DataSerializers.VARINT);
-    private static final Class[] targets = {EntityLivingBase.class, EntityPlayer.class};
+    private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(IndoraptorEntity.class, EntityDataSerializers.INT);
+    private static final Class[] targets = {EntityLivingBase.class, Player.class
+};
 
     public IndoraptorEntity(Level world) {
         super(world);
-        this.setVariant(this.getRNG().nextInt(2));
-        this.target(EntityLivingBase.class, EntityPlayer.class);
+        this.setVariant(this.getRandom().nextInt(2));
+        this.target(EntityLivingBase.class, Player.class
+);
         this.tasks.addTask(0, new LeapingMeleeEntityAI(this, this.dinosaur.getAttackSpeed()));
         this.tasks.addTask(1, new RaptorLeapEntityAI(this));
         this.target(targets);
@@ -43,7 +40,8 @@ public class IndoraptorEntity extends DinosaurEntity {
             this.tasks.addTask(0, new EntityAINearestAttackableTarget<EntityLivingBase>(this, entity, true, false));
             this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<EntityLivingBase>(this, entity, false));
         }
-        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, EntityPlayer.class, TyrannosaurusEntity.class, GiganotosaurusEntity.class, SpinosaurusEntity.class));
+        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, Player.class
+, TyrannosaurusEntity.class, GiganotosaurusEntity.class, SpinosaurusEntity.class));
     }
     @Override
     public SoundEvent getSoundForAnimation(Animation animation) {
@@ -89,27 +87,30 @@ public class IndoraptorEntity extends DinosaurEntity {
         this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(35.0D);
     }
 
-    public void entityInit() {
-        super.entityInit();
-        this.dataManager.register(VARIANT, 0);
+    public void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(VARIANT, 0);
     }
 
-    public void writeEntityToNBT(NBTTagCompound tagCompound) {
-        super.writeEntityToNBT(tagCompound);
-        tagCompound.setInteger("Variant", this.getVariant());
+    @Override
+    public void addAdditionalSaveData(CompoundTag nbt) {
+        super.addAdditionalSaveData(nbt);
+        nbt.putInt("Variant", this.entityData.get(VARIANT));
     }
 
-    public void readEntityFromNBT(NBTTagCompound tagCompound) {
-        super.readEntityFromNBT(tagCompound);
-        this.setVariant(tagCompound.getInteger("Variant"));
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag nbt) {
+        super.readAdditionalSaveData(nbt);
+        this.entityData.set(VARIANT, nbt.getInt("Variant"));
     }
 
     public void setVariant(int value){
-        this.dataManager.set(VARIANT, value);
+        this.entityData.set(VARIANT, value);
     }
 
     public int getVariant(){
-        return this.dataManager.get(VARIANT);
+        return this.entityData.get(VARIANT);
     }
 
     public ResourceLocation getTexture(){
@@ -122,7 +123,7 @@ public class IndoraptorEntity extends DinosaurEntity {
         String formattedName = this.dinosaur.getName().toLowerCase(Locale.ENGLISH).replaceAll(" ", "_");
         String baseTextures = "textures/entities/" + formattedName + "/";
         String texture = baseTextures + formattedName;
-        return isMale()?new ResourceLocation(RebornMod.MODID, texture + "_male_" + "adult" + "_" + variant + ".png"):new ResourceLocation(RebornMod.MODID, texture + "_female_" + "adult" + "_" + variant +".png");
+        return isMale()?new ResourceLocation(Jurassicworldreborn.modid, texture + "_male_" + "adult" + "_" + variant + ".png"):new ResourceLocation(Jurassicworldreborn.modid, texture + "_female_" + "adult" + "_" + variant +".png");
     }
 }
 

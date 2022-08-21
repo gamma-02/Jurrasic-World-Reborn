@@ -7,7 +7,7 @@ import mod.reborn.server.entity.SleepTime;
 import mod.reborn.server.entity.ai.util.MovementType;
 import mod.reborn.server.entity.dinosaur.MawsoniaEntity;
 import mod.reborn.server.period.TimePeriod;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.biome.Biome;
@@ -62,7 +62,7 @@ public class MawsoniaDinosaur extends Dinosaur {
     }
 
     @Override
-    public void applyMeatEffect(EntityPlayer player, boolean cooked) {
+    public void applyMeatEffect(Player player, boolean cooked) {
         if (!cooked) {
             player.addPotionEffect(new PotionEffect(MobEffects.POISON, 400, 1));
         }

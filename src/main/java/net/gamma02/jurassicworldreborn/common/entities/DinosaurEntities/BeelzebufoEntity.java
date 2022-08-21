@@ -1,29 +1,22 @@
 package net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities;
 
+import com.github.alexthe666.citadel.animation.Animation;
 import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
-import mod.reborn.server.conf.RebornConfig;
-import mod.reborn.server.entity.AmfibianDinosaurEntity;
-import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
-import mod.reborn.server.entity.SwimmingDinosaurEntity;
-import mod.reborn.server.entity.ai.DinosaurWanderEntityAI;
-import mod.reborn.server.entity.ai.LeapingMeleeEntityAI;
-import mod.reborn.server.entity.ai.RaptorLeapEntityAI;
-import mod.reborn.server.entity.animal.ai.EntityAIWanderNearWater;
-import com.github.alexthe666.citadel.animation.Animation;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.util.DamageSource;
+import net.gamma02.jurassicworldreborn.common.entities.AmfibianDinosaurEntity;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
+
+;
 
 public class BeelzebufoEntity extends AmfibianDinosaurEntity {
 
     public BeelzebufoEntity(Level world) {
         super(world);
         this.target(AlvarezsaurusEntity.class, CompsognathusEntity.class, LeptictidiumEntity.class, OthnieliaEntity.class, MicroraptorEntity.class, MussaurusEntity.class, GuanlongEntity.class, GallimimusEntity.class);
-        this.tasks.addTask(0, new LeapingMeleeEntityAI(this, getAIMoveSpeed()));
-        this.tasks.addTask(0, new DinosaurWanderEntityAI(this, getAIMoveSpeed(), 10, RebornConfig.ENTITIES.dinosaurWalkingRadius));
+//        this.tasks.addTask(0, new LeapingMeleeEntityAI(this, getAIMoveSpeed()));TODO:AI
+//        this.tasks.addTask(0, new DinosaurWanderEntityAI(this, getAIMoveSpeed(), 10, RebornConfig.ENTITIES.dinosaurWalkingRadius));
     }
 
     @Override
@@ -44,21 +37,23 @@ public class BeelzebufoEntity extends AmfibianDinosaurEntity {
         }
     }
 
-    @Override
-    public EntityAIBase getAttackAI() {
-        return new RaptorLeapEntityAI(this);
-    }
+//    @Override
+//    public EntityAIBase getAttackAI() {
+//        return new RaptorLeapEntityAI(this);
+//    }
 
     @Override
-    public void fall(float distance, float damageMultiplier) {
+    public int calculateFallDamage(float distance, float damageMultiplier) {
         if (this.getAnimation() != EntityAnimation.LEAP_LAND.get()) {
-            super.fall(distance, damageMultiplier);
+            return super.calculateFallDamage(distance, damageMultiplier);
         }
+        else
+            return 0;
     }
     protected void applyEntityAttributes()
     {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(35.0D);
+//        super.applyEntityAttributes();
+        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(35.0D);
     }
 
 }

@@ -1,44 +1,44 @@
 package net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities;
 
-import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
-import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
-import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
-import mod.reborn.server.entity.animal.GoatEntity;
+import com.github.alexthe666.citadel.animation.Animation;
 import mod.reborn.server.entity.VenomEntity;
 import mod.reborn.server.entity.ai.DilophosaurusMeleeEntityAI;
 import mod.reborn.server.entity.ai.DilophosaurusSpitEntityAI;
-import com.github.alexthe666.citadel.animation.Animation;
+import mod.reborn.server.entity.animal.GoatEntity;
+import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
+import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
-import net.minecraft.network.datasync.EntityDataAccessor;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
-import net.minecraft.util.math.Mth;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
 public class DilophosaurusEntity extends DinosaurEntity implements IRangedAttackMob {
 
-    private static final EntityDataAccessor<Boolean> WATCHER_HAS_TARGET = EntityDataManager.createKey(DinosaurEntity.class, DataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> WATCHER_HAS_TARGET = SynchedEntityData.defineId(DinosaurEntity.class, EntityDataSerializers.BOOLEAN);
     private int targetCooldown;
 
     public DilophosaurusEntity(Level world) {
         super(world);
-        this.target(GoatEntity.class, SmilodonEntity.class, MegatheriumEntity.class, ArsinoitheriumEntity.class, SpinoraptorEntity.class, EntityPlayer.class, EntityVillager.class, EntityAnimal.class, AchillobatorEntity.class, AlligatorGarEntity.class, AlvarezsaurusEntity.class, BeelzebufoEntity.class, VelociraptorBlueEntity.class, VelociraptorCharlieEntity.class, ChasmosaurusEntity.class, ChilesaurusEntity.class, CoelurusEntity.class, CompsognathusEntity.class, CrassigyrinusEntity.class, VelociraptorDeltaEntity.class, DodoEntity.class, DiplocaulusEntity.class, VelociraptorEchoEntity.class, GallimimusEntity.class, GuanlongEntity.class, HyaenodonEntity.class, HypsilophodonEntity.class, LeaellynasauraEntity.class, LeptictidiumEntity.class, MegapiranhaEntity.class, MetriacanthosaurusEntity.class, MicroceratusEntity.class, MicroraptorEntity.class, MussaurusEntity.class, OrnithomimusEntity.class, OthnieliaEntity.class, OviraptorEntity.class, PostosuchusEntity.class, ProceratosaurusEntity.class, ProtoceratopsEntity.class, SegisaurusEntity.class, TroodonEntity.class, VelociraptorEntity.class, PachycephalosaurusEntity.class);
+        this.target(GoatEntity.class, SmilodonEntity.class, MegatheriumEntity.class, ArsinoitheriumEntity.class, SpinoraptorEntity.class, Player.class
+, Villager.class, Animal.class, AchillobatorEntity.class, AlligatorGarEntity.class, AlvarezsaurusEntity.class, BeelzebufoEntity.class, VelociraptorBlueEntity.class, VelociraptorCharlieEntity.class, ChasmosaurusEntity.class, ChilesaurusEntity.class, CoelurusEntity.class, CompsognathusEntity.class, CrassigyrinusEntity.class, VelociraptorDeltaEntity.class, DodoEntity.class, DiplocaulusEntity.class, VelociraptorEchoEntity.class, GallimimusEntity.class, GuanlongEntity.class, HyaenodonEntity.class, HypsilophodonEntity.class, LeaellynasauraEntity.class, LeptictidiumEntity.class, MegapiranhaEntity.class, MetriacanthosaurusEntity.class, MicroceratusEntity.class, MicroraptorEntity.class, MussaurusEntity.class, OrnithomimusEntity.class, OthnieliaEntity.class, OviraptorEntity.class, PostosuchusEntity.class, ProceratosaurusEntity.class, ProtoceratopsEntity.class, SegisaurusEntity.class, TroodonEntity.class, VelociraptorEntity.class, PachycephalosaurusEntity.class);
         this.tasks.addTask(1, new DilophosaurusMeleeEntityAI(this, this.dinosaur.getAttackSpeed()));
     }
 
     @Override
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distance) {
-	if(target instanceof EntityPlayer && ((EntityPlayer)target).isCreative()) {
+	if(target instanceof Player && ((Player)target).isCreative()) {
 	    return;
 	}
         VenomEntity venom = new VenomEntity(this.world, this);
@@ -77,7 +77,7 @@ public class DilophosaurusEntity extends DinosaurEntity implements IRangedAttack
         if (!this.world.isRemote) {
             EntityLivingBase target = this.getAttackTarget();
             if (target != null && !target.isDead && this.targetCooldown < 50) {
-                this.targetCooldown = 50 + this.getRNG().nextInt(30);
+                this.targetCooldown = 50 + this.getRandom().nextInt(30);
             } else if (this.targetCooldown > 0) {
                 this.targetCooldown--;
             }

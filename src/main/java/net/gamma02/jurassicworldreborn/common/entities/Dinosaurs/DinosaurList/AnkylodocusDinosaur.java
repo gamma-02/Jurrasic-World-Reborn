@@ -6,7 +6,7 @@ import mod.reborn.server.entity.GrowthStage;
 import mod.reborn.server.entity.dinosaur.AnkylodocusEntity;
 import mod.reborn.server.entity.dinosaur.IndoraptorEntity;
 import mod.reborn.server.period.TimePeriod;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 
 public class AnkylodocusDinosaur extends Dinosaur implements Hybrid

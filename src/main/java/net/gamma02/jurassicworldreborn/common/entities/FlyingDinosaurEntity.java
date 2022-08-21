@@ -1,15 +1,17 @@
 package net.gamma02.jurassicworldreborn.common.entities;
 
 import com.mojang.math.Vector3d;
+import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.common.util.ai.OnionTraverser;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-public abstract class FlyingDinosaurEntity extends DinosaurEntity implements EntityFlying, Animal {
+public abstract class FlyingDinosaurEntity extends DinosaurEntity {
 
     private int ticksOnFloor;
     private int ticksInAir;
@@ -20,25 +22,25 @@ public abstract class FlyingDinosaurEntity extends DinosaurEntity implements Ent
 
     public FlyingDinosaurEntity(Level world) {
         super(world);
-        this.moveHelper = new FlyingDinosaurEntity.FlyingMoveHelper();
-        this.tasks.addTask(1, new FlyingDinosaurEntity.AIFlyLand());
-        this.tasks.addTask(2, new FlyingDinosaurEntity.AIStartFlying());
-        this.tasks.addTask(0, new FlyingDinosaurEntity.AIRandomFly());
-        this.tasks.addTask(0, new FlyingDinosaurEntity.AIWander());
-        this.tasks.addTask(2, new AILookAround());
-        this.tasks.addTask(0, new DinosaurAttackMeleeEntityAI(this,1,true));
+//        this.moveHelper = new FlyingDinosaurEntity.FlyingMoveHelper();todo: ai
+//        this.tasks.addTask(1, new FlyingDinosaurEntity.AIFlyLand());
+//        this.tasks.addTask(2, new FlyingDinosaurEntity.AIStartFlying());
+//        this.tasks.addTask(0, new FlyingDinosaurEntity.AIRandomFly());
+//        this.tasks.addTask(0, new FlyingDinosaurEntity.AIWander());
+//        this.tasks.addTask(2, new AILookAround());
+//        this.tasks.addTask(0, new DinosaurAttackMeleeEntityAI(this,1,true));
         this.doesEatEggs(true);
         this.doTarget();
     }
 
     protected void doTarget(){
-        this.target(LeptictidiumEntity.class, HypsilophodonEntity.class, MicroraptorEntity.class, MicroceratusEntity.class, CompsognathusEntity.class);
+//        this.target(LeptictidiumEntity.class, HypsilophodonEntity.class, MicroraptorEntity.class, MicroceratusEntity.class, CompsognathusEntity.class); todo: entities
     }
 
     @Override
-    public void onEntityUpdate() {
+    public void aiStep() {
         if(!this.onGround && this.getAnimation() == EntityAnimation.SLEEPING.get()) {
-            this.setMoveVertical(-5);
+            this.setYya(-5F);
         }
 
         if(this.getMetabolism().isStarving() || this.getMetabolism().isThirsty()) {
@@ -56,12 +58,12 @@ public abstract class FlyingDinosaurEntity extends DinosaurEntity implements Ent
             this.takingOff = false;
         }
 
-        rotationPitch = prevRotationPitch + (rotationPitch - prevRotationPitch);
-        super.onEntityUpdate();
+        setXRot(xRotO + (getXRot() - xRotO));
+        super.aiStep();
     }
 
     public boolean isOnGround() {
-        return !this.world.getCollisionBoxes(this, this.getEntityBoundingBox().grow(0.24d)).isEmpty() && !takingOff || this.isDead || this.isCarcass() || this.isInWater();
+        return !this.level.getCollisions(this, this.getBoundingBox().inflate(0.24d)).iterator().hasNext() && !takingOff || this.dead || this.isCarcass() || this.isInWater();
     }
 
     public void startTakeOff() {
@@ -133,7 +135,7 @@ public abstract class FlyingDinosaurEntity extends DinosaurEntity implements Ent
     }
 
     @Override
-    public boolean isOnLadder() {
+    public boolean onClimbable() {
         return false;
     }
 
@@ -215,7 +217,7 @@ public abstract class FlyingDinosaurEntity extends DinosaurEntity implements Ent
 //        @Override
 //        public void startExecuting() {//TODO: Fix cosine issues. Not sure why they're happening. Maybe clash with diffrent ai or the task being run multiple times??
 //            Vec3d lookVec = new Vec3d(dino.getLookVec().x * 10D, dino.getLookVec().y * 10D, dino.getLookVec().z * 10D).add(new Vec3d(getPosition()));
-//            Random random = this.dino.getRNG();
+//            Random random = this.dino.getRandom();
 //            for(int i = 0; i < 100; i++) {
 //                double destinationX = this.dino.getX() + (double) ((random.nextFloat() * 2.0F - 1.0F) * 16.0F);
 //                double destinationY = this.dino.getY() + (double) ((random.nextFloat() * 2.0F - 1.0F) * 8.0F);
@@ -253,7 +255,7 @@ public abstract class FlyingDinosaurEntity extends DinosaurEntity implements Ent
 //                double moveZ = moveHelper.getZ() - this.dino.getZ();
 //                double distance = moveX * moveX + moveY * moveY + moveZ * moveZ;
 //                if(distance < 1.0D || distance > 3600.0D) {
-//                    return this.dino.world.getBlockState(this.dino.getPosition().down()).getMaterial() == Material.AIR && this.dino.getRNG().nextFloat() < 0.01f;//TODO: change float value
+//                    return this.dino.world.getBlockState(this.dino.getPosition().down()).getMaterial() == Material.AIR && this.dino.getRandom().nextFloat() < 0.01f;//TODO: change float value
 //                }
 //            }
 //            return false;
@@ -266,7 +268,7 @@ public abstract class FlyingDinosaurEntity extends DinosaurEntity implements Ent
 //
 //        @Override
 //        public void startExecuting() {
-//            Random random = this.dino.getRNG();
+//            Random random = this.dino.getRandom();
 //            double destinationX = this.dino.getX() + (double) ((random.nextFloat() * 2.0F - 1.0F) * 16.0F);
 //            double destinationZ = this.dino.getZ() + (double) ((random.nextFloat() * 2.0F - 1.0F) * 16.0F);
 //            double destinationY = this.dino.world.getTopSolidOrLiquidBlock(new BlockPos(destinationX, 100, destinationZ)).getY();
@@ -299,7 +301,7 @@ public abstract class FlyingDinosaurEntity extends DinosaurEntity implements Ent
 //                double distance = distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ;
 //
 //                if (this.timer-- <= 0) {
-//                    this.timer += this.parentEntity.getRNG().nextInt(5) + 2;
+//                    this.timer += this.parentEntity.getRandom().nextInt(5) + 2;
 //                    distance = Mth.sqrt(distance);
 //
 //                    if (this.isNotColliding(this.getX(), this.getY(), this.getZ(), distance)) {

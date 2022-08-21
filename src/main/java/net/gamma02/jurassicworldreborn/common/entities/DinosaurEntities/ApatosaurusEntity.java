@@ -1,27 +1,25 @@
 package net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities;
 
-import mod.reborn.RebornMod;
+import com.github.alexthe666.citadel.animation.Animation;
+import com.github.alexthe666.citadel.animation.LegSolver;
+import com.github.alexthe666.citadel.animation.LegSolverQuadruped;
+import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
-import com.github.alexthe666.citadel.animation.Animation;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import mod.reborn.server.entity.LegSolver;
-import mod.reborn.server.entity.LegSolverQuadruped;
-
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.Level;
-import scala.tools.nsc.doc.model.Class;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.datasync.EntityDataAccessor;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.ResourceLocation;
+
 import java.util.Locale;
 
 public class ApatosaurusEntity extends DinosaurEntity {
-    private static final EntityDataAccessor<Integer> VARIANT= EntityDataManager.createKey(ApatosaurusEntity.class, DataSerializers.VARINT);
+    private static final EntityDataAccessor<Integer> VARIANT= SynchedEntityData.defineId(ApatosaurusEntity.class, EntityDataSerializers.INT);
 
     private int stepCount = 0;
 
@@ -29,7 +27,7 @@ public class ApatosaurusEntity extends DinosaurEntity {
     public ApatosaurusEntity(Level world) {
         super(world);
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
-        this.setVariant(this.getRNG().nextInt(3));
+        this.setVariant(this.getRandom().nextInt(3));
     }
     @Override
     protected LegSolver createLegSolver() {
@@ -70,27 +68,30 @@ public class ApatosaurusEntity extends DinosaurEntity {
 
         return null;
     }
-    public void entityInit() {
-        super.entityInit();
-        this.dataManager.register(VARIANT, 0);
+    public void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(VARIANT, 0);
     }
 
-    public void writeEntityToNBT(NBTTagCompound tagCompound) {
-        super.writeEntityToNBT(tagCompound);
-        tagCompound.setInteger("Variant", this.getVariant());
+    @Override
+    public void addAdditionalSaveData(CompoundTag nbt) {
+        super.addAdditionalSaveData(nbt);
+        nbt.putInt("Variant", this.entityData.get(VARIANT));
     }
 
-    public void readEntityFromNBT(NBTTagCompound tagCompound) {
-        super.readEntityFromNBT(tagCompound);
-        this.setVariant(tagCompound.getInteger("Variant"));
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag nbt) {
+        super.readAdditionalSaveData(nbt);
+        this.entityData.set(VARIANT, nbt.getInt("Variant"));
     }
 
     public void setVariant(int value){
-        this.dataManager.set(VARIANT, value);
+        this.entityData.set(VARIANT, value);
     }
 
     public int getVariant(){
-        return this.dataManager.get(VARIANT);
+        return this.entityData.get(VARIANT);
     }
 
     public ResourceLocation getTexture(){
@@ -104,6 +105,6 @@ public class ApatosaurusEntity extends DinosaurEntity {
         String formattedName = this.dinosaur.getName().toLowerCase(Locale.ENGLISH).replaceAll(" ", "_");
         String baseTextures = "textures/entities/" + formattedName + "/";
         String texture = baseTextures + formattedName;
-        return isMale()?new ResourceLocation(RebornMod.MODID, texture + "_male_" + "adult" + "_" + variant + ".png"):new ResourceLocation(RebornMod.MODID, texture + "_female_" + "adult" + "_" + variant +".png");
+        return isMale()?new ResourceLocation(Jurassicworldreborn.modid, texture + "_male_" + "adult" + "_" + variant + ".png"):new ResourceLocation(Jurassicworldreborn.modid, texture + "_female_" + "adult" + "_" + variant +".png");
     }
 }

@@ -6,7 +6,7 @@ import mod.reborn.server.entity.GrowthStage;
 import mod.reborn.server.entity.dinosaur.IndoraptorEntity;
 import mod.reborn.server.entity.dinosaur.SpinoraptorEntity;
 import mod.reborn.server.period.TimePeriod;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 
 public class SpinoraptorDinosaur extends Dinosaur implements Hybrid

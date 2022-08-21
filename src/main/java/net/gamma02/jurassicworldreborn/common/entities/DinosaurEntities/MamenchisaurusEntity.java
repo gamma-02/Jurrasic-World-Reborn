@@ -1,11 +1,11 @@
 package net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities;
 
+import com.github.alexthe666.citadel.animation.Animation;
+import com.github.alexthe666.citadel.animation.LegSolver;
+import com.github.alexthe666.citadel.animation.LegSolverQuadruped;
 import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
-import mod.reborn.server.entity.LegSolver;
-import mod.reborn.server.entity.LegSolverQuadruped;
-import com.github.alexthe666.citadel.animation.Animation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.sounds.SoundEvent;

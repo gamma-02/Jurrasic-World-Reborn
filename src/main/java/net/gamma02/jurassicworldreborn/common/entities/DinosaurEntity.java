@@ -8,6 +8,7 @@ import com.mojang.math.Vector3f;
 import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.model.animation.FixedChainBuffer;
 import net.gamma02.jurassicworldreborn.client.model.animation.PoseHandler;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.*;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.InventoryDinosaur;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.*;
@@ -24,7 +25,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.*;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
@@ -39,7 +40,9 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -71,7 +74,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
     private static final EntityDataAccessor<Boolean> WATCHER_IS_CARCASS = SynchedEntityData.defineId(DinosaurEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> WATCHER_AGE = SynchedEntityData.defineId(DinosaurEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> WATCHER_IS_SLEEPING = SynchedEntityData.defineId(DinosaurEntity.class, EntityDataSerializers.BOOLEAN);
-    // private static final EntityDataAccessor<Boolean> WATCHER_HAS_TRACKER = EntityentityData.createKey(DinosaurEntity.class, DataSerializers.BOOLEAN);
+    // private static final EntityDataAccessor<Boolean> WATCHER_HAS_TRACKER = EntityentityData.createKey(DinosaurEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<String> WATCHER_OWNER_IDENTIFIER = SynchedEntityData.defineId(DinosaurEntity.class, EntityDataSerializers.STRING);
     private static final EntityDataAccessor<Byte> WATCHER_CURRENT_ORDER = SynchedEntityData.defineId(DinosaurEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Boolean> WATCHER_IS_RUNNING = SynchedEntityData.defineId(DinosaurEntity.class, EntityDataSerializers.BOOLEAN);
@@ -1895,7 +1898,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
 //
 //        if (this.level.isClientSide) {
 //            if (this.owner != null) {
-//                EntityPlayer player = this.level.getPlayerEntityByUUID(this.owner);
+//                Player player = this.level.getPlayerEntityByUUID(this.owner);
 //
 //                if (player != null) {
 //                    TextComponentString change = new TextComponentString(LangUtils.translate(LangUtils.SET_ORDER).replace("{order}", LangUtils.translate(LangUtils.ORDER_VALUE.get(order.name().toLowerCase(Locale.ENGLISH)))));
@@ -1997,6 +2000,12 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
 
     public boolean shouldEscapeWaterFast() {
         return true;
+    }
+
+
+
+    public void target(Class<? extends LivingEntity>... entities){
+
     }
 
 
@@ -2114,6 +2123,9 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
         this.setAnimation(EntityAnimation.GESTATED.get());
         return new Vector3f();
     }
+
+
+
 
 //    Vector3f@Override
 //    protected void wa() {

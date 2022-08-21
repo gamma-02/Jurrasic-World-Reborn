@@ -10,7 +10,7 @@ import mod.reborn.server.food.FoodType;
 import java.util.ArrayList;
 import mod.reborn.server.period.TimePeriod;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.biome.Biome;
@@ -65,7 +65,7 @@ public class AlligatorGarDinosaur extends Dinosaur
     }
 
     @Override
-    public void applyMeatEffect(EntityPlayer player, boolean cooked)
+    public void applyMeatEffect(Player player, boolean cooked)
     {
         if (!cooked)
         {

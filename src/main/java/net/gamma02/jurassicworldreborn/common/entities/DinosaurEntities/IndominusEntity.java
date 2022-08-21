@@ -1,31 +1,26 @@
 package net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities;
 
+import com.github.alexthe666.citadel.animation.Animation;
 import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
-import mod.reborn.server.dinosaur.Dinosaur;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
-import mod.reborn.server.entity.EntityHandler;
-import com.github.alexthe666.citadel.animation.Animation;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.network.datasync.EntityDataAccessor;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class IndominusEntity extends DinosaurEntity
 {
-    private static final EntityDataAccessor<Boolean> DATA_WATCHER_IS_CAMOUFLAGING = EntityDataManager.createKey(IndominusEntity.class, DataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> DATA_WATCHER_IS_CAMOUFLAGING = SynchedEntityData.defineId(IndominusEntity.class, EntityDataSerializers.BOOLEAN);
     private float[] newSkinColor = new float[3];
     private float[] skinColor = new float[3];
     private int stepCount = 0;
@@ -33,7 +28,8 @@ public class IndominusEntity extends DinosaurEntity
     public IndominusEntity(Level world)
     {
         super(world);
-        this.target(EntityLivingBase.class, EntityPlayer.class);
+        this.target(EntityLivingBase.class, Player.class
+);
     }
 
     @Override

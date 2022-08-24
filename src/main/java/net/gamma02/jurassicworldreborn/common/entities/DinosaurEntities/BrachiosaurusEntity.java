@@ -3,13 +3,10 @@ package net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.LegSolver;
 import com.github.alexthe666.citadel.animation.LegSolverQuadruped;
-import com.github.alexthe666.citadel.animation.LegSolver;
-import com.github.alexthe666.citadel.animation.LegSolverQuadruped;
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -28,7 +25,7 @@ public class BrachiosaurusEntity extends DinosaurEntity {
     public LegSolverQuadruped legSolver;
     public BrachiosaurusEntity(Level world) {
         super(world);
-//        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));todo: AI
+//      this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false)); TODO:AI
         this.setVariant(this.getRandom().nextInt(4));
     }
     @Override

@@ -4,8 +4,8 @@ import com.github.alexthe666.citadel.animation.Animation;
 import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.SwimmingDinosaurEntity;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Squid;
 import net.minecraft.world.entity.npc.Villager;
@@ -18,7 +18,7 @@ public class DunkleosteusEntity extends SwimmingDinosaurEntity
     {
         super(world);
         this.target(AlligatorGarEntity.class, MawsoniaEntity.class, Squid.class, BeelzebufoEntity.class, CrassigyrinusEntity.class, DiplocaulusEntity.class, Player.class
-, MegapiranhaEntity.class, Villager.class, Animal.class, EntityMob.class);
+, MegapiranhaEntity.class, Villager.class, Animal.class, Mob.class);
     }
     @Override
     public SoundEvent getSoundForAnimation(Animation animation)

@@ -1,13 +1,49 @@
 package net.gamma02.jurassicworldreborn.common.entities.animal;
 
-import net.minecraft.world.entity.LivingEntity;
+import com.github.alexthe666.citadel.animation.Animation;
+import com.github.alexthe666.citadel.animation.AnimationHandler;
+import com.google.common.collect.Lists;
+import io.netty.buffer.ByteBuf;
+import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
+import net.gamma02.jurassicworldreborn.client.model.animation.PoseHandler;
+import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
+import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.Animatable;
+import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.GrowthStage;
+import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.ai.SmartBodyHelper;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.BodyRotationControl;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.AABB;
+import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 
-public class GoatEntity extends EntityAnimal implements Animatable, IEntityAdditionalSpawnData {
+import javax.annotation.Nullable;
+
+public class GoatEntity extends Animal implements Animatable, IEntityAdditionalSpawnData {
     public static final PoseHandler<GoatEntity> BILLY_POSE_HANDLER = new PoseHandler<>("goat_billy", Lists.newArrayList(GrowthStage.ADULT));
     public static final PoseHandler<GoatEntity> KID_POSE_HANDLER = new PoseHandler<>("goat_kid", Lists.newArrayList(GrowthStage.ADULT));
     public static final PoseHandler<GoatEntity> NANNY_POSE_HANDLER = new PoseHandler<>("goat_nanny", Lists.newArrayList(GrowthStage.ADULT));
 
-    private static final DataParameter<Boolean> WATCHER_IS_RUNNING = EntityDataManager.createKey(GoatEntity.class, DataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> WATCHER_IS_RUNNING = SynchedEntityData.defineId(GoatEntity.class, EntityDataSerializers.BOOLEAN);
 
     private Animation animation;
     private int animationTick;
@@ -17,50 +53,47 @@ public class GoatEntity extends EntityAnimal implements Animatable, IEntityAddit
     private boolean milked;
     private boolean inLava;
 
-    public GoatEntity(World world) {
-        super(world);
-        this.setSize(0.6F, 1.2F);
-        this.stepHeight = 1.0F;
+    public GoatEntity(Level world) {
+        super(ENTITY_TYPE, world);
+        //WIDTH, HEIGHT: (0.6F, 1.2F)
+        this.maxUpStep = 1.0F;
         this.animationTick = 0;
         this.setAnimation(EntityAnimation.IDLE.get());
     }
 
     @Override
-    protected EntityBodyHelper createBodyHelper() {
+    protected BodyRotationControl createBodyControl() {
         return new SmartBodyHelper(this);
     }
 
-    @Override
     protected void initEntityAI() {
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIEatGrass(this));
-        this.tasks.addTask(1, new EntityAIPanic(this, 2.0));
-        this.tasks.addTask(2, new EntityAIMate(this, 1.0D));
-        this.tasks.addTask(3, new EntityAITempt(this, 1.25, false, Sets.newHashSet(FoodHelper.getFoodItems(FoodType.PLANT))));
-        this.tasks.addTask(4, new EntityAIFollowParent(this, 1.25));
-        this.tasks.addTask(5, new EntityAIWander(this, 1.0));
-        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.tasks.addTask(7, new EntityAILookIdle(this));
-        this.tasks.addTask(8, new EntityAIAvoidEntity<>(this, EntityWolf.class, 6.0F, 1.0F, 1.6F));
+//        this.tasks.addTask(0, new EntityAISwimming(this));todo:AI
+//        this.tasks.addTask(1, new EntityAIEatGrass(this));
+//        this.tasks.addTask(1, new EntityAIPanic(this, 2.0));
+//        this.tasks.addTask(2, new EntityAIMate(this, 1.0D));
+//        this.tasks.addTask(3, new EntityAITempt(this, 1.25, false, Sets.newHashSet(FoodHelper.getFoodItems(FoodType.PLANT))));
+//        this.tasks.addTask(4, new EntityAIFollowParent(this, 1.25));
+//        this.tasks.addTask(5, new EntityAIWander(this, 1.0));
+//        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+//        this.tasks.addTask(7, new EntityAILookIdle(this));
+//        this.tasks.addTask(8, new EntityAIAvoidEntity<>(this, EntityWolf.class, 6.0F, 1.0F, 1.6F));
+    }
+
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createLivingAttributes().add(Attributes.MAX_HEALTH, 7.0).add(Attributes.MOVEMENT_SPEED,  0.25);
+
     }
 
     @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(7.0);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(WATCHER_IS_RUNNING, false);
     }
 
     @Override
-    protected void entityInit() {
-        super.entityInit();
-        this.dataManager.register(WATCHER_IS_RUNNING, false);
-    }
-
-    @Override
-    public EntityAgeable createChild(EntityAgeable mate) {
-        GoatEntity entity = new GoatEntity(this.world);
-        entity.onInitialSpawn(this.world.getDifficultyForLocation(this.getPosition()), null);
+    public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob mate) {
+        GoatEntity entity = new GoatEntity(level, ENTITY_TYPE);
+        entity.finalizeSpawn(level, level.getCurrentDifficultyAt(this.getOnPos()), MobSpawnType.BREEDING, null, null);
         return entity;
     }
 
@@ -71,8 +104,8 @@ public class GoatEntity extends EntityAnimal implements Animatable, IEntityAddit
 
     @Override
     public boolean isMoving() {
-        float deltaX = (float) (this.posX - this.prevPosX);
-        float deltaZ = (float) (this.posZ - this.prevPosZ);
+        float deltaX = (float) (this.getX() - this.xOld);
+        float deltaZ = (float) (this.getZ() - this.xOld);
         return deltaX * deltaX + deltaZ * deltaZ > 0.001F;
     }
 
@@ -88,7 +121,7 @@ public class GoatEntity extends EntityAnimal implements Animatable, IEntityAddit
 
     @Override
     public boolean isRunning() {
-        return this.dataManager.get(WATCHER_IS_RUNNING);
+        return this.entityData.get(WATCHER_IS_RUNNING);
     }
 
     @Override
@@ -122,9 +155,9 @@ public class GoatEntity extends EntityAnimal implements Animatable, IEntityAddit
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (this.ticksExisted % 10 == 0) {
+    public void tick() {
+        super.tick();
+        if (this.tickCount % 10 == 0) {
             this.inLava = this.isInLava();
         }
         if (this.animation != null && this.animation != EntityAnimation.IDLE.get()) {
@@ -138,8 +171,8 @@ public class GoatEntity extends EntityAnimal implements Animatable, IEntityAddit
                 this.animationTick = this.animationLength - 1;
             }
         }
-        if (!this.world.isRemote) {
-            this.dataManager.set(WATCHER_IS_RUNNING, this.getAIMoveSpeed() > this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue());
+        if (!this.level.isClientSide) {
+            this.entityData.set(WATCHER_IS_RUNNING, this.getSpeed() > this.getAttributeValue(Attributes.MOVEMENT_SPEED));
         }
     }
 
@@ -176,21 +209,21 @@ public class GoatEntity extends EntityAnimal implements Animatable, IEntityAddit
 
     @Override
     public GrowthStage getGrowthStage() {
-        return this.isChild() ? GrowthStage.INFANT : GrowthStage.ADULT;
+        return this.isBaby() ? GrowthStage.INFANT : GrowthStage.ADULT;
     }
 
     @Override
     public PoseHandler getPoseHandler() {
-        return this.isChild() ? KID_POSE_HANDLER : this.billy ? BILLY_POSE_HANDLER : NANNY_POSE_HANDLER;
+        return this.isBaby() ? KID_POSE_HANDLER : this.billy ? BILLY_POSE_HANDLER : NANNY_POSE_HANDLER;
     }
 
-    public Type getType() {
-        return this.isChild() ? Type.KID : this.billy ? Type.BILLY : Type.NANNY;
+    public Type getGoatType() {
+        return this.isBaby() ? Type.KID : this.billy ? Type.BILLY : Type.NANNY;
     }
 
     @Override
-    public void playLivingSound() {
-        super.playLivingSound();
+    public void playAmbientSound() {
+        super.playAmbientSound();
         if (this.getAnimation() == EntityAnimation.IDLE.get()) {
             this.setAnimation(EntityAnimation.SPEAK.get());
         }
@@ -212,91 +245,98 @@ public class GoatEntity extends EntityAnimal implements Animatable, IEntityAddit
     }
 
     @Override
-    protected float getJumpUpwardsMotion() {
+    protected float getJumpPower() {
         return 0.62F;
     }
 
     @Override
-    public void eatGrassBonus() {
-        super.eatGrassBonus();
+    public void ate() {
+        super.ate();
         this.milked = false;
         this.setAnimation(EntityAnimation.EATING.get());
     }
 
-    @Override
-    public boolean processInteract(EntityPlayer player, EnumHand hand) {
-        ItemStack itemstack = player.getHeldItem(hand);
 
-        if (itemstack.getItem() == Items.BUCKET && !player.capabilities.isCreativeMode && !this.isChild() && !this.billy)
+
+    @Override
+    public InteractionResult mobInteract(Player player, InteractionHand hand) {
+        ItemStack itemstack = player.getItemInHand(hand);
+
+        if (itemstack.getItem() == Items.BUCKET && !player.isCreative() && !this.isBaby() && !this.billy)
         {
-            player.playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
+            player.playSound(SoundEvents.COW_MILK, 1.0F, 1.0F);
             itemstack.shrink(1);
 
             if (itemstack.isEmpty())
             {
-                player.setHeldItem(hand, new ItemStack(Items.MILK_BUCKET));
+                player.setItemInHand(hand, new ItemStack(Items.MILK_BUCKET));
             }
-            else if (!player.inventory.addItemStackToInventory(new ItemStack(Items.MILK_BUCKET)))
+            else if (!player.getInventory().add(new ItemStack(Items.MILK_BUCKET)))
             {
-                player.dropItem(new ItemStack(Items.MILK_BUCKET), false);
+                player.drop(new ItemStack(Items.MILK_BUCKET), false);
             }
             this.milked = true;
 
-            return true;
+            return InteractionResult.CONSUME;
         }
         else
         {
-            return super.processInteract(player, hand);
+            return super.mobInteract(player, hand);
         }
     }
 
     @Override
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData data) {
-        this.billy = this.rand.nextBoolean();
-        this.variant = Variant.values()[this.rand.nextInt(Variant.values().length)];
-        return super.onInitialSpawn(difficulty, data);
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
+
+        this.billy = this.getRandom().nextBoolean();
+        this.variant = Variant.values()[this.getRandom().nextInt(Variant.values().length)];
+        return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
     }
 
     @Override
-    public void writeEntityToNBT(NBTTagCompound compound) {
-        super.writeEntityToNBT(compound);
-        compound.setBoolean("Billy", this.billy);
-        compound.setByte("Variant", (byte) this.variant.ordinal());
-        compound.setBoolean("Milked", this.milked);
+    public void addAdditionalSaveData(CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
+        compound.putBoolean("Billy", this.billy);
+        compound.putByte("Variant", (byte) this.variant.ordinal());
+        compound.putBoolean("Milked", this.milked);
     }
 
     @Override
-    public void readEntityFromNBT(NBTTagCompound compound) {
-        super.readEntityFromNBT(compound);
+    public void readAdditionalSaveData(CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
         this.billy = compound.getBoolean("Billy");
         this.variant = Variant.values()[compound.getByte("Variant")];
         this.milked = compound.getBoolean("Milked");
     }
 
     @Override
-    public void writeSpawnData(ByteBuf buffer) {
+    public void writeSpawnData(FriendlyByteBuf buffer) {
         buffer.writeBoolean(this.billy);
         buffer.writeByte(this.variant.ordinal());
     }
 
     @Override
-    public void readSpawnData(ByteBuf additionalData) {
+    public void readSpawnData(FriendlyByteBuf additionalData) {
         this.billy = additionalData.readBoolean();
         this.variant = Variant.values()[additionalData.readByte()];
     }
 
-    @Override
-    public boolean isBreedingItem(ItemStack stack) {
-        return stack != null && FoodHelper.isFoodType(stack.getItem(), FoodType.PLANT);
-    }
+//    @Override
+//    public boolean isBreedingItem(ItemStack stack) {
+//        return stack != null && FoodHelper.isFoodType(stack.getItem(), FoodType.PLANT);
+//    }
+
+
+
+
 
     @Override
-    protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
-        this.dropItem(Items.LEATHER, this.rand.nextInt(2) + 1);
-        if (this.rand.nextBoolean()) {
-            this.entityDropItem(new ItemStack(Blocks.WOOL, 1, this.rand.nextBoolean() ? EnumDyeColor.BROWN.getMetadata() : EnumDyeColor.WHITE.getMetadata()), 0.0F);
+    protected void dropCustomDeathLoot(DamageSource pSource, int pLooting, boolean pRecentlyHit) {
+        this.spawnAtLocation(Items.LEATHER, this.random.nextInt(2) + 1);
+        if (this.random.nextBoolean()) {
+            this.spawnAtLocation(new ItemStack(this.random.nextBoolean() ? Blocks.WHITE_WOOL : Blocks.BROWN_WOOL, 1), 0.0F);
         }
-        this.dropItem(this.isBurning() ? ItemHandler.GOAT_COOKED : ItemHandler.GOAT_RAW, this.rand.nextInt(2) + 1);
+//        this.spawnAtLocation(this.isOnFire() ? ItemHandler.GOAT_COOKED : ItemHandler.GOAT_RAW, this.rand.nextInt(2) + 1); TODO: FOODS
     }
 
     @Override
@@ -309,17 +349,17 @@ public class GoatEntity extends EntityAnimal implements Animatable, IEntityAddit
     }
 
     @Override
-    public int getMaxSpawnedInChunk() {
+    public int getMaxSpawnClusterSize() {
         return 3;
     }
 
     @Override
-    public int getTalkInterval() {
+    public int getAmbientSoundInterval() {
         return 300;
     }
 
     @Override
-    public boolean canMateWith(EntityAnimal other) {
+    public boolean canMate(Animal other) {
         if (other == this)
         {
             return false;

@@ -1,7 +1,6 @@
 package net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities;
 
 import com.github.alexthe666.citadel.animation.Animation;
-import mod.reborn.server.entity.ai.RaptorLeapEntityAI;
 import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
@@ -12,7 +11,7 @@ public class ChilesaurusEntity extends DinosaurEntity {
 
     public ChilesaurusEntity(Level world) {
         super(world);
-        this.tasks.addTask(1, new RaptorLeapEntityAI(this));
+//        this.tasks.addTask(1, new RaptorLeapEntityAI(this));todo:ai
     }
 
     @Override

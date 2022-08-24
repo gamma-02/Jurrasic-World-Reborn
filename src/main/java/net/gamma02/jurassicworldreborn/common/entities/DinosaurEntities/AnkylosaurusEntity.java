@@ -5,7 +5,6 @@ import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -21,7 +20,7 @@ public class AnkylosaurusEntity extends DinosaurEntity {
 
     public AnkylosaurusEntity (Level world) {
         super(world);
-        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
+//               this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false)); TODO:AI
         this.setVariant(this.getRandom().nextInt(4));
     }
 

@@ -1,11 +1,10 @@
 package net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities;
 
 import com.github.alexthe666.citadel.animation.Animation;
-import mod.reborn.server.entity.animal.GoatEntity;
 import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
+import net.gamma02.jurassicworldreborn.common.entities.animal.GoatEntity;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.npc.Villager;
@@ -19,8 +18,8 @@ public class HyaenodonEntity extends DinosaurEntity {
         super(world);
         this.target(GoatEntity.class, SmilodonEntity.class, TitanisEntity.class, Player.class
 , ArsinoitheriumEntity.class, Animal.class, Villager.class, AchillobatorEntity.class, AlligatorGarEntity.class, AlvarezsaurusEntity.class, BeelzebufoEntity.class, VelociraptorBlueEntity.class, VelociraptorCharlieEntity.class, ChilesaurusEntity.class, CoelurusEntity.class, CompsognathusEntity.class, CrassigyrinusEntity.class, VelociraptorDeltaEntity.class, DodoEntity.class, DiplocaulusEntity.class, VelociraptorEchoEntity.class, GallimimusEntity.class, GuanlongEntity.class, HypsilophodonEntity.class, LeaellynasauraEntity.class, LeptictidiumEntity.class, MicroceratusEntity.class, MicroraptorEntity.class, MussaurusEntity.class, OthnieliaEntity.class, OviraptorEntity.class, ProceratosaurusEntity.class, ProtoceratopsEntity.class, SegisaurusEntity.class, TroodonEntity.class, VelociraptorEntity.class);
-        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, Player.class
-, TyrannosaurusEntity.class, GiganotosaurusEntity.class, SpinosaurusEntity.class));
+//        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, Player.class
+//, TyrannosaurusEntity.class, GiganotosaurusEntity.class, SpinosaurusEntity.class));TODO:AI
     }
     @Override
     public SoundEvent getSoundForAnimation(Animation animation)

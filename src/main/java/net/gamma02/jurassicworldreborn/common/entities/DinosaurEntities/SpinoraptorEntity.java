@@ -1,29 +1,23 @@
 package net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities;
 
+import com.github.alexthe666.citadel.animation.Animation;
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
-import mod.reborn.server.entity.ai.LeapingMeleeEntityAI;
-import mod.reborn.server.entity.ai.RaptorLeapEntityAI;
-import mod.reborn.server.entity.animal.GoatEntity;
-import com.github.alexthe666.citadel.animation.Animation;
-import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.monster.EntityMob;
+import net.gamma02.jurassicworldreborn.common.entities.animal.GoatEntity;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.*;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.Level;
 
 import java.util.Locale;
@@ -38,21 +32,21 @@ public class SpinoraptorEntity extends DinosaurEntity {
         this.setVariant(this.getRandom().nextInt(5));
         this.target(AchillobatorEntity.class, MetriacanthosaurusEntity.class, TitanisEntity.class, SmilodonEntity.class, MegatheriumEntity.class, ArsinoitheriumEntity.class, SinoceratopsEntity.class, AlligatorGarEntity.class, AlvarezsaurusEntity.class, BeelzebufoEntity.class, VelociraptorBlueEntity.class, CarnotaurusEntity.class, CeratosaurusEntity.class, VelociraptorCharlieEntity.class, ChasmosaurusEntity.class, ChilesaurusEntity.class, CoelurusEntity.class, CompsognathusEntity.class, CorythosaurusEntity.class, CrassigyrinusEntity.class, VelociraptorDeltaEntity.class, DilophosaurusEntity.class, DimorphodonEntity.class, DiplocaulusEntity.class, DodoEntity.class, VelociraptorEchoEntity.class, GallimimusEntity.class, GuanlongEntity.class, HyaenodonEntity.class, HypsilophodonEntity.class, LeaellynasauraEntity.class, LeptictidiumEntity.class, MegapiranhaEntity.class, MicroceratusEntity.class, MicroraptorEntity.class, MussaurusEntity.class, OrnithomimusEntity.class, OthnieliaEntity.class, OviraptorEntity.class, PachycephalosaurusEntity.class, ParasaurolophusEntity.class, PostosuchusEntity.class, ProceratosaurusEntity.class, ProtoceratopsEntity.class, RugopsEntity.class, SegisaurusEntity.class, StyracosaurusEntity.class, TriceratopsEntity.class, TroodonEntity.class, VelociraptorEntity.class, Player.class
 , Animal.class, Villager.class, GoatEntity.class);
-        this.tasks.addTask(0, new LeapingMeleeEntityAI(this, this.dinosaur.getAttackSpeed()));
-        this.tasks.addTask(1, new RaptorLeapEntityAI(this));
-        this.target(targets);
-        for(Class entity : targets) {
-            this.tasks.addTask(0, new EntityAINearestAttackableTarget<EntityLivingBase>(this, entity, true, false));
-            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<EntityLivingBase>(this, entity, false));
-        }
-        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, Player.class
-, TyrannosaurusEntity.class, GiganotosaurusEntity.class, SpinosaurusEntity.class));
+//        this.tasks.addTask(0, new LeapingMeleeEntityAI(this, this.dinosaur.getAttackSpeed())); TODO:AI
+//        this.tasks.addTask(1, new RaptorLeapEntityAI(this));
+//        this.target(targets);
+//        for(Class entity : targets) {
+//            this.tasks.addTask(0, new EntityAINearestAttackableTarget<LivingEntity>(this, entity, true, false));
+//            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<LivingEntity>(this, entity, false));
+//        }
+//        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, Player.class
+//, TyrannosaurusEntity.class, GiganotosaurusEntity.class, SpinosaurusEntity.class));
     }
 
-    @Override
-    public EntityAIBase getAttackAI() {
-        return new RaptorLeapEntityAI(this);
-    }
+//    @Override TODO:AI
+//    public EntityAIBase getAttackAI() {
+//        return new RaptorLeapEntityAI(this);
+//    }
     @Override
     public SoundEvent getSoundForAnimation(Animation animation)
     {
@@ -81,15 +75,14 @@ public class SpinoraptorEntity extends DinosaurEntity {
     }
 
     @Override
-    public void fall(float distance, float damageMultiplier) {
+    public int calculateFallDamage(float distance, float damageMultiplier) {
         if (this.getAnimation() != EntityAnimation.LEAP_LAND.get()) {
-            super.fall(distance, damageMultiplier);
+            return super.calculateFallDamage(distance, damageMultiplier);
         }
+        return 0;
     }
-    protected void applyEntityAttributes()
-    {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(35.0D);
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createLivingAttributes().add(Attributes.FOLLOW_RANGE, 35.0D);
     }
 
     public void defineSynchedData() {

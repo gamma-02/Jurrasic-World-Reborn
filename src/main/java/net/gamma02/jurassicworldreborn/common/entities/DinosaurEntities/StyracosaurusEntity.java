@@ -1,12 +1,11 @@
 package net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities;
 
+import com.github.alexthe666.citadel.animation.Animation;
 import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
-import com.github.alexthe666.citadel.animation.Animation;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 
 public class StyracosaurusEntity extends DinosaurEntity {
@@ -17,7 +16,8 @@ public class StyracosaurusEntity extends DinosaurEntity {
 
     public StyracosaurusEntity(Level world) {
         super(world);
-        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
+        //        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false)); TODO:AI
+
     }
 
     @Override
@@ -43,17 +43,23 @@ public class StyracosaurusEntity extends DinosaurEntity {
     }
 
     @Override
-    public void onLivingUpdate() {
+    public void aiStep() {
         double distance2 = 18.0D;
         Entity entityFound2 = null;
         double d4 = -1.0D;
-        for (Entity currE : this.world.loadedEntityList) {
-            if (currE instanceof StyracosaurusEntity) {
-                double d5 = currE.getDistanceSq(this.posX, this.posY, this.posZ);
-                if ((d5 < distance2 * distance2) && (d4 == -1.0D || d5 < d4)) {
-                    d4 = d5;
-                    entityFound2 = currE;
-                }
+//        for (Entity currE : this.world.loadedEntityList) { again, how ***much*** iteration over this??? no wonder it took a robust device to run this mod good greif - gamma_02
+//            if (currE instanceof StyracosaurusEntity) {
+//                double d5 = currE.getDistanceSq(this.posX, this.posY, this.posZ);
+//                if ((d5 < distance2 * distance2) && (d4 == -1.0D || d5 < d4)) {
+//                    d4 = d5;
+//                    entityFound2 = currE;
+//                }
+//            }
+//        }
+        for(Entity e : this.level.getEntitiesOfClass(StyracosaurusEntity.class, this.getBoundingBox().inflate(distance2*distance2))){
+            if(e.distanceTo(this) < distance2 * distance2){
+                entityFound2 = e;
+                break;
             }
         }
         if (entityFound2 != null) {
@@ -67,8 +73,8 @@ public class StyracosaurusEntity extends DinosaurEntity {
             isKingSet = false;
         }
         if(!isKing && isKingSet) {
-            moveHelper.setMoveTo(king.posX, king.posY, king.posZ, 1.0D);
+            moveControl.setWantedPosition(king.getX(), king.getY(), king.getZ(), 1.0D);
         }
-        super.onLivingUpdate();
+        super.aiStep();
     }
 }

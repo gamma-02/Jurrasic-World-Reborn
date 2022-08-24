@@ -1,12 +1,13 @@
 package net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities;
 
 import com.github.alexthe666.citadel.animation.Animation;
+import com.mojang.math.Vector3f;
 import net.gamma02.jurassicworldreborn.common.entities.SwimmingDinosaurEntity;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.animal.Squid;
 import net.minecraft.world.level.Level;
 
-import javax.vecmath.Vector3f;
+
 
 public class AlligatorGarEntity extends SwimmingDinosaurEntity
 {

@@ -4,15 +4,15 @@ import com.github.alexthe666.citadel.animation.Animation;
 import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.SwimmingDinosaurEntity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 
 public class MosasaurusEntity extends SwimmingDinosaurEntity {
 
     public MosasaurusEntity(Level world) {
         super(world);
-        this.target(EntityLivingBase.class);
+        this.target(LivingEntity.class);
     }
 
     @Override

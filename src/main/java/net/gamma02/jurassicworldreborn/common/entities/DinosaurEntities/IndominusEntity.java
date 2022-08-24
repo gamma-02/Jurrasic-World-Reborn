@@ -4,19 +4,19 @@ import com.github.alexthe666.citadel.animation.Animation;
 import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class IndominusEntity extends DinosaurEntity
 {
@@ -28,16 +28,16 @@ public class IndominusEntity extends DinosaurEntity
     public IndominusEntity(Level world)
     {
         super(world);
-        this.target(EntityLivingBase.class, Player.class
+        this.target(LivingEntity.class, Player.class
 );
     }
 
     @Override
-    public void entityInit()
+    public void defineSynchedData()
     {
-        super.entityInit();
+        super.defineSynchedData();
 
-        this.dataManager.register(DATA_WATCHER_IS_CAMOUFLAGING, false);
+        this.entityData.define(DATA_WATCHER_IS_CAMOUFLAGING, false);
     }
 
     @Override
@@ -50,33 +50,33 @@ public class IndominusEntity extends DinosaurEntity
     }
 
     @Override
-    public void onUpdate()
+    public void tick()
     {
-        super.onUpdate();
+        super.tick();
 
-        if (this.moveForward > 0 && this.stepCount <= 0)
+        if (this.zza > 0 && this.stepCount <= 0)
         {
-            this.playSound(SoundHandler.STOMP, (float) interpolate(0.1F, 1.0F), this.getSoundPitch());
+            this.playSound(SoundHandler.STOMP, (float) interpolate(0.1F, 1.0F), this.getVoicePitch());
             stepCount = 65;
         }
 
-        this.stepCount -= this.moveForward * 9.5;
+        this.stepCount -= this.zza * 9.5;
 
-        if (world.isRemote)
+        if (level.isClientSide)
         {
-            isCamouflaging = this.dataManager.get(DATA_WATCHER_IS_CAMOUFLAGING);
+            isCamouflaging = this.entityData.get(DATA_WATCHER_IS_CAMOUFLAGING);
             changeSkinColor();
         }
         else
         {
-            this.dataManager.set(DATA_WATCHER_IS_CAMOUFLAGING, isCamouflaging);
+            this.entityData.set(DATA_WATCHER_IS_CAMOUFLAGING, isCamouflaging);
         }
     }
 
     @Override
     public float getSoundVolume()
     {
-        return (float) interpolate(0.9F, 1.6F) + ((rand.nextFloat() - 0.5F) * 0.125F);
+        return (float) interpolate(0.9F, 1.6F) + ((random.nextFloat() - 0.5F) * 0.125F);
     }
 
     public boolean isCamouflaging()
@@ -84,20 +84,21 @@ public class IndominusEntity extends DinosaurEntity
         return isCamouflaging;
     }
 
+    @OnlyIn(Dist.CLIENT)
     public void changeSkinColor()
     {
-        BlockPos pos = new BlockPos(this).offset(EnumFacing.DOWN);
-        IBlockState state = this.world.getBlockState(pos);
+        BlockPos pos = new BlockPos(this.getOnPos()).relative(Direction.DOWN);
+        BlockState state = this.level.getBlockState(pos);
 
         int color;
 
         if (isCamouflaging())
         {
-            color = Minecraft.getMinecraft().getBlockColors().colorMultiplier(state, world, pos, 0); //TODO
+            color = Minecraft.getInstance().getBlockColors().getColor(state, level, pos, 0); /*TODO*/ // uh oh... - gamma_02
 
             if (color == 0xFFFFFF)
             {
-                color = state.getMapColor(world, pos).colorValue;
+                color = state.getMapColor(level, pos).col;
             }
         }
         else
@@ -133,7 +134,7 @@ public class IndominusEntity extends DinosaurEntity
         }
     }//Alvarezsaurus
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public float[] getSkinColor()
     {
         return new float[] { this.skinColor[0] / 255.0F, this.skinColor[1] / 255.0F, this.skinColor[2] / 255.0F };

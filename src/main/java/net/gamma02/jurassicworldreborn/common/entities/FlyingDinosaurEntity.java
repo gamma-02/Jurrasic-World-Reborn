@@ -378,7 +378,7 @@ public abstract class FlyingDinosaurEntity extends DinosaurEntity {
 //            if (this.dino.getAttackTarget() == null) {
 //                this.dino.renderYawOffset = this.dino.rotationYaw = -((float) Math.atan2(this.dino.motionX, this.dino.motionZ)) * 180.0F / (float) Math.PI;
 //            } else {
-//                EntityLivingBase attackTarget = this.dino.getAttackTarget();
+//                LivingEntity attackTarget = this.dino.getAttackTarget();
 //                double maxDistance = 64.0D;
 //
 //                if (attackTarget.getDistance(this.dino) < maxDistance * maxDistance) {

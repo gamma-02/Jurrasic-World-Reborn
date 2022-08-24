@@ -1,17 +1,11 @@
 package net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities;
 
 import com.github.alexthe666.citadel.animation.Animation;
-import mod.reborn.server.entity.ai.LeapingMeleeEntityAI;
-import mod.reborn.server.entity.ai.RaptorLeapEntityAI;
-import mod.reborn.server.entity.animal.GoatEntity;
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.gamma02.jurassicworldreborn.common.entities.animal.GoatEntity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -87,9 +81,9 @@ public class CompsognathusEntity extends DinosaurEntity {
 //            }
 //        }
 //
-//        protected void setEntityAttackTarget(DinosaurEntity creatureIn, EntityLivingBase entityLivingBaseIn) {
+//        protected void setEntityAttackTarget(DinosaurEntity creatureIn, LivingEntity LivingEntityIn) {
 //            if (creatureIn instanceof CompsognathusEntity && !creatureIn.isChild() && creatureIn != null) {
-//                super.setEntityAttackTarget(creatureIn, entityLivingBaseIn);
+//                super.setEntityAttackTarget(creatureIn, LivingEntityIn);
 //            }
 //
 //

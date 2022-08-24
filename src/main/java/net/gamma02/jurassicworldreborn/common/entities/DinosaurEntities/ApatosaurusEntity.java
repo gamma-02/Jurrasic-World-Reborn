@@ -7,7 +7,6 @@ import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -26,23 +25,24 @@ public class ApatosaurusEntity extends DinosaurEntity {
     public LegSolverQuadruped legSolver;
     public ApatosaurusEntity(Level world) {
         super(world);
-        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
+//        //        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false)); TODO:AI
+
         this.setVariant(this.getRandom().nextInt(3));
     }
     @Override
     protected LegSolver createLegSolver() {
-        return this.legSolver = new LegSolverQuadruped(2.5F, 2.0F, 1.0F, 1.0F);
+        return this.legSolver = new LegSolverQuadruped(2.5F, 2.0F, 1.0F, 1.0F, 1.0F);
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
+    public void tick() {
+        super.tick();
         if (this.onGround && !this.isInWater()) {
-            if (this.moveForward > 0 && (this.posX - this.prevPosX > 0 || this.posZ - this.prevPosZ > 0) && this.stepCount <= 0) {
-                this.playSound(SoundHandler.STOMP, (float) this.interpolate(0.1F, 1.0F), this.getSoundPitch());
+            if (this.zza > 0 && (this.getX() - this.xOld > 0 || this.getZ() - this.zOld > 0) && this.stepCount <= 0) {
+                this.playSound(SoundHandler.STOMP, (float) this.interpolate(0.1F, 1.0F), this.getVoicePitch());
                 this.stepCount = 65;
             }
-            this.stepCount -= this.moveForward * 9.5;
+            this.stepCount -= this.zza * 9.5;
         }
     }
 

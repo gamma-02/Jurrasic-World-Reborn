@@ -6,9 +6,8 @@ import com.github.alexthe666.citadel.animation.LegSolverQuadruped;
 import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 
 public class MamenchisaurusEntity extends DinosaurEntity {
@@ -22,26 +21,33 @@ public class MamenchisaurusEntity extends DinosaurEntity {
 
     public MamenchisaurusEntity(Level world) {
         super(world);
-        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
+        //        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false)); TODO:AI
+
     }
 
     @Override
     protected LegSolver createLegSolver() {
-        return this.legSolver = new LegSolverQuadruped(2.4F, 0.7F, 0.9F, 0.4F);
+        return this.legSolver = new LegSolverQuadruped(2.4F, 0.7F, 0.9F, 0.4F, 1.0F);
     }
 
     @Override
-    public void onLivingUpdate() {
+    public void aiStep() {
         double distance2 = 18.0D;
         Entity entityFound2 = null;
         double d4 = -1.0D;
-        for (Entity currE : this.world.loadedEntityList) {
-            if (currE instanceof MamenchisaurusEntity) {
-                double d5 = currE.getDistanceSq(this.posX, this.posY, this.posZ);
-                if ((d5 < distance2 * distance2) && (d4 == -1.0D || d5 < d4)) {
-                    d4 = d5;
-                    entityFound2 = currE;
-                }
+//        for (Entity currE : this.level.loadedEntityList) { //for goodness' sake how much do you iterate through ALL OF THE EXISTING ENTITIES??????
+//            if (currE instanceof MamenchisaurusEntity) {
+//                double d5 = currE.getDistanceSq(this.posX, this.posY, this.posZ);
+//                if ((d5 < distance2 * distance2) && (d4 == -1.0D || d5 < d4)) {
+//                    d4 = d5;
+//                    entityFound2 = currE;
+//                }
+//            }
+//        }
+        for(Entity e : this.level.getEntitiesOfClass(MamenchisaurusEntity.class, this.getBoundingBox().inflate(distance2*distance2))){
+            if(e.distanceTo(this) < distance2 * distance2){
+                entityFound2 = e;
+                break;
             }
         }
         if (entityFound2 != null) {
@@ -55,9 +61,9 @@ public class MamenchisaurusEntity extends DinosaurEntity {
             isKingSet = false;
         }
         if(!isKing && isKingSet) {
-            moveHelper.setMoveTo(king.posX, king.posY, king.posZ, 1.0D);
+            moveControl.setWantedPosition(king.getX(), king.getY(), king.getZ(), 1.0D);
         }
-        super.onLivingUpdate();
+        super.aiStep();
     }
     @Override
     public SoundEvent getSoundForAnimation(Animation animation) {

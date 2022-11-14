@@ -14,6 +14,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 
 import java.util.Locale;
 
@@ -23,8 +24,8 @@ public class ApatosaurusEntity extends DinosaurEntity {
     private int stepCount = 0;
 
     public LegSolverQuadruped legSolver;
-    public ApatosaurusEntity(Level world) {
-        super(world);
+    public ApatosaurusEntity(Level world, EntityType type) {
+        super(world, type);
 //        //        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false)); TODO:AI
 
         this.setVariant(this.getRandom().nextInt(3));

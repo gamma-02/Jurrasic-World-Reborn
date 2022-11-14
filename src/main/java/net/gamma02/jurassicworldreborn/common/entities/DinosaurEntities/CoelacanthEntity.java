@@ -8,10 +8,11 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.Squid;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 
 public class CoelacanthEntity extends SwimmingDinosaurEntity {
-    public CoelacanthEntity(Level world) {
-        super(world);
+    public CoelacanthEntity(Level world, EntityType type) {
+        super(world, type);
         this.target(Squid.class, MegapiranhaEntity.class);
     }
 

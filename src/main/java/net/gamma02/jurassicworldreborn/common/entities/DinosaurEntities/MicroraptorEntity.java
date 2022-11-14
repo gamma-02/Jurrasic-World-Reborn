@@ -21,6 +21,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -34,8 +35,8 @@ public class MicroraptorEntity extends DinosaurEntity {
     private int groundHeight;
     private Vec3 glidingPos;
 
-    public MicroraptorEntity(Level world) {
-        super(world);
+    public MicroraptorEntity(Level world, EntityType type) {
+        super(world, type);
         this.target(Chicken.class, Rabbit.class, CompsognathusEntity.class, HypsilophodonEntity.class, LeptictidiumEntity.class, MicroceratusEntity.class, OthnieliaEntity.class);
 //        this.tasks.addTask(1, new LeapingMeleeEntityAI(this, this.dinosaur.getAttackSpeed()));TODO:AI
 //        this.tasks.addTask(2, new RaptorClimbTreeAI(this, 1.0f));

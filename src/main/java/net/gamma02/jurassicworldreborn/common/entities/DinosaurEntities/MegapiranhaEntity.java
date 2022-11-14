@@ -8,12 +8,13 @@ import net.minecraft.world.entity.animal.Squid;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 
 public class MegapiranhaEntity extends SwimmingDinosaurEntity
 {
-    public MegapiranhaEntity(Level world)
+    public MegapiranhaEntity(Level world, EntityType type)
     {
-        super(world);
+        super(world, type);
         this.target(AlligatorGarEntity.class, CoelacanthEntity.class, BeelzebufoEntity.class, CrassigyrinusEntity.class, DiplocaulusEntity.class, DodoEntity.class, GuanlongEntity.class, LeptictidiumEntity.class, LeaellynasauraEntity.class, HypsilophodonEntity.class, MicroceratusEntity.class, MicroraptorEntity.class, MussaurusEntity.class, OthnieliaEntity.class, OviraptorEntity.class, ProtoceratopsEntity.class, SegisaurusEntity.class, TroodonEntity.class, Player.class
 , Squid.class, Player.class
 , Animal.class, Villager.class, Mob.class, GoatEntity.class);

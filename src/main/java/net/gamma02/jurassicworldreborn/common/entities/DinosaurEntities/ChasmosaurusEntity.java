@@ -6,12 +6,13 @@ import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 
 public class ChasmosaurusEntity extends DinosaurEntity
 {
-    public ChasmosaurusEntity(Level world)
+    public ChasmosaurusEntity(Level world, EntityType type)
     {
-        super(world);
+        super(world, type);
         //        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false)); TODO:AI
 
     }

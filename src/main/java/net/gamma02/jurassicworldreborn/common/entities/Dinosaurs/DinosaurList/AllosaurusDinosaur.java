@@ -1,10 +1,14 @@
 package net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurList;
 
-import mod.reborn.server.entity.Diet;
-import mod.reborn.server.entity.dinosaur.AllosaurusEntity;
-import mod.reborn.server.period.TimePeriod;
-import net.minecraft.world.biome.Biome;
+
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.AllosaurusEntity;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
+import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.Diet;
+import net.gamma02.jurassicworldreborn.common.util.TimePeriod;
+import net.minecraft.resources.ResourceKey;
 import java.util.ArrayList;
+
+import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 
 public class AllosaurusDinosaur extends Dinosaur {
@@ -38,7 +42,7 @@ public class AllosaurusDinosaur extends Dinosaur {
                 {"", "foot_bones", "", "", ""}};
         this.setRecipe(recipe);
         doSkeletonCheck();
-        ArrayList<Biome> biomeList = new ArrayList<Biome>();
+        ArrayList<ResourceKey<Biome>> biomeList = new ArrayList<ResourceKey<Biome>>();
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.PLAINS));
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.FOREST));
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.SAVANNA));

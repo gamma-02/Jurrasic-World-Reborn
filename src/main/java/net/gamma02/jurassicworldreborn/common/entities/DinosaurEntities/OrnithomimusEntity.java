@@ -6,12 +6,13 @@ import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 
 public class OrnithomimusEntity extends DinosaurEntity
 {
-    public OrnithomimusEntity(Level world)
+    public OrnithomimusEntity(Level world, EntityType type)
     {
-        super(world);
+        super(world, type);
 //        this.animationTasks.addTask(3, new PeckGroundAnimationAI(this));TODO:AI
 //        this.tasks.addTask(1, new RaptorLeapEntityAI(this));
     }

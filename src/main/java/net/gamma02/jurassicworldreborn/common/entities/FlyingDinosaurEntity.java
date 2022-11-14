@@ -5,6 +5,7 @@ import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.common.util.ai.OnionTraverser;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -20,8 +21,8 @@ public abstract class FlyingDinosaurEntity extends DinosaurEntity {
     private BlockPos closestFeeder;
     public boolean shouldLand;
 
-    public FlyingDinosaurEntity(Level world) {
-        super(world);
+    public FlyingDinosaurEntity(Level world, EntityType type) {
+        super(world, type);
 //        this.moveHelper = new FlyingDinosaurEntity.FlyingMoveHelper();todo: ai
 //        this.tasks.addTask(1, new FlyingDinosaurEntity.AIFlyLand());
 //        this.tasks.addTask(2, new FlyingDinosaurEntity.AIStartFlying());

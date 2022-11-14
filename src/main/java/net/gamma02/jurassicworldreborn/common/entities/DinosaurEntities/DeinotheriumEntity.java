@@ -12,14 +12,15 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 
 import java.util.Locale;
 
 public class DeinotheriumEntity extends DinosaurEntity {
     private static final EntityDataAccessor<Integer> VARIANT= SynchedEntityData.defineId(DeinotheriumEntity.class, EntityDataSerializers.INT);
 
-    public DeinotheriumEntity(Level world) {
-        super(world);
+    public DeinotheriumEntity(Level world, EntityType type) {
+        super(world, type);
         this.setVariant(this.getRandom().nextInt(3));
     }
 

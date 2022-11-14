@@ -8,12 +8,13 @@ import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 
 public class StegosaurusEntity extends DinosaurEntity {
     public LegSolverQuadruped legSolver;
 
-    public StegosaurusEntity(Level world) {
-        super(world);
+    public StegosaurusEntity(Level world, EntityType type) {
+        super(world, type);
         //        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false)); TODO:AI
 
     }

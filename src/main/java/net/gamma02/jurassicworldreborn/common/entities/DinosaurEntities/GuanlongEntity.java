@@ -9,11 +9,12 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 
 public class GuanlongEntity extends DinosaurEntity {
 
-    public GuanlongEntity(Level world) {
-        super(world);
+    public GuanlongEntity(Level world, EntityType type) {
+        super(world, type);
         this.target(AlvarezsaurusEntity.class, TitanisEntity.class, SmilodonEntity.class, ArsinoitheriumEntity.class, ChilesaurusEntity.class, CoelurusEntity.class, CompsognathusEntity.class, DodoEntity.class, GallimimusEntity.class, HyaenodonEntity.class, HypsilophodonEntity.class, LeaellynasauraEntity.class, LeptictidiumEntity.class, MicroceratusEntity.class, MicroraptorEntity.class, MussaurusEntity.class, OrnithomimusEntity.class, OthnieliaEntity.class, OviraptorEntity.class, SegisaurusEntity.class, TroodonEntity.class, Player.class
 , ProtoceratopsEntity.class, Animal.class, Villager.class);
     }

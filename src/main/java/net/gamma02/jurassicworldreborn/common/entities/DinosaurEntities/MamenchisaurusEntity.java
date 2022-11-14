@@ -9,6 +9,7 @@ import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 
 public class MamenchisaurusEntity extends DinosaurEntity {
 
@@ -19,8 +20,8 @@ public class MamenchisaurusEntity extends DinosaurEntity {
 
     public LegSolverQuadruped legSolver;
 
-    public MamenchisaurusEntity(Level world) {
-        super(world);
+    public MamenchisaurusEntity(Level world, EntityType type) {
+        super(world, type);
         //        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false)); TODO:AI
 
     }

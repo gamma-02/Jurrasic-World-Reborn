@@ -7,12 +7,13 @@ import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.gamma02.jurassicworldreborn.common.entities.LegSolverBiped;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 
 public class GallimimusEntity extends DinosaurEntity {
     public LegSolverBiped legSolver;
 
-    public GallimimusEntity(Level world) {
-        super(world);
+    public GallimimusEntity(Level world, EntityType type) {
+        super(world, type);
 //        this.animationTasks.addTask(3, new PeckGroundAnimationAI(this));TODO:AI
 //        this.tasks.addTask(1, new RaptorLeapEntityAI(this));
     }

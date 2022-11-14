@@ -11,12 +11,13 @@ import net.minecraft.world.entity.animal.Squid;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 
 public class DunkleosteusEntity extends SwimmingDinosaurEntity
 {
-    public DunkleosteusEntity(Level world)
+    public DunkleosteusEntity(Level world, EntityType type)
     {
-        super(world);
+        super(world, type);
         this.target(AlligatorGarEntity.class, MawsoniaEntity.class, Squid.class, BeelzebufoEntity.class, CrassigyrinusEntity.class, DiplocaulusEntity.class, Player.class
 , MegapiranhaEntity.class, Villager.class, Animal.class, Mob.class);
     }

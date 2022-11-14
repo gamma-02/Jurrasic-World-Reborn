@@ -4,15 +4,17 @@ import com.github.alexthe666.citadel.animation.Animation;
 import com.mojang.math.Vector3f;
 import net.gamma02.jurassicworldreborn.common.entities.SwimmingDinosaurEntity;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Squid;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 
 
 
 public class AlligatorGarEntity extends SwimmingDinosaurEntity
 {
-    public AlligatorGarEntity(Level world) {
-        super(world);
+    public AlligatorGarEntity(Level world, EntityType type) {
+        super(world, type);
         this.target(Squid.class);
     }
 

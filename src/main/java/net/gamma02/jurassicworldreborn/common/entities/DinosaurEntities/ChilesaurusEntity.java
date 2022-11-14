@@ -6,11 +6,12 @@ import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 
 public class ChilesaurusEntity extends DinosaurEntity {
 
-    public ChilesaurusEntity(Level world) {
-        super(world);
+    public ChilesaurusEntity(Level world, EntityType type) {
+        super(world, type);
 //        this.tasks.addTask(1, new RaptorLeapEntityAI(this));todo:ai
     }
 

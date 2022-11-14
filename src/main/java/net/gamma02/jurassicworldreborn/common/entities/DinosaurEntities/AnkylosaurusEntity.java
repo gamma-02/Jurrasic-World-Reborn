@@ -12,14 +12,15 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 
 import java.util.Locale;
 
 public class AnkylosaurusEntity extends DinosaurEntity {
     private static final EntityDataAccessor<Integer> VARIANT= SynchedEntityData.defineId(AnkylosaurusEntity.class, EntityDataSerializers.INT);
 
-    public AnkylosaurusEntity (Level world) {
-        super(world);
+    public AnkylosaurusEntity (Level world, EntityType type) {
+        super(world, type);
 //               this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false)); TODO:AI
         this.setVariant(this.getRandom().nextInt(4));
     }

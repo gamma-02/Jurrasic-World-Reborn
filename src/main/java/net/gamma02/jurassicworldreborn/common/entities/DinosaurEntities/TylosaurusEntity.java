@@ -8,12 +8,13 @@ import net.minecraft.world.entity.animal.Squid;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 
 public class TylosaurusEntity extends SwimmingDinosaurEntity
 {
-    public TylosaurusEntity(Level world)
+    public TylosaurusEntity(Level world, EntityType type)
     {
-        super(world);
+        super(world, type);
         this.target(CoelacanthEntity.class, MegapiranhaEntity.class, Squid.class, Player.class
 , Animal.class, Villager.class, Mob.class, GoatEntity.class);
         //this.tasks.addTask(0, new WaterLeapAI(this, 12, 1.2F)); - ayo what

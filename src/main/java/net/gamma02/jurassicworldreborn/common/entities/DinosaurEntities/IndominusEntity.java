@@ -14,6 +14,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -25,9 +26,9 @@ public class IndominusEntity extends DinosaurEntity
     private float[] skinColor = new float[3];
     private int stepCount = 0;
     private boolean isCamouflaging;
-    public IndominusEntity(Level world)
+    public IndominusEntity(Level world, EntityType type)
     {
-        super(world);
+        super(world, type);
         this.target(LivingEntity.class, Player.class
 );
     }

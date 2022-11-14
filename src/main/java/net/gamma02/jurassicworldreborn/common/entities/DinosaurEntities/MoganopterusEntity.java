@@ -10,12 +10,13 @@ import net.minecraft.world.entity.animal.Squid;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 
 public class MoganopterusEntity extends FlyingDinosaurEntity
 {
-    public MoganopterusEntity(Level world)
+    public MoganopterusEntity(Level world, EntityType type)
     {
-        super(world);
+        super(world, type);
         this.target(AlligatorGarEntity.class, Squid.class, AlvarezsaurusEntity.class, BeelzebufoEntity.class, CearadactylusEntity.class, ChilesaurusEntity.class, CoelacanthEntity.class, CoelurusEntity.class, CompsognathusEntity.class, CrassigyrinusEntity.class, DimorphodonEntity.class, DiplocaulusEntity.class, DodoEntity.class, HypsilophodonEntity.class, LeaellynasauraEntity.class, LeptictidiumEntity.class, MegapiranhaEntity.class, MicroceratusEntity.class, MicroraptorEntity.class, MussaurusEntity.class, OthnieliaEntity.class, OviraptorEntity.class, ProtoceratopsEntity.class, SegisaurusEntity.class, TroodonEntity.class, ZhenyuanopterusEntity.class, Player.class
 , Animal.class, Villager.class);
     }

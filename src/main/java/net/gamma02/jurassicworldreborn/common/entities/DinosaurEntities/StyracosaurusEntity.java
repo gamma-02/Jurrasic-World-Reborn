@@ -7,6 +7,7 @@ import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 
 public class StyracosaurusEntity extends DinosaurEntity {
 
@@ -14,8 +15,8 @@ public class StyracosaurusEntity extends DinosaurEntity {
     private boolean isKing = false;
     private StyracosaurusEntity king = null;
 
-    public StyracosaurusEntity(Level world) {
-        super(world);
+    public StyracosaurusEntity(Level world, EntityType type) {
+        super(world, type);
         //        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false)); TODO:AI
 
     }

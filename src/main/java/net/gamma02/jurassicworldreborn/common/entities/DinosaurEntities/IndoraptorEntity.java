@@ -17,6 +17,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 
 import java.util.Locale;
 
@@ -25,8 +26,8 @@ public class IndoraptorEntity extends DinosaurEntity {
     private static final Class[] targets = {LivingEntity.class, Player.class
 };
 
-    public IndoraptorEntity(Level world) {
-        super(world);
+    public IndoraptorEntity(Level world, EntityType type) {
+        super(world, type);
         this.setVariant(this.getRandom().nextInt(2));
         this.target(LivingEntity.class, Player.class
 );

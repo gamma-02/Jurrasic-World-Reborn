@@ -16,14 +16,15 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 
 import java.util.Locale;
 
 public class CompsognathusEntity extends DinosaurEntity {
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(CompsognathusEntity.class, EntityDataSerializers.INT);
 
-    public CompsognathusEntity(Level world) {
-        super(world);
+    public CompsognathusEntity(Level world, EntityType type) {
+        super(world, type);
         this.setVariant(this.getRandom().nextInt(6));
         this.doesEatEggs(true);
         this.target(DodoEntity.class, OthnieliaEntity.class, MicroceratusEntity.class, MicroraptorEntity.class, CrassigyrinusEntity.class, LeptictidiumEntity.class, Player.class

@@ -6,10 +6,11 @@ import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 
 public class LeptictidiumEntity extends DinosaurEntity
 {
-    public LeptictidiumEntity(Level world) { super(world); }
+    public LeptictidiumEntity(Level world, EntityType type) { super(world, type); }
     @Override
     public SoundEvent getSoundForAnimation(Animation animation)
     {

@@ -10,12 +10,13 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 
 public class SegisaurusEntity extends DinosaurEntity
 {
-    public SegisaurusEntity(Level world)
+    public SegisaurusEntity(Level world, EntityType type)
     {
-        super(world);
+        super(world, type);
         this.target(MicroraptorEntity.class, MicroceratusEntity.class, AlligatorGarEntity.class, DodoEntity.class, HypsilophodonEntity.class, CompsognathusEntity.class, AlvarezsaurusEntity.class, Player.class
 , Animal.class, Villager.class, GoatEntity.class);
         this.doesEatEggs(true);

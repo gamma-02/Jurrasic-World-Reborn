@@ -7,6 +7,7 @@ import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 
 public class DreadnoughtusEntity extends DinosaurEntity {
     
@@ -14,8 +15,8 @@ public class DreadnoughtusEntity extends DinosaurEntity {
 
     public LegSolverQuadruped legSolver;
 
-    public DreadnoughtusEntity (Level world) {
-        super(world);
+    public DreadnoughtusEntity (Level world, EntityType type) {
+        super(world, type);
         //        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false)); TODO:AI
 
     }

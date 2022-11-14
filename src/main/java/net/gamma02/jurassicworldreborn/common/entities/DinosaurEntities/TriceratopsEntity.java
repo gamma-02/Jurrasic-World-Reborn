@@ -8,12 +8,13 @@ import com.github.alexthe666.citadel.animation.LegSolverQuadruped;
 import com.github.alexthe666.citadel.animation.Animation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 
 public class TriceratopsEntity extends DinosaurEntity {
     public LegSolverQuadruped legSolver;
 
-    public TriceratopsEntity(Level world) {
-        super(world);
+    public TriceratopsEntity(Level world, EntityType type) {
+        super(world, type);
     }
 
     @Override

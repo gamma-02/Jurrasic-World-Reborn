@@ -10,11 +10,12 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 
 public class MawsoniaEntity extends SwimmingDinosaurEntity {
 
-	public MawsoniaEntity(Level world) {
-		super(world);
+	public MawsoniaEntity(Level world, EntityType type) {
+		super(world, type);
         this.target(AlligatorGarEntity.class, BeelzebufoEntity.class, CrassigyrinusEntity.class, DiplocaulusEntity.class, Player.class
 , MegapiranhaEntity.class, Villager.class, Animal.class, Mob.class);
 	}

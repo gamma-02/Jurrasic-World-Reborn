@@ -49,6 +49,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.entity.EntityTypeTest;
@@ -160,7 +161,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
 
     private int messageTick = 0;
 
-    public DinosaurEntity(Level world) {
+    public DinosaurEntity(Level world, EntityType type) {
         super(null, world);// todo
         blocked = false;
         //Necessary to set the bounding box, rather than having NULL_BOX

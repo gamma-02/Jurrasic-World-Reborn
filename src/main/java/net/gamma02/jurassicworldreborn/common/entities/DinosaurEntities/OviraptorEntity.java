@@ -10,12 +10,13 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 
 public class OviraptorEntity extends DinosaurEntity
 {
-    public OviraptorEntity(Level world)
+    public OviraptorEntity(Level world, EntityType type)
     {
-        super(world);
+        super(world, type);
         this.target(CompsognathusEntity.class, LeptictidiumEntity.class, OthnieliaEntity.class, Player.class
 , Animal.class, Villager.class, GoatEntity.class);
         doesEatEggs(true);

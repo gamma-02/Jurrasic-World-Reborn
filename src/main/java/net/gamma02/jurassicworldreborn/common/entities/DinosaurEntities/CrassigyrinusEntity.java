@@ -3,11 +3,12 @@ package net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities;
 import net.gamma02.jurassicworldreborn.common.entities.SwimmingDinosaurEntity;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 
 public class CrassigyrinusEntity extends SwimmingDinosaurEntity {
 
-    public CrassigyrinusEntity(Level world) {
-        super(world);
+    public CrassigyrinusEntity(Level world, EntityType type) {
+        super(world, type);
         this.target(AlligatorGarEntity.class, BeelzebufoEntity.class, DiplocaulusEntity.class, MegapiranhaEntity.class, Animal.class);
     }
 }

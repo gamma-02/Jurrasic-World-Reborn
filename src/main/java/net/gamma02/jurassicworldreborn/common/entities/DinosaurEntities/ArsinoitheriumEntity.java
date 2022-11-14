@@ -6,10 +6,11 @@ import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 
 public class ArsinoitheriumEntity extends DinosaurEntity
 {
-    public ArsinoitheriumEntity(Level world) { super(world); }
+    public ArsinoitheriumEntity(Level world, EntityType type) { super(world, type); }
     public SoundEvent getSoundForAnimation(Animation animation) {
 
         switch (EntityAnimation.getAnimation(animation)) {

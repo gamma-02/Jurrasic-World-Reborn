@@ -9,12 +9,13 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 
 public class CearadactylusEntity extends FlyingDinosaurEntity
 {
-    public CearadactylusEntity(Level world)
+    public CearadactylusEntity(Level world, EntityType type)
     {
-        super(world);
+        super(world, type);
         this.target(AlligatorGarEntity.class,
                 AlvarezsaurusEntity.class,
                 BeelzebufoEntity.class,

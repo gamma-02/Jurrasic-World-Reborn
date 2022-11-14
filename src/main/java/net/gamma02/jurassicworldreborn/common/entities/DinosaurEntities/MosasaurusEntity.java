@@ -7,11 +7,12 @@ import net.gamma02.jurassicworldreborn.common.entities.SwimmingDinosaurEntity;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 
 public class MosasaurusEntity extends SwimmingDinosaurEntity {
 
-    public MosasaurusEntity(Level world) {
-        super(world);
+    public MosasaurusEntity(Level world, EntityType type) {
+        super(world, type);
         this.target(LivingEntity.class);
     }
 

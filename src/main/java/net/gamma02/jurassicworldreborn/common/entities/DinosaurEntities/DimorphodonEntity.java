@@ -9,12 +9,13 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 
 public class DimorphodonEntity extends FlyingDinosaurEntity
 {
-    public DimorphodonEntity(Level world)
+    public DimorphodonEntity(Level world, EntityType type)
     {
-        super(world);
+        super(world, type);
         this.target(AlvarezsaurusEntity.class, Player.class
 , Animal.class, Villager.class, CompsognathusEntity.class, DodoEntity.class, LeaellynasauraEntity.class, LeptictidiumEntity.class, MicroceratusEntity.class, MicroraptorEntity.class, OthnieliaEntity.class, SegisaurusEntity.class);
     }

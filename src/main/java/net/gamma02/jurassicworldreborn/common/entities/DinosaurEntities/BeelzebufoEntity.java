@@ -7,13 +7,14 @@ import net.gamma02.jurassicworldreborn.common.entities.AmfibianDinosaurEntity;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.EntityType;
 
 ;
 
 public class BeelzebufoEntity extends AmfibianDinosaurEntity {
 
-    public BeelzebufoEntity(Level world) {
-        super(world);
+    public BeelzebufoEntity(Level world, EntityType type) {
+        super(world, type);
         this.target(AlvarezsaurusEntity.class, CompsognathusEntity.class, LeptictidiumEntity.class, OthnieliaEntity.class, MicroraptorEntity.class, MussaurusEntity.class, GuanlongEntity.class, GallimimusEntity.class);
 //        this.tasks.addTask(0, new LeapingMeleeEntityAI(this, getAIMoveSpeed()));TODO:AI
 //        this.tasks.addTask(0, new DinosaurWanderEntityAI(this, getAIMoveSpeed(), 10, RebornConfig.ENTITIES.dinosaurWalkingRadius));

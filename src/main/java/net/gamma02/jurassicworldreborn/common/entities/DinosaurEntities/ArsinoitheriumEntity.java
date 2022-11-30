@@ -10,7 +10,7 @@ import net.minecraft.world.entity.EntityType;
 
 public class ArsinoitheriumEntity extends DinosaurEntity
 {
-    public ArsinoitheriumEntity(Level world, EntityType type) { super(world, type); }
+    public ArsinoitheriumEntity(Level world, EntityType<ArsinoitheriumEntity> type) { super(world, type); }
     public SoundEvent getSoundForAnimation(Animation animation) {
 
         switch (EntityAnimation.getAnimation(animation)) {

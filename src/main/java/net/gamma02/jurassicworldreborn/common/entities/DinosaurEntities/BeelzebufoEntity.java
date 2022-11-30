@@ -13,11 +13,11 @@ import net.minecraft.world.entity.EntityType;
 
 public class BeelzebufoEntity extends AmfibianDinosaurEntity {
 
-    public BeelzebufoEntity(Level world, EntityType type) {
+    public BeelzebufoEntity(Level world, EntityType<BeelzebufoEntity> type) {
         super(world, type);
         this.target(AlvarezsaurusEntity.class, CompsognathusEntity.class, LeptictidiumEntity.class, OthnieliaEntity.class, MicroraptorEntity.class, MussaurusEntity.class, GuanlongEntity.class, GallimimusEntity.class);
-//        this.tasks.addTask(0, new LeapingMeleeEntityAI(this, getAIMoveSpeed()));TODO:AI
-//        this.tasks.addTask(0, new DinosaurWanderEntityAI(this, getAIMoveSpeed(), 10, RebornConfig.ENTITIES.dinosaurWalkingRadius));
+//        this.addTask(0, new LeapingMeleeEntityAI(this, getAIMoveSpeed()));TODO:AI
+//        this.addTask(0, new DinosaurWanderEntityAI(this, getAIMoveSpeed(), 10, RebornConfig.ENTITIES.dinosaurWalkingRadius));
     }
 
     @Override

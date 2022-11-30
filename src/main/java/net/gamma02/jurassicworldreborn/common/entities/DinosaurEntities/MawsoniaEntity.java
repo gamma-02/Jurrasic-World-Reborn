@@ -14,7 +14,7 @@ import net.minecraft.world.entity.EntityType;
 
 public class MawsoniaEntity extends SwimmingDinosaurEntity {
 
-	public MawsoniaEntity(Level world, EntityType type) {
+	public MawsoniaEntity(Level world, EntityType<MawsoniaEntity> type) {
 		super(world, type);
         this.target(AlligatorGarEntity.class, BeelzebufoEntity.class, CrassigyrinusEntity.class, DiplocaulusEntity.class, Player.class
 , MegapiranhaEntity.class, Villager.class, Animal.class, Mob.class);

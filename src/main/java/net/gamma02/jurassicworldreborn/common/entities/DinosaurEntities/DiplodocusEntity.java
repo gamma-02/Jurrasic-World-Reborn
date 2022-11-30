@@ -19,7 +19,7 @@ import java.util.Locale;
 public class DiplodocusEntity extends DinosaurEntity {
     private static final EntityDataAccessor<Integer> VARIANT= SynchedEntityData.defineId(DiplodocusEntity.class, EntityDataSerializers.INT);
 
-    public DiplodocusEntity(Level world, EntityType type) {
+    public DiplodocusEntity(Level world, EntityType<DiplodocusEntity> type) {
         super(world, type);
         this.setVariant(this.getRandom().nextInt(5));
     }

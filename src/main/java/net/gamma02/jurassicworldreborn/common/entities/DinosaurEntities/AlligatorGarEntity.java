@@ -13,7 +13,7 @@ import net.minecraft.world.entity.EntityType;
 
 public class AlligatorGarEntity extends SwimmingDinosaurEntity
 {
-    public AlligatorGarEntity(Level world, EntityType type) {
+    public AlligatorGarEntity(Level world, EntityType<AlligatorGarEntity> type) {
         super(world, type);
         this.target(Squid.class);
     }

@@ -40,6 +40,8 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.npc.Villager;
@@ -59,11 +61,13 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
+import org.jline.utils.ShutdownHooks;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -114,6 +118,9 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
     private int ticksUntilDeath;
 
     private int attackCooldown;
+
+    @Nullable
+    private TaskHelper taskHelper;
 
     @OnlyIn(Dist.CLIENT)
     public FixedChainBuffer tailBuffer;
@@ -196,31 +203,31 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
 //        this.animationTasks = new EntityAITasks(world.profiler);TODO:AI
 
 //        if (!dinosaur.isMarineCreature()) {                       TODO:AI
-//            this.tasks.addTask(0, new AdvancedSwimEntityAI(this));
+//            this.addTask(0, new AdvancedSwimEntityAI(this));
 //        }
-//        this.tasks.addTask(0, new DinosaurWanderEntityAI(this, 0.8D, 2, 10));
-//        this.tasks.addTask(0, new DinosaurWanderAvoidWater(this, 0.8D, 10));
+//        this.addTask(0, new DinosaurWanderEntityAI(this, 0.8D, 2, 10));
+//        this.addTask(0, new DinosaurWanderAvoidWater(this, 0.8D, 10));
 //        if (dinosaur.getDiet().canEat(this, FoodType.PLANT)) {
-//            this.tasks.addTask(1, new GrazeEntityAI(this));
+//            this.addTask(1, new GrazeEntityAI(this));
 //        }
 //        if (dinosaur.getDiet().canEat(this, FoodType.MEAT)) {
-//            this.tasks.addTask(1, new TargetCarcassEntityAI(this));
+//            this.addTask(1, new TargetCarcassEntityAI(this));
 //        }
 //        if (dinosaur.shouldDefendOwner()) {
-//            this.tasks.addTask(2, new DefendOwnerEntityAI(this));
-//            this.tasks.addTask(2, new AssistOwnerEntityAI(this));
+//            this.addTask(2, new DefendOwnerEntityAI(this));
+//            this.addTask(2, new AssistOwnerEntityAI(this));
 //        }
 //        if (dinosaur.shouldFlee()) {
-//            this.tasks.addTask(2, new FleeEntityAI(this));
+//            this.addTask(2, new FleeEntityAI(this));
 //        }
-//        this.tasks.addTask(0, new EscapeWireEntityAI(this));
-//        this.tasks.addTask(1, new RespondToAttackEntityAI(this));
-//        this.tasks.addTask(1, new EntityAIPanic(this, 1.25D));
-//        this.tasks.addTask(2, new ProtectInfantEntityAI<>(this));
-//        this.tasks.addTask(3, new FollowOwnerEntityAI(this));
-//        this.tasks.addTask(3, new DinosaurAttackMeleeEntityAI(this,1.0F, false));
-//        this.tasks.addTask(4, new EntityAILookIdle(this));
-//        this.tasks.addTask(4, new EntityAIWatchClosest(this, LivingEntity.class, 6.0F));
+//        this.addTask(0, new EscapeWireEntityAI(this));
+//        this.addTask(1, new RespondToAttackEntityAI(this));
+//        this.addTask(1, new EntityAIPanic(this, 1.25D));
+//        this.addTask(2, new ProtectInfantEntityAI<>(this));
+//        this.addTask(3, new FollowOwnerEntityAI(this));
+//        this.addTask(3, new DinosaurAttackMeleeEntityAI(this,1.0F, false));
+//        this.addTask(4, new EntityAILookIdle(this));
+//        this.addTask(4, new EntityAIWatchClosest(this, LivingEntity.class, 6.0F));
 //        this.animationTasks.addTask(0, new SleepEntityAI(this));
 //        this.animationTasks.addTask(1, new DrinkEntityAI(this));
 //        this.animationTasks.addTask(1, new MateEntityAI(this));
@@ -928,7 +935,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
                     this.getJumpControl().jump();
                 } else {
 //                    if (this.isSwimming()) { TODO: AI
-//                        Path path = this.getNavigator().getPath();
+//                        Path path = this.getNavigation().getPath();
 //                        if (path != null) {
 //                            AxisAlignedBB detectionBox = this.getEntityBoundingBox().expand(0.5, 0.5, 0.5);
 //                            if (this.level.collidesWithAnyBlock(detectionBox)) {
@@ -968,7 +975,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
 
                 if (this == this.herd.leader && !this.dinosaur.isMarineCreature()) {
                     this.herd.update();
-                    //this.tasks.addTask(0, new DinosaurHerdWanderEntityAI(this.herd, 0.8D, 2, 25));
+                    //this.addTask(0, new DinosaurHerdWanderEntityAI(this.herd, 0.8D, 2, 25));
                 } else {
                     //this.tasks.removeTask(new DinosaurWanderEntityAI(this, 0.8D, 2, 10));
                     //this.tasks.removeTask(new DinosaurHerdWanderEntityAI(this.herd, 0.8D, 2, 25));
@@ -2001,11 +2008,26 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
 
     public boolean shouldEscapeWaterFast() {
         return true;
-    }
+    }//so many things in this mod just make me go ***why*** - gamma_02
 
 
 
     public void target(Class<? extends LivingEntity>... entities){
+        if(this.taskHelper == null) {//don't want to initalize it twice
+            this.taskHelper = new TaskHelper(this.getClass());
+        }
+        this.taskHelper.addGoal(new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, false, livingEntity -> entityPredicate(livingEntity, entities)), 3/*hope this randomly assigned 3 doesn't mess anything up*/);
+    }
+
+    public static boolean entityPredicate(LivingEntity input, Class<? extends LivingEntity>... entities){
+        return Arrays.stream(entities).anyMatch((clazz) -> clazz == input.getClass());
+    }
+
+    public void addTask(int priority, Goal goal){
+        this.taskHelper.addGoal(goal, priority);
+    }
+
+    protected void registerGoals(){
 
     }
 
@@ -2022,7 +2044,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
 //                    if (tile instanceof FeederBlockEntity) {
 //                        FeederBlockEntity feeder = (FeederBlockEntity) tile;
 //                        if (feeder.canFeedDinosaur(this) && feeder.getFeeding() == null && feeder.openAnimation == 0) {
-//                            Path path = this.getNavigator().getPathToPos(pos);
+//                            Path path = this.getNavigation().getPathToPos(pos);
 //                            if (path != null && path.getCurrentPathLength() != 0) {
 //                                return this.closestFeeder = pos;
 //                            }

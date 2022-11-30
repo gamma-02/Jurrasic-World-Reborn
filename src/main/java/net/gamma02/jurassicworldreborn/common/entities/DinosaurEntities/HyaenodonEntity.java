@@ -15,7 +15,7 @@ import net.minecraft.world.entity.EntityType;
 public class HyaenodonEntity extends DinosaurEntity {
 
 
-    public HyaenodonEntity(Level world, EntityType type) {
+    public HyaenodonEntity(Level world, EntityType<HyaenodonEntity> type) {
         super(world, type);
         this.target(GoatEntity.class, SmilodonEntity.class, TitanisEntity.class, Player.class
 , ArsinoitheriumEntity.class, Animal.class, Villager.class, AchillobatorEntity.class, AlligatorGarEntity.class, AlvarezsaurusEntity.class, BeelzebufoEntity.class, VelociraptorBlueEntity.class, VelociraptorCharlieEntity.class, ChilesaurusEntity.class, CoelurusEntity.class, CompsognathusEntity.class, CrassigyrinusEntity.class, VelociraptorDeltaEntity.class, DodoEntity.class, DiplocaulusEntity.class, VelociraptorEchoEntity.class, GallimimusEntity.class, GuanlongEntity.class, HypsilophodonEntity.class, LeaellynasauraEntity.class, LeptictidiumEntity.class, MicroceratusEntity.class, MicroraptorEntity.class, MussaurusEntity.class, OthnieliaEntity.class, OviraptorEntity.class, ProceratosaurusEntity.class, ProtoceratopsEntity.class, SegisaurusEntity.class, TroodonEntity.class, VelociraptorEntity.class);

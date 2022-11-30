@@ -14,7 +14,7 @@ public abstract class SwimmingDinosaurEntity extends DinosaurEntity {
     public SwimmingDinosaurEntity(Level world, EntityType type) {
         super(world, type);
         this.moveControl = new SwimmingDinosaurEntity.SwimmingMoveHelper();
-//        this.tasks.addTask(1, new MoveUnderwaterEntityAI(this));TODO:AI
+//        this.addTask(1, new MoveUnderwaterEntityAI(this));TODO:AI
 //        this.navigator = new PathNavigateSwimmer(this, world);
     }
 

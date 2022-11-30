@@ -12,10 +12,10 @@ import net.minecraft.world.entity.EntityType;
 public class GallimimusEntity extends DinosaurEntity {
     public LegSolverBiped legSolver;
 
-    public GallimimusEntity(Level world, EntityType type) {
+    public GallimimusEntity(Level world, EntityType<GallimimusEntity> type) {
         super(world, type);
 //        this.animationTasks.addTask(3, new PeckGroundAnimationAI(this));TODO:AI
-//        this.tasks.addTask(1, new RaptorLeapEntityAI(this));
+//        this.addTask(1, new RaptorLeapEntityAI(this));
     }
 
 //    @Override

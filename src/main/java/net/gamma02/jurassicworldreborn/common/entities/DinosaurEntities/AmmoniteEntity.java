@@ -7,7 +7,7 @@ import net.minecraft.world.entity.EntityType;
 
 public class AmmoniteEntity extends SwimmingDinosaurEntity {
 
-    public AmmoniteEntity (Level world, EntityType type)
+    public AmmoniteEntity (Level world, EntityType<AmmoniteEntity> type)
     {
         super(world, type);
         this.target(Squid.class);

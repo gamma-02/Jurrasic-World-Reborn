@@ -15,7 +15,7 @@ public class DreadnoughtusEntity extends DinosaurEntity {
 
     public LegSolverQuadruped legSolver;
 
-    public DreadnoughtusEntity (Level world, EntityType type) {
+    public DreadnoughtusEntity (Level world, EntityType<DreadnoughtusEntity> type) {
         super(world, type);
         //        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false)); TODO:AI
 

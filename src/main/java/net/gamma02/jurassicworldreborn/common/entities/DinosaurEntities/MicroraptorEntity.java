@@ -35,11 +35,11 @@ public class MicroraptorEntity extends DinosaurEntity {
     private int groundHeight;
     private Vec3 glidingPos;
 
-    public MicroraptorEntity(Level world, EntityType type) {
+    public MicroraptorEntity(Level world, EntityType<MicroraptorEntity> type) {
         super(world, type);
         this.target(Chicken.class, Rabbit.class, CompsognathusEntity.class, HypsilophodonEntity.class, LeptictidiumEntity.class, MicroceratusEntity.class, OthnieliaEntity.class);
-//        this.tasks.addTask(1, new LeapingMeleeEntityAI(this, this.dinosaur.getAttackSpeed()));TODO:AI
-//        this.tasks.addTask(2, new RaptorClimbTreeAI(this, 1.0f));
+//        this.addTask(1, new LeapingMeleeEntityAI(this, this.dinosaur.getAttackSpeed()));TODO:AI
+//        this.addTask(2, new RaptorClimbTreeAI(this, 1.0f));
 //        this.animationTasks.addTask(3, new BirdPreenAnimationAI(this));
 //        this.animationTasks.addTask(3, new TailDisplayAnimationAI(this));
     }

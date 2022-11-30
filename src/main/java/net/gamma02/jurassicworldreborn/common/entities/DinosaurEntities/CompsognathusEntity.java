@@ -23,15 +23,15 @@ import java.util.Locale;
 public class CompsognathusEntity extends DinosaurEntity {
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(CompsognathusEntity.class, EntityDataSerializers.INT);
 
-    public CompsognathusEntity(Level world, EntityType type) {
+    public CompsognathusEntity(Level world, EntityType<CompsognathusEntity> type) {
         super(world, type);
         this.setVariant(this.getRandom().nextInt(6));
         this.doesEatEggs(true);
         this.target(DodoEntity.class, OthnieliaEntity.class, MicroceratusEntity.class, MicroraptorEntity.class, CrassigyrinusEntity.class, LeptictidiumEntity.class, Player.class
 , Animal.class, Villager.class, GoatEntity.class);
-//        this.tasks.addTask(0, new LeapingMeleeEntityAI(this, this.dinosaur.getAttackSpeed()));
-//        this.tasks.addTask(1, new RaptorLeapEntityAI(this));todo:AI
-//        this.tasks.addTask(1, new CompyHurtByTarget());
+//        this.addTask(0, new LeapingMeleeEntityAI(this, this.dinosaur.getAttackSpeed()));
+//        this.addTask(1, new RaptorLeapEntityAI(this));todo:AI
+//        this.addTask(1, new CompyHurtByTarget());
     }
 
 //    @Override

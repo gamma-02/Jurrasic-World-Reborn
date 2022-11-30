@@ -10,11 +10,11 @@ import net.minecraft.world.entity.EntityType;
 
 public class OrnithomimusEntity extends DinosaurEntity
 {
-    public OrnithomimusEntity(Level world, EntityType type)
+    public OrnithomimusEntity(Level world, EntityType<OrnithomimusEntity> type)
     {
         super(world, type);
 //        this.animationTasks.addTask(3, new PeckGroundAnimationAI(this));TODO:AI
-//        this.tasks.addTask(1, new RaptorLeapEntityAI(this));
+//        this.addTask(1, new RaptorLeapEntityAI(this));
     }
 
 //    @Override

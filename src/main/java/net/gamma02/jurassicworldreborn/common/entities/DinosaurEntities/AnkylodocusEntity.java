@@ -19,7 +19,7 @@ import java.util.Locale;
 public class AnkylodocusEntity extends DinosaurEntity {
     private static final EntityDataAccessor<Integer> VARIANT= SynchedEntityData.defineId(AnkylodocusEntity.class, EntityDataSerializers.INT);
 
-    public AnkylodocusEntity(Level world, EntityType type) {
+    public AnkylodocusEntity(Level world, EntityType<AnkylodocusEntity> type) {
         super(world, type);
         this.setVariant(this.getRandom().nextInt(4));
     }

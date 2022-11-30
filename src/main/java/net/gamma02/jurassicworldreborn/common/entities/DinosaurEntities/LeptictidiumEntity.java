@@ -10,7 +10,7 @@ import net.minecraft.world.entity.EntityType;
 
 public class LeptictidiumEntity extends DinosaurEntity
 {
-    public LeptictidiumEntity(Level world, EntityType type) { super(world, type); }
+    public LeptictidiumEntity(Level world, EntityType<LeptictidiumEntity> type) { super(world, type); }
     @Override
     public SoundEvent getSoundForAnimation(Animation animation)
     {

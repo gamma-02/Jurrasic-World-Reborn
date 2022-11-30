@@ -27,6 +27,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.goat.Goat;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -53,8 +54,8 @@ public class GoatEntity extends Animal implements Animatable, IEntityAdditionalS
     private boolean milked;
     private boolean inLava;
 
-    public GoatEntity(Level world) {
-        super(ENTITY_TYPE, world);
+    public GoatEntity(Level world, EntityType<Goat> type/*todo:change this*/) {
+        super(type, world);
         //WIDTH, HEIGHT: (0.6F, 1.2F)
         this.maxUpStep = 1.0F;
         this.animationTick = 0;
@@ -67,16 +68,16 @@ public class GoatEntity extends Animal implements Animatable, IEntityAdditionalS
     }
 
     protected void initEntityAI() {
-//        this.tasks.addTask(0, new EntityAISwimming(this));todo:AI
-//        this.tasks.addTask(1, new EntityAIEatGrass(this));
-//        this.tasks.addTask(1, new EntityAIPanic(this, 2.0));
-//        this.tasks.addTask(2, new EntityAIMate(this, 1.0D));
-//        this.tasks.addTask(3, new EntityAITempt(this, 1.25, false, Sets.newHashSet(FoodHelper.getFoodItems(FoodType.PLANT))));
-//        this.tasks.addTask(4, new EntityAIFollowParent(this, 1.25));
-//        this.tasks.addTask(5, new EntityAIWander(this, 1.0));
-//        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-//        this.tasks.addTask(7, new EntityAILookIdle(this));
-//        this.tasks.addTask(8, new EntityAIAvoidEntity<>(this, EntityWolf.class, 6.0F, 1.0F, 1.6F));
+//        this.addTask(0, new EntityAISwimming(this));todo:AI
+//        this.addTask(1, new EntityAIEatGrass(this));
+//        this.addTask(1, new EntityAIPanic(this, 2.0));
+//        this.addTask(2, new EntityAIMate(this, 1.0D));
+//        this.addTask(3, new EntityAITempt(this, 1.25, false, Sets.newHashSet(FoodHelper.getFoodItems(FoodType.PLANT))));
+//        this.addTask(4, new EntityAIFollowParent(this, 1.25));
+//        this.addTask(5, new EntityAIWander(this, 1.0));
+//        this.addTask(6, new EntityAIWatchClosest(this, Player.class, 6.0F));
+//        this.addTask(7, new EntityAILookIdle(this));
+//        this.addTask(8, new EntityAIAvoidEntity<>(this, EntityWolf.class, 6.0F, 1.0F, 1.6F));
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -92,7 +93,7 @@ public class GoatEntity extends Animal implements Animatable, IEntityAdditionalS
 
     @Override
     public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob mate) {
-        GoatEntity entity = new GoatEntity(level, ENTITY_TYPE);
+        GoatEntity entity = new GoatEntity(level, /*todo: change this*/ EntityType.GOAT);
         entity.finalizeSpawn(level, level.getCurrentDifficultyAt(this.getOnPos()), MobSpawnType.BREEDING, null, null);
         return entity;
     }

@@ -19,7 +19,7 @@ import java.util.Locale;
 public class CamarasaurusEntity extends DinosaurEntity {
     private static final EntityDataAccessor<Integer> VARIANT= SynchedEntityData.defineId(CamarasaurusEntity.class, EntityDataSerializers.INT);
 
-    public CamarasaurusEntity (Level world, EntityType type) {
+    public CamarasaurusEntity (Level world, EntityType<CamarasaurusEntity> type) {
         super(world, type);
         this.setVariant(this.getRandom().nextInt(3));
     }

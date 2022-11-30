@@ -13,7 +13,7 @@ import net.minecraft.world.entity.EntityType;
 
 public class PteranodonEntity extends FlyingDinosaurEntity
 {
-    public PteranodonEntity(Level world, EntityType type)
+    public PteranodonEntity(Level world, EntityType<PteranodonEntity> type)
     {
         super(world, type);
         this.target(AlligatorGarEntity.class, AlvarezsaurusEntity.class, BeelzebufoEntity.class, ChilesaurusEntity.class, CoelacanthEntity.class, CoelurusEntity.class, CompsognathusEntity.class, CrassigyrinusEntity.class, DiplocaulusEntity.class, DodoEntity.class, HypsilophodonEntity.class, LeaellynasauraEntity.class, LeptictidiumEntity.class, MegapiranhaEntity.class, MicroceratusEntity.class, MicroraptorEntity.class, MussaurusEntity.class, OthnieliaEntity.class, OviraptorEntity.class, ProtoceratopsEntity.class, SegisaurusEntity.class, TroodonEntity.class, Player.class

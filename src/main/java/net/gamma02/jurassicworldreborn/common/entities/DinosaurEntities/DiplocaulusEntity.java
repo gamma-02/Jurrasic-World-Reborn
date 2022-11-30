@@ -7,7 +7,7 @@ import net.minecraft.world.entity.EntityType;
 
 public class DiplocaulusEntity extends SwimmingDinosaurEntity {
 
-    public DiplocaulusEntity(Level world, EntityType type) {
+    public DiplocaulusEntity(Level world, EntityType<DiplocaulusEntity> type) {
         super(world, type);
         this.target(AlvarezsaurusEntity.class, BeelzebufoEntity.class, Squid.class, CompsognathusEntity.class, LeptictidiumEntity.class);
     }

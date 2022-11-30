@@ -22,15 +22,15 @@ public class VelociraptorEntity extends DinosaurEntity {
     private static final Class[] nontargets = {VelociraptorEntity.class, VelociraptorBlueEntity.class, VelociraptorCharlieEntity.class, VelociraptorDeltaEntity.class, VelociraptorEchoEntity.class};
 
 
-    public VelociraptorEntity(Level world, EntityType type) {
+    public VelociraptorEntity(Level world, EntityType<? extends VelociraptorEntity> type) {
         super(world, type);
         this.target(GoatEntity.class, TitanisEntity.class, SpinoraptorEntity.class, Player.class
 , Animal.class, Villager.class, AchillobatorEntity.class, AlligatorGarEntity.class, AlvarezsaurusEntity.class, BeelzebufoEntity.class, CearadactylusEntity.class, ChilesaurusEntity.class, CoelurusEntity.class, CompsognathusEntity.class, DilophosaurusEntity.class, DimorphodonEntity.class, GallimimusEntity.class, ProceratosaurusEntity.class, GuanlongEntity.class, DodoEntity.class, HypsilophodonEntity.class, LeaellynasauraEntity.class, LeptictidiumEntity.class, MicroraptorEntity.class, MussaurusEntity.class, MicroceratusEntity.class, OrnithomimusEntity.class, OthnieliaEntity.class, OviraptorEntity.class, PostosuchusEntity.class, ProtoceratopsEntity.class, SegisaurusEntity.class, TroodonEntity.class);
-//        this.tasks.addTask(0, new LeapingMeleeEntityAI(this, this.dinosaur.getAttackSpeed()));TODO:AI
-//        this.tasks.addTask(1, new RaptorLeapEntityAI(this));
+//        this.addTask(0, new LeapingMeleeEntityAI(this, this.dinosaur.getAttackSpeed()));TODO:AI
+//        this.addTask(1, new RaptorLeapEntityAI(this));
 //        this.target(targets);
 //        for(Class entity : targets) {
-//            this.tasks.addTask(0, new EntityAINearestAttackableTarget<LivingEntity>(this, entity, true, false));
+//            this.addTask(0, new EntityAINearestAttackableTarget<LivingEntity>(this, entity, true, false));
 //            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<LivingEntity>(this, entity, false));
 //        }
 //        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, Player.class

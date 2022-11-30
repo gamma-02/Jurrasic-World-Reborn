@@ -15,7 +15,7 @@ import net.minecraft.world.entity.EntityType;
 
 public class DunkleosteusEntity extends SwimmingDinosaurEntity
 {
-    public DunkleosteusEntity(Level world, EntityType type)
+    public DunkleosteusEntity(Level world, EntityType<DunkleosteusEntity> type)
     {
         super(world, type);
         this.target(AlligatorGarEntity.class, MawsoniaEntity.class, Squid.class, BeelzebufoEntity.class, CrassigyrinusEntity.class, DiplocaulusEntity.class, Player.class

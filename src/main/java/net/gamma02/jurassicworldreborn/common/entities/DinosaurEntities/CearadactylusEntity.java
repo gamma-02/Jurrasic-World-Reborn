@@ -13,7 +13,7 @@ import net.minecraft.world.entity.EntityType;
 
 public class CearadactylusEntity extends FlyingDinosaurEntity
 {
-    public CearadactylusEntity(Level world, EntityType type)
+    public CearadactylusEntity(Level world, EntityType<CearadactylusEntity> type)
     {
         super(world, type);
         this.target(AlligatorGarEntity.class,

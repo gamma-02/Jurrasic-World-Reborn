@@ -10,7 +10,7 @@ import net.minecraft.world.entity.EntityType;
 
 public class MegatheriumEntity extends DinosaurEntity
 {
-    public MegatheriumEntity(Level world, EntityType type) { super(world, type); }
+    public MegatheriumEntity(Level world, EntityType<MegatheriumEntity> type) { super(world, type); }
     public SoundEvent getSoundForAnimation(Animation animation) {
 
         switch (EntityAnimation.getAnimation(animation)) {

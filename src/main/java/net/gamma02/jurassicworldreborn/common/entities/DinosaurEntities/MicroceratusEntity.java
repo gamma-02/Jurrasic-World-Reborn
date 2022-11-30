@@ -10,7 +10,7 @@ import net.minecraft.world.entity.EntityType;
 
 public class MicroceratusEntity extends DinosaurEntity
 {
-    public MicroceratusEntity(Level world, EntityType type)
+    public MicroceratusEntity(Level world, EntityType<MicroceratusEntity> type)
     {
         super(world, type);
     }

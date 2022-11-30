@@ -11,7 +11,7 @@ import net.minecraft.world.entity.EntityType;
 
 public class ElasmotheriumEntity extends DinosaurEntity
 {
-    public ElasmotheriumEntity(Level world, EntityType type) { super(world, type); }
+    public ElasmotheriumEntity(Level world, EntityType<ElasmotheriumEntity> type) { super(world, type); }
     public SoundEvent getSoundForAnimation(Animation animation) {
 
         switch (EntityAnimation.getAnimation(animation)) {

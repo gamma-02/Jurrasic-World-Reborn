@@ -20,9 +20,9 @@ public abstract class AmfibianDinosaurEntity extends DinosaurEntity {
     public AmfibianDinosaurEntity(Level world, EntityType type) {
         super(world, type);
 //        this.tasks.removeTask(new DinosaurWanderEntityAI(this, 0.8D, 2, 10));TODO:AI
-//        this.tasks.addTask(10, new EntityAIFindWater(this, 1, 2, 30));
-//        this.tasks.addTask(10, new Wander(this,2, 10, 2));
-//        this.tasks.addTask(5, new MoveUnderwaterEntityAI(this));
+//        this.addTask(10, new EntityAIFindWater(this, 1, 2, 30));
+//        this.addTask(10, new Wander(this,2, 10, 2));
+//        this.addTask(5, new MoveUnderwaterEntityAI(this));
         this.moveControl = new AmfibianDinosaurEntity.SwimmingMoveHelper();
     }
 
@@ -147,12 +147,12 @@ public abstract class AmfibianDinosaurEntity extends DinosaurEntity {
 //
 //        @Override
 //        public boolean shouldContinueExecuting() {
-//            return !this.swimmingEntity.getNavigator().noPath();
+//            return !this.swimmingEntity.getNavigation().noPath();
 //        }
 //
 //        @Override
 //        public void startExecuting() {
-//            this.swimmingEntity.getNavigator().tryMoveToXYZ(this.xPosition, this.yPosition, this.zPosition, 1.0D);
+//            this.swimmingEntity.getNavigation().tryMoveToXYZ(this.xPosition, this.yPosition, this.zPosition, 1.0D);
 //        }
 //
 //        @Override

@@ -10,7 +10,7 @@ import net.minecraft.world.entity.EntityType;
 
 public class HypsilophodonEntity extends DinosaurEntity
 {
-    public HypsilophodonEntity(Level world, EntityType type)
+    public HypsilophodonEntity(Level world, EntityType<HypsilophodonEntity> type)
     {
         super(world, type);
     }

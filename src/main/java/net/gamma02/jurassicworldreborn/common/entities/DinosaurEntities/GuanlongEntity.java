@@ -13,7 +13,7 @@ import net.minecraft.world.entity.EntityType;
 
 public class GuanlongEntity extends DinosaurEntity {
 
-    public GuanlongEntity(Level world, EntityType type) {
+    public GuanlongEntity(Level world, EntityType<GuanlongEntity> type) {
         super(world, type);
         this.target(AlvarezsaurusEntity.class, TitanisEntity.class, SmilodonEntity.class, ArsinoitheriumEntity.class, ChilesaurusEntity.class, CoelurusEntity.class, CompsognathusEntity.class, DodoEntity.class, GallimimusEntity.class, HyaenodonEntity.class, HypsilophodonEntity.class, LeaellynasauraEntity.class, LeptictidiumEntity.class, MicroceratusEntity.class, MicroraptorEntity.class, MussaurusEntity.class, OrnithomimusEntity.class, OthnieliaEntity.class, OviraptorEntity.class, SegisaurusEntity.class, TroodonEntity.class, Player.class
 , ProtoceratopsEntity.class, Animal.class, Villager.class);

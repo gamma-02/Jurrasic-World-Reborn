@@ -20,7 +20,7 @@ public class MamenchisaurusEntity extends DinosaurEntity {
 
     public LegSolverQuadruped legSolver;
 
-    public MamenchisaurusEntity(Level world, EntityType type) {
+    public MamenchisaurusEntity(Level world, EntityType<MamenchisaurusEntity> type) {
         super(world, type);
         //        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false)); TODO:AI
 

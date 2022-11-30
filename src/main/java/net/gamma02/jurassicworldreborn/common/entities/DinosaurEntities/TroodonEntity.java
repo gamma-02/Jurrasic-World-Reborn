@@ -23,16 +23,16 @@ public class TroodonEntity extends DinosaurEntity
     private static final Class[] targets = {CompsognathusEntity.class, HyaenodonEntity.class, Player.class
 , DilophosaurusEntity.class, DimorphodonEntity.class, DodoEntity.class, LeaellynasauraEntity.class, HypsilophodonEntity.class, StegosaurusEntity.class, ProtoceratopsEntity.class, OthnieliaEntity.class, MicroceratusEntity.class};
 
-    public TroodonEntity(Level world, EntityType type)
+    public TroodonEntity(Level world, EntityType<TroodonEntity> type)
     {
         super(world, type);
         this.target(AlligatorGarEntity.class, AchillobatorEntity.class, AlvarezsaurusEntity.class, BeelzebufoEntity.class, VelociraptorBlueEntity.class, VelociraptorCharlieEntity.class, VelociraptorDeltaEntity.class, VelociraptorEchoEntity.class, ChilesaurusEntity.class, CoelurusEntity.class, CompsognathusEntity.class, CrassigyrinusEntity.class, Player.class
 , DilophosaurusEntity.class, DimorphodonEntity.class, DiplocaulusEntity.class, DodoEntity.class, GallimimusEntity.class, GuanlongEntity.class, HyaenodonEntity.class, HypsilophodonEntity.class, LeaellynasauraEntity.class, LeptictidiumEntity.class, MicroceratusEntity.class, MussaurusEntity.class, MicroraptorEntity.class, OrnithomimusEntity.class, OthnieliaEntity.class, OviraptorEntity.class, ProceratosaurusEntity.class, ProtoceratopsEntity.class, SegisaurusEntity.class, ZhenyuanopterusEntity.class, MoganopterusEntity.class, Player.class
 , Animal.class, Villager.class, GoatEntity.class);
-//        this.tasks.addTask(1, new LeapingMeleeEntityAI(this, this.dinosaur.getAttackSpeed()));
+//        this.addTask(1, new LeapingMeleeEntityAI(this, this.dinosaur.getAttackSpeed()));
 //        this.target(targets);
 //        for(Class entity : targets) {
-//            this.tasks.addTask(0, new EntityAINearestAttackableTarget<LivingEntity>(this, entity, true, false));
+//            this.addTask(0, new EntityAINearestAttackableTarget<LivingEntity>(this, entity, true, false));
 //            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<LivingEntity>(this, entity, false));
 //        }
 //        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, Player.class

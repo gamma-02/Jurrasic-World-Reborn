@@ -7,7 +7,7 @@ import net.minecraft.world.entity.EntityType;
 
 public class CrassigyrinusEntity extends SwimmingDinosaurEntity {
 
-    public CrassigyrinusEntity(Level world, EntityType type) {
+    public CrassigyrinusEntity(Level world, EntityType<CrassigyrinusEntity> type) {
         super(world, type);
         this.target(AlligatorGarEntity.class, BeelzebufoEntity.class, DiplocaulusEntity.class, MegapiranhaEntity.class, Animal.class);
     }

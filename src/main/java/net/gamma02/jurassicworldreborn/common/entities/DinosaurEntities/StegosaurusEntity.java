@@ -13,7 +13,7 @@ import net.minecraft.world.entity.EntityType;
 public class StegosaurusEntity extends DinosaurEntity {
     public LegSolverQuadruped legSolver;
 
-    public StegosaurusEntity(Level world, EntityType type) {
+    public StegosaurusEntity(Level world, EntityType<StegosaurusEntity> type) {
         super(world, type);
         //        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false)); TODO:AI
 

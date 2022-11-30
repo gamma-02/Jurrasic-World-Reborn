@@ -10,7 +10,7 @@ import net.minecraft.world.entity.EntityType;
 
 public class LambeosaurusEntity extends DinosaurEntity
 {
-    public LambeosaurusEntity(Level world, EntityType type)
+    public LambeosaurusEntity(Level world, EntityType<LambeosaurusEntity> type)
     {
         super(world, type);
     }

@@ -14,7 +14,7 @@ import net.minecraft.world.entity.EntityType;
 
 public class SegisaurusEntity extends DinosaurEntity
 {
-    public SegisaurusEntity(Level world, EntityType type)
+    public SegisaurusEntity(Level world, EntityType<SegisaurusEntity> type)
     {
         super(world, type);
         this.target(MicroraptorEntity.class, MicroceratusEntity.class, AlligatorGarEntity.class, DodoEntity.class, HypsilophodonEntity.class, CompsognathusEntity.class, AlvarezsaurusEntity.class, Player.class

@@ -12,7 +12,7 @@ import net.minecraft.world.entity.EntityType;
 
 public class AlvarezsaurusEntity extends DinosaurEntity {
 
-    public AlvarezsaurusEntity(Level world, EntityType type) {
+    public AlvarezsaurusEntity(Level world, EntityType<AlvarezsaurusEntity> type) {
         super(world, type);
         this.target(DodoEntity.class, CompsognathusEntity.class, HypsilophodonEntity.class, Animal.class, LeptictidiumEntity.class, MicroraptorEntity.class, MicroceratusEntity.class, DimorphodonEntity.class, LeaellynasauraEntity.class, ProtoceratopsEntity.class, OviraptorEntity.class, MussaurusEntity.class, OthnieliaEntity.class, TroodonEntity.class, SegisaurusEntity.class);
     }

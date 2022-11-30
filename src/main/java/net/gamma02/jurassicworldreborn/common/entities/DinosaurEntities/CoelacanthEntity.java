@@ -11,7 +11,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.entity.EntityType;
 
 public class CoelacanthEntity extends SwimmingDinosaurEntity {
-    public CoelacanthEntity(Level world, EntityType type) {
+    public CoelacanthEntity(Level world, EntityType<CoelacanthEntity> type) {
         super(world, type);
         this.target(Squid.class, MegapiranhaEntity.class);
     }

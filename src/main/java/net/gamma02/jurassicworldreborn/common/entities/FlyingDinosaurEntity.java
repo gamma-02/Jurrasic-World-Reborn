@@ -24,12 +24,12 @@ public abstract class FlyingDinosaurEntity extends DinosaurEntity {
     public FlyingDinosaurEntity(Level world, EntityType type) {
         super(world, type);
 //        this.moveHelper = new FlyingDinosaurEntity.FlyingMoveHelper();todo: ai
-//        this.tasks.addTask(1, new FlyingDinosaurEntity.AIFlyLand());
-//        this.tasks.addTask(2, new FlyingDinosaurEntity.AIStartFlying());
-//        this.tasks.addTask(0, new FlyingDinosaurEntity.AIRandomFly());
-//        this.tasks.addTask(0, new FlyingDinosaurEntity.AIWander());
-//        this.tasks.addTask(2, new AILookAround());
-//        this.tasks.addTask(0, new DinosaurAttackMeleeEntityAI(this,1,true));
+//        this.addTask(1, new FlyingDinosaurEntity.AIFlyLand());
+//        this.addTask(2, new FlyingDinosaurEntity.AIStartFlying());
+//        this.addTask(0, new FlyingDinosaurEntity.AIRandomFly());
+//        this.addTask(0, new FlyingDinosaurEntity.AIWander());
+//        this.addTask(2, new AILookAround());
+//        this.addTask(0, new DinosaurAttackMeleeEntityAI(this,1,true));
         this.doesEatEggs(true);
         this.doTarget();
     }

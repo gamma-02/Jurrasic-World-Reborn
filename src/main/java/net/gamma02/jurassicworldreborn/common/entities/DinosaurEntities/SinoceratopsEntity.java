@@ -10,7 +10,7 @@ import net.minecraft.world.entity.EntityType;
 
 public class SinoceratopsEntity extends DinosaurEntity
 {
-    public SinoceratopsEntity(Level world, EntityType type) {
+    public SinoceratopsEntity(Level world, EntityType<SinoceratopsEntity> type) {
         super(world, type);
         //        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false)); TODO:AI
 

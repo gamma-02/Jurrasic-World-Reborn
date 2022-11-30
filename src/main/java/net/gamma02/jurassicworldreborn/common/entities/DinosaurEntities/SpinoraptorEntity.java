@@ -24,20 +24,20 @@ import net.minecraft.world.entity.EntityType;
 import java.util.Locale;
 
 public class SpinoraptorEntity extends DinosaurEntity {
-    private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(SmilodonEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(SpinoraptorEntity.class, EntityDataSerializers.INT);
     private static final Class[] targets = {CompsognathusEntity.class, MammothEntity.class, VelociraptorEntity.class, VelociraptorBlueEntity.class, VelociraptorCharlieEntity.class, VelociraptorDeltaEntity.class, VelociraptorEchoEntity.class, MegatheriumEntity.class, ElasmotheriumEntity.class, ArsinoitheriumEntity.class, Player.class
 , DilophosaurusEntity.class, DimorphodonEntity.class, DodoEntity.class, LeaellynasauraEntity.class, HypsilophodonEntity.class, StegosaurusEntity.class, ProtoceratopsEntity.class, OthnieliaEntity.class, MicroceratusEntity.class};
 
-    public SpinoraptorEntity (Level world) {
+    public SpinoraptorEntity (Level world, EntityType<SpinoraptorEntity> type) {
         super(world, type);
         this.setVariant(this.getRandom().nextInt(5));
         this.target(AchillobatorEntity.class, MetriacanthosaurusEntity.class, TitanisEntity.class, SmilodonEntity.class, MegatheriumEntity.class, ArsinoitheriumEntity.class, SinoceratopsEntity.class, AlligatorGarEntity.class, AlvarezsaurusEntity.class, BeelzebufoEntity.class, VelociraptorBlueEntity.class, CarnotaurusEntity.class, CeratosaurusEntity.class, VelociraptorCharlieEntity.class, ChasmosaurusEntity.class, ChilesaurusEntity.class, CoelurusEntity.class, CompsognathusEntity.class, CorythosaurusEntity.class, CrassigyrinusEntity.class, VelociraptorDeltaEntity.class, DilophosaurusEntity.class, DimorphodonEntity.class, DiplocaulusEntity.class, DodoEntity.class, VelociraptorEchoEntity.class, GallimimusEntity.class, GuanlongEntity.class, HyaenodonEntity.class, HypsilophodonEntity.class, LeaellynasauraEntity.class, LeptictidiumEntity.class, MegapiranhaEntity.class, MicroceratusEntity.class, MicroraptorEntity.class, MussaurusEntity.class, OrnithomimusEntity.class, OthnieliaEntity.class, OviraptorEntity.class, PachycephalosaurusEntity.class, ParasaurolophusEntity.class, PostosuchusEntity.class, ProceratosaurusEntity.class, ProtoceratopsEntity.class, RugopsEntity.class, SegisaurusEntity.class, StyracosaurusEntity.class, TriceratopsEntity.class, TroodonEntity.class, VelociraptorEntity.class, Player.class
 , Animal.class, Villager.class, GoatEntity.class);
-//        this.tasks.addTask(0, new LeapingMeleeEntityAI(this, this.dinosaur.getAttackSpeed())); TODO:AI
-//        this.tasks.addTask(1, new RaptorLeapEntityAI(this));
+//        this.addTask(0, new LeapingMeleeEntityAI(this, this.dinosaur.getAttackSpeed())); TODO:AI
+//        this.addTask(1, new RaptorLeapEntityAI(this));
 //        this.target(targets);
 //        for(Class entity : targets) {
-//            this.tasks.addTask(0, new EntityAINearestAttackableTarget<LivingEntity>(this, entity, true, false));
+//            this.addTask(0, new EntityAINearestAttackableTarget<LivingEntity>(this, entity, true, false));
 //            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<LivingEntity>(this, entity, false));
 //        }
 //        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, Player.class

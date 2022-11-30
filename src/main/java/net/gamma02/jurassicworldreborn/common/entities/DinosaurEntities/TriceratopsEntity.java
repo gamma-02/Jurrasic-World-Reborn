@@ -13,7 +13,7 @@ import net.minecraft.world.entity.EntityType;
 public class TriceratopsEntity extends DinosaurEntity {
     public LegSolverQuadruped legSolver;
 
-    public TriceratopsEntity(Level world, EntityType type) {
+    public TriceratopsEntity(Level world, EntityType<TriceratopsEntity> type) {
         super(world, type);
     }
 

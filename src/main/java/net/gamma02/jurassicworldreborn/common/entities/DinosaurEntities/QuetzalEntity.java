@@ -13,7 +13,7 @@ import net.minecraft.world.entity.EntityType;
 
 public class QuetzalEntity extends FlyingDinosaurEntity
 {
-    public QuetzalEntity(Level world, EntityType type)
+    public QuetzalEntity(Level world, EntityType<QuetzalEntity> type)
     {
         super(world, type);
         this.target(AlligatorGarEntity.class, SmilodonEntity.class, TitanisEntity.class, MegatheriumEntity.class, ElasmotheriumEntity.class, DeinotheriumEntity.class, ArsinoitheriumEntity.class, MawsoniaEntity.class, AlvarezsaurusEntity.class, BeelzebufoEntity.class, CearadactylusEntity.class, CoelacanthEntity.class, CoelurusEntity.class, CompsognathusEntity.class, CrassigyrinusEntity.class, DimorphodonEntity.class, DiplocaulusEntity.class, DodoEntity.class, GuanlongEntity.class, HypsilophodonEntity.class, LeaellynasauraEntity.class, LeptictidiumEntity.class, LudodactylusEntity.class, MicroceratusEntity.class, MicroraptorEntity.class, MoganopterusEntity.class, MussaurusEntity.class, OthnieliaEntity.class, OviraptorEntity.class, ProceratosaurusEntity.class, ProtoceratopsEntity.class, TroodonEntity.class, SegisaurusEntity.class, ZhenyuanopterusEntity.class, PteranodonEntity.class, TropeognathusEntity.class, Player.class

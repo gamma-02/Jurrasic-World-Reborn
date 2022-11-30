@@ -10,7 +10,7 @@ import net.minecraft.world.entity.EntityType;
 
 public class ChasmosaurusEntity extends DinosaurEntity
 {
-    public ChasmosaurusEntity(Level world, EntityType type)
+    public ChasmosaurusEntity(Level world, EntityType<ChasmosaurusEntity> type)
     {
         super(world, type);
         //        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false)); TODO:AI

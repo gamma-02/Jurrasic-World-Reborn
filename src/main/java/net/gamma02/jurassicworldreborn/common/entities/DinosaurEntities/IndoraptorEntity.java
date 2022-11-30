@@ -26,16 +26,16 @@ public class IndoraptorEntity extends DinosaurEntity {
     private static final Class[] targets = {LivingEntity.class, Player.class
 };
 
-    public IndoraptorEntity(Level world, EntityType type) {
+    public IndoraptorEntity(Level world, EntityType<IndoraptorEntity> type) {
         super(world, type);
         this.setVariant(this.getRandom().nextInt(2));
         this.target(LivingEntity.class, Player.class
 );
-//        this.tasks.addTask(0, new LeapingMeleeEntityAI(this, this.dinosaur.getAttackSpeed())); TODO:MORE AI
-//        this.tasks.addTask(1, new RaptorLeapEntityAI(this));
+//        this.addTask(0, new LeapingMeleeEntityAI(this, this.dinosaur.getAttackSpeed())); TODO:MORE AI
+//        this.addTask(1, new RaptorLeapEntityAI(this));
         this.target(targets);
 //        for(Class entity : targets) {TODO:AI
-//            this.tasks.addTask(0, new EntityAINearestAttackableTarget<LivingEntity>(this, entity, true, false));
+//            this.addTask(0, new EntityAINearestAttackableTarget<LivingEntity>(this, entity, true, false));
 //            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<LivingEntity>(this, entity, false));
 //        }
 //        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, Player.class

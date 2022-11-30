@@ -15,7 +15,7 @@ public class StyracosaurusEntity extends DinosaurEntity {
     private boolean isKing = false;
     private StyracosaurusEntity king = null;
 
-    public StyracosaurusEntity(Level world, EntityType type) {
+    public StyracosaurusEntity(Level world, EntityType<StyracosaurusEntity> type) {
         super(world, type);
         //        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false)); TODO:AI
 

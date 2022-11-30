@@ -10,7 +10,7 @@ import net.minecraft.world.entity.EntityType;
 
 public class OthnieliaEntity extends DinosaurEntity
 {
-    public OthnieliaEntity(Level world, EntityType type)
+    public OthnieliaEntity(Level world, EntityType<OthnieliaEntity> type)
     {
         super(world, type);
     }

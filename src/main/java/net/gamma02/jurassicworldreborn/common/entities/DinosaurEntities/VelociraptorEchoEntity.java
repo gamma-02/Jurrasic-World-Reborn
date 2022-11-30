@@ -6,7 +6,7 @@ import net.minecraft.world.entity.EntityType;
 
 public class VelociraptorEchoEntity extends VelociraptorEntity
 {
-    public VelociraptorEchoEntity(Level world, EntityType type)
+    public VelociraptorEchoEntity(Level world, EntityType<VelociraptorEchoEntity> type)
     {
         super(world, type);
         this.target(AlvarezsaurusEntity.class, SpinoraptorEntity.class, TitanisEntity.class, SmilodonEntity.class, MegatheriumEntity.class, ArsinoitheriumEntity.class, BeelzebufoEntity.class, CearadactylusEntity.class, ChilesaurusEntity.class, CoelurusEntity.class, CompsognathusEntity.class, DilophosaurusEntity.class, DimorphodonEntity.class, GallimimusEntity.class, ProceratosaurusEntity.class, DodoEntity.class, HypsilophodonEntity.class, Player.class

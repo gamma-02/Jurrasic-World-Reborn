@@ -14,7 +14,7 @@ import net.minecraft.world.entity.EntityType;
 
 public class MoganopterusEntity extends FlyingDinosaurEntity
 {
-    public MoganopterusEntity(Level world, EntityType type)
+    public MoganopterusEntity(Level world, EntityType<MoganopterusEntity> type)
     {
         super(world, type);
         this.target(AlligatorGarEntity.class, Squid.class, AlvarezsaurusEntity.class, BeelzebufoEntity.class, CearadactylusEntity.class, ChilesaurusEntity.class, CoelacanthEntity.class, CoelurusEntity.class, CompsognathusEntity.class, CrassigyrinusEntity.class, DimorphodonEntity.class, DiplocaulusEntity.class, DodoEntity.class, HypsilophodonEntity.class, LeaellynasauraEntity.class, LeptictidiumEntity.class, MegapiranhaEntity.class, MicroceratusEntity.class, MicroraptorEntity.class, MussaurusEntity.class, OthnieliaEntity.class, OviraptorEntity.class, ProtoceratopsEntity.class, SegisaurusEntity.class, TroodonEntity.class, ZhenyuanopterusEntity.class, Player.class

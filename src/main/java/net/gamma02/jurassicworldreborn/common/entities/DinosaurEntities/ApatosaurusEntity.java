@@ -24,7 +24,7 @@ public class ApatosaurusEntity extends DinosaurEntity {
     private int stepCount = 0;
 
     public LegSolverQuadruped legSolver;
-    public ApatosaurusEntity(Level world, EntityType type) {
+    public ApatosaurusEntity(Level world, EntityType<ApatosaurusEntity> type) {
         super(world, type);
 //        //        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false)); TODO:AI
 

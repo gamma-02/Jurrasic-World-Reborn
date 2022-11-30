@@ -10,7 +10,7 @@ import net.minecraft.world.entity.EntityType;
 
 public class DodoEntity extends DinosaurEntity
 {
-    public DodoEntity(Level world, EntityType type)
+    public DodoEntity(Level world, EntityType<DodoEntity> type)
     {
         super(world, type);
     }

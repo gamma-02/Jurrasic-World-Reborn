@@ -11,7 +11,7 @@ import net.minecraft.world.entity.EntityType;
 
 public class MosasaurusEntity extends SwimmingDinosaurEntity {
 
-    public MosasaurusEntity(Level world, EntityType type) {
+    public MosasaurusEntity(Level world, EntityType<MosasaurusEntity> type) {
         super(world, type);
         this.target(LivingEntity.class);
     }

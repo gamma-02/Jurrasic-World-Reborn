@@ -12,7 +12,7 @@ import net.minecraft.world.entity.EntityType;
 
 public class MegapiranhaEntity extends SwimmingDinosaurEntity
 {
-    public MegapiranhaEntity(Level world, EntityType type)
+    public MegapiranhaEntity(Level world, EntityType<MegapiranhaEntity> type)
     {
         super(world, type);
         this.target(AlligatorGarEntity.class, CoelacanthEntity.class, BeelzebufoEntity.class, CrassigyrinusEntity.class, DiplocaulusEntity.class, DodoEntity.class, GuanlongEntity.class, LeptictidiumEntity.class, LeaellynasauraEntity.class, HypsilophodonEntity.class, MicroceratusEntity.class, MicroraptorEntity.class, MussaurusEntity.class, OthnieliaEntity.class, OviraptorEntity.class, ProtoceratopsEntity.class, SegisaurusEntity.class, TroodonEntity.class, Player.class

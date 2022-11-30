@@ -26,7 +26,7 @@ public class IndominusEntity extends DinosaurEntity
     private float[] skinColor = new float[3];
     private int stepCount = 0;
     private boolean isCamouflaging;
-    public IndominusEntity(Level world, EntityType type)
+    public IndominusEntity(Level world, EntityType<IndominusEntity> type)
     {
         super(world, type);
         this.target(LivingEntity.class, Player.class

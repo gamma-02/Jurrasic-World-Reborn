@@ -10,7 +10,7 @@ import net.minecraft.world.entity.EntityType;
 
 public class TherizinosaurusEntity extends DinosaurEntity
 {
-    public TherizinosaurusEntity(Level world, EntityType type)
+    public TherizinosaurusEntity(Level world, EntityType<TherizinosaurusEntity> type)
     {
         super(world, type);
         this.target(TyrannosaurusEntity.class);

@@ -13,7 +13,7 @@ import net.minecraft.world.entity.EntityType;
 
 public class DimorphodonEntity extends FlyingDinosaurEntity
 {
-    public DimorphodonEntity(Level world, EntityType type)
+    public DimorphodonEntity(Level world, EntityType<DimorphodonEntity> type)
     {
         super(world, type);
         this.target(AlvarezsaurusEntity.class, Player.class

@@ -10,9 +10,9 @@ import net.minecraft.world.entity.EntityType;
 
 public class ChilesaurusEntity extends DinosaurEntity {
 
-    public ChilesaurusEntity(Level world, EntityType type) {
+    public ChilesaurusEntity(Level world, EntityType<ChilesaurusEntity> type) {
         super(world, type);
-//        this.tasks.addTask(1, new RaptorLeapEntityAI(this));todo:ai
+//        this.addTask(1, new RaptorLeapEntityAI(this));todo:ai
     }
 
     @Override

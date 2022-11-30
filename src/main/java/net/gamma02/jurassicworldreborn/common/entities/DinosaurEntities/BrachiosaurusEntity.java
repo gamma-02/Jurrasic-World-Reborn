@@ -24,7 +24,7 @@ public class BrachiosaurusEntity extends DinosaurEntity {
     private int stepCount = 0;
 
     public LegSolverQuadruped legSolver;
-    public BrachiosaurusEntity(Level world, EntityType type) {
+    public BrachiosaurusEntity(Level world, EntityType<BrachiosaurusEntity> type) {
         super(world, type);
 //      this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false)); TODO:AI
         this.setVariant(this.getRandom().nextInt(4));

@@ -14,7 +14,7 @@ import net.minecraft.world.entity.EntityType;
 
 public class OviraptorEntity extends DinosaurEntity
 {
-    public OviraptorEntity(Level world, EntityType type)
+    public OviraptorEntity(Level world, EntityType<OviraptorEntity> type)
     {
         super(world, type);
         this.target(CompsognathusEntity.class, LeptictidiumEntity.class, OthnieliaEntity.class, Player.class

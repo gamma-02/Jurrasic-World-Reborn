@@ -9,7 +9,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.entity.EntityType;
 
 public class MussaurusEntity extends DinosaurEntity {
-    public MussaurusEntity(Level world, EntityType type){
+    public MussaurusEntity(Level world, EntityType<MussaurusEntity> type){
         super(world, type);
 //        this.animationTasks.addTask(3, new PeckGroundAnimationAI(this));TODO:AI
 //        this.animationTasks.addTask(3, new RearingUpAnimationAI(this));

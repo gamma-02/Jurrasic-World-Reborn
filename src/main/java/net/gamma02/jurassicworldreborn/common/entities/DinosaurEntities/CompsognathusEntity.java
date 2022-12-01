@@ -5,6 +5,8 @@ import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
+import net.gamma02.jurassicworldreborn.common.entities.ai.LeapingMeleeEntityAI;
+import net.gamma02.jurassicworldreborn.common.entities.ai.RaptorLeapEntityAI;
 import net.gamma02.jurassicworldreborn.common.entities.animal.GoatEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -12,6 +14,8 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
@@ -29,9 +33,9 @@ public class CompsognathusEntity extends DinosaurEntity {
         this.doesEatEggs(true);
         this.target(DodoEntity.class, OthnieliaEntity.class, MicroceratusEntity.class, MicroraptorEntity.class, CrassigyrinusEntity.class, LeptictidiumEntity.class, Player.class
 , Animal.class, Villager.class, GoatEntity.class);
-//        this.addTask(0, new LeapingMeleeEntityAI(this, this.dinosaur.getAttackSpeed()));
-//        this.addTask(1, new RaptorLeapEntityAI(this));todo:AI
-//        this.addTask(1, new CompyHurtByTarget());
+        this.addTask(0, new LeapingMeleeEntityAI(this, this.dinosaur.getAttackSpeed()));
+        this.addTask(1, new RaptorLeapEntityAI(this));
+        this.addTask(1, new CompyHurtByTarget());//im sorry what - past gamma_02 | oh, it's a subclass name, i was confuzled - future gamma_02
     }
 
 //    @Override
@@ -65,31 +69,31 @@ public class CompsognathusEntity extends DinosaurEntity {
 
         return null;
     }
-//    class CompyHurtByTarget extends EntityAIHurtByTarget {
-//
-//
-//        public CompyHurtByTarget() {
-//            super(CompsognathusEntity.this, true);
-//        }
-//
-//        public void startExecuting() {
-//            if (CompsognathusEntity.this.herd.size() >= 3) {
-//                super.startExecuting();
-//                if (CompsognathusEntity.this.isChild()) {
-//                    this.alertOthers();
-//                    this.resetTask();
-//                }
-//            }
-//        }
-//
-//        protected void setEntityAttackTarget(DinosaurEntity creatureIn, LivingEntity LivingEntityIn) {
-//            if (creatureIn instanceof CompsognathusEntity && !creatureIn.isChild() && creatureIn != null) {
-//                super.setEntityAttackTarget(creatureIn, LivingEntityIn);
-//            }
-//
-//
-//        }
-//    }
+    class CompyHurtByTarget extends HurtByTargetGoal {
+
+
+        public CompyHurtByTarget() {
+            super(CompsognathusEntity.this);
+        }
+
+        public void start() {
+            if (CompsognathusEntity.this.herd.size() >= 3) {
+                super.start();
+                if (CompsognathusEntity.this.isBaby()) {
+                    this.alertOthers();
+                    this.stop();
+                }
+            }
+        }
+
+        protected void alertOther(DinosaurEntity creatureIn, LivingEntity LivingEntityIn) {
+            if (creatureIn instanceof CompsognathusEntity && !creatureIn.isBaby() && creatureIn != null) {
+                super.alertOther(creatureIn, LivingEntityIn);
+            }
+
+
+        }
+    }
     public void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(VARIANT, 0);

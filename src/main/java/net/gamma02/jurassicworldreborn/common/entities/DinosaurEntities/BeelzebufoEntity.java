@@ -4,6 +4,8 @@ import com.github.alexthe666.citadel.animation.Animation;
 import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.AmfibianDinosaurEntity;
+import net.gamma02.jurassicworldreborn.common.entities.ai.DinosaurWanderEntityAI;
+import net.gamma02.jurassicworldreborn.common.entities.ai.LeapingMeleeEntityAI;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
@@ -16,8 +18,8 @@ public class BeelzebufoEntity extends AmfibianDinosaurEntity {
     public BeelzebufoEntity(Level world, EntityType<BeelzebufoEntity> type) {
         super(world, type);
         this.target(AlvarezsaurusEntity.class, CompsognathusEntity.class, LeptictidiumEntity.class, OthnieliaEntity.class, MicroraptorEntity.class, MussaurusEntity.class, GuanlongEntity.class, GallimimusEntity.class);
-//        this.addTask(0, new LeapingMeleeEntityAI(this, getAIMoveSpeed()));TODO:AI
-//        this.addTask(0, new DinosaurWanderEntityAI(this, getAIMoveSpeed(), 10, RebornConfig.ENTITIES.dinosaurWalkingRadius));
+        this.addTask(0, new LeapingMeleeEntityAI(this, this.getSpeed()));
+        this.addTask(0, new DinosaurWanderEntityAI(this, getSpeed(), 10, /*RebornConfig.ENTITIES.dinosaurWalkingRadius todo: config*/16));
     }
 
     @Override

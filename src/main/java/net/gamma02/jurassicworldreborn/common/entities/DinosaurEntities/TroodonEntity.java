@@ -5,6 +5,9 @@ import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.DinosaurDamageSource;
+import net.gamma02.jurassicworldreborn.common.entities.ai.HurtByTargetGoal;
+import net.gamma02.jurassicworldreborn.common.entities.ai.LeapingMeleeEntityAI;
+import net.gamma02.jurassicworldreborn.common.entities.ai.RaptorLeapEntityAI;
 import net.gamma02.jurassicworldreborn.common.entities.animal.GoatEntity;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -12,6 +15,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
@@ -29,14 +33,15 @@ public class TroodonEntity extends DinosaurEntity
         this.target(AlligatorGarEntity.class, AchillobatorEntity.class, AlvarezsaurusEntity.class, BeelzebufoEntity.class, VelociraptorBlueEntity.class, VelociraptorCharlieEntity.class, VelociraptorDeltaEntity.class, VelociraptorEchoEntity.class, ChilesaurusEntity.class, CoelurusEntity.class, CompsognathusEntity.class, CrassigyrinusEntity.class, Player.class
 , DilophosaurusEntity.class, DimorphodonEntity.class, DiplocaulusEntity.class, DodoEntity.class, GallimimusEntity.class, GuanlongEntity.class, HyaenodonEntity.class, HypsilophodonEntity.class, LeaellynasauraEntity.class, LeptictidiumEntity.class, MicroceratusEntity.class, MussaurusEntity.class, MicroraptorEntity.class, OrnithomimusEntity.class, OthnieliaEntity.class, OviraptorEntity.class, ProceratosaurusEntity.class, ProtoceratopsEntity.class, SegisaurusEntity.class, ZhenyuanopterusEntity.class, MoganopterusEntity.class, Player.class
 , Animal.class, Villager.class, GoatEntity.class);
-//        this.addTask(1, new LeapingMeleeEntityAI(this, this.dinosaur.getAttackSpeed()));
-//        this.target(targets);
-//        for(Class entity : targets) {
-//            this.addTask(0, new EntityAINearestAttackableTarget<LivingEntity>(this, entity, true, false));
-//            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<LivingEntity>(this, entity, false));
-//        }
-//        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, Player.class
-//, TyrannosaurusEntity.class, GiganotosaurusEntity.class, SpinosaurusEntity.class));
+        this.addTask(0, new LeapingMeleeEntityAI(this, this.dinosaur.getAttackSpeed()));
+        this.addTask(1, new RaptorLeapEntityAI(this));
+        this.target(targets);
+        for(Class entity : targets) {
+            this.addTask(0, new NearestAttackableTargetGoal<LivingEntity>(this, entity, true, false));
+            this.addTask(0, new NearestAttackableTargetGoal<LivingEntity>(this, entity, false));
+        }
+        this.addTask(1, new HurtByTargetGoal(this, Player.class
+                , TyrannosaurusEntity.class, GiganotosaurusEntity.class, SpinosaurusEntity.class));
     }
 //    @Override
 //    public EntityAIBase getAttackAI() {

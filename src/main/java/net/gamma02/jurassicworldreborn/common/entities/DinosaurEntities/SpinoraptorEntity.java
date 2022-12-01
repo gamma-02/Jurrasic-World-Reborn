@@ -5,6 +5,9 @@ import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
+import net.gamma02.jurassicworldreborn.common.entities.ai.HurtByTargetGoal;
+import net.gamma02.jurassicworldreborn.common.entities.ai.LeapingMeleeEntityAI;
+import net.gamma02.jurassicworldreborn.common.entities.ai.RaptorLeapEntityAI;
 import net.gamma02.jurassicworldreborn.common.entities.animal.GoatEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -12,9 +15,11 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
@@ -33,15 +38,15 @@ public class SpinoraptorEntity extends DinosaurEntity {
         this.setVariant(this.getRandom().nextInt(5));
         this.target(AchillobatorEntity.class, MetriacanthosaurusEntity.class, TitanisEntity.class, SmilodonEntity.class, MegatheriumEntity.class, ArsinoitheriumEntity.class, SinoceratopsEntity.class, AlligatorGarEntity.class, AlvarezsaurusEntity.class, BeelzebufoEntity.class, VelociraptorBlueEntity.class, CarnotaurusEntity.class, CeratosaurusEntity.class, VelociraptorCharlieEntity.class, ChasmosaurusEntity.class, ChilesaurusEntity.class, CoelurusEntity.class, CompsognathusEntity.class, CorythosaurusEntity.class, CrassigyrinusEntity.class, VelociraptorDeltaEntity.class, DilophosaurusEntity.class, DimorphodonEntity.class, DiplocaulusEntity.class, DodoEntity.class, VelociraptorEchoEntity.class, GallimimusEntity.class, GuanlongEntity.class, HyaenodonEntity.class, HypsilophodonEntity.class, LeaellynasauraEntity.class, LeptictidiumEntity.class, MegapiranhaEntity.class, MicroceratusEntity.class, MicroraptorEntity.class, MussaurusEntity.class, OrnithomimusEntity.class, OthnieliaEntity.class, OviraptorEntity.class, PachycephalosaurusEntity.class, ParasaurolophusEntity.class, PostosuchusEntity.class, ProceratosaurusEntity.class, ProtoceratopsEntity.class, RugopsEntity.class, SegisaurusEntity.class, StyracosaurusEntity.class, TriceratopsEntity.class, TroodonEntity.class, VelociraptorEntity.class, Player.class
 , Animal.class, Villager.class, GoatEntity.class);
-//        this.addTask(0, new LeapingMeleeEntityAI(this, this.dinosaur.getAttackSpeed())); TODO:AI
-//        this.addTask(1, new RaptorLeapEntityAI(this));
-//        this.target(targets);
-//        for(Class entity : targets) {
-//            this.addTask(0, new EntityAINearestAttackableTarget<LivingEntity>(this, entity, true, false));
-//            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<LivingEntity>(this, entity, false));
-//        }
-//        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, Player.class
-//, TyrannosaurusEntity.class, GiganotosaurusEntity.class, SpinosaurusEntity.class));
+        this.addTask(0, new LeapingMeleeEntityAI(this, this.dinosaur.getAttackSpeed()));
+        this.addTask(1, new RaptorLeapEntityAI(this));
+        this.target(targets);
+        for(Class entity : targets) {
+            this.addTask(0, new NearestAttackableTargetGoal<LivingEntity>(this, entity, true, false));
+            this.addTask(0, new NearestAttackableTargetGoal<LivingEntity>(this, entity, false));
+        }
+        this.addTask(1, new HurtByTargetGoal(this, Player.class
+                , TyrannosaurusEntity.class, GiganotosaurusEntity.class, SpinosaurusEntity.class));
     }
 
 //    @Override TODO:AI

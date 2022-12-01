@@ -41,7 +41,10 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.TargetGoal;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.npc.Villager;
@@ -73,7 +76,7 @@ import java.util.logging.Logger;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpawnData, Animatable {
+public abstract class DinosaurEntity extends PathfinderMob implements IEntityAdditionalSpawnData, Animatable {
     private static final Logger LOGGER = LogManager.getLogManager().getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     private static final EntityDataAccessor<Boolean> WATCHER_IS_CARCASS = SynchedEntityData.defineId(DinosaurEntity.class, EntityDataSerializers.BOOLEAN);
@@ -168,8 +171,8 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
 
     private int messageTick = 0;
 
-    public DinosaurEntity(Level world, EntityType type) {
-        super(null, world);// todo
+    public DinosaurEntity(Level world, EntityType<? extends DinosaurEntity> type) {
+        super(type, world);// todo
         blocked = false;
         //Necessary to set the bounding box, rather than having NULL_BOX
         setSize(1, 1);
@@ -704,7 +707,7 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
     public void setupDisplay(boolean isMale) {
         this.setFullyGrown();
         this.setMale(isMale);
-        this.tickCount = 4;
+        this.tickCount = 4;//wtf why - gamma_02
     }
 
     @Override
@@ -2028,7 +2031,11 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
     }
 
     protected void registerGoals(){
-
+        if(this.taskHelper == null){
+            LOGGER.warning("NO TASK HELPER FOUND, " + this.getName().getString() + " HAS NO GOALS");
+            this.taskHelper = new TaskHelper(this.goalSelector, this.targetSelector, this.getClass());
+        }
+        this.taskHelper.setSelectorsAndRegisterGoals(this.goalSelector, this.targetSelector);
     }
 
 
@@ -2203,4 +2210,6 @@ public abstract class DinosaurEntity extends Mob implements IEntityAdditionalSpa
     public enum Order {
         WANDER, FOLLOW, SIT
     }
+
+
 }

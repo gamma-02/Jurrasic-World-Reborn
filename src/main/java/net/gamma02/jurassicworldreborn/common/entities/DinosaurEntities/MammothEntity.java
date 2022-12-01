@@ -16,7 +16,7 @@ import net.minecraft.world.entity.EntityType;
 
 import java.util.Locale;
 
-public class MammothEntity extends DinosaurEntity {
+public class MammothEntity extends DinosaurEntity {//is a mammoth really a dinosaur? - gamma_02
     private static final EntityDataAccessor<Integer> VARIANT= SynchedEntityData.defineId(MammothEntity.class, EntityDataSerializers.INT);
 
     public MammothEntity(Level world, EntityType<MammothEntity> type) {

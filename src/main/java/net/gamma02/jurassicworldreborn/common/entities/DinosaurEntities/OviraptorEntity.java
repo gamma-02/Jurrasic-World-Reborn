@@ -6,6 +6,7 @@ import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.gamma02.jurassicworldreborn.common.entities.animal.GoatEntity;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
@@ -20,8 +21,7 @@ public class OviraptorEntity extends DinosaurEntity
         this.target(CompsognathusEntity.class, LeptictidiumEntity.class, OthnieliaEntity.class, Player.class
 , Animal.class, Villager.class, GoatEntity.class);
         doesEatEggs(true);
-        //        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false)); TODO:AI
-
+                this.addTask(1, new HurtByTargetGoal(this));
     }
     @Override
     public SoundEvent getSoundForAnimation(Animation animation)

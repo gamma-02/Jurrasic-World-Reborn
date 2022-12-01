@@ -6,6 +6,7 @@ import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.entity.EntityType;
 
@@ -17,7 +18,7 @@ public class StyracosaurusEntity extends DinosaurEntity {
 
     public StyracosaurusEntity(Level world, EntityType<StyracosaurusEntity> type) {
         super(world, type);
-        //        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false)); TODO:AI
+                this.addTask(1, new HurtByTargetGoal(this));
 
     }
 
@@ -50,7 +51,7 @@ public class StyracosaurusEntity extends DinosaurEntity {
         double d4 = -1.0D;
 //        for (Entity currE : this.world.loadedEntityList) { again, how ***much*** iteration over this??? no wonder it took a robust device to run this mod good greif - gamma_02
 //            if (currE instanceof StyracosaurusEntity) {
-//                double d5 = currE.getDistanceSq(this.posX, this.posY, this.posZ);
+//                double d5 = currE.getDistanceSq(this.getX(), this.posY, this.posZ);
 //                if ((d5 < distance2 * distance2) && (d4 == -1.0D || d5 < d4)) {
 //                    d4 = d5;
 //                    entityFound2 = currE;

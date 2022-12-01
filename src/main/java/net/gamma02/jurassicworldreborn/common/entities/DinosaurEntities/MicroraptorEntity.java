@@ -4,6 +4,10 @@ import com.github.alexthe666.citadel.animation.Animation;
 import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
+import net.gamma02.jurassicworldreborn.common.entities.ai.BirdPreenAnimationAI;
+import net.gamma02.jurassicworldreborn.common.entities.ai.LeapingMeleeEntityAI;
+import net.gamma02.jurassicworldreborn.common.entities.ai.RaptorClimbTreeAI;
+import net.gamma02.jurassicworldreborn.common.entities.ai.TailDisplayAnimationAI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -27,6 +31,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.Iterator;
+import java.util.Random;
 
 import static net.minecraft.world.InteractionHand.MAIN_HAND;
 
@@ -38,10 +43,10 @@ public class MicroraptorEntity extends DinosaurEntity {
     public MicroraptorEntity(Level world, EntityType<MicroraptorEntity> type) {
         super(world, type);
         this.target(Chicken.class, Rabbit.class, CompsognathusEntity.class, HypsilophodonEntity.class, LeptictidiumEntity.class, MicroceratusEntity.class, OthnieliaEntity.class);
-//        this.addTask(1, new LeapingMeleeEntityAI(this, this.dinosaur.getAttackSpeed()));TODO:AI
-//        this.addTask(2, new RaptorClimbTreeAI(this, 1.0f));
-//        this.animationTasks.addTask(3, new BirdPreenAnimationAI(this));
-//        this.animationTasks.addTask(3, new TailDisplayAnimationAI(this));
+        this.addTask(1, new LeapingMeleeEntityAI(this, this.dinosaur.getAttackSpeed()));
+        this.addTask(2, new RaptorClimbTreeAI(this, 1.0f));//why the raptors be climbin tho - gamma_02
+        this.addTask(3, new BirdPreenAnimationAI(this));
+        this.addTask(3, new TailDisplayAnimationAI(this));
     }
 
     @Override
@@ -49,7 +54,7 @@ public class MicroraptorEntity extends DinosaurEntity {
         return damageSource != DamageSource.FLY_INTO_WALL && super.hurt(damageSource, amount);
     }
 
-//    protected void applyEntityAttributes()
+//    protected void applyEntityAttributes() todo: attributes
 //    {
 //        super.applyEntityAttributes();
 //        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(35.0D);
@@ -293,5 +298,9 @@ public class MicroraptorEntity extends DinosaurEntity {
     
     public void setGlidingTo(Vec3 glidingPos) {
 	this.glidingPos = glidingPos;
+    }
+
+    public Random getRNG(){
+        return this.getRandom();
     }
 }

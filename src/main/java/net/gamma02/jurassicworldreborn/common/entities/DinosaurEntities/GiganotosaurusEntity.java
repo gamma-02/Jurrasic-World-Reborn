@@ -14,7 +14,7 @@ import net.minecraft.world.entity.EntityType;
 
 public class GiganotosaurusEntity extends DinosaurEntity
 {
-    private int stepCount = 0;
+    private int stepCount = 0;//why it step? - gamma_02
 
     public GiganotosaurusEntity(Level world, EntityType<GiganotosaurusEntity> type)
     {

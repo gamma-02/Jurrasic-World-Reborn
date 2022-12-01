@@ -13,6 +13,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.entity.EntityType;
 
@@ -26,7 +27,7 @@ public class ApatosaurusEntity extends DinosaurEntity {
     public LegSolverQuadruped legSolver;
     public ApatosaurusEntity(Level world, EntityType<ApatosaurusEntity> type) {
         super(world, type);
-//        //        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false)); TODO:AI
+                this.addTask(1, new net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal(this));
 
         this.setVariant(this.getRandom().nextInt(3));
     }

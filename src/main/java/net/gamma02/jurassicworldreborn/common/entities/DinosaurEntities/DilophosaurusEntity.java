@@ -5,6 +5,7 @@ import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.gamma02.jurassicworldreborn.common.entities.VenomEntity;
+import net.gamma02.jurassicworldreborn.common.entities.ai.DinosaurAttackMeleeEntityAI;
 import net.gamma02.jurassicworldreborn.common.entities.animal.GoatEntity;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -23,6 +24,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.entity.EntityType;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.EnumSet;
+
 public class DilophosaurusEntity extends DinosaurEntity implements RangedAttackMob {
 
     private static final EntityDataAccessor<Boolean> WATCHER_HAS_TARGET = SynchedEntityData.defineId(DinosaurEntity.class, EntityDataSerializers.BOOLEAN);
@@ -32,7 +35,7 @@ public class DilophosaurusEntity extends DinosaurEntity implements RangedAttackM
         super(world, type);
         this.target(GoatEntity.class, SmilodonEntity.class, MegatheriumEntity.class, ArsinoitheriumEntity.class, SpinoraptorEntity.class, Player.class
 , Villager.class, Animal.class, AchillobatorEntity.class, AlligatorGarEntity.class, AlvarezsaurusEntity.class, BeelzebufoEntity.class, VelociraptorBlueEntity.class, VelociraptorCharlieEntity.class, ChasmosaurusEntity.class, ChilesaurusEntity.class, CoelurusEntity.class, CompsognathusEntity.class, CrassigyrinusEntity.class, VelociraptorDeltaEntity.class, DodoEntity.class, DiplocaulusEntity.class, VelociraptorEchoEntity.class, GallimimusEntity.class, GuanlongEntity.class, HyaenodonEntity.class, HypsilophodonEntity.class, LeaellynasauraEntity.class, LeptictidiumEntity.class, MegapiranhaEntity.class, MetriacanthosaurusEntity.class, MicroceratusEntity.class, MicroraptorEntity.class, MussaurusEntity.class, OrnithomimusEntity.class, OthnieliaEntity.class, OviraptorEntity.class, PostosuchusEntity.class, ProceratosaurusEntity.class, ProtoceratopsEntity.class, SegisaurusEntity.class, TroodonEntity.class, VelociraptorEntity.class, PachycephalosaurusEntity.class);
-//        this.addTask(1, new DilophosaurusMeleeEntityAI(this, this.dinosaur.getAttackSpeed()));
+        this.addTask(1, new DilophosaurusMeleeEntityAI(this, this.dinosaur.getAttackSpeed()));
     }
 
     @Override
@@ -128,5 +131,18 @@ public class DilophosaurusEntity extends DinosaurEntity implements RangedAttackM
         }
 
         return null;
+    }
+
+    public class DilophosaurusMeleeEntityAI extends DinosaurAttackMeleeEntityAI {
+        public DilophosaurusMeleeEntityAI(DilophosaurusEntity entity, double speed) {
+            super(entity, speed, false);
+            this.setFlags(EnumSet.of(Flag.TARGET));
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = this.attacker.getAttackTarget();
+            return super.canUse() && target.getHealth() < target.getMaxHealth() * 0.9F && target.hasEffect(MobEffects.BLINDNESS);
+        }
     }
 }

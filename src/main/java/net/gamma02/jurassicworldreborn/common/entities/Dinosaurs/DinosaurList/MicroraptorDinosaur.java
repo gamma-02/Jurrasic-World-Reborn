@@ -47,11 +47,11 @@ public class MicroraptorDinosaur extends Dinosaur {
                 {"", "foot_bones", "foot_bones", "", ""}};
         this.setRecipe(recipe);
         
-        ArrayList<Biome> biomeList = new ArrayList<Biome>();
+        ArrayList<ResourceKey<Biome>> biomeList = new ArrayList<>();
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.JUNGLE));
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.FOREST));
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.DENSE));
-        this.setSpawn(1, biomeList.toArray(new Biome[biomeList.size()]));
+        this.setSpawn(1, biomeList);
         this.enableSkeleton();
     }
 }

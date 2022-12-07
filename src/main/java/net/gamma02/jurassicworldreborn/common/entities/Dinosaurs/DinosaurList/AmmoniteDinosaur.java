@@ -46,6 +46,6 @@ public class AmmoniteDinosaur extends Dinosaur {
         ArrayList<ResourceKey<Biome>> biomeList = new ArrayList<ResourceKey<Biome>>();
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.OCEAN));
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.WATER));
-        this.setSpawn(1, biomeList.toArray(new Biome[biomeList.size()]));
+        this.setSpawn(1, biomeList);
     }
 }

@@ -1,13 +1,14 @@
-package net.gamma02.jurassicLevelreborn.common.entities.Dinosaurs.DinosaurList;
+package net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurList;
 
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.*;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.Diet;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.SleepTime;
 import net.gamma02.jurassicworldreborn.common.util.TimePeriod;
+import java.util.ArrayList;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
-
 import java.util.ArrayList;
 
 public class TitanisDinosaur extends Dinosaur {
@@ -55,7 +56,7 @@ public class TitanisDinosaur extends Dinosaur {
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.SNOWY));
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.CONIFEROUS));
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.COLD));
-        this.setSpawn(1, biomeList.toArray(new Biome[biomeList.size()]));
+        this.setSpawn(1, biomeList);
     }
 
     protected void doSkeletonCheck(){

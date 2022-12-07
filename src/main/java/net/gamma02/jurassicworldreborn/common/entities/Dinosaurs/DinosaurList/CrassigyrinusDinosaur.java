@@ -1,10 +1,12 @@
 package net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurList;
 
-import mod.reborn.server.entity.Diet;
-import mod.reborn.server.entity.dinosaur.CrassigyrinusEntity;
-import mod.reborn.server.period.TimePeriod;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.*;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
+import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.Diet;
+import net.gamma02.jurassicworldreborn.common.util.TimePeriod;
 import java.util.ArrayList;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 
 public class CrassigyrinusDinosaur extends Dinosaur {
@@ -43,10 +45,10 @@ public class CrassigyrinusDinosaur extends Dinosaur {
                 { "", "", "foot_bone"}};
         this.setRecipe(recipe);
         this.enableSkeleton();
-        ArrayList<Biome> biomeList = new ArrayList<Biome>();
+        ArrayList<ResourceKey<Biome>> biomeList = new ArrayList<>();
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.RIVER));
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.WATER));
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.OCEAN));
-        this.setSpawn(1, biomeList.toArray(new Biome[biomeList.size()]));
+        this.setSpawn(1, biomeList);
     }
 }

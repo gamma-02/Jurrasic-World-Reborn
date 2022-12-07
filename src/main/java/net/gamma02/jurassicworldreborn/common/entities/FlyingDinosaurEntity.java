@@ -2,15 +2,21 @@ package net.gamma02.jurassicworldreborn.common.entities;
 
 import com.mojang.math.Vector3d;
 import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.*;
+import net.gamma02.jurassicworldreborn.common.entities.ai.DinosaurWanderEntityAI;
 import net.gamma02.jurassicworldreborn.common.util.ai.OnionTraverser;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+
+import java.util.EnumSet;
 
 public abstract class FlyingDinosaurEntity extends DinosaurEntity {
 
@@ -35,7 +41,7 @@ public abstract class FlyingDinosaurEntity extends DinosaurEntity {
     }
 
     protected void doTarget(){
-//        this.target(LeptictidiumEntity.class, HypsilophodonEntity.class, MicroraptorEntity.class, MicroceratusEntity.class, CompsognathusEntity.class); todo: entities
+        this.target(LeptictidiumEntity.class, HypsilophodonEntity.class, MicroraptorEntity.class, MicroceratusEntity.class, CompsognathusEntity.class);
     }
 
     @Override
@@ -362,52 +368,56 @@ public abstract class FlyingDinosaurEntity extends DinosaurEntity {
         return this.closestFeeder;
     }
 
-//    class AILookAround extends EntityAIBase {TODO: entityAI and modernization; goals
-//        private final FlyingDinosaurEntity dino = FlyingDinosaurEntity.this;
-//
-//        public AILookAround() {
-//            this.setMutexBits(2);
-//        }
-//
-//        @Override
-//        public boolean shouldExecute() {
-//            return true;
-//        }
-//
-//        @Override
-//        public void updateTask() {
-//            if (this.dino.getAttackTarget() == null) {
-//                this.dino.renderYawOffset = this.dino.rotationYaw = -((float) Math.atan2(this.dino.motionX, this.dino.motionZ)) * 180.0F / (float) Math.PI;
-//            } else {
-//                LivingEntity attackTarget = this.dino.getAttackTarget();
-//                double maxDistance = 64.0D;
-//
-//                if (attackTarget.getDistance(this.dino) < maxDistance * maxDistance) {
-//                    double diffX = attackTarget.getX() - this.dino.getX();
-//                    double diffZ = attackTarget.getZ() - this.dino.getZ();
-//                    this.dino.renderYawOffset = this.dino.rotationYaw = -((float) Math.atan2(diffX, diffZ)) * 180.0F / (float) Math.PI;
-//                }
-//            }
-//        }
-//    }
-//
-//    class AIWander extends DinosaurWanderEntityAI {
-//
-//        private final FlyingDinosaurEntity dino = FlyingDinosaurEntity.this;
-//
-//        public AIWander() {
-//            super(FlyingDinosaurEntity.this, 0.8D, 10, RebornConfig.ENTITIES.dinosaurWalkingRadius);
-//        }
-//
-//        @Override
-//        public boolean shouldExecute()
-//        {
-//            if(!this.dino.isOnGround()) {
-//                return false;
-//            }
-//            return super.shouldExecute();
-//        }
-//
-//    }
+    class AILookAround extends Goal {
+        private final FlyingDinosaurEntity dino = FlyingDinosaurEntity.this;
+
+        public AILookAround() {
+            this.setFlags(EnumSet.of(Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+            return true;
+        }
+
+        @Override
+        public void tick() {
+            if (this.dino.getAttackTarget() == null) {
+                float yRot;
+                this.dino.yBodyRot = yRot = -((float) Math.atan2(this.dino.getDeltaMovement().x(), this.dino.getDeltaMovement().z())) * 180.0F / (float) Math.PI;
+                this.dino.setYRot(yRot);
+            } else {
+                LivingEntity attackTarget = this.dino.getAttackTarget();
+                double maxDistance = 64.0D;
+
+                if (attackTarget.distanceTo(this.dino) < maxDistance * maxDistance) {
+                    double diffX = attackTarget.getX() - this.dino.getX();
+                    double diffZ = attackTarget.getZ() - this.dino.getZ();
+                    float yRot;
+                    this.dino.yBodyRot = yRot = -((float) Math.atan2(diffX, diffZ)) * 180.0F / (float) Math.PI;
+                    this.dino.setYRot(yRot);
+                }
+            }
+        }
+    }
+
+    class AIWander extends DinosaurWanderEntityAI {
+
+        private final FlyingDinosaurEntity dino = FlyingDinosaurEntity.this;
+
+        public AIWander() {
+            super(FlyingDinosaurEntity.this, 0.8D, 10, 16/*RebornConfig.ENTITIES.dinosaurWalkingRadius todo: config*/);
+        }
+
+        @Override
+        public boolean canUse()
+        {
+            if(!this.dino.isOnGround()) {
+                return false;
+            }
+            return super.canUse();
+        }
+
+    }
 }
 

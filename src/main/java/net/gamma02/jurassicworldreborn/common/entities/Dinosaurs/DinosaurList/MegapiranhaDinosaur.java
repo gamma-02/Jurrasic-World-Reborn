@@ -45,10 +45,10 @@ public class MegapiranhaDinosaur extends Dinosaur
                                 { "anal_fin","","", "teeth"}};
         this.setRecipe(recipe);
         this.enableSkeleton();
-        ArrayList<Biome> biomeList = new ArrayList<Biome>();
+        ArrayList<ResourceKey<Biome>> biomeList = new ArrayList<>();
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.OCEAN));
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.WATER));
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.RIVER));
-        this.setSpawn(1, biomeList.toArray(new Biome[biomeList.size()]));
+        this.setSpawn(1, biomeList);
     }
 }

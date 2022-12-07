@@ -47,10 +47,10 @@ public class OrnithomimusDinosaur extends Dinosaur
                         {"", "foot_bones", "", "", ""}};
         this.setRecipe(recipe);
         this.enableSkeleton();
-        ArrayList<Biome> biomeList = new ArrayList<Biome>();
+        ArrayList<ResourceKey<Biome>> biomeList = new ArrayList<>();
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.PLAINS));
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.DRY));
-        this.setSpawn(1, biomeList.toArray(new Biome[biomeList.size()]));
+        this.setSpawn(1, biomeList);
         this.enableSkeleton();
     }
 }

@@ -41,13 +41,13 @@ public class MoganopterusDinosaur extends Dinosaur
                 {"", "leg_bones", "wing_bones", "", ""}};
         this.setRecipe(recipe);
         this.enableSkeleton();
-        ArrayList<Biome> biomeList = new ArrayList<Biome>();
+        ArrayList<ResourceKey<Biome>> biomeList = new ArrayList<>();
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.SAVANNA));
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.JUNGLE));
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.MOUNTAIN));
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.PLAINS));
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.FOREST));
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.MESA));
-        this.setSpawn(1, biomeList.toArray(new Biome[biomeList.size()]));
+        this.setSpawn(1, biomeList);
     }
 }

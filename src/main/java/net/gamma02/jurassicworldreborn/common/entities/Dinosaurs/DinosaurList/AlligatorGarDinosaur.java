@@ -1,19 +1,25 @@
 package net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurList;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
-import mod.reborn.server.entity.Diet;
-import mod.reborn.server.entity.SleepTime;
-import mod.reborn.server.entity.ai.util.MovementType;
-import mod.reborn.server.entity.dinosaur.AlligatorGarEntity;
-import mod.reborn.server.food.FoodType;
-import java.util.ArrayList;
-import mod.reborn.server.period.TimePeriod;
+import com.mojang.blaze3d.shaders.Effect;
+import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
+import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.Diet;
+import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.MovementType;
+import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.SleepTime;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.*;
+import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.FoodType;
+import net.gamma02.jurassicworldreborn.common.util.TimePeriod;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
 
+import net.minecraft.client.renderer.EffectInstance;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.init.MobEffects;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.world.biome.Biome;
+
+import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 
 public class AlligatorGarDinosaur extends Dinosaur
@@ -56,21 +62,19 @@ public class AlligatorGarDinosaur extends Dinosaur
                 {"anal_fin", "", "pelvic_fin_bones", "teeth"}};
         this.setRecipe(recipe);
 
-        ArrayList<Biome> biomeList = new ArrayList<Biome>();
+        ArrayList<ResourceKey<Biome>> biomeList = new ArrayList<>();
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.OCEAN));
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.WATER));
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.RIVER));
-        this.setSpawn(1, biomeList.toArray(new Biome[biomeList.size()]));
+        this.setSpawn(1, biomeList);
         this.enableSkeleton();
     }
 
     @Override
-    public void applyMeatEffect(Player player, boolean cooked)
-    {
-        if (!cooked)
-        {
-            player.addPotionEffect(new PotionEffect(MobEffects.POISON, 400, 1));
+    public void applyMeatEffect(Player player, boolean cooked){
+        if (!cooked){
+                player.addEffect(new MobEffectInstance(MobEffects.POISON, 400, 1));
         }
-        player.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 200, 1));
+        player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 200, 1));
     }
 }

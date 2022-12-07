@@ -21,6 +21,7 @@ import net.gamma02.jurassicworldreborn.common.legacy.tabula.TabulaModelHelper;
 import net.gamma02.jurassicworldreborn.common.util.TimePeriod;
 
 
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 
 import net.minecraft.world.entity.player.Player;
@@ -95,7 +96,7 @@ public abstract class Dinosaur implements Comparable<Dinosaur> {
     private int maxHerdSize = 32;
 
     private int spawnChance;
-    private Biome[] spawnBiomes;
+    private List<ResourceKey<Biome>> spawnBiomes;
     private boolean canClimb;
 
     private int breedCooldown;
@@ -735,24 +736,24 @@ public abstract class Dinosaur implements Comparable<Dinosaur> {
         return this.maxHerdSize;
     }
 
-    public void setSpawn(int chance, Biome[]... allBiomes) {
+    public void setSpawn(int chance, List<ResourceKey<Biome>>... allBiomes) {
         this.spawnChance = chance;
-        List<Biome> spawnBiomes = new LinkedList<>();
-        for (Biome[] biomes : allBiomes) {
-            for (Biome biome : biomes) {
+        List<ResourceKey<Biome>> spawnBiomes = new LinkedList<>();
+        for (List<ResourceKey<Biome>> biomes : allBiomes) {
+            for (ResourceKey<Biome> biome : biomes) {
                 if (!spawnBiomes.contains(biome)) {
                     spawnBiomes.add(biome);
                 }
             }
         }
-        this.spawnBiomes = spawnBiomes.toArray(new Biome[0]);
+        this.spawnBiomes = spawnBiomes;
     }
 
     public int getSpawnChance() {
         return this.spawnChance;
     }
 
-    public Biome[] getSpawnBiomes() {
+    public List<ResourceKey<Biome>> getSpawnBiomes() {
         return this.spawnBiomes;
     }
 

@@ -51,6 +51,6 @@ public class AnkylosaurusDinosaur extends Dinosaur
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.PLAINS));
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.FOREST));
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.SAVANNA));
-        this.setSpawn(1, biomeList.toArray(new Biome[biomeList.size()]));
+        this.setSpawn(1, biomeList);
     }
 }

@@ -45,12 +45,12 @@ public class MegatheriumDinosaur extends Dinosaur {
                 {"", "", "hind_leg_bones", "arm_bones", ""}};
         this.setRecipe(recipe);
         this.enableSkeleton();
-        ArrayList<Biome> biomeList = new ArrayList<Biome>();
+        ArrayList<ResourceKey<Biome>> biomeList = new ArrayList<>();
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.PLAINS));
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.FOREST));
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.SAVANNA));
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.CONIFEROUS));
         biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.SNOWY));
-        this.setSpawn(1, biomeList.toArray(new Biome[biomeList.size()]));
+        this.setSpawn(1, biomeList);
     }
 }

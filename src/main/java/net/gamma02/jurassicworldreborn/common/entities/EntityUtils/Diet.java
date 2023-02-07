@@ -1,6 +1,7 @@
 package net.gamma02.jurassicworldreborn.common.entities.EntityUtils;
 
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
+import net.gamma02.jurassicworldreborn.common.items.Food.FoodHelper;
 import net.minecraft.world.item.Item;
 
 import java.util.ArrayList;
@@ -64,9 +65,9 @@ public class Diet {
             return this;
         }
 
-//        public boolean canEat(DinosaurEntity entity, Item item) {todo: food
-//            return this.condition.test(entity) && FoodHelper.getFoodType(item) == type;
-//        }
+        public boolean canEat(DinosaurEntity entity, Item item) {
+            return this.condition.test(entity) && FoodHelper.getFoodType(item) == type;
+        }
 
         public FoodType getFoodType() {
             return this.type;

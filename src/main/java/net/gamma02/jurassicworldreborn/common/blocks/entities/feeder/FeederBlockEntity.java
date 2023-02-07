@@ -4,12 +4,17 @@ import io.netty.buffer.ByteBuf;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerBlockEntity;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
+import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.Diet;
+import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.FoodType;
+import net.gamma02.jurassicworldreborn.common.items.Food.FoodHelper;
 import net.gamma02.jurassicworldreborn.common.util.networking.Syncable;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.world.Container;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
@@ -20,10 +25,12 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
+import java.util.Random;
+
 public class FeederBlockEntity extends RandomizableContainerBlockEntity implements Syncable, BlockEntityTicker<FeederBlockEntity>, Container {
 
-    int meatSlot = 8; //any slot <= to 8 will be a meat slot
-    int plantSlot = 17; //any slot > 8 but <= 17 will be a plant slot
+    public final int meatSlot = 8; //any slot <= to 8 will be a meat slot
+    public final int plantSlot = 17; //any slot > 8 but <= 17 will be a plant slot
     public int prevOpenAnimation;
     public int openAnimation;
     protected String customName;
@@ -122,7 +129,7 @@ public class FeederBlockEntity extends RandomizableContainerBlockEntity implemen
                         float motionY = 0.0F;
                         float motionZ = 0.0F;
 
-                        switch (this.world.getBlockState(this.pos).getValue(FeederBlock.FACING)) {
+                        switch (this.level.getBlockState(this.getBlockPos()).getValue(FeederBlock.FACING)) {
                             case UP:
                                 offsetY = 1.0F;
                                 motionY = 1.0F;
@@ -154,27 +161,37 @@ public class FeederBlockEntity extends RandomizableContainerBlockEntity implemen
                                 break;
                         }
 
-                        ItemStack stack = (ItemStack)this.slots.get(feedSlot);
+                        ItemStack stack = this.slots.get(feedSlot);
 
                         if (stack != ItemStack.EMPTY) {
-                            EntityItem itemEntity = new EntityItem(this.world, this.pos.getX() + offsetX, this.pos.getY() + offsetY, this.pos.getZ() + offsetZ, new ItemStack(stack.getItem(), 1, stack.getItemDamage()));
-                            itemEntity.setDefaultPickupDelay();
-                            itemEntity.motionX = motionX * 0.3F;
-                            itemEntity.motionY = motionY * 0.3F;
-                            itemEntity.motionZ = motionZ * 0.3F;
-                            this.world.spawnEntity(itemEntity);
+                            ItemEntity itemEntity = new ItemEntity(this.level, this.getBlockPos().getX() + offsetX, this.getBlockPos().getY() + offsetY, this.getBlockPos().getZ() + offsetZ, new ItemStack(stack.getItem(), 1));
+                            itemEntity.setDefaultPickUpDelay();
+                            float motion1X = motionX * 0.3F;
+                            float motion1Y = motionY * 0.3F;
+                            float motion1Z = motionZ * 0.3F;
+                            itemEntity.setDeltaMovement(motion1X, motion1Y, motion1Z);
+                            this.level.addFreshEntity(itemEntity);
 
-                            this.decrStackSize(feedSlot, 1);
-                            this.feeding.getNavigator().tryMoveToXYZ(itemEntity.posX + motionX, itemEntity.posY + motionY, itemEntity.posZ + motionZ, 0.8);
+                            this.removeItem(feedSlot, 1);
+                            this.feeding.getNavigation().moveTo(itemEntity.getX() + motion1X, itemEntity.getY() + motion1Y, itemEntity.getZ() + motion1Z, 0.8);
                         }
                     }
 
                     this.feeding = null;
                 }
-            } else if (!this.world.isRemote) {
-                this.setOpen(false);
+            } else if (!this.level.isClientSide) {
+                this.open = false;
             }
         }
+    }
+
+    public int getFood(DinosaurEntity feeding){
+        for(int i = 0; i <= this.plantSlot; i++){
+            if(FoodHelper.isEdible(feeding, feeding.getDinosaur().getDiet(), this.getItem(i).getItem())){
+                return i;
+            }
+        }
+        return -1;
     }
 
     public boolean canFeedDinosaur(DinosaurEntity dinosaur) {
@@ -192,5 +209,41 @@ public class FeederBlockEntity extends RandomizableContainerBlockEntity implemen
         }
         return -1;
     }
+    //idk why this is here it's the same as the method below but whatever
 
+    @Override
+    public boolean canPlaceItem(int pIndex, ItemStack pStack) {
+        return isItemValidForSlot(pIndex, pStack);
+    }
+    // tests if the given ItemStack is valid for a slot
+    public boolean isItemValidForSlot(int slotID, ItemStack itemstack) {
+        if (isMeatSlot(slotID)){
+            if (itemstack != null && (FoodHelper.isFoodType(itemstack.getItem(), FoodType.MEAT) || FoodHelper.isFoodType(itemstack.getItem(), FoodType.FISH) || FoodHelper.isFoodType(itemstack.getItem(), FoodType.INSECT))) {
+                return true;
+            }
+        }else if (isPlantSlot(slotID)){
+            if (itemstack != null && FoodHelper.isFoodType(itemstack.getItem(), FoodType.PLANT)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     *
+     * @param slot the slot to be tested
+     * @return if the slot is valid for meat/fish/insects
+     */
+    public static boolean isMeatSlot(int slot){
+        return slot <= 8;
+    }
+    /**
+     *
+     * @param slot the slot to be tested
+     * @return if the slot is valid for plants
+     */
+    public static boolean isPlantSlot(int slot){
+        return slot > 8 && slot <= 17;
+    }
 }

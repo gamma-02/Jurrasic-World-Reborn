@@ -225,8 +225,7 @@ public abstract class Dinosaur implements Comparable<Dinosaur> {
         try {
             return TabulaModelHelper.loadTabulaModel(modelPath);
         } catch (Exception e) {
-            //tODo: logger
-//            RebornMod.getLogger().fatal("Couldn't load model " + modelPath, e);
+            Jurassicworldreborn.getLogger().fatal("Couldn't load model " + modelPath, e);
         }
 
         return null;

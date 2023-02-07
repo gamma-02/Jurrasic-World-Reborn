@@ -2,6 +2,8 @@ package net.gamma02.jurassicworldreborn.common.blocks.wood;
 
 import com.google.gson.JsonObject;
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
+import net.gamma02.jurassicworldreborn.common.CommonRegistries;
+import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
 import net.gamma02.jurassicworldreborn.common.util.JsonOutputGenerator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -14,6 +16,7 @@ import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -21,28 +24,32 @@ import oshi.util.tuples.Pair;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class DynamicWoodTypeRegistry {
 
-    /*
-    Indexes of wood products:
-    0 - log
-    1 - stripped log
-    2 - wood
-    3 - stripped wood
-    4 - plank
-    5 - slab
-    6 - fence
-    7 - fence gate
-    8 - door
-    9 - trapdoor
-    10 - pressure plate
-    11 - button
-    12 - standing sign
-    13 - wall sign
-    14 - leaves
-    15 - petrified logs
-    16 - stairs
+    /**
+    Indexes of wood products:<br>
+    <ul>
+    0 - log<br>
+    1 - stripped log<br>
+    2 - wood<br>
+    3 - stripped wood<br>
+    4 - plank<br>
+    5 - slab<br>
+    6 - fence<br>
+    7 - fence gate<br>
+    8 - door<br>
+    9 - trapdoor<br>
+    10 - pressure plate<br>
+    11 - button<br>
+    12 - standing sign<br>
+    13 - wall sign<br>
+    14 - leaves<br>
+    15 - petrified logs<br>
+    16 - stairs<br>
+    17 - saplings<br>
+     </ul>
      */
 
     public static HashMap<WoodType, List<RegistryObject<Block>>> DynamicWoodTypes = new HashMap<>();
@@ -68,18 +75,51 @@ public class DynamicWoodTypeRegistry {
         return DynamicWoodTypes.get(type).get(product.index).get();
     }
 
+    public static List<Block> getProductOfType(ProductType product){
+        ArrayList<Block> products = new ArrayList<>();
+        for(WoodType type : DynamicWoodTypes.keySet()) {
+            products.add(DynamicWoodTypes.get(type).get(product.index).get());
+        }
+        return products;
+    }
+
+
+
 
 
     public static void register(IEventBus bus){
         System.out.println("REGISTERING WOOD BLOCKS");
         woodTypeRegister.register(bus);
-        woodTypes = DynamicWoodTypeRegistry.DynamicWoodTypes.keySet().stream().toList();
+        woodTypes = new ArrayList<>(DynamicWoodTypeRegistry.DynamicWoodTypes.keySet());
         jsonFileMap = getJsonBlockStateModelDefinitionsFix();
 
     }
 
     public static HashMap<JsonObject, String> getJsonBlockStateModelDefinitions(){
         return jsonFileMap;
+    }
+
+    public static ModSaplingBlock getSaplingForType(WoodType type){
+        //i was an idiot and yeah I have to hardcode this, not redoing other registry stuff...
+        if (type.equals(CommonRegistries.AraucariaType)) {
+            return ModBlocks.AraucariaSapling.get();
+        } else if (type.equals(CommonRegistries.CalamitesType)) {
+            return ModBlocks.CalamitesSapling.get();
+        } else if (type.equals(CommonRegistries.PsaroniusType)) {
+            return ModBlocks.PsaroniusSapling.get();
+        } else if (type.equals(CommonRegistries.GinkgoType)) {
+            return ModBlocks.GinkgoSapling.get();
+        } else if (type.equals(CommonRegistries.PhoenixType)) {
+            return ModBlocks.PheonixSapling.get();
+        }
+        return null;
+    }
+    public static List<ModSaplingBlock> getSaplings(){
+        ArrayList<ModSaplingBlock> saplings = new ArrayList<>();
+        for(WoodType type : DynamicWoodTypes.keySet()){
+            saplings.add(getSaplingForType(type));
+        }
+        return saplings;
     }
 
     private static HashMap<JsonObject, String> getJsonBlockStateModelDefinitionsFix(){

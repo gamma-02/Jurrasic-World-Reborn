@@ -1,6 +1,7 @@
 package net.gamma02.jurassicworldreborn.common.entities;
 
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.DilophosaurusEntity;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.LeaellynasauraEntity;
 import net.minecraft.client.renderer.EffectInstance;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -9,6 +10,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
@@ -18,8 +20,12 @@ import net.minecraft.world.phys.EntityHitResult;
 
 public class VenomEntity extends ThrowableProjectile {
 
-    public VenomEntity(Level world) {
-        super(ENTITY_TYPE, world);
+    public VenomEntity(EntityType<VenomEntity> type, Level world) {
+        super(type, world);
+    }
+
+    public VenomEntity(Level world){
+        super(ModEntities.VenomType.get(), world);
 
         if (world.isClientSide) {
             this.spawnParticles();
@@ -27,12 +33,13 @@ public class VenomEntity extends ThrowableProjectile {
     }
 
     public VenomEntity(Level world, DilophosaurusEntity entity) {
-        super(ENTITY_TYPE, world, entity);
+        super(ModEntities.VenomType.get(), world);
 
         if (world.isClientSide) {
             this.spawnParticles();
         }
     }
+
 
     @Override
     protected void onHitEntity(EntityHitResult result) {

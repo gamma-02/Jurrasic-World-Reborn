@@ -17,6 +17,7 @@ import net.minecraft.client.renderer.Sheets;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.ai.goal.CatLieOnBedGoal;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
@@ -141,6 +142,10 @@ public class Jurassicworldreborn {
         ModScreens.<CleanerBlockEntity, CleanerMenu, CleanerScreen>register(modBlockEntities.CLEANING_STATION.get(), CleanerScreen::new);
 
 
+    }
+
+    public static Logger getLogger(){
+        return LOGGER;
     }
 
     public static void registerRecipeSerializers(RegistryEvent.Register<RecipeSerializer<?>> event) {

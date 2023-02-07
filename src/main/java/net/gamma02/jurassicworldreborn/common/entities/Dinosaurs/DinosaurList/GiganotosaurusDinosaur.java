@@ -1,11 +1,15 @@
 package net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurList;
 
 
-import mod.reborn.server.entity.Diet;
-import mod.reborn.server.entity.dinosaur.GiganotosaurusEntity;
-import mod.reborn.server.period.TimePeriod;
-import net.minecraft.world.biome.Biome;
+
 import java.util.ArrayList;
+
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.GiganotosaurusEntity;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
+import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.Diet;
+import net.gamma02.jurassicworldreborn.common.util.TimePeriod;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 
 public class GiganotosaurusDinosaur extends Dinosaur

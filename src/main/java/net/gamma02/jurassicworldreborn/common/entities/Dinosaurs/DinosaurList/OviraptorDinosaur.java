@@ -1,15 +1,16 @@
 package net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurList;
 
-import mod.reborn.server.entity.Diet;
-import mod.reborn.server.entity.SleepTime;
-import mod.reborn.server.entity.dinosaur.CompsognathusEntity;
-import mod.reborn.server.entity.dinosaur.MicroraptorEntity;
-import mod.reborn.server.entity.dinosaur.OviraptorEntity;
-import mod.reborn.server.food.FoodType;
-import mod.reborn.server.period.TimePeriod;
-import net.minecraft.world.biome.Biome;
-import net.minecraftforge.common.BiomeDictionary;
 import java.util.ArrayList;
+
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.*;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
+import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.Diet;
+import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.FoodType;
+import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.SleepTime;
+import net.gamma02.jurassicworldreborn.common.util.TimePeriod;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraftforge.common.BiomeDictionary;
 
 public class OviraptorDinosaur extends Dinosaur
 {

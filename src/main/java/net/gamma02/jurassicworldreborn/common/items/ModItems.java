@@ -4,6 +4,7 @@ import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -43,14 +44,33 @@ public class ModItems {
 
     public static RegistryObject<Item> DEFAULT_BONE = modItems.register("missing_bone", () -> new Item(new Item.Properties()));
 
+    public static final FoodProperties SHARK_MEAT_RAW_PROP = new FoodProperties.Builder().meat().nutrition(5).saturationMod(0.6F).build();
+    public static final FoodProperties SHARK_MEAT_COOKED_PROP = new FoodProperties.Builder().meat().nutrition(10).saturationMod(1.2F).build();
+    public static final FoodProperties CRAB_MEAT_RAW_PROP = new FoodProperties.Builder().meat().nutrition(1).saturationMod(0.3F).build();
+    public static final FoodProperties CRAB_MEAT_COOKED_PROP = new FoodProperties.Builder().meat().nutrition(5).saturationMod(0.6F).build();
+
+    public static final RegistryObject<Item> SHARK_MEAT_RAW = modItems.register("raw_shark_meat", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_FOOD).food(SHARK_MEAT_RAW_PROP)));
+    public static final RegistryObject<Item> SHARK_MEAT_COOKED = modItems.register("cooked_shark_meat", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_FOOD).food(SHARK_MEAT_COOKED_PROP)));
+    public static final RegistryObject<Item> CRAB_MEAT_RAW = modItems.register("raw_crab_meat", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_FOOD).food(CRAB_MEAT_RAW_PROP)));
+    public static final RegistryObject<Item> CRAB_MEAT_COOKED = modItems.register("cooked_crab_meat", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_FOOD).food(CRAB_MEAT_COOKED_PROP)));
+
+    public static final FoodProperties GOAT_RAW_PROP = new FoodProperties.Builder().meat().nutrition(3).saturationMod(0.3F).build();
+    public static final FoodProperties GOAT_COOKED_PROP = new FoodProperties.Builder().meat().nutrition(6).saturationMod(10.3F).build();
+    public static final RegistryObject<Item> GOAT_RAW = modItems.register("raw_goat_meat", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_FOOD).food(GOAT_RAW_PROP)));
+    public static final RegistryObject<Item> GOAT_COOKED = modItems.register("cooked_goat_meat", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_FOOD).food(GOAT_COOKED_PROP)));
+
+
     public static HashMap<String, RegistryObject<Item>> BONES = new HashMap<>();
     public static HashMap<String, RegistryObject<Item>> MEATS = new HashMap<>();
+    public static HashMap<String, RegistryObject<Item>> STEAKS = new HashMap<>();
 
     public static void registerBone(String name, Supplier<Item> sup, String dino){
         BONES.put(dino.indexOf(':') >= 0 ? dino  : "jurassicworldreborn:" + dino, modItems.register(name, sup));
     }
     public static void registerMeat(String name, Supplier<Item> sup, String dino){
-        MEATS.put(dino.indexOf(':') >= 0 ? dino  : "jurassicworldreborn:" + dino, modItems.register(name, sup));
+        String key = dino.indexOf(':') >= 0 ? dino : "jurassicworldreborn:" + dino;
+        MEATS.put(key, modItems.register(name, sup));
+        STEAKS.put(key, modItems.register(name, sup));
     }
 
     public static Item getBoneForDinosaur(EntityType<DinosaurEntity> type){

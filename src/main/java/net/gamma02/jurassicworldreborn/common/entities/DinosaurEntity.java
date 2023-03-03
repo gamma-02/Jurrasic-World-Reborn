@@ -8,6 +8,8 @@ import com.mojang.math.Vector3f;
 import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.model.animation.FixedChainBuffer;
 import net.gamma02.jurassicworldreborn.client.model.animation.PoseHandler;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.feeder.FeederBlock;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.feeder.FeederBlockEntity;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.*;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.InventoryDinosaur;
@@ -56,9 +58,11 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.entity.EntityTypeTest;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
@@ -2039,29 +2043,36 @@ public abstract class DinosaurEntity extends PathfinderMob implements IEntityAdd
     }
 
 
-
+    /**
+     *
+     * @author gamma_02
+     * @return the closest feeder to the entity
+     * @deprecated I'm moving this to the {@link net.gamma02.jurassicworldreborn.common.blocks.entities.feeder.FeederBlockEntity FeederBlockEntity} to make tick loops faster and ensure that the entities can pathfind to the feeder.
+     */
+    @Deprecated(since = "port", forRemoval = true)
     public BlockPos getClosestFeeder() {
+
         if (this.tickCount - this.feederSearchTick > 200) {
             this.feederSearchTick = this.tickCount;
             OnionTraverser traverser = new OnionTraverser(this.getOnPos(), 32);
             for (BlockPos pos : traverser) {
                 BlockState state = this.level.getBlockState(pos);
-//                if (state.getBlock() instanceof FeederBlock) { todo: FeederBlock
-//                    BlockEntity tile = this.level.getTileEntity(pos);
-//                    if (tile instanceof FeederBlockEntity) {
-//                        FeederBlockEntity feeder = (FeederBlockEntity) tile;
-//                        if (feeder.canFeedDinosaur(this) && feeder.getFeeding() == null && feeder.openAnimation == 0) {
-//                            Path path = this.getNavigation().getPathToPos(pos);
-//                            if (path != null && path.getCurrentPathLength() != 0) {
-//                                return this.closestFeeder = pos;
-//                            }
-//                        }
-//                    }
-//                }
+                if (state.getBlock() instanceof FeederBlock) {
+                    BlockEntity tile = this.level.getBlockEntity(pos);
+                    if (tile instanceof FeederBlockEntity feeder) {
+                        if (feeder.canFeedDinosaur(this) && feeder.getFeeding() == null && feeder.openAnimation == 0) {
+                            Path path = this.getNavigation().createPath(pos, 1);
+                            if (path != null && path.getDistToTarget() != 0) {
+                                return this.closestFeeder = pos;
+                            }
+                        }
+                    }
+                }
             }
         }
         return this.closestFeeder;
     }
+
 
     @Override
     public boolean isClimbing() {

@@ -21,6 +21,13 @@ public class EncasedFossilBlockEntity extends BlockEntity {
     @Nullable
     protected final ResourceLocation dino;
 
+    @Deprecated
+    public EncasedFossilBlockEntity( BlockPos pWorldPosition, BlockState pBlockState) {
+        super(modBlockEntities.FOSSIL.get(), pWorldPosition, pBlockState);
+        this.YLevel = -65;//invaidate the constructor enity
+        dino = null;
+    }
+
 
     public EncasedFossilBlockEntity(BlockEntityType<?> pType, BlockPos pWorldPosition, BlockState pBlockState, int YLevel) {
         super(pType, pWorldPosition, pBlockState);
@@ -41,4 +48,5 @@ public class EncasedFossilBlockEntity extends BlockEntity {
         tag.putString(VARIANT_KEY, dino != null ? dino.toString() : "minecraft:air");
         super.saveToItem(stack);
     }
+
 }

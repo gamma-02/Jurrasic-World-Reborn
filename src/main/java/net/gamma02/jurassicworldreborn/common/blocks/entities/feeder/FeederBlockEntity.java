@@ -1,6 +1,7 @@
 package net.gamma02.jurassicworldreborn.common.blocks.entities.feeder;
 
 import io.netty.buffer.ByteBuf;
+import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerBlockEntity;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
@@ -14,6 +15,8 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.world.Container;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -24,13 +27,20 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.entity.EntityTypeTest;
+import net.minecraft.world.phys.AABB;
+import org.checkerframework.checker.units.qual.A;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class FeederBlockEntity extends RandomizableContainerBlockEntity implements Syncable, BlockEntityTicker<FeederBlockEntity>, Container {
 
-    public final int meatSlot = 8; //any slot <= to 8 will be a meat slot
-    public final int plantSlot = 17; //any slot > 8 but <= 17 will be a plant slot
+    public static final int meatSlot = 8; //any slot <= to 8 will be a meat slot
+    public static final int plantSlot = 17; //any slot > 8 but <= 17 will be a plant slot
+
+    public AABB feederBoundingBox;
     public int prevOpenAnimation;
     public int openAnimation;
     protected String customName;
@@ -40,10 +50,13 @@ public class FeederBlockEntity extends RandomizableContainerBlockEntity implemen
     private DinosaurEntity feeding;
     private int feedingExpire;
 
+    private ArrayList<DinosaurEntity> prospectiveFeeders = new ArrayList<>();
+
 
 
     protected FeederBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
+        this.feederBoundingBox = new AABB(pos).inflate(32);
     }
 
 
@@ -92,6 +105,12 @@ public class FeederBlockEntity extends RandomizableContainerBlockEntity implemen
 
 
     public void tick(Level world, BlockPos pos, BlockState state, FeederBlockEntity instance) {
+
+        this.feederBoundingBox = new AABB(pos).inflate(32);//update the stored bounding box to allow for changes
+
+        this.refreshProspectiveFeeders(pos, state, instance, world);
+
+
         this.prevOpenAnimation = this.openAnimation;
 
         if (this.open && this.openAnimation < 20) {
@@ -162,8 +181,16 @@ public class FeederBlockEntity extends RandomizableContainerBlockEntity implemen
                         }
 
                         ItemStack stack = this.slots.get(feedSlot);
+                        boolean shouldContinueDispensing = true;
+                        List<ItemEntity> items = world.getEntities(EntityType.ITEM, this.feederBoundingBox, (FoodHelper::isFood));
 
-                        if (stack != ItemStack.EMPTY) {
+                        for(ItemEntity i : items){
+                            if(this.getItems().stream().anyMatch(itemStack -> i.getItem().getItem() == itemStack.getItem())){
+                                shouldContinueDispensing = false;
+                            }
+                        }
+
+                        if (stack != ItemStack.EMPTY && shouldContinueDispensing) {
                             ItemEntity itemEntity = new ItemEntity(this.level, this.getBlockPos().getX() + offsetX, this.getBlockPos().getY() + offsetY, this.getBlockPos().getZ() + offsetZ, new ItemStack(stack.getItem(), 1));
                             itemEntity.setDefaultPickUpDelay();
                             float motion1X = motionX * 0.3F;
@@ -183,6 +210,23 @@ public class FeederBlockEntity extends RandomizableContainerBlockEntity implemen
                 this.open = false;
             }
         }
+    }
+
+    private void refreshProspectiveFeeders(BlockPos pos, BlockState state, FeederBlockEntity instance, Level world) {
+        ArrayList<DinosaurEntity> refreshedList = new ArrayList<>();
+        for(DinosaurEntity d : this.prospectiveFeeders){
+            if(d.getNavigation().createPath(pos, 1) != null){
+                refreshedList.add(d);
+            }
+        }
+        for(Entity e : world.getEntities((Entity)null/*this is to correct for an ambigous method call, so yes it's needed - gamma_02*/, this.feederBoundingBox, (entity -> entity instanceof DinosaurEntity))){
+            DinosaurEntity d = ((DinosaurEntity) e);
+            if(d.getNavigation().createPath(pos, 1) != null){
+                refreshedList.add(d);
+            }
+        }
+
+        this.prospectiveFeeders = refreshedList;
     }
 
     public int getFood(DinosaurEntity feeding){
@@ -230,13 +274,20 @@ public class FeederBlockEntity extends RandomizableContainerBlockEntity implemen
         return false;
     }
 
+
+    public DinosaurEntity getFeeding(){
+        return this.feeding;
+    }
+
+
+
     /**
      *
      * @param slot the slot to be tested
      * @return if the slot is valid for meat/fish/insects
      */
     public static boolean isMeatSlot(int slot){
-        return slot <= 8;
+        return slot <= meatSlot;
     }
     /**
      *
@@ -244,6 +295,6 @@ public class FeederBlockEntity extends RandomizableContainerBlockEntity implemen
      * @return if the slot is valid for plants
      */
     public static boolean isPlantSlot(int slot){
-        return slot > 8 && slot <= 17;
+        return slot > meatSlot && slot <= plantSlot;
     }
 }

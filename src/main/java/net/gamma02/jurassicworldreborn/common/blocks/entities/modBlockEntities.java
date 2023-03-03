@@ -22,6 +22,8 @@ public class modBlockEntities<T extends BlockEntity> {
     public static DeferredRegister<BlockEntityType<?>> modBlockEntities = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, modid);
 
     public static RegistryObject<BlockEntityType<CleanerBlockEntity>> CLEANING_STATION = modBlockEntities.register("cleaning_station", () -> BlockEntityType.Builder.of(CleanerBlockEntity::new, ModBlocks.CLEANER_BLOCK.get()).build(null));
+    public static RegistryObject<BlockEntityType<EncasedFossilBlockEntity>> FOSSIL = modBlockEntities.register("encased_fossil", () -> BlockEntityType.Builder.of(EncasedFossilBlockEntity::new, ModBlocks.FAUNA_FOSSIL.get(), ModBlocks.DEEPSLATE_FAUNA_FOSSIL.get(), ModBlocks.ENCASED_FAUNA_FOSSIL.get()).build(null));
+
 
 
     public static class modScreenTypes{

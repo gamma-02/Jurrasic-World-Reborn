@@ -10,6 +10,7 @@ import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.FoodType;
 import net.gamma02.jurassicworldreborn.common.items.ModItems;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -20,6 +21,7 @@ import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.Level;
 
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class FoodHelper {
@@ -258,6 +260,14 @@ public class FoodHelper {
 
     public static boolean isFood(Item item) {
         return FOODS.contains(new FoodKey(item));
+    }
+
+    public static boolean isFood(ItemStack item) {
+        return FOODS.contains(new FoodKey(item.getItem()));
+    }
+
+    public static boolean isFood(ItemEntity item) {//overriding go brrrrr
+        return FOODS.contains(new FoodKey(item.getItem().getItem()));
     }
 
     public static class FoodEffect {

@@ -3,6 +3,7 @@ package net.gamma02.jurassicworldreborn.common.items;
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
+import net.gamma02.jurassicworldreborn.common.items.misc.SwarmItem;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
@@ -60,9 +61,17 @@ public class ModItems {
     public static final RegistryObject<Item> GOAT_COOKED = modItems.register("cooked_goat_meat", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_FOOD).food(GOAT_COOKED_PROP)));
 
 
+    public static final RegistryObject<SwarmItem> PLANKTON = modItems.register("plankton", () -> new SwarmItem(ModBlocks.PLANKTON_SWARM.get(), new Item.Properties()));
+    public static final RegistryObject<SwarmItem> KRILL = modItems.register("krill", () -> new SwarmItem(ModBlocks.KRILL_SWARM.get(), new Item.Properties()));
+
+
+
     public static HashMap<String, RegistryObject<Item>> BONES = new HashMap<>();
     public static HashMap<String, RegistryObject<Item>> MEATS = new HashMap<>();
     public static HashMap<String, RegistryObject<Item>> STEAKS = new HashMap<>();
+
+
+
 
     public static void registerBone(String name, Supplier<Item> sup, String dino){
         BONES.put(dino.indexOf(':') >= 0 ? dino  : "jurassicworldreborn:" + dino, modItems.register(name, sup));

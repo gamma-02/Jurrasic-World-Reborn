@@ -5,26 +5,33 @@ import net.gamma02.jurassicworldreborn.common.blocks.ancientplants.AncientPlantB
 import net.gamma02.jurassicworldreborn.common.blocks.ancientplants.DoublePlantBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.ancientplants.ImplimentedAncientPlant;
 import net.gamma02.jurassicworldreborn.common.blocks.ancientplants.SmallPlantBlock;
+import net.gamma02.jurassicworldreborn.common.blocks.ancientplants.moss.AncientMossCarpet;
+import net.gamma02.jurassicworldreborn.common.blocks.ancientplants.moss.PeatBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNACombinatorHybridizerBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNAExtractorBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNASequencerBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNASynthesizerBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.EmbryonicThing.EmbryoCalcificationMachineBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.EmbryonicThing.EmbryonicMachineBlock;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.bugcrate.BugCrate;
+import net.gamma02.jurassicworldreborn.common.blocks.parkBlocks.*;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cultivator.CultivatorBottomBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cultivator.CultivatorTopBlock;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.feeder.FeederBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.grinder.FossilGrinderBlock;
-import net.gamma02.jurassicworldreborn.common.blocks.fossil.FaunaFossil;
-import net.gamma02.jurassicworldreborn.common.blocks.fossil.FloraFossil;
+import net.gamma02.jurassicworldreborn.common.blocks.fossil.*;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerBlock;
-import net.gamma02.jurassicworldreborn.common.blocks.fossil.FossilizedTrackwayBlock;
-import net.gamma02.jurassicworldreborn.common.blocks.fossil.NestFossilBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.wood.ModSaplingBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.incubator.IncubatorBlock;
+import net.gamma02.jurassicworldreborn.common.items.ModItems;
+import net.minecraft.world.level.block.BaseCoralPlantBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -140,6 +147,35 @@ public class ModBlocks {
     public static RegistryObject<DoublePlantBlock> RHACOPHYTON = modBlocks.register("rhacophyton", DoublePlantBlock::new);
     public static RegistryObject<DoublePlantBlock> GRAMINIDITES_BAMBUSOIDES = modBlocks.register("graminidites_bambusoides", DoublePlantBlock::new);
     public static RegistryObject<DoublePlantBlock> HELICONIA = modBlocks.register("heliconia", DoublePlantBlock::new);
+    public static RegistryObject<PeatBlock> PEAT = modBlocks.register("peat", () -> new PeatBlock(defaultMoss().randomTicks()));
+    public static RegistryObject<Block> PEAT_MOSS = modBlocks.register("peat_moss", () -> new Block(defaultMoss().randomTicks()));
+    public static RegistryObject<AncientMossCarpet> MOSS = modBlocks.register("moss", AncientMossCarpet::new);
+
+    public static RegistryObject<BaseCoralPlantBlock> DEAD_ENALLHELIA = modBlocks.register("dead_enallhelia", () -> new BaseCoralPlantBlock(defaultDeadCoral()));
+    public static RegistryObject<BaseCoralPlantBlock> DEAD_AULOPORA = modBlocks.register("dead_aulopora", () -> new BaseCoralPlantBlock(defaultDeadCoral()));
+    public static RegistryObject<BaseCoralPlantBlock> DEAD_CLADOCHONUS = modBlocks.register("dead_cladochonus", () -> new BaseCoralPlantBlock(defaultDeadCoral()));
+    public static RegistryObject<BaseCoralPlantBlock> DEAD_LITHOSTROTION = modBlocks.register("dead_lithostrotion", () -> new BaseCoralPlantBlock(defaultDeadCoral()));
+    public static RegistryObject<BaseCoralPlantBlock> DEAD_STYLOPHYLLOPSIS = modBlocks.register("dead_stylophyllopsis", () -> new BaseCoralPlantBlock(defaultDeadCoral()));
+    public static RegistryObject<BaseCoralPlantBlock> DEAD_HIPPURITES_RADIOSUS = modBlocks.register("dead_hippurites_radiosus", () -> new BaseCoralPlantBlock(defaultDeadCoral()));
+    public static RegistryObject<AncientCoralBlock> ENALLHELIA = modBlocks.register("enallhelia", () -> new AncientCoralBlock(DEAD_ENALLHELIA.get(), defaultAncientCoral()));
+    public static RegistryObject<AncientCoralBlock> AULOPORA = modBlocks.register("aulopora", () -> new AncientCoralBlock(DEAD_AULOPORA.get(), defaultAncientCoral()));
+    public static RegistryObject<AncientCoralBlock> CLADOCHONUS = modBlocks.register("cladochonus", () -> new AncientCoralBlock(DEAD_CLADOCHONUS.get(), defaultAncientCoral()));
+    public static RegistryObject<AncientCoralBlock> LITHOSTROTION = modBlocks.register("lithostrotion", () -> new AncientCoralBlock(DEAD_LITHOSTROTION.get(), defaultAncientCoral()));
+    public static RegistryObject<AncientCoralBlock> STYLOPHYLLOPSIS = modBlocks.register("stylophyllopsis", () -> new AncientCoralBlock(DEAD_STYLOPHYLLOPSIS.get(), defaultAncientCoral()));
+    public static RegistryObject<AncientCoralBlock> HIPPURITES_RADIOSUS = modBlocks.register("hippurites_radiosus", () -> new AncientCoralBlock(DEAD_HIPPURITES_RADIOSUS.get(), defaultAncientCoral()));
+
+    public static RegistryObject<FeederBlock> FEEDER = modBlocks.register("feeder", () -> new FeederBlock(defaultMachine()));
+    public static RegistryObject<BugCrate> BUG_CRATE = modBlocks.register("bug_crate", BugCrate::new);
+
+    public static RegistryObject<SwarmBlock> KRILL_SWARM = modBlocks.register("krill_swarm", () -> new SwarmBlock(ModItems.KRILL, BlockBehaviour.Properties.of(Material.PLANT).noCollission().instabreak().randomTicks()));
+    public static RegistryObject<SwarmBlock> PLANKTON_SWARM = modBlocks.register("plankton_swarm", () -> new SwarmBlock(ModItems.PLANKTON, BlockBehaviour.Properties.of(Material.PLANT).noCollission().instabreak().randomTicks()));
+
+    public static RegistryObject<TourRailBlock> TOUR_RAIL = modBlocks.register("tour_rail", () -> new TourRailBlock(BlockBehaviour.Properties.of(Material.HEAVY_METAL).requiresCorrectToolForDrops().strength(1), TourRailBlock.SpeedType.NONE));
+
+
+
+
+
 
 
 
@@ -165,5 +201,14 @@ public class ModBlocks {
         return BlockBehaviour.Properties.of(Material.PLANT).instabreak().randomTicks();
     }
 
+    public static BlockBehaviour.Properties defaultMoss() {
+        return BlockBehaviour.Properties.of(Material.MOSS, MaterialColor.COLOR_GREEN).strength(0.1F).sound(SoundType.MOSS);
+    }
 
+    public static BlockBehaviour.Properties defaultAncientCoral() {
+        return BlockBehaviour.Properties.of(Material.WATER_PLANT, MaterialColor.COLOR_BLUE).noCollission().instabreak().sound(SoundType.WET_GRASS);
+    }
+    public static BlockBehaviour.Properties defaultDeadCoral(){
+        return BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_GRAY).requiresCorrectToolForDrops().noCollission().instabreak();
+    }
 }

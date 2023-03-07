@@ -3,6 +3,7 @@ package net.gamma02.jurassicworldreborn.common.blocks.entities;
 import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerMenu;
+import net.gamma02.jurassicworldreborn.common.blocks.parkBlocks.TourRailBlockEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -23,6 +24,8 @@ public class modBlockEntities<T extends BlockEntity> {
 
     public static RegistryObject<BlockEntityType<CleanerBlockEntity>> CLEANING_STATION = modBlockEntities.register("cleaning_station", () -> BlockEntityType.Builder.of(CleanerBlockEntity::new, ModBlocks.CLEANER_BLOCK.get()).build(null));
     public static RegistryObject<BlockEntityType<EncasedFossilBlockEntity>> FOSSIL = modBlockEntities.register("encased_fossil", () -> BlockEntityType.Builder.of(EncasedFossilBlockEntity::new, ModBlocks.FAUNA_FOSSIL.get(), ModBlocks.DEEPSLATE_FAUNA_FOSSIL.get(), ModBlocks.ENCASED_FAUNA_FOSSIL.get()).build(null));
+
+    public static RegistryObject<BlockEntityType<TourRailBlockEntity>> TOUR_RAIL_BLOCK_ENTITY = modBlockEntities.register("tour_rail_block_entity", () -> BlockEntityType.Builder.of(TourRailBlockEntity::new, ModBlocks.TOUR_RAIL.get()).build(null));
 
 
 

@@ -27,7 +27,7 @@ public class FeederBlock extends BaseEntityBlock {
     public static DirectionProperty FACING = DirectionalBlock.FACING;
 
 
-    protected FeederBlock(Properties p_49224_) {
+    public FeederBlock(Properties p_49224_) {
         super(p_49224_);
         this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.UP).setValue(WATERLOGGED, false));
     }

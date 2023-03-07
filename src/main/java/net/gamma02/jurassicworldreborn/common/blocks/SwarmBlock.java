@@ -81,7 +81,7 @@ public class SwarmBlock extends Block {
         super.randomTick(state, world, pos, rand);
         this.checkForDrop(world, pos, state);
         if (rand.nextInt(10) == 0) {
-            ItemEntity item = new ItemEntity(world, pos.getX() + 0.5, pos.getY() + 0.8, pos.getZ() + 0.5, new ItemStack(this.item.get().get()));
+            ItemEntity item = new ItemEntity(world, pos.getX() + 0.5, pos.getY() + 0.8, pos.getZ() + 0.5, new ItemStack(this.item.get()));
             item.setDeltaMovement((rand.nextFloat() - 0.5F) * 0.5F, 0.2F, (rand.nextFloat() - 0.5F) * 0.5F);
             world.addFreshEntity(item);
         }

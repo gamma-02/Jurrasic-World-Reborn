@@ -14,6 +14,11 @@ import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNASynth
 import net.gamma02.jurassicworldreborn.common.blocks.entities.EmbryonicThing.EmbryoCalcificationMachineBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.EmbryonicThing.EmbryonicMachineBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.bugcrate.BugCrate;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.fence.ElectricFenceBaseBlock;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.fence.ElectricFencePoleBlock;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.fence.ElectricFenceWireBlock;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.fence.FenceType;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.paleobale.PaleoBaleBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.parkBlocks.*;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cultivator.CultivatorBottomBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cultivator.CultivatorTopBlock;
@@ -171,6 +176,24 @@ public class ModBlocks {
     public static RegistryObject<SwarmBlock> PLANKTON_SWARM = modBlocks.register("plankton_swarm", () -> new SwarmBlock(ModItems.PLANKTON, BlockBehaviour.Properties.of(Material.PLANT).noCollission().instabreak().randomTicks()));
 
     public static RegistryObject<TourRailBlock> TOUR_RAIL = modBlocks.register("tour_rail", () -> new TourRailBlock(BlockBehaviour.Properties.of(Material.HEAVY_METAL).requiresCorrectToolForDrops().strength(1), TourRailBlock.SpeedType.NONE));
+
+    public static RegistryObject<PaleoBaleBlock> PALEO_BALE_CYCADEOIDEA = modBlocks.register("paleo_bale_cycadeoidea", () -> new PaleoBaleBlock(PaleoBaleBlock.Variant.CYCADEOIDEA, BlockBehaviour.Properties.of(Material.GRASS).sound(SoundType.GRASS)));
+    public static RegistryObject<PaleoBaleBlock> PALEO_BALE_CYCAD = modBlocks.register("paleo_bale_cycad", () -> new PaleoBaleBlock(PaleoBaleBlock.Variant.CYCAD, BlockBehaviour.Properties.of(Material.GRASS).sound(SoundType.GRASS)));
+    public static RegistryObject<PaleoBaleBlock> PALEO_BALE_FERN = modBlocks.register("paleo_bale_fern", () -> new PaleoBaleBlock(PaleoBaleBlock.Variant.FERN, BlockBehaviour.Properties.of(Material.GRASS).sound(SoundType.GRASS)));
+    public static RegistryObject<PaleoBaleBlock> PALEO_BALE_LEAVES = modBlocks.register("paleo_bale_leaves", () -> new PaleoBaleBlock(PaleoBaleBlock.Variant.LEAVES, BlockBehaviour.Properties.of(Material.GRASS).sound(SoundType.GRASS)));
+    public static RegistryObject<PaleoBaleBlock> PALEO_BALE_OTHER = modBlocks.register("paleo_bale_other", () -> new PaleoBaleBlock(PaleoBaleBlock.Variant.OTHER, BlockBehaviour.Properties.of(Material.GRASS).sound(SoundType.GRASS)));
+    public static RegistryObject<ElectricFenceBaseBlock> LOW_SECURITY_FENCE_BASE = modBlocks.register("low_security_fence_base", () -> new ElectricFenceBaseBlock(FenceType.LOW, defaultMachine()));
+    public static RegistryObject<ElectricFenceBaseBlock> MED_SECURITY_FENCE_BASE = modBlocks.register("med_security_fence_base", () -> new ElectricFenceBaseBlock(FenceType.MED, defaultMachine()));
+    public static RegistryObject<ElectricFenceBaseBlock> HIGH_SECURITY_FENCE_BASE = modBlocks.register("high_security_fence_base", () -> new ElectricFenceBaseBlock(FenceType.HIGH, defaultMachine()));
+
+    public static RegistryObject<ElectricFenceWireBlock> LOW_SECURITY_FENCE_WIRE = modBlocks.register("low_security_fence_wire", () -> new ElectricFenceWireBlock(FenceType.LOW, defaultMachine()));
+    public static RegistryObject<ElectricFenceWireBlock> MED_SECURITY_FENCE_WIRE = modBlocks.register("med_security_fence_wire", () -> new ElectricFenceWireBlock(FenceType.MED, defaultMachine()));
+    public static RegistryObject<ElectricFenceWireBlock> HIGH_SECURITY_FENCE_WIRE = modBlocks.register("high_security_fence_wire", () -> new ElectricFenceWireBlock(FenceType.HIGH, defaultMachine()));
+
+    public static RegistryObject<ElectricFencePoleBlock> LOW_SECURITY_FENCE_POLE = modBlocks.register("low_security_fence_pole", () -> new ElectricFencePoleBlock(FenceType.LOW, defaultMachine()));
+    public static RegistryObject<ElectricFencePoleBlock> MED_SECURITY_FENCE_POLE = modBlocks.register("med_security_fence_pole", () -> new ElectricFencePoleBlock(FenceType.MED, defaultMachine()));
+    public static RegistryObject<ElectricFencePoleBlock> HIGH_SECURITY_FENCE_POLE = modBlocks.register("high_security_fence_pole", () -> new ElectricFencePoleBlock(FenceType.HIGH, defaultMachine()));
+
 
 
 

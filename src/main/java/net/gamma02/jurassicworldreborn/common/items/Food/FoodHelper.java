@@ -56,11 +56,11 @@ public class FoodHelper {
 //        registerFood(ItemHandler.KRILL, FoodType.FILTER, 250);
 //        registerFood(ItemHandler.PLANKTON, FoodType.FILTER, 250);
 //
-//        registerFood(BlockHandler.PALEO_BALE_CYCADEOIDEA, FoodType.PLANT, 5000);
-//        registerFood(BlockHandler.PALEO_BALE_CYCAD, FoodType.PLANT, 5000);
-//        registerFood(BlockHandler.PALEO_BALE_FERN, FoodType.PLANT, 5000);
-//        registerFood(BlockHandler.PALEO_BALE_LEAVES, FoodType.PLANT, 5000);
-//        registerFood(BlockHandler.PALEO_BALE_OTHER, FoodType.PLANT, 5000);
+//        registerFood(ModBlocks.PALEO_BALE_CYCADEOIDEA, FoodType.PLANT, 5000);
+//        registerFood(ModBlocks.PALEO_BALE_CYCAD, FoodType.PLANT, 5000);
+//        registerFood(ModBlocks.PALEO_BALE_FERN, FoodType.PLANT, 5000);
+//        registerFood(ModBlocks.PALEO_BALE_LEAVES, FoodType.PLANT, 5000);
+//        registerFood(ModBlocks.PALEO_BALE_OTHER, FoodType.PLANT, 5000);
 //
 //        for (Plant plant : PlantHandler.getPlants()) {
 //            registerFood(plant.getBlock(), FoodType.PLANT, plant.getHealAmount(), plant.getEffects());

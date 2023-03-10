@@ -1,20 +1,28 @@
 package net.gamma02.jurassicworldreborn.common.items;
 
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
+import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
+import net.gamma02.jurassicworldreborn.common.blocks.ancientplants.AncientPlantBlock;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.paleobale.PaleoBaleBlock;
+import net.gamma02.jurassicworldreborn.common.blocks.fossil.AncientCoralBlock;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.gamma02.jurassicworldreborn.common.items.misc.SwarmItem;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.RecordItem;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.lwjgl.system.CallbackI;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.Supplier;
 
@@ -26,6 +34,8 @@ public class ModItems {
     public static DeferredRegister<Item> modItems = DeferredRegister.create(ForgeRegistries.ITEMS, Jurassicworldreborn.modid);
     public static DeferredRegister<Item> modBlockItems = DeferredRegister.create(ForgeRegistries.ITEMS, Jurassicworldreborn.modid);
 
+
+
     public static RegistryObject<Item> ARAUCARIA_SAPLING = modBlockItems.register("araucaria_sapling", () -> new BlockItem(ModBlocks.AraucariaSapling.get(), new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)));
 
     public static RegistryObject<Item> GINKGO_SAPLING = modBlockItems.register("ginkgo_sapling", () -> new BlockItem(ModBlocks.GinkgoSapling.get(), new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)));
@@ -36,14 +46,14 @@ public class ModItems {
 
     public static RegistryObject<Item> PSARONIUS_SAPLING = modBlockItems.register("psarons_sapling", () -> new BlockItem(ModBlocks.PsaroniusSapling.get(), new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)));
 
-    public static RegistryObject<Item> PLASTER_AND_BANDAGE = modItems.register("plaster_and_bandage", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
+    public static RegistryObject<Item> PLASTER_AND_BANDAGE = modItems.register("plaster_and_bandage", () -> new Item(new Item.Properties().tab(TabHandler.ITEMS)));
 
-    public static RegistryObject<Item> MOSQUITO_AMBER = modItems.register("mosquito_amber", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
-    public static RegistryObject<Item> APHID_AMBER = modItems.register("aphid_amber", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
+    public static RegistryObject<Item> MOSQUITO_AMBER = modItems.register("mosquito_amber", () -> new Item(new Item.Properties().tab(TabHandler.ITEMS)));
+    public static RegistryObject<Item> APHID_AMBER = modItems.register("aphid_amber", () -> new Item(new Item.Properties().tab(TabHandler.ITEMS)));
 
-    public static RegistryObject<Item> SEA_LAMPREY = modItems.register("sea_lamprey", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
+    public static RegistryObject<Item> SEA_LAMPREY = modItems.register("sea_lamprey", () -> new Item(new Item.Properties().tab(TabHandler.ITEMS)));
 
-    public static RegistryObject<Item> ENCASED_FAUNA_FOSSIL = modItems.register("encased_fauna_item", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
+    public static RegistryObject<Item> ENCASED_FAUNA_FOSSIL = modItems.register("encased_fauna_item", () -> new Item(new Item.Properties().tab(TabHandler.ITEMS)));
 
     public static RegistryObject<Item> DEFAULT_BONE = modItems.register("missing_bone", () -> new Item(new Item.Properties()));
 
@@ -63,8 +73,17 @@ public class ModItems {
     public static final RegistryObject<Item> GOAT_COOKED = modItems.register("cooked_goat_meat", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_FOOD).food(GOAT_COOKED_PROP)));
 
 
-    public static final RegistryObject<SwarmItem> PLANKTON = modBlockItems.register("plankton", () -> new SwarmItem(ModBlocks.PLANKTON_SWARM.get(), new Item.Properties()));
-    public static final RegistryObject<SwarmItem> KRILL = modBlockItems.register("krill", () -> new SwarmItem(ModBlocks.KRILL_SWARM.get(), new Item.Properties()));
+    public static final RegistryObject<SwarmItem> PLANKTON = modBlockItems.register("plankton", () -> new SwarmItem(ModBlocks.PLANKTON_SWARM.get(), new Item.Properties().tab(TabHandler.ITEMS)));
+    public static final RegistryObject<SwarmItem> KRILL = modBlockItems.register("krill", () -> new SwarmItem(ModBlocks.KRILL_SWARM.get(), new Item.Properties().tab(TabHandler.ITEMS)));
+
+    public static final RegistryObject<RecordItem> JURASSICRAFT_THEME_DISC = modBlockItems.register("disc_jurassicraft_theme", () -> new RecordItem(0, () -> SoundHandler.JURASSICRAFT_THEME, new Item.Properties().tab(TabHandler.ITEMS)));
+    public static final RegistryObject<RecordItem> TROODONS_AND_RAPTORS_DISC = modBlockItems.register("disc_troodons_and_raptors", () -> new RecordItem(0, () -> SoundHandler.TROODONS_AND_RAPTORS, new Item.Properties().tab(TabHandler.ITEMS)));
+    public static final RegistryObject<RecordItem> DONT_MOVE_A_MUSCLE_DISC = modBlockItems.register("disc_dont_move_a_muscle", () -> new RecordItem(0, () -> SoundHandler.DONT_MOVE_A_MUSCLE, new Item.Properties().tab(TabHandler.ITEMS)));
+
+    public static final RegistryObject<BlockItem> GYPSUM_BRICKS = registerBlockItem("gypsum_bricks", ModBlocks.GYPSUM_BRICKS::get);
+
+
+    public static final ArrayList<RegistryObject<BlockItem>> modBlocks = new ArrayList<>();
 
 
 
@@ -73,6 +92,15 @@ public class ModItems {
     public static HashMap<String, RegistryObject<Item>> STEAKS = new HashMap<>();
 
     public static void register(IEventBus bus) {
+
+        //automatically register all the blocks :)
+        for(var/*auto*/ a : ModBlocks.modBlocks.getEntries()){
+            ResourceLocation location = a.getId();
+            String name = location.getPath().contains("block") ? location.getPath().replace("block", "item") : location.getPath().concat("_item");
+            modBlocks.add(registerBlockItem(name, a.get()));
+        }
+
+
         modItems.register(bus);
         modBlockItems.register(bus);
     }
@@ -94,6 +122,30 @@ public class ModItems {
     }
     public static Item getMeatForDinosaur(EntityType<DinosaurEntity> type){
         return MEATS.get(type.toString()).orElse(DEFAULT_BONE.get());
+    }
+
+    public static RegistryObject<BlockItem> registerBlockItem(String name, Block block){
+
+        final CreativeModeTab tab;
+        if( block instanceof AncientPlantBlock || block instanceof AncientCoralBlock || block instanceof PaleoBaleBlock){
+            tab = CreativeModeTab.TAB_DECORATIONS;
+        }else{
+            tab = CreativeModeTab.TAB_BUILDING_BLOCKS;
+        }
+
+        return modBlockItems.register(name, () -> new BlockItem(block, new Item.Properties().tab(tab)));
+    }
+
+    public static RegistryObject<BlockItem> registerBlockItem(String name, Supplier<Block> block){
+
+        final CreativeModeTab tab;
+        if( block instanceof AncientPlantBlock || block instanceof AncientCoralBlock || block instanceof PaleoBaleBlock){
+            tab = CreativeModeTab.TAB_DECORATIONS;
+        }else{
+            tab = TabHandler.BLOCKS;
+        }
+
+        return modBlockItems.register(name, () -> new BlockItem(block.get(), new Item.Properties().tab(tab)));
     }
 
 

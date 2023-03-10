@@ -21,7 +21,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,6 +35,7 @@ public class ElectricFenceWireBlock extends BaseEntityBlock {
     public static final BooleanProperty WEST = BooleanProperty.create("west");
     public static final BooleanProperty EAST = BooleanProperty.create("east");
     public static final DirectionProperty UP_DIRECTION = DirectionProperty.create("up");
+
     private FenceType type;
 
     public ElectricFenceWireBlock(FenceType type, BlockBehaviour.Properties properties) {
@@ -56,8 +59,8 @@ public class ElectricFenceWireBlock extends BaseEntityBlock {
             west = true;
             east = true;
         }
-        double minX = 0.4*16, minZ = 0.4*16;//*16 added to convert from 1.12 shapes to 1.18 shapes
-        double maxX = 0.6, maxZ = 0.6;
+        double minX = 6.4, minZ = 6.4;//*16 added to convert from 1.12 shapes to 1.18 shapes
+        double maxX = 9.6, maxZ = 9.6;
         if (north) {
             minZ = 0.0;
         }
@@ -70,20 +73,22 @@ public class ElectricFenceWireBlock extends BaseEntityBlock {
         if (east) {
             maxX = 16.0;
         }
-        return Block.box(minX, 0.0, minZ, maxX, 1.0, maxZ);
+        return Block.box(minX, 0.0, minZ, maxX, 16.0, maxZ);
     }
 
 
 
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         for (int i = 4; i < stackTrace.length; i++) {
             StackTraceElement element = stackTrace[i];
             if (element.getClassName().equals(Sensing.class.getName())) {
-                return null;
+                return Shapes.empty();
             }
         }
+
         return super.getCollisionShape(state, pLevel, pPos, pContext);
     }
 
@@ -210,6 +215,11 @@ public class ElectricFenceWireBlock extends BaseEntityBlock {
             }
         }
         return height;
+    }
+
+    @Override
+    public boolean collisionExtendsVertically(BlockState state, BlockGetter level, BlockPos pos, Entity collidingEntity) {
+        return true;
     }
 
     protected boolean canConnect(BlockState state) {

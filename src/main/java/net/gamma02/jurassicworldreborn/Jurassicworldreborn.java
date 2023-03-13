@@ -13,6 +13,7 @@ import net.gamma02.jurassicworldreborn.common.items.ModItems;
 import net.gamma02.jurassicworldreborn.common.network.Network;
 import net.gamma02.jurassicworldreborn.common.recipies.cleaner.CleaningRecipie;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -20,6 +21,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.goal.CatLieOnBedGoal;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -37,6 +39,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.HashMap;
+
 import static net.gamma02.jurassicworldreborn.common.CommonRegistries.*;
 import static net.gamma02.jurassicworldreborn.common.recipies.cleaner.CleaningRecipie.CLEANING_RECIPE_TYPE;
 
@@ -49,6 +53,12 @@ public class Jurassicworldreborn {
 
     public static ResourceLocation resource(String resource){
         return new ResourceLocation(modid, resource);
+    }
+
+    public static final HashMap<Block, RenderType> renderlayers = new HashMap<>();
+
+    public static void setRenderType(Block block, RenderType rendertype){
+        renderlayers.put(block, rendertype);
     }
 
     // Directly reference a log4j logger.

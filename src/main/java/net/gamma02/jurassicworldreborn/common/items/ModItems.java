@@ -7,6 +7,7 @@ import net.gamma02.jurassicworldreborn.common.blocks.ancientplants.AncientPlantB
 import net.gamma02.jurassicworldreborn.common.blocks.entities.paleobale.PaleoBaleBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.fossil.AncientCoralBlock;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
+import net.gamma02.jurassicworldreborn.common.items.misc.ActionFigureItem;
 import net.gamma02.jurassicworldreborn.common.items.misc.SwarmItem;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -82,6 +83,7 @@ public class ModItems {
 
     public static final RegistryObject<BlockItem> GYPSUM_BRICKS = registerBlockItem("gypsum_bricks", ModBlocks.GYPSUM_BRICKS::get);
 
+    public static final RegistryObject<ActionFigureItem> DISPLAY_BLOCK = modItems.register("display_block_item", () -> new ActionFigureItem(new Item.Properties().tab(TabHandler.DECORATIONS)));
 
     public static final ArrayList<RegistryObject<BlockItem>> modBlocks = new ArrayList<>();
 

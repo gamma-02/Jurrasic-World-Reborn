@@ -31,12 +31,16 @@ import javax.vecmath.Matrix4d;
 import javax.vecmath.Vector3d;
 
 public abstract class Dinosaur implements Comparable<Dinosaur> {
+    public static final ArrayList<Dinosaur> DINOS = new ArrayList<>();
     private final Map<GrowthStage, List<ResourceLocation>> overlays = new HashMap<>();
     private final Map<GrowthStage, ResourceLocation> maleTextures = new HashMap<>();
     private final Map<GrowthStage, ResourceLocation> femaleTextures = new HashMap<>();
     private final Map<GrowthStageGenderContainer, ResourceLocation> eyelidTextures = new HashMap<>();
     public boolean isHybrid = false;
     public String getDietName;
+
+
+
 
     private String name;
     private Class<? extends DinosaurEntity> entityClass;
@@ -108,6 +112,30 @@ public abstract class Dinosaur implements Comparable<Dinosaur> {
     private int jumpHeight;
 
     private String[][] recipe;
+
+    protected Dinosaur(){
+        DINOS.add(this);
+    }
+
+
+    public static Dinosaur EMPTY = new EmptyDinosaur();
+
+
+    public static Dinosaur getDinosaurByName(String name) {
+        for(Dinosaur d : DINOS) {
+            if(d.getName().toLowerCase(Locale.ROOT).equals(name.toLowerCase(Locale.ROOT))) {
+                return d;
+            }
+        }
+        return EMPTY;
+    }
+
+    public static class EmptyDinosaur extends Dinosaur {
+        public EmptyDinosaur(){
+            super();
+            this.setName("None");
+        }
+    }
 
     public static Matrix4d getParentRotationMatrix(TabulaModelContainer model, TabulaCubeContainer cube, boolean includeParents, boolean ignoreSelf, float rot) {
         List<TabulaCubeContainer> parentCubes = new ArrayList<>();

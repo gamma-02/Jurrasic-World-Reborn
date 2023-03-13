@@ -7,6 +7,8 @@ import net.gamma02.jurassicworldreborn.common.blocks.ancientplants.ImplimentedAn
 import net.gamma02.jurassicworldreborn.common.blocks.ancientplants.SmallPlantBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.ancientplants.moss.AncientMossCarpet;
 import net.gamma02.jurassicworldreborn.common.blocks.ancientplants.moss.PeatBlock;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.ActionFigureBlock;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.ActionFigureBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNACombinatorHybridizerBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNAExtractorBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNASequencerBlock;
@@ -193,6 +195,8 @@ public class ModBlocks {
     public static RegistryObject<ElectricFencePoleBlock> LOW_SECURITY_FENCE_POLE = modBlocks.register("low_security_fence_pole", () -> new ElectricFencePoleBlock(FenceType.LOW, defaultMachine()));
     public static RegistryObject<ElectricFencePoleBlock> MED_SECURITY_FENCE_POLE = modBlocks.register("med_security_fence_pole", () -> new ElectricFencePoleBlock(FenceType.MED, defaultMachine()));
     public static RegistryObject<ElectricFencePoleBlock> HIGH_SECURITY_FENCE_POLE = modBlocks.register("high_security_fence_pole", () -> new ElectricFencePoleBlock(FenceType.HIGH, defaultMachine()));
+
+    public static RegistryObject<ActionFigureBlock> DISPLAY_BLOCK = modBlocks.register("display_block", () -> new ActionFigureBlock(BlockBehaviour.Properties.of(Material.WOOD).strength(0.0F, 0.0F).randomTicks().sound(SoundType.WOOD)));
 
 
 

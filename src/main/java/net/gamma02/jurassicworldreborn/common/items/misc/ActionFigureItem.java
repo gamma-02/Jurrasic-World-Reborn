@@ -3,6 +3,7 @@ package net.gamma02.jurassicworldreborn.common.items.misc;
 import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.ActionFigureBlockEntity;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
+import net.gamma02.jurassicworldreborn.common.util.NbtBuilder;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -298,16 +299,34 @@ public class ActionFigureItem extends Item {
 
 
 
-    public String getDinosaurID(ItemStack stack) {
+    public static String getDinosaurID(ItemStack stack) {
         return stack.getTag().getString("DinosaurID");
     }
 
-    public int getVariant(ItemStack stack) {
-        return stack.getTag().getInt("Variant") >> 1 & 7;
+    public static byte getVariant(ItemStack stack) {
+        return (byte) (stack.getTag().getByte("Variant") >> (byte)(1 & 7));
     }
 
-    public boolean isSkeleton(ItemStack stack) {
+    public static boolean isSkeleton(ItemStack stack) {
         return (stack.getTag().getBoolean("IsSkeleton"));
+    }
+
+    public static void setDinosaurID(ItemStack stack, String dinosaurID) {
+        stack.getTag().putString(DINOSAUR_ID_TAG, dinosaurID);
+    }
+
+    public static void setVariant(ItemStack stack, byte variant) {
+        stack.getTag().putByte(VARIANT_TAG, variant);
+    }
+    public static void setSkeleton(ItemStack stack, boolean skeleton){
+        stack.getTag().putBoolean(SKELETON_TAG, skeleton);
+    }
+
+    public static ItemStack setAll(ItemStack stack, String dino, byte variant, boolean skeleton){
+        setDinosaurID(stack, dino);
+        setVariant(stack, variant);
+        setSkeleton(stack, skeleton);
+        return stack;
     }
 
     public int changeMode(ItemStack stack) {
@@ -327,9 +346,17 @@ public class ActionFigureItem extends Item {
         return super.getDescription();
     }
 
+    @Override
+    public ItemStack getDefaultInstance() {
+        ItemStack basic = new ItemStack(this);
+
+        basic.setTag(new NbtBuilder(basic.getTag()).putString(DINOSAUR_ID_TAG, Dinosaur.DINOS.get(0).getName()).putBoolean(SKELETON_TAG, false).putByte(VARIANT_TAG, (byte)0 ).build());
 
 
-//    @Override todo: langutils, lore adder
+        return basic;
+    }
+
+    //    @Override todo: langutils, lore adder
 //    @OnlyIn(Dist.CLIENT)
 //    public void addInformation(ItemStack stack, World world, List<String> lore, ITooltipFlag tooltipFlag) {
 //        if (!this.isSkeleton(stack)) {

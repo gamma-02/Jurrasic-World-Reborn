@@ -10,6 +10,10 @@ public class NbtBuilder {
 
     public NbtBuilder(){
 
+    }
+    public NbtBuilder(CompoundTag tag){
+        this.root = tag;
+
     };
 
     public NbtBuilder putInt(String key, int value){

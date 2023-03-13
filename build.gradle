@@ -16,7 +16,8 @@ buildscript {
 }
 
 apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'org.spongepowered.net.gamma02.jurassicworldreborn.mixin'
+apply plugin: 'org.spongepowered.mixin'
+
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
 
 group = 'net.gamma02'

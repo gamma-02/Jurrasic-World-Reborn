@@ -29,7 +29,7 @@ public class TabHandler {
         CreativeModeTab tab = new CreativeModeTab(name){
 
             @Override
-            public ItemStack getIconItem() {//this bit in particular makes the icon scroll/change between the specified items.
+            public ItemStack getIconItem() {//this bit in particular makes the icon scroll/change between the specified items, or registered dinosaur display cases
                 if(!SCROLLING_TAB_ITEMS.containsKey(name) && !name.equals("rebornmod.decorations")) {
                     return super.getIconItem();
                 } else if(name.equals("rebornmod.decorations")) {

@@ -51,6 +51,8 @@ public class Jurassicworldreborn {
 
     public static String modid = "jurassicworldreborn";
 
+    public static final String MODID = "jurassicworldreborn";
+
     public static ResourceLocation resource(String resource){
         return new ResourceLocation(modid, resource);
     }

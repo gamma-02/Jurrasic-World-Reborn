@@ -1,4 +1,4 @@
-package net.gamma02.jurassicworldreborn.client.model.animation;
+package net.gamma02.jurassicworldreborn.client.render.entity.animation;
 
 import com.github.alexthe666.citadel.animation.Animation;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.Animatable;

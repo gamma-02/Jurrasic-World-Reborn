@@ -2,7 +2,7 @@ package net.gamma02.jurassicworldreborn.common.entities.EntityUtils;
 
 
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
-import net.gamma02.jurassicworldreborn.client.model.animation.PoseHandler;
+import net.gamma02.jurassicworldreborn.client.render.entity.animation.PoseHandler;
 import net.minecraft.world.entity.LivingEntity;
 
 public interface Animatable extends IAnimatedEntity {

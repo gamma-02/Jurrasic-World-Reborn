@@ -55,6 +55,18 @@ public class DinosaurRenderer extends LivingEntityRenderer<DinosaurEntity, Basic
         this.addLayer(new LayerEyelid(this));
     }
 
+    public DinosaurRenderer(EntityRendererProvider.Context renderInfo, BasicEntityModel<DinosaurEntity> model, float shadowSize, Dinosaur dino, EntityAnimator<? extends DinosaurEntity> animator) {
+        super(renderInfo, model, shadowSize);
+//        this.dinosaur = renderInfo.getDinosaur();
+
+        this.dinosaur = dino;
+        this.setDinosaur(dino, animator);
+
+        this.random = new Random();
+//        this.renderInfo = renderInfo;
+        this.addLayer(new LayerEyelid(this));
+    }
+
     /**
      * This sets the renderInfo of the render to the dino and animation.
      * !!!CALL THIS RIGHT AFTER REGISTERING IT!!!

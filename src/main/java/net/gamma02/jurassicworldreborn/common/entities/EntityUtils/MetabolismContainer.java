@@ -1,9 +1,7 @@
 package net.gamma02.jurassicworldreborn.common.entities.EntityUtils;
 
-import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.NbtComponent;
 import net.minecraft.world.damagesource.DamageSource;
 
 public class MetabolismContainer {

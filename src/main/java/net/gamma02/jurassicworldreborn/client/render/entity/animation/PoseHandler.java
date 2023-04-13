@@ -1,24 +1,25 @@
-package net.gamma02.jurassicworldreborn.client.model.animation;
+package net.gamma02.jurassicworldreborn.client.render.entity.animation;
 
 import com.github.alexthe666.citadel.animation.Animation;
-import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.client.model.AnimatableModel;
+import net.gamma02.jurassicworldreborn.client.model.animation.dto.AnimatableRenderDefDTO;
 import net.gamma02.jurassicworldreborn.client.model.animation.dto.AnimationsDTO;
 import net.gamma02.jurassicworldreborn.client.model.animation.dto.PoseDTO;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.Animatable;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.GrowthStage;
-import net.minecraft.world.entity.LivingEntity;
-
-import net.gamma02.jurassicworldreborn.client.model.animation.dto.AnimatableRenderDefDTO;
 import net.gamma02.jurassicworldreborn.common.legacy.tabula.TabulaModelHelper;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.loading.FMLEnvironment;
-import org.spongepowered.asm.mixin.MixinEnvironment;
+import net.minecraftforge.common.ForgeConfig;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.DistExecutor;
+
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,14 +27,15 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.Callable;
 
-/**
- * Just a warning: this is all ported code from 1.12, no clue if it will work :)
- *  - gamma_02
- *
- * @param <ENTITY>
- */
 public class PoseHandler<ENTITY extends LivingEntity & Animatable> {
     private static final Gson GSON = new GsonBuilder()
             .registerTypeAdapter(AnimatableRenderDefDTO.class, new AnimatableRenderDefDTO.AnimatableDeserializer())
@@ -52,8 +54,7 @@ public class PoseHandler<ENTITY extends LivingEntity & Animatable> {
         try {
             entityResource = new URI("/assets/rebornmod/models/entities/" + name + "/");
         } catch (URISyntaxException e) {
-            //TODO: logger
-//            Jurassicworldreborn.LOGGER.fatal("Illegal URI /assets/rebornmod/models/entities/" + name + "/", e);
+            Jurassicworldreborn.getLogger().fatal("Illegal URI /assets/rebornmod/models/entities/" + name + "/", e);
             return;
         }
         for (GrowthStage growth : GrowthStage.values()) {
@@ -71,9 +72,8 @@ public class PoseHandler<ENTITY extends LivingEntity & Animatable> {
                         this.modelData.put(actualGrowth, loaded);
                     }
                 }
-            } catch (Exception e) {
-                //TODO: logger
-//                Jurassicworldreborn.getLogger().fatal("Failed to parse growth stage " + growth + " for dinosaur " + name, e);
+            } catch (Exception e) {//wtf why - gamma
+                Jurassicworldreborn/*.INSTANCE*/.getLogger().fatal("Failed to parse growth stage " + growth + " for dinosaur " + name, e);
                 this.modelData.put(growth, new ModelData());
             }
         }
@@ -91,8 +91,7 @@ public class PoseHandler<ENTITY extends LivingEntity & Animatable> {
             Reader reader = new InputStreamReader(modelStream);
             AnimationsDTO rawAnimations = GSON.fromJson(reader, AnimationsDTO.class);
             ModelData data = this.loadModelData(growthSensitiveDir, rawAnimations);
-            //TodO: logger
-//            RebornMod.getLogger().debug("Successfully loaded " + name + "(" + growth + ") from " + definitionFile);
+            Jurassicworldreborn.getLogger().debug("Successfully loaded " + name + "(" + growth + ") from " + definitionFile);
             reader.close();
             return data;
         } catch (IOException e) {
@@ -143,47 +142,22 @@ public class PoseHandler<ENTITY extends LivingEntity & Animatable> {
             animations.put(animation, poseSequence);
         }
 
-        if (FMLEnvironment.dist == Dist.CLIENT) {
-            return this.loadModelDataClient(posedModelResources, animations);
+//        if (DistExecutor.safeCallWhenOn()) {
+//            return this.loadModelDataClient(posedModelResources, animations);
+//        }
+//
+//        return new ModelData(animations);
+        ModelData data;
+        ModelData clientAttempt = DistExecutor.<ModelData>unsafeCallWhenOn(Dist.CLIENT, () -> SafeClientMethods.loadModelDataForClient(posedModelResources, animations));//crying and sobbing why is forge like this
+        if(clientAttempt != null){
+            return clientAttempt;
+        }else{
+            return new ModelData(animations);
         }
 
-        return new ModelData(animations);
     }
 
-    @OnlyIn(Dist.CLIENT)
-    private ModelData loadModelDataClient(List<String> posedModelResources, Map<Animation, float[][]> animations) {
-        PosedCuboid[][] posedCuboids = new PosedCuboid[posedModelResources.size()][];
-        AnimatableModel mainModel = JabelarAnimationHandler.loadModel(posedModelResources.get(0));
-        if (mainModel == null) {
-            throw new IllegalArgumentException("Couldn't load the model from " + posedModelResources.get(0));
-        }
-        String[] identifiers = mainModel.getCubeIdentifierArray();
-        int partCount = identifiers.length;
-        for (int i = 0; i < posedModelResources.size(); i++) {
-            String resource = posedModelResources.get(i);
-            AnimatableModel model = JabelarAnimationHandler.loadModel(resource);
-            if (model == null) {
-                throw new IllegalArgumentException("Couldn't load the model from " + resource);
-            }
-            PosedCuboid[] pose = new PosedCuboid[partCount];
-            for (int partIndex = 0; partIndex < partCount; partIndex++) {
-                String identifier = identifiers[partIndex];
-                AdvancedModelBox cube = model.getCubeByIdentifier(identifier);
-                if (cube == null) {
-                    AdvancedModelBox mainCube = mainModel.getCubeByIdentifier(identifier);
-                    //todO: eh??
-//                    if(RebornMod.INSTANCE.getEnv()) {
-//                        RebornMod.getLogger().error("Could not retrieve cube " + identifier + " (" + mainCube.boxName + ", " + partIndex + ") from the model " + resource);
-//                    }
-                    pose[partIndex] = new PosedCuboid(mainCube);
-                } else {
-                    pose[partIndex] = new PosedCuboid(cube);
-                }
-            }
-            posedCuboids[i] = pose;
-        }
-        return new ModelData(posedCuboids, animations);
-    }
+
 
     private String resolve(URI dinoDirURI, String posePath) {
         URI uri = dinoDirURI.resolve(posePath);
@@ -225,7 +199,7 @@ public class PoseHandler<ENTITY extends LivingEntity & Animatable> {
         return this.modelData.get(growthStage).animations.get(animation) != null;
     }
 
-    private class ModelData {
+    static class ModelData {
         @OnlyIn(Dist.CLIENT)
         PosedCuboid[][] poses;
 

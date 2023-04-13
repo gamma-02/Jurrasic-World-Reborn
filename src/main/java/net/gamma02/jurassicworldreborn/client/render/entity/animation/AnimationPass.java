@@ -1,8 +1,9 @@
-package net.gamma02.jurassicworldreborn.client.model.animation;
+package net.gamma02.jurassicworldreborn.client.render.entity.animation;
+
 
 import com.github.alexthe666.citadel.animation.Animation;
-import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
+import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.Animatable;
 
 import java.util.Map;
@@ -121,13 +122,11 @@ public class AnimationPass {
         this.inertiaFactor = this.calculateInertiaFactor();
 
         if (this.pose == null) {
-            //tOdo: logger
-//            RebornMod.getLogger().error("Trying to animate to a null pose array");
+            Jurassicworldreborn.getLogger().error("Trying to animate to a null pose array");
         } else {
             for (int partIndex = 0; partIndex < Math.min(this.parts.length, this.pose.length); partIndex++) {
                 if (this.pose[partIndex] == null) {
-                    //toDO: logger
-//                    RebornMod.getLogger().error("Part " + partIndex + " in pose is null");
+                    Jurassicworldreborn.getLogger().error("Part " + partIndex + " in pose is null");
                 } else {
                     this.applyRotations(partIndex);
                     this.applyTranslations(partIndex);

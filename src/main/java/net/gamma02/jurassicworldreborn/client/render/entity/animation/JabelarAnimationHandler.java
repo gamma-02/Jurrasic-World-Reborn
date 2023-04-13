@@ -1,26 +1,19 @@
-package net.gamma02.jurassicworldreborn.client.model.animation;
-
+package net.gamma02.jurassicworldreborn.client.render.entity.animation;
 
 import com.github.alexthe666.citadel.animation.Animation;
-import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
+import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.client.model.AnimatableModel;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.Animatable;
 import net.gamma02.jurassicworldreborn.common.legacy.tabula.TabulaModelHelper;
-
 import net.minecraft.client.Minecraft;
-
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-
 import java.util.Map;
 
 /**
- * more legacy code warnings - gamma
- *
- *
  * @author jabelar
  *         This class handles per-entity animations.
  */
@@ -44,8 +37,7 @@ public class JabelarAnimationHandler<ENTITY extends LivingEntity & Animatable> {
         try {
             return new AnimatableModel(TabulaModelHelper.loadTabulaModel(model), null);
         } catch (Exception e) {
-            //toDO: logger
-//            RebornMod.getLogger().error("Could not load Tabula model " + model, e);
+            Jurassicworldreborn.getLogger().error("Could not load Tabula model " + model, e);
         }
         return null;
     }

@@ -124,6 +124,8 @@ public class DinosaurRenderInfo{
         }
 
 
+
+
 //    @Override
 //    public EntityRenderer<DinosaurEntity> create(EntityRendererProvider.Context ctx) {// in legacy code this was <? extends DinosaurEntity>... this could cause a problem. - gamma
 ////        Context dCtx = (Context) ctx;

@@ -4,7 +4,8 @@ import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
 import com.github.alexthe666.citadel.client.model.ITabulaModelAnimator;
 import com.github.alexthe666.citadel.client.model.TabulaModel;
 import net.gamma02.jurassicworldreborn.client.model.AnimatableModel;
-import net.gamma02.jurassicworldreborn.client.model.animation.JabelarAnimationHandler;
+import net.gamma02.jurassicworldreborn.client.render.RenderingHandler;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.Animatable;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.GrowthStage;
 import net.minecraft.world.entity.LivingEntity;
@@ -18,6 +19,10 @@ import java.util.WeakHashMap;
 @OnlyIn(Dist.CLIENT)
 public abstract class EntityAnimator<ENTITY extends LivingEntity & Animatable> implements ITabulaModelAnimator<ENTITY> {
     protected EnumMap<GrowthStage, Map<ENTITY, JabelarAnimationHandler<ENTITY>>> animationHandlers = new EnumMap<>(GrowthStage.class);//what is this. why would you do this. my eyes hurt. - gamma
+
+    public EntityAnimator(){
+        RenderingHandler.ANIMATORS.add((EntityAnimator<? extends DinosaurEntity>) this);
+    }
 
     private JabelarAnimationHandler<ENTITY> getAnimationHelper(ENTITY entity, AnimatableModel model, boolean useInertialTweens) {
         GrowthStage growth = entity.getGrowthStage();

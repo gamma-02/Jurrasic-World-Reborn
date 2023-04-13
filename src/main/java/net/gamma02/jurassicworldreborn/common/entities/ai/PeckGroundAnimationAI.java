@@ -1,6 +1,5 @@
 package net.gamma02.jurassicworldreborn.common.entities.ai;
 
-import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 

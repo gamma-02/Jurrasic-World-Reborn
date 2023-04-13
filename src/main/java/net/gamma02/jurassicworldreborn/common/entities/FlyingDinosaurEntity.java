@@ -1,7 +1,5 @@
 package net.gamma02.jurassicworldreborn.common.entities;
 
-import com.mojang.math.Vector3d;
-import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.*;
 import net.gamma02.jurassicworldreborn.common.entities.ai.DinosaurWanderEntityAI;
 import net.gamma02.jurassicworldreborn.common.util.ai.OnionTraverser;

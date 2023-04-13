@@ -3,9 +3,6 @@ package net.gamma02.jurassicworldreborn.common.entities.animal;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
 import com.google.common.collect.Lists;
-import io.netty.buffer.ByteBuf;
-import net.gamma02.jurassicworldreborn.client.model.animation.EntityAnimation;
-import net.gamma02.jurassicworldreborn.client.model.animation.PoseHandler;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.Animatable;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.GrowthStage;
@@ -34,7 +31,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.phys.AABB;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 
 import javax.annotation.Nullable;

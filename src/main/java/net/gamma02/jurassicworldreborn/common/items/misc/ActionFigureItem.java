@@ -47,7 +47,7 @@ public class ActionFigureItem extends Item {
 
 
     }
-//    @SideOnly(Side.CLIENT)
+//    @OnlyIn(Dist.CLIENT)
 //    public void initModels(Collection<Dinosaur> dinos, RenderingHandler renderer) {
 //        for (Dinosaur dino : dinos) {
 //            int dex = EntityHandler.getDinosaurId(dino);

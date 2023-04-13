@@ -1,18 +1,15 @@
-package net.gamma02.jurassicworldreborn.client.model.animation;
+package net.gamma02.jurassicworldreborn.client.render.entity.animation;
 
-import com.github.alexthe666.citadel.Citadel;
-import com.github.alexthe666.citadel.ClientProxy;
 
-import com.github.alexthe666.citadel.client.model.TabulaModelRenderUtils;
 import com.github.alexthe666.citadel.client.model.basic.BasicModelPart;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 /**
+ * why the FUCK did the coder steal this from llibrary
  * @author LLibrary
  * @version 1.0
  */
@@ -78,29 +75,29 @@ public class FixedChainBuffer {
      *
      * @param boxes the box array
      */
-    public void applyChainSwingBuffer(ModelPart... boxes) {
+    public void applyChainSwingBuffer(BasicModelPart... boxes) {
         float rotateAmount;
         if(Minecraft.getInstance().isPaused()) {
-            rotateAmount = 0.01745329251F * interpolate(this.prevYawVariation, this.yawVariation, this.prevPartialTicks) / boxes.length;
+            rotateAmount = 0.01745329251F * Mth.lerp(this.prevYawVariation, this.yawVariation, this.prevPartialTicks) / boxes.length;
         }else {
-            rotateAmount = 0.01745329251F * interpolate(this.prevYawVariation, this.yawVariation, Minecraft.getInstance().getDeltaFrameTime()) / boxes.length;
+            rotateAmount = 0.01745329251F * Mth.lerp(this.prevYawVariation, this.yawVariation, Minecraft.getInstance().getDeltaFrameTime()) / boxes.length;
             this.prevPartialTicks = Minecraft.getInstance().getDeltaFrameTime();
         }
-        for (ModelPart box : boxes) {
-            box.yRot += rotateAmount;
+        for (BasicModelPart box : boxes) {
+            box.rotateAngleY += rotateAmount;
         }
     }
 
-
-
-    public static float interpolate(float prev, float current, float partialTicks) {
-        return prev + partialTicks * (current - prev);
+    /**
+     * Applies this buffer on the X axis to the given array of model boxes.
+     *
+     * @param boxes the box array
+     */
+    public void applyChainWaveBuffer(BasicModelPart... boxes) {
+        float rotateAmount = 0.01745329251F * Mth.lerp(this.prevPitchVariation, this.pitchVariation, Minecraft.getInstance().getDeltaFrameTime()) / boxes.length;
+        for (BasicModelPart box : boxes) {
+            box.rotateAngleX += rotateAmount;
+        }
     }
-
-    public static float interpolateRotation(float prev, float current, float partialTicks) {
-        float shortest = ((current - prev) % 360 + 540) % 360 - 180;
-        return prev + shortest * partialTicks;
-    }
-
 
 }

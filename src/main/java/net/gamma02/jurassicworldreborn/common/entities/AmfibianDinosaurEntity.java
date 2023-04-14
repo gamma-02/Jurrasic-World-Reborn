@@ -4,7 +4,9 @@ import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.ai.DinosaurMo
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.level.Level;
@@ -72,13 +74,18 @@ public abstract class AmfibianDinosaurEntity extends DinosaurEntity {
         super.tick();
     }
 
-    @Override
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createMobAttributes().add(Attributes.MOVEMENT_SPEED, 0.25).add(Attributes.MAX_HEALTH, 7);
+    }
+
+
+        @Override
     public void travel(Vec3 vec) {
         float strafe = (float) vec.x;
         float vertical = (float) vec.y;
         float forward = (float) vec.z;
         if (this.isEffectiveAi() && this.isInWater() && !this.isCarcass() && !this.getOut) {
-            this.moveRelative(strafe, new Vec3(vertical, forward, 0.1F));
+            this.moveRelative(0.1F, new Vec3(strafe, vertical, forward));
             this.move(MoverType.SELF, this.getDeltaMovement());
             this.setDeltaMovement(this.getDeltaMovement().multiply(0.7, 0.7, 0.7));
         } else {

@@ -4,6 +4,7 @@ import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.*;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Bone;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurList.TitanisDinosaur;
+import net.gamma02.jurassicworldreborn.common.entities.animal.CrabEntity;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -24,6 +25,8 @@ public class ModEntities {
     public static DeferredRegister<EntityType<?>> MOD_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITIES, modid);
 
     public static RegistryObject<EntityType<VenomEntity>> VenomType = MOD_ENTITY_TYPES.<EntityType<VenomEntity>>register("venom_entity", ((Supplier<EntityType<VenomEntity>>)EntityType.Builder.<VenomEntity>of(VenomEntity::new, MobCategory.MISC).build(null)));
+
+    public static RegistryObject<EntityType<CrabEntity>> CRAB_ENTITY_TYPE = MOD_ENTITY_TYPES.<EntityType<CrabEntity>>register("crab", ((Supplier<EntityType<CrabEntity>>)EntityType.Builder.<CrabEntity>of(CrabEntity::new, MobCategory.CREATURE).sized(0.4f, 0.3f).build(null)));
 
 
     public static RegistryObject<EntityType<OviraptorEntity>> OVIRAPTOR_ENTITY_TYPE = MOD_ENTITY_TYPES.<EntityType<OviraptorEntity>>register("Oviraptor".toLowerCase(Locale.ROOT), () -> EntityType.Builder.<OviraptorEntity>of(((type, world) -> new OviraptorEntity(world, type)), MobCategory.CREATURE).build(null));

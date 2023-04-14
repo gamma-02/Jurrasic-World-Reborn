@@ -14,6 +14,7 @@ import com.github.alexthe666.citadel.client.model.container.TabulaModelContainer
 
 
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
+import net.gamma02.jurassicworldreborn.client.render.entity.animation.PoseHandler;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.*;
 import net.gamma02.jurassicworldreborn.common.legacy.tabula.TabulaModelHelper;

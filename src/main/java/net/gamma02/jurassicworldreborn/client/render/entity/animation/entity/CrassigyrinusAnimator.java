@@ -2,7 +2,7 @@ package net.gamma02.jurassicworldreborn.client.render.entity.animation.entity;
 
 import net.gamma02.jurassicworldreborn.client.model.AnimatableModel;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimator;
-import mod.reborn.server.entity.dinosaur.CrassigyrinusEntity;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.CrassigyrinusEntity;
 
 public class CrassigyrinusAnimator extends EntityAnimator<CrassigyrinusEntity> {
 

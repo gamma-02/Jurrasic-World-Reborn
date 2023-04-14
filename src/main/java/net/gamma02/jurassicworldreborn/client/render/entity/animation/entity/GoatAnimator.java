@@ -1,11 +1,12 @@
 package net.gamma02.jurassicworldreborn.client.render.entity.animation.entity;
 
+import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
 import net.gamma02.jurassicworldreborn.client.model.AnimatableModel;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimator;
 
+import net.gamma02.jurassicworldreborn.common.entities.animal.GoatEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import mod.reborn.server.entity.animal.GoatEntity;
 
 @OnlyIn(Dist.CLIENT)
 public class GoatAnimator extends EntityAnimator<GoatEntity> {

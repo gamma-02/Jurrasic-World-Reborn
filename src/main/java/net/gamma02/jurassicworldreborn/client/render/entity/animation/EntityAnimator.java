@@ -21,7 +21,7 @@ public abstract class EntityAnimator<ENTITY extends LivingEntity & Animatable> i
     protected EnumMap<GrowthStage, Map<ENTITY, JabelarAnimationHandler<ENTITY>>> animationHandlers = new EnumMap<>(GrowthStage.class);//what is this. why would you do this. my eyes hurt. - gamma
 
     public EntityAnimator(){
-        RenderingHandler.ANIMATORS.add((EntityAnimator<? extends DinosaurEntity>) this);
+        RenderingHandler.ANIMATORS.add(this);
     }
 
     private JabelarAnimationHandler<ENTITY> getAnimationHelper(ENTITY entity, AnimatableModel model, boolean useInertialTweens) {

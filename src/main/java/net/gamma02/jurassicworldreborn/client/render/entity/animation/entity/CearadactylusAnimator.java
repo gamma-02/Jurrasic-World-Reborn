@@ -1,11 +1,12 @@
 package net.gamma02.jurassicworldreborn.client.render.entity.animation.entity;
 
+import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
 import net.gamma02.jurassicworldreborn.client.model.AnimatableModel;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimator;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import mod.reborn.server.entity.dinosaur.CearadactylusEntity;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.CearadactylusEntity;
 
 @OnlyIn(Dist.CLIENT)
 public class CearadactylusAnimator extends EntityAnimator<CearadactylusEntity>
@@ -20,7 +21,7 @@ public class CearadactylusAnimator extends EntityAnimator<CearadactylusEntity>
         AdvancedModelBox rightCalf = model.getCube("right calf");
         AdvancedModelBox rightUpperFoot = model.getCube("Right upper foot");
         AdvancedModelBox rightFoot = model.getCube("Right foot");
-        AdvancedModelBox jaw = model.getCube("Lower jaw 1");
+        AdvancedModelBox jaw = model.getCube("Lower jaw 1");//***why***
         AdvancedModelBox head = model.getCube("Head");
         AdvancedModelBox neck3 = model.getCube("Neck 3");
         AdvancedModelBox neck2 = model.getCube("Neck 2");

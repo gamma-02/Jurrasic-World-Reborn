@@ -2,8 +2,7 @@ package net.gamma02.jurassicworldreborn.client.render.entity.animation.entity;
 
 import net.gamma02.jurassicworldreborn.client.model.AnimatableModel;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimator;
-import mod.reborn.server.entity.dinosaur.CamarasaurusEntity;
-import mod.reborn.server.entity.dinosaur.CarcharodontosaurusEntity;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.CamarasaurusEntity;
 
 public class CamarasaurusAnimator extends EntityAnimator<CamarasaurusEntity> {
 

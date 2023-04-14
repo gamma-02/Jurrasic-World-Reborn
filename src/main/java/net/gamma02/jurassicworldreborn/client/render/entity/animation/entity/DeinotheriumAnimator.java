@@ -2,9 +2,9 @@ package net.gamma02.jurassicworldreborn.client.render.entity.animation.entity;
 
 import net.gamma02.jurassicworldreborn.client.model.AnimatableModel;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimator;
-import mod.reborn.server.entity.dinosaur.ArsinoitheriumEntity;
-import mod.reborn.server.entity.dinosaur.DeinotheriumEntity;
-import mod.reborn.server.entity.dinosaur.MammothEntity;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.ArsinoitheriumEntity;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.DeinotheriumEntity;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.MammothEntity;
 
 public class DeinotheriumAnimator extends EntityAnimator<DeinotheriumEntity> {
 

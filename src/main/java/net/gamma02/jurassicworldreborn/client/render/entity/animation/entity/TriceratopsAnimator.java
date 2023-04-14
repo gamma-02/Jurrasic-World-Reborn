@@ -1,12 +1,13 @@
 package net.gamma02.jurassicworldreborn.client.render.entity.animation.entity;
 
+import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
 import net.gamma02.jurassicworldreborn.client.model.AnimatableModel;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimator;
 
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import mod.reborn.server.entity.dinosaur.TriceratopsEntity;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.TriceratopsEntity;
 
 @OnlyIn(Dist.CLIENT)
 public class TriceratopsAnimator extends EntityAnimator<TriceratopsEntity> {
@@ -65,7 +66,7 @@ public class TriceratopsAnimator extends EntityAnimator<TriceratopsEntity> {
         frontRightThigh.rotationPointZ -= 0.5 * Math.cos(ticks * 0.025F);
         frontLeftThigh.rotationPointZ -= 0.5 * Math.cos(ticks * 0.025F);
 
-        float delta = Minecraft.getMinecraft().getRenderPartialTicks();
+        float delta = Minecraft.getInstance().getDeltaFrameTime();
         LegArticulator.articulateQuadruped(entity, entity.legSolver, waist, neck1,
                 backLeftThigh, backLeftCalf, backRightThigh, backRightCalf, frontLeftThigh, frontLeftCalf, frontRightThigh, frontRightCalf,
                 0.5F, 0.8F, -0.6F, -1.1F,

@@ -5,7 +5,7 @@ import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnim
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import mod.reborn.server.entity.dinosaur.ChasmosaurusEntity;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.ChasmosaurusEntity;
 
 public class ChasmosaurusAnimator extends EntityAnimator<ChasmosaurusEntity> {
 

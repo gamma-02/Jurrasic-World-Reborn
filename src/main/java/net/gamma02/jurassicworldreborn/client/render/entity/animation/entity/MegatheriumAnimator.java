@@ -1,10 +1,11 @@
 package net.gamma02.jurassicworldreborn.client.render.entity.animation.entity;
 
+import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
 import net.gamma02.jurassicworldreborn.client.model.AnimatableModel;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimator;
-import mod.reborn.server.entity.dinosaur.ArsinoitheriumEntity;
-import mod.reborn.server.entity.dinosaur.MammothEntity;
-import mod.reborn.server.entity.dinosaur.MegatheriumEntity;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.ArsinoitheriumEntity;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.MammothEntity;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.MegatheriumEntity;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;

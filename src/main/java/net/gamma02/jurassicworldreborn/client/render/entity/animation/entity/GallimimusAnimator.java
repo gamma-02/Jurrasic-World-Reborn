@@ -1,12 +1,13 @@
 package net.gamma02.jurassicworldreborn.client.render.entity.animation.entity;
 
+import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
 import net.gamma02.jurassicworldreborn.client.model.AnimatableModel;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimator;
 
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import mod.reborn.server.entity.dinosaur.GallimimusEntity;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.GallimimusEntity;
 
 @OnlyIn(Dist.CLIENT)
 public class GallimimusAnimator extends EntityAnimator<GallimimusEntity> {
@@ -53,7 +54,7 @@ public class GallimimusAnimator extends EntityAnimator<GallimimusEntity> {
         AdvancedModelBox[] armLeft = new AdvancedModelBox[] { handLeft, lowerArmLeft, upperArmLeft };
         AdvancedModelBox[] armRight = new AdvancedModelBox[] { handRight, lowerArmRight, upperArmRight };
 
-        float delta = Minecraft.getMinecraft().getRenderPartialTicks();
+        float delta = Minecraft.getInstance().getDeltaFrameTime();
         LegArticulator.articulateBiped(entity, entity.legSolver, body1, leftThigh, leftCalf, rightThigh, rightCalf, 1.0F, 1.4F, delta);
 
         float globalSpeed = 1.5F;

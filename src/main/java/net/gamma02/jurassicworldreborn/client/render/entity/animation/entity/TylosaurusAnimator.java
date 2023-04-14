@@ -4,7 +4,7 @@ import net.gamma02.jurassicworldreborn.client.model.AnimatableModel;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimator;
 
 import net.minecraftforge.api.distmarker.Dist;
-import mod.reborn.server.entity.dinosaur.TylosaurusEntity;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.TylosaurusEntity;
 
 public class TylosaurusAnimator extends EntityAnimator<TylosaurusEntity> {
 

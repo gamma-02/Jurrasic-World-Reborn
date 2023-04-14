@@ -1,21 +1,23 @@
 package net.gamma02.jurassicworldreborn.client.render.entity.animation.entity;
 
+import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
 import net.gamma02.jurassicworldreborn.client.model.AnimatableModel;
-import mod.reborn.client.model.animation.EntityAnimation;
+//import mod.reborn.client.model.animation.EntityAnimation;
+import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimator;
 
-import net.minecraft.client.renderer.GlStateManager;
+//import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import mod.reborn.server.entity.dinosaur.MicroraptorEntity;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.MicroraptorEntity;
 
 @OnlyIn(Dist.CLIENT)
 public class MicroraptorAnimator extends EntityAnimator<MicroraptorEntity> {
     @Override
     protected void performAnimations(AnimatableModel model, MicroraptorEntity entity, float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, float scale) {
-        if (entity.getAnimation() == EntityAnimation.GLIDING.get()) {
-            GlStateManager.rotate(rotationPitch, 1.0F, 0.0F, 0.0F);
-        }
+//        if (entity.getAnimation() == EntityAnimation.GLIDING.get()) {
+//            GlStateManager.rotate(rotationPitch, 1.0F, 0.0F, 0.0F);
+//        }//mf what - gamma
 
         AdvancedModelBox upperArmRight = model.getCube("RightArm1");
         AdvancedModelBox lowerArmRight = model.getCube("RightArm2");

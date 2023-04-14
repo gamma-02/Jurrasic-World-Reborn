@@ -2,9 +2,9 @@ package net.gamma02.jurassicworldreborn.client.render.entity.animation.entity;
 
 import net.gamma02.jurassicworldreborn.client.model.AnimatableModel;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimator;
-import mod.reborn.server.entity.dinosaur.CompsognathusEntity;
-import mod.reborn.server.entity.dinosaur.SmilodonEntity;
-import mod.reborn.server.entity.dinosaur.TitanisEntity;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.CompsognathusEntity;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.SmilodonEntity;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.TitanisEntity;
 
 public class TitanisAnimator extends EntityAnimator<TitanisEntity> {
 

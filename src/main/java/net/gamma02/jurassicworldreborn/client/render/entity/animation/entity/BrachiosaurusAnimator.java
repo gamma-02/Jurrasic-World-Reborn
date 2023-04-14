@@ -1,12 +1,12 @@
 package net.gamma02.jurassicworldreborn.client.render.entity.animation.entity;
 
+import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
 import net.gamma02.jurassicworldreborn.client.model.AnimatableModel;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimator;
-
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.BrachiosaurusEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import mod.reborn.server.entity.dinosaur.BrachiosaurusEntity;
 
 @OnlyIn(Dist.CLIENT)
 public class BrachiosaurusAnimator extends EntityAnimator<BrachiosaurusEntity> {
@@ -33,7 +33,7 @@ public class BrachiosaurusAnimator extends EntityAnimator<BrachiosaurusEntity> {
         AdvancedModelBox[] tailParts = new AdvancedModelBox[] { tail5, tail4, tail3 };
         AdvancedModelBox[] tailParts2 = new AdvancedModelBox[] { tail5, tail4, tail3, tail2, tail1 };
 
-        float delta = Minecraft.getMinecraft().getRenderPartialTicks();
+        float delta = Minecraft.getInstance().getDeltaFrameTime();
         AdvancedModelBox root = model.getCube("hips");
         AdvancedModelBox backLeftThigh = model.getCube("top leg left");
         AdvancedModelBox backLeftCalf = model.getCube("bottom leg left");

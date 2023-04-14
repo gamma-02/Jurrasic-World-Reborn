@@ -2,7 +2,6 @@ package net.gamma02.jurassicworldreborn.client.render.entity.animation.entity;
 
 import net.gamma02.jurassicworldreborn.client.model.AnimatableModel;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimator;
-import mod.reborn.server.entity.dinosaur.BeelzebufoEntity;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.BeelzebufoEntity;
 
 public class BeelzebufoAnimator extends EntityAnimator<BeelzebufoEntity> {

@@ -1,12 +1,11 @@
 package net.gamma02.jurassicworldreborn.client.render.entity.animation.entity;
 
-import mod.reborn.server.dinosaur.Dinosaur;
-import mod.reborn.server.entity.DinosaurEntity;
-import mod.reborn.server.entity.LegSolverBiped;
-import mod.reborn.server.entity.LegSolverQuadruped;
-
-
-import net.minecraft.util.math.MathHelper;
+import com.github.alexthe666.citadel.animation.LegSolverQuadruped;
+import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
+import net.gamma02.jurassicworldreborn.common.entities.LegSolverBiped;
+import net.minecraft.util.Mth;
 
 public final class LegArticulator {
     private LegArticulator() {}
@@ -24,14 +23,14 @@ public final class LegArticulator {
 
     // front legs must be connected to body
     public static void articulateQuadruped(
-        DinosaurEntity entity, LegSolverQuadruped legs, AdvancedModelBox body, AdvancedModelBox neck,
-        AdvancedModelBox backLeftThigh, AdvancedModelBox backLeftCalf,
-        AdvancedModelBox backRightThigh, AdvancedModelBox backRightCalf,
-        AdvancedModelBox frontLeftThigh, AdvancedModelBox frontLeftCalf,
-        AdvancedModelBox frontRightThigh, AdvancedModelBox frontRightCalf,
-        float rotBackThigh, float rotBackCalf,
-        float rotFrontThigh, float rotFrontCalf,
-        float delta)
+            DinosaurEntity entity, LegSolverQuadruped legs, AdvancedModelBox body, AdvancedModelBox neck,
+            AdvancedModelBox backLeftThigh, AdvancedModelBox backLeftCalf,
+            AdvancedModelBox backRightThigh, AdvancedModelBox backRightCalf,
+            AdvancedModelBox frontLeftThigh, AdvancedModelBox frontLeftCalf,
+            AdvancedModelBox frontRightThigh, AdvancedModelBox frontRightCalf,
+            float rotBackThigh, float rotBackCalf,
+            float rotFrontThigh, float rotFrontCalf,
+            float delta)
     {
         float heightBackLeft = legs.backLeft.getHeight(delta);
         float heightBackRight = legs.backRight.getHeight(delta);
@@ -42,7 +41,7 @@ public final class LegArticulator {
             float backAvg = LegArticulator.avg(heightBackLeft, heightBackRight);
             float frontAvg = LegArticulator.avg(heightFrontLeft, heightFrontRight);
             float bodyLength = Math.abs(avg(legs.backLeft.forward, legs.backRight.forward) - avg(legs.frontLeft.forward, legs.frontRight.forward));
-            float tilt = (float) (MathHelper.atan2(bodyLength * sc, backAvg - frontAvg) - Math.PI / 2);
+            float tilt = (float) (Mth.atan2(bodyLength * sc, backAvg - frontAvg) - Math.PI / 2);
             body.rotationPointY += 16 / sc * backAvg;
             body.rotateAngleX += tilt;
             frontLeftThigh.rotateAngleX -= tilt;
@@ -69,8 +68,8 @@ public final class LegArticulator {
     }
 
     private static float getScale(DinosaurEntity entity) {
-        float scaleModifier = entity.getAttributes().getScaleModifier();
+//        float scaleModifier = entity.getAttributes().getModifierValue(Attributes.);
         Dinosaur dino = entity.getDinosaur();
-        return (float) entity.interpolate(dino.getScaleInfant(), dino.getScaleAdult()) * scaleModifier;
+        return (float) entity.interpolate(dino.getScaleInfant(), dino.getScaleAdult()) /* * scaleModifier*/;//todo: scale
     }
 }

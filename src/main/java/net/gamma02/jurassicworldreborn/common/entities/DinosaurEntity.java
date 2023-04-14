@@ -5,6 +5,7 @@ import com.github.alexthe666.citadel.animation.AnimationHandler;
 import com.github.alexthe666.citadel.animation.LegSolver;
 import com.mojang.math.Vector3d;
 import com.mojang.math.Vector3f;
+import net.gamma02.jurassicworldreborn.client.render.entity.animation.FixedChainBuffer;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.feeder.FeederBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.feeder.FeederBlockEntity;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;

@@ -1,12 +1,13 @@
 package net.gamma02.jurassicworldreborn.client.render.entity.animation.entity;
 
+import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
 import net.gamma02.jurassicworldreborn.client.model.AnimatableModel;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimator;
 
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import mod.reborn.server.entity.dinosaur.MamenchisaurusEntity;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.MamenchisaurusEntity;
 
 @OnlyIn(Dist.CLIENT)
 public class MamenchisaurusAnimator extends EntityAnimator<MamenchisaurusEntity>
@@ -58,7 +59,7 @@ public class MamenchisaurusAnimator extends EntityAnimator<MamenchisaurusEntity>
 
         AdvancedModelBox[] neckParts = new AdvancedModelBox[] { head, neck6, neck5, neck4, neck3, neck2, neck1, body };
         AdvancedModelBox[] tailParts = new AdvancedModelBox[] { tail5, tail4, tail3, tail2, tail1 };
-        float delta = Minecraft.getMinecraft().getRenderPartialTicks();
+        float delta = Minecraft.getInstance().getDeltaFrameTime();
 
         LegArticulator.articulateQuadruped(entity, entity.legSolver, waist, neck1,
                 backLeftThigh, backLeftCalf, backRightThigh, backRightCalf, armLeft, lowerArmLeft, armRight, lowerArmRight,

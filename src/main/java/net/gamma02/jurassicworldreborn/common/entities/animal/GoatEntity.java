@@ -9,6 +9,8 @@ import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.Animatable;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.GrowthStage;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.ai.SmartBodyHelper;
+import net.gamma02.jurassicworldreborn.common.entities.ai.WanderAroundWaterAI;
+import net.gamma02.jurassicworldreborn.common.items.ModItems;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -25,6 +27,9 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
+import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.ai.goal.BreedGoal;
+import net.minecraft.world.entity.ai.goal.TryFindWaterGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.goat.Goat;
 import net.minecraft.world.entity.player.Player;
@@ -335,7 +340,7 @@ public class GoatEntity extends Animal implements Animatable, IEntityAdditionalS
         if (this.random.nextBoolean()) {
             this.spawnAtLocation(new ItemStack(this.random.nextBoolean() ? Blocks.WHITE_WOOL : Blocks.BROWN_WOOL, 1), 0.0F);
         }
-//        this.spawnAtLocation(this.isOnFire() ? ItemHandler.GOAT_COOKED : ItemHandler.GOAT_RAW, this.rand.nextInt(2) + 1); TODO: FOODS
+        this.spawnAtLocation(this.isOnFire() ? ModItems.GOAT_COOKED.get() : ModItems.GOAT_RAW.get(), this.random.nextInt(2) + 1);
     }
 
     @Override

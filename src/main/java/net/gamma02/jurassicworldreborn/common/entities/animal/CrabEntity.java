@@ -10,24 +10,36 @@ import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.Animatable;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.GrowthStage;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.ai.SmartBodyHelper;
 import net.gamma02.jurassicworldreborn.common.entities.ModEntities;
+import net.gamma02.jurassicworldreborn.common.entities.ai.WanderAroundWaterAI;
+import net.gamma02.jurassicworldreborn.common.items.ModItems;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
+import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.ai.goal.BreedGoal;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.TryFindWaterGoal;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import org.antlr.v4.codegen.model.Sync;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.CallbackI;
+
+import java.util.ArrayList;
 
 public class CrabEntity extends Animal implements Animatable, IEntityAdditionalSpawnData {
 
@@ -47,6 +59,32 @@ public class CrabEntity extends Animal implements Animatable, IEntityAdditionalS
         this.setAnimation(EntityAnimation.IDLE.get());
     }
 
+    @Override
+    protected void registerGoals() {
+        super.registerGoals();
+        this.goalSelector.addGoal(10, new TryFindWaterGoal(this));
+        this.goalSelector.addGoal(10, new WanderAroundWaterAI(this, 1, 5, 2));
+        this.goalSelector.addGoal(8, new AvoidEntityGoal<>(this, SharkEntity.class, 9.0F, 1.0F, 1.45F));
+        this.goalSelector.addGoal(2, new BreedGoal(this, 1.0));
+
+    }
+
+
+
+    @Override
+    protected void dropCustomDeathLoot(DamageSource pSource, int pLooting, boolean pRecentlyHit) {
+        ArrayList<ItemStack> itemsToDrop = new ArrayList<>();
+        if(this.isOnFire()){
+            itemsToDrop.add(new ItemStack(ModItems.CRAB_MEAT_COOKED.get(), this.getRandom().nextInt(2)+1));
+        }else {
+            itemsToDrop.add(new ItemStack(ModItems.CRAB_MEAT_RAW.get(), this.getRandom().nextInt(2)+1));
+        }
+        super.dropCustomDeathLoot(pSource, pLooting, pRecentlyHit);
+        for(ItemStack stack : itemsToDrop){
+            this.spawnAtLocation(stack);
+        }
+
+    }
 
     @Override
     public boolean isCarcass() {
@@ -85,11 +123,20 @@ public class CrabEntity extends Animal implements Animatable, IEntityAdditionalS
     }
 
     @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.getEntityData().define(CRAB_IS_RUNNING, false);
+    }
+
+    @Override
     public boolean isClimbing() {
         return false;
     }
 
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createLivingAttributes().add(Attributes.MAX_HEALTH, 7.0).add(Attributes.MOVEMENT_SPEED,  0.25);
 
+    }
 
 
 
@@ -226,6 +273,7 @@ public class CrabEntity extends Animal implements Animatable, IEntityAdditionalS
     public boolean isPushedByFluid() {
         return false;
     }
+
 
 
     public Type getCrabType() {

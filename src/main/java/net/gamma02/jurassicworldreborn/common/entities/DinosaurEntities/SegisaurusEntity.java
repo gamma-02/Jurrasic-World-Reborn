@@ -1,8 +1,9 @@
 package net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities;
 
 import com.github.alexthe666.citadel.animation.Animation;
-import net.gamma02.jurassicworldreborn.common.entities.animal.GoatEntity;
+import net.minecraft.world.entity.animal.goat.Goat;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
+import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.animal.Animal;
@@ -17,7 +18,7 @@ public class SegisaurusEntity extends DinosaurEntity
     {
         super(world, type);
         this.target(MicroraptorEntity.class, MicroceratusEntity.class, AlligatorGarEntity.class, DodoEntity.class, HypsilophodonEntity.class, CompsognathusEntity.class, AlvarezsaurusEntity.class, Player.class
-, Animal.class, Villager.class, GoatEntity.class);
+, Animal.class, Villager.class, Goat.class);
         this.doesEatEggs(true);
     }
     @Override

@@ -3,11 +3,12 @@ package net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities;
 import com.github.alexthe666.citadel.animation.Animation;
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
+import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.gamma02.jurassicworldreborn.common.entities.ai.HurtByTargetGoal;
 import net.gamma02.jurassicworldreborn.common.entities.ai.LeapingMeleeEntityAI;
 import net.gamma02.jurassicworldreborn.common.entities.ai.RaptorLeapEntityAI;
-import net.gamma02.jurassicworldreborn.common.entities.animal.GoatEntity;
+import net.minecraft.world.entity.animal.goat.Goat;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -36,7 +37,7 @@ public class SpinoraptorEntity extends DinosaurEntity {
         super(world, type);
         this.setVariant(this.getRandom().nextInt(5));
         this.target(AchillobatorEntity.class, MetriacanthosaurusEntity.class, TitanisEntity.class, SmilodonEntity.class, MegatheriumEntity.class, ArsinoitheriumEntity.class, SinoceratopsEntity.class, AlligatorGarEntity.class, AlvarezsaurusEntity.class, BeelzebufoEntity.class, VelociraptorBlueEntity.class, CarnotaurusEntity.class, CeratosaurusEntity.class, VelociraptorCharlieEntity.class, ChasmosaurusEntity.class, ChilesaurusEntity.class, CoelurusEntity.class, CompsognathusEntity.class, CorythosaurusEntity.class, CrassigyrinusEntity.class, VelociraptorDeltaEntity.class, DilophosaurusEntity.class, DimorphodonEntity.class, DiplocaulusEntity.class, DodoEntity.class, VelociraptorEchoEntity.class, GallimimusEntity.class, GuanlongEntity.class, HyaenodonEntity.class, HypsilophodonEntity.class, LeaellynasauraEntity.class, LeptictidiumEntity.class, MegapiranhaEntity.class, MicroceratusEntity.class, MicroraptorEntity.class, MussaurusEntity.class, OrnithomimusEntity.class, OthnieliaEntity.class, OviraptorEntity.class, PachycephalosaurusEntity.class, ParasaurolophusEntity.class, PostosuchusEntity.class, ProceratosaurusEntity.class, ProtoceratopsEntity.class, RugopsEntity.class, SegisaurusEntity.class, StyracosaurusEntity.class, TriceratopsEntity.class, TroodonEntity.class, VelociraptorEntity.class, Player.class
-, Animal.class, Villager.class, GoatEntity.class);
+, Animal.class, Villager.class, Goat.class);
         this.addTask(0, new LeapingMeleeEntityAI(this, this.dinosaur.getAttackSpeed()));
         this.addTask(1, new RaptorLeapEntityAI(this));
         this.target(targets);

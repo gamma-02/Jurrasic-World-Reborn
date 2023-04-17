@@ -3,10 +3,11 @@ package net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities;
 import com.github.alexthe666.citadel.animation.Animation;
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
+import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.gamma02.jurassicworldreborn.common.entities.ai.LeapingMeleeEntityAI;
 import net.gamma02.jurassicworldreborn.common.entities.ai.RaptorLeapEntityAI;
-import net.gamma02.jurassicworldreborn.common.entities.animal.GoatEntity;
+import net.minecraft.world.entity.animal.goat.Goat;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -31,7 +32,7 @@ public class CompsognathusEntity extends DinosaurEntity {
         this.setVariant(this.getRandom().nextInt(6));
         this.doesEatEggs(true);
         this.target(DodoEntity.class, OthnieliaEntity.class, MicroceratusEntity.class, MicroraptorEntity.class, CrassigyrinusEntity.class, LeptictidiumEntity.class, Player.class
-, Animal.class, Villager.class, GoatEntity.class);
+, Animal.class, Villager.class, Goat.class);
         this.addTask(0, new LeapingMeleeEntityAI(this, this.dinosaur.getAttackSpeed()));
         this.addTask(1, new RaptorLeapEntityAI(this));
         this.addTask(1, new CompyHurtByTarget());//im sorry what - past gamma_02 | oh, it's a subclass name, i was confuzled - future gamma_02

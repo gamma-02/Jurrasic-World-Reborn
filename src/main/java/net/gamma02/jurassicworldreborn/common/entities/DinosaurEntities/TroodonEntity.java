@@ -2,12 +2,13 @@ package net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities;
 
 import com.github.alexthe666.citadel.animation.Animation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
+import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.DinosaurDamageSource;
 import net.gamma02.jurassicworldreborn.common.entities.ai.HurtByTargetGoal;
 import net.gamma02.jurassicworldreborn.common.entities.ai.LeapingMeleeEntityAI;
 import net.gamma02.jurassicworldreborn.common.entities.ai.RaptorLeapEntityAI;
-import net.gamma02.jurassicworldreborn.common.entities.animal.GoatEntity;
+import net.minecraft.world.entity.animal.goat.Goat;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -31,7 +32,7 @@ public class TroodonEntity extends DinosaurEntity
         super(world, type);
         this.target(AlligatorGarEntity.class, AchillobatorEntity.class, AlvarezsaurusEntity.class, BeelzebufoEntity.class, VelociraptorBlueEntity.class, VelociraptorCharlieEntity.class, VelociraptorDeltaEntity.class, VelociraptorEchoEntity.class, ChilesaurusEntity.class, CoelurusEntity.class, CompsognathusEntity.class, CrassigyrinusEntity.class, Player.class
 , DilophosaurusEntity.class, DimorphodonEntity.class, DiplocaulusEntity.class, DodoEntity.class, GallimimusEntity.class, GuanlongEntity.class, HyaenodonEntity.class, HypsilophodonEntity.class, LeaellynasauraEntity.class, LeptictidiumEntity.class, MicroceratusEntity.class, MussaurusEntity.class, MicroraptorEntity.class, OrnithomimusEntity.class, OthnieliaEntity.class, OviraptorEntity.class, ProceratosaurusEntity.class, ProtoceratopsEntity.class, SegisaurusEntity.class, ZhenyuanopterusEntity.class, MoganopterusEntity.class, Player.class
-, Animal.class, Villager.class, GoatEntity.class);
+, Animal.class, Villager.class, Goat.class);
         this.addTask(0, new LeapingMeleeEntityAI(this, this.dinosaur.getAttackSpeed()));
         this.addTask(1, new RaptorLeapEntityAI(this));
         this.target(targets);

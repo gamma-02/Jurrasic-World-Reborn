@@ -2,7 +2,7 @@ package net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities;
 
 import net.gamma02.jurassicworldreborn.common.entities.SwimmingDinosaurEntity;
 import net.gamma02.jurassicworldreborn.common.entities.ai.WaterLeapAI;
-import net.gamma02.jurassicworldreborn.common.entities.animal.GoatEntity;
+import net.minecraft.world.entity.animal.goat.Goat;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Squid;
@@ -17,7 +17,7 @@ public class TylosaurusEntity extends SwimmingDinosaurEntity
     {
         super(world, type);
         this.target(CoelacanthEntity.class, MegapiranhaEntity.class, Squid.class, Player.class
-, Animal.class, Villager.class, Mob.class, GoatEntity.class);
+, Animal.class, Villager.class, Mob.class, Goat.class);
         this.addTask(0, new WaterLeapAI/*WaterYeetAI*/(this, 12, 1.2F));
     }
 }

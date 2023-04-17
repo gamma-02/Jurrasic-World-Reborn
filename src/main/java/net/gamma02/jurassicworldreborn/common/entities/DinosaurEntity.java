@@ -37,6 +37,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
@@ -662,6 +663,10 @@ public abstract class DinosaurEntity extends PathfinderMob implements IEntityAdd
         if (prevHealth != newHealth) {
             this.heal((float) (newHealth - prevHealth));
         }
+    }
+
+    public static AttributeSupplier.Builder createAttributes(){
+        return LivingEntity.createLivingAttributes().add(Attributes.MAX_HEALTH).add(Attributes.MOVEMENT_SPEED).add(Attributes.ATTACK_KNOCKBACK).add(Attributes.FOLLOW_RANGE);
     }
 
     private void updateBounds() {

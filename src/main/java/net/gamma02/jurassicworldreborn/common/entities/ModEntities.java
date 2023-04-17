@@ -5,6 +5,7 @@ import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Bone;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurList.TitanisDinosaur;
 import net.gamma02.jurassicworldreborn.common.entities.animal.CrabEntity;
+import net.gamma02.jurassicworldreborn.common.entities.animal.SharkEntity;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -27,6 +28,9 @@ public class ModEntities {
     public static RegistryObject<EntityType<VenomEntity>> VenomType = MOD_ENTITY_TYPES.<EntityType<VenomEntity>>register("venom_entity", ((Supplier<EntityType<VenomEntity>>)EntityType.Builder.<VenomEntity>of(VenomEntity::new, MobCategory.MISC).build(null)));
 
     public static RegistryObject<EntityType<CrabEntity>> CRAB_ENTITY_TYPE = MOD_ENTITY_TYPES.<EntityType<CrabEntity>>register("crab", ((Supplier<EntityType<CrabEntity>>)EntityType.Builder.<CrabEntity>of(CrabEntity::new, MobCategory.CREATURE).sized(0.4f, 0.3f).build(null)));
+
+    public static RegistryObject<EntityType<SharkEntity>> SHARK_ENTITY_TYPE = MOD_ENTITY_TYPES.<EntityType<SharkEntity>>register("shark", ((Supplier<EntityType<SharkEntity>>)EntityType.Builder.<SharkEntity>of(SharkEntity::new, MobCategory.CREATURE).sized(1.6F, 0.8F).build(null)));
+
 
 
     public static RegistryObject<EntityType<OviraptorEntity>> OVIRAPTOR_ENTITY_TYPE = MOD_ENTITY_TYPES.<EntityType<OviraptorEntity>>register("Oviraptor".toLowerCase(Locale.ROOT), () -> EntityType.Builder.<OviraptorEntity>of(((type, world) -> new OviraptorEntity(world, type)), MobCategory.CREATURE).build(null));
@@ -120,6 +124,7 @@ public class ModEntities {
     public static RegistryObject<EntityType<LambeosaurusEntity>> LAMBEOSAURUS_ENTITY_TYPE = MOD_ENTITY_TYPES.<EntityType<LambeosaurusEntity>>register("Lambeosaurus".toLowerCase(Locale.ROOT), () -> EntityType.Builder.<LambeosaurusEntity>of(((type, world) -> new LambeosaurusEntity(world, type)), MobCategory.CREATURE).build(null));
     public static RegistryObject<EntityType<AlligatorGarEntity>> ALLIGATORGAR_ENTITY_TYPE = MOD_ENTITY_TYPES.<EntityType<AlligatorGarEntity>>register("AlligatorGar".toLowerCase(Locale.ROOT), () -> EntityType.Builder.<AlligatorGarEntity>of(((type, world) -> new AlligatorGarEntity(world, type)), MobCategory.CREATURE).build(null));
     public static RegistryObject<EntityType<ElasmotheriumEntity>> ELASMOTHERIUM_ENTITY_TYPE = MOD_ENTITY_TYPES.<EntityType<ElasmotheriumEntity>>register("Elasmotherium".toLowerCase(Locale.ROOT), () -> EntityType.Builder.<ElasmotheriumEntity>of(((type, world) -> new ElasmotheriumEntity(world, type)), MobCategory.CREATURE).build(null));
+
 
 
 

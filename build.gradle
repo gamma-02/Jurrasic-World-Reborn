@@ -209,8 +209,8 @@ dependencies {
 
 
     //Citadel
-    compileOnly "curse.maven:citadel4-331936:3683009" // change to 3548061
-    runtimeOnly "curse.maven:citadel4-331936:3683009"
+    compileOnly "curse.maven:citadel-331936:3783098"
+//    runtimeOnly "curse.maven:citadel-331936:3783098"
     //VecMathImpl
     implementation 'javax.vecmath:vecmath:1.5.2'
 }

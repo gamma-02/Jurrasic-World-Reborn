@@ -1,6 +1,6 @@
 package net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner;
 
-import net.gamma02.jurassicworldreborn.common.blocks.entities.modBlockEntities;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.ModBlockEntities;
 import net.gamma02.jurassicworldreborn.common.network.Network;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
@@ -47,7 +47,7 @@ public class CleanerBlock extends BaseEntityBlock {
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         boolean b = false;
         if(pLevel.getBlockEntity(pPos) instanceof CleanerBlockEntity e && pPlayer instanceof ServerPlayer p){
-            Network.<CleanerBlockEntity>sendOpenPacket(pPos, p.containerCounter, e.getDisplayName(), modBlockEntities.modScreenTypes.CleanerScreenType.get(), modBlockEntities.CLEANING_STATION.get(), p);
+            Network.<CleanerBlockEntity>sendOpenPacket(pPos, p.containerCounter, e.getDisplayName(), ModBlockEntities.modScreenTypes.CleanerScreenType.get(), ModBlockEntities.CLEANING_STATION.get(), p);
         }
 
         return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);

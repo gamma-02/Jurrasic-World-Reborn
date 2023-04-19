@@ -1,6 +1,6 @@
 package net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner;
 
-import net.gamma02.jurassicworldreborn.common.blocks.entities.modBlockEntities;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.ModBlockEntities;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -20,7 +20,7 @@ public class CleanerMenu extends AbstractContainerMenu {
 
 
     public CleanerMenu(int pContainerId, Inventory playerInv, BlockEntity temp) {
-        super(modBlockEntities.modScreenTypes.CleanerScreenType.get(), pContainerId);
+        super(ModBlockEntities.modScreenTypes.CleanerScreenType.get(), pContainerId);
         if(temp instanceof CleanerBlockEntity instance) {
 
             for(int i = 0; i < 3; ++i) {
@@ -69,7 +69,7 @@ public class CleanerMenu extends AbstractContainerMenu {
     public CleanerMenu(int id, Inventory inventory) {
 
 
-        super(modBlockEntities.modScreenTypes.CleanerScreenType.get(), id);
+        super(ModBlockEntities.modScreenTypes.CleanerScreenType.get(), id);
         for(int i = 0; i < 3; ++i) {
             for(int j = 0; j < 9; ++j) {
                 this.addSlot(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));

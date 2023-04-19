@@ -5,6 +5,7 @@ import net.gamma02.jurassicworldreborn.common.blocks.entities.ActionFigureBlockE
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
 import net.gamma02.jurassicworldreborn.common.util.NbtBuilder;
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -44,8 +45,13 @@ public class ActionFigureItem extends Item {
     @OnlyIn(Dist.CLIENT)
     public void initializeClient(Consumer<IItemRenderProperties> consumer) {
         super.initializeClient(consumer);
-
-
+        IItemRenderProperties prop = new IItemRenderProperties() {
+            @Override
+            public BlockEntityWithoutLevelRenderer getItemStackRenderer() {
+                return IItemRenderProperties.super.getItemStackRenderer();
+            }
+        };
+        consumer.accept(prop);//jankiest shit ive seen please work - gamma
     }
 //    @OnlyIn(Dist.CLIENT)
 //    public void initModels(Collection<Dinosaur> dinos, RenderingHandler renderer) {

@@ -1,10 +1,9 @@
 package net.gamma02.jurassicworldreborn.common.blocks.parkBlocks;
 
-import net.gamma02.jurassicworldreborn.common.blocks.entities.modBlockEntities;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
-import net.minecraft.network.chat.NbtComponent;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -21,7 +20,7 @@ public class TourRailBlockEntity extends BlockEntity {
         super(pType, pWorldPosition, pBlockState);
     }
     public TourRailBlockEntity(BlockPos pos, BlockState state) {
-        super(modBlockEntities.TOUR_RAIL_BLOCK_ENTITY.get(), pos, state);//TODO!!!!!!!
+        super(ModBlockEntities.TOUR_RAIL_BLOCK_ENTITY.get(), pos, state);//TODO!!!!!!!
 
     }
 

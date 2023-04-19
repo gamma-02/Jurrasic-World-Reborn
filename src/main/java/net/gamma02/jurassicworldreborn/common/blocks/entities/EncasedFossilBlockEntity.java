@@ -1,7 +1,5 @@
 package net.gamma02.jurassicworldreborn.common.blocks.entities;
 
-import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimation;
-import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -24,7 +22,7 @@ public class EncasedFossilBlockEntity extends BlockEntity {
 
     @Deprecated
     public EncasedFossilBlockEntity( BlockPos pWorldPosition, BlockState pBlockState) {
-        super(modBlockEntities.FOSSIL.get(), pWorldPosition, pBlockState);
+        super(ModBlockEntities.FOSSIL.get(), pWorldPosition, pBlockState);
         this.YLevel = -65;//invaidate the constructor enity
         dino = null;
     }

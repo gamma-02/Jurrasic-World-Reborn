@@ -1,8 +1,8 @@
 package net.gamma02.jurassicworldreborn.common.entities;
 
+import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.*;
 import net.gamma02.jurassicworldreborn.common.entities.ai.DinosaurWanderEntityAI;
-import net.gamma02.jurassicworldreborn.common.util.ai.OnionTraverser;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
@@ -10,7 +10,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -343,28 +342,7 @@ public abstract class FlyingDinosaurEntity extends DinosaurEntity {
 //        }
 //    }
 
-    public BlockPos getClosestFeeder() {
-        if (this.tickCount - this.feederSearchTick > 200) {
-            this.feederSearchTick = this.tickCount;
-            OnionTraverser traverser = new OnionTraverser(this.getOnPos(), 32);
-            for (BlockPos pos : traverser) {
-                BlockState state = this.level.getBlockState(pos);
-//                if (state.getBlock() instanceof FeederBlock) {todo:FeederBlockEntities and food
-//                    TileEntity tile = this.world.getTileEntity(pos);
-//                    if (tile instanceof FeederBlockEntity) {
-//                        FeederBlockEntity feeder = (FeederBlockEntity) tile;
-//                        if (feeder.canFeedDinosaur(this) && feeder.getFeeding() == null && feeder.openAnimation == 0 && this.isOnGround()) {
-//                            Path path = this.getNavigation().createPath(pos, 1);
-//                            if (path != null && path.getCurrentPathLength() != 0) {
-//                                return this.closestFeeder = pos;
-//                            }
-//                        }
-//                    }
-//                }
-            }
-        }
-        return this.closestFeeder;
-    }
+
 
     class AILookAround extends Goal {
         private final FlyingDinosaurEntity dino = FlyingDinosaurEntity.this;

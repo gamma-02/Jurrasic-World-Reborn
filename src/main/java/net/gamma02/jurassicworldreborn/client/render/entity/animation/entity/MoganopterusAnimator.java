@@ -1,11 +1,11 @@
 package net.gamma02.jurassicworldreborn.client.render.entity.animation.entity;
 
+import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
 import net.gamma02.jurassicworldreborn.client.model.AnimatableModel;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimator;
-
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.MoganopterusEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.MoganopterusEntity;
 
 @OnlyIn(Dist.CLIENT)
 public class MoganopterusAnimator extends EntityAnimator<MoganopterusEntity>

@@ -2,17 +2,18 @@ package net.gamma02.jurassicworldreborn.client.render;
 
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.client.model.AnimatableModel;
+import net.gamma02.jurassicworldreborn.client.render.block.DisplayBlockEntityRender;
 import net.gamma02.jurassicworldreborn.client.render.entity.DinosaurRenderInfo;
 import net.gamma02.jurassicworldreborn.client.render.entity.DinosaurRenderer;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimator;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.entity.*;
-import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.AchillobatorEntity;
-import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
-import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
-import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.ModBlockEntities;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.GrowthStage;
 import net.gamma02.jurassicworldreborn.common.entities.ModEntities;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -20,7 +21,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.function.Supplier;
 
 import static net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler.*;
 
@@ -42,6 +43,9 @@ public class RenderingHandler{
                         helper.getDefaultModelFromDinosaur(AchillobatorInfo),
                         0.5f,
                         AchillobatorInfo));
+        helper.doEntityRegistration(event);
+
+        event.registerBlockEntityRenderer(ModBlockEntities.DISPLAY_BLOCK_ENTITY.get(), helper.makeProvider(DisplayBlockEntityRender::new));
 
     }
 
@@ -49,6 +53,16 @@ public class RenderingHandler{
 
 
     static class helper{
+
+        public static <T extends BlockEntity> BlockEntityRendererProvider<T> makeProvider(Supplier<BlockEntityRenderer<T>> renderer){
+            return new BlockEntityRendererProvider<T>() {
+                @Override
+                public BlockEntityRenderer<T> create(Context pContext) {
+                    return renderer.get();
+                }
+            };
+        }
+
         static void doEntityRegistration(final EntityRenderersEvent.RegisterRenderers event){
             //OviraptorEntity registration: auto generated
             DinosaurRenderInfo OviraptorInfo = new DinosaurRenderInfo(OVIRAPTOR, new OviraptorAnimator());

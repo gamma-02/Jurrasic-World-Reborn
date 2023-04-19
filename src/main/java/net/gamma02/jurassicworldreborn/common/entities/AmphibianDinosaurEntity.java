@@ -12,20 +12,20 @@ import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
-public abstract class AmfibianDinosaurEntity extends DinosaurEntity {
+public abstract class AmphibianDinosaurEntity extends DinosaurEntity {
     private boolean getOut = false;
     private boolean getInWater = false;
 //    private PathNavigate navigateSwimmer = new PathNavigateSwimmer(this,world);TODO:AI
 //    private PathNavigate navigateLand = new PathNavigateGround(this, world);
     private int waterTicks;
     private int landTicks;
-    public AmfibianDinosaurEntity(Level world, EntityType type) {
+    public AmphibianDinosaurEntity(Level world, EntityType type) {
         super(world, type);
 //        this.tasks.removeTask(new DinosaurWanderEntityAI(this, 0.8D, 2, 10));TODO:AI
 //        this.addTask(10, new EntityAIFindWater(this, 1, 2, 30));
 //        this.addTask(10, new Wander(this,2, 10, 2));
 //        this.addTask(5, new MoveUnderwaterEntityAI(this));
-        this.moveControl = new AmfibianDinosaurEntity.SwimmingMoveHelper();
+        this.moveControl = new AmphibianDinosaurEntity.SwimmingMoveHelper();
     }
 
     @Override
@@ -94,10 +94,10 @@ public abstract class AmfibianDinosaurEntity extends DinosaurEntity {
     }
 
     class SwimmingMoveHelper extends DinosaurMoveHelper {
-        private final AmfibianDinosaurEntity swimmingEntity = AmfibianDinosaurEntity.this;
+        private final AmphibianDinosaurEntity swimmingEntity = AmphibianDinosaurEntity.this;
 
         public SwimmingMoveHelper() {
-            super(AmfibianDinosaurEntity.this);
+            super(AmphibianDinosaurEntity.this);
         }
 
         @Override

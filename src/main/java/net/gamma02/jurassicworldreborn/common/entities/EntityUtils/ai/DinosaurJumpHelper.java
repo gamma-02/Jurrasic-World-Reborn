@@ -1,6 +1,7 @@
 package net.gamma02.jurassicworldreborn.common.entities.EntityUtils.ai;
 
 import com.github.alexthe666.citadel.animation.Animation;
+import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.minecraft.world.entity.ai.control.JumpControl;
 

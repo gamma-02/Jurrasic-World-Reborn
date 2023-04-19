@@ -1,7 +1,7 @@
 package net.gamma02.jurassicworldreborn.common.network;
 
 import net.gamma02.jurassicworldreborn.client.screens.ModScreens;
-import net.gamma02.jurassicworldreborn.common.blocks.entities.modBlockEntities;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.ModBlockEntities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.BlockPos;
@@ -79,9 +79,9 @@ public class OpenContainerScreenGuiS2CPacket<B extends BlockEntity> {
         Player player = Minecraft.getInstance().player;
         BlockEntity entity = Minecraft.getInstance().level != null ? Minecraft.getInstance().level.getBlockEntity(packet.entityPos) : null;
         if(entity != null){
-            if(entity.getType().getRegistryName().equals(packet.intendedTypeLocation) && ModScreens.has(ForgeRegistries.BLOCK_ENTITIES.getValue(packet.intendedTypeLocation)) && modBlockEntities.modScreenTypes.modMenuSupplier.containsKey(packet.menuId)){
+            if(entity.getType().getRegistryName().equals(packet.intendedTypeLocation) && ModScreens.has(ForgeRegistries.BLOCK_ENTITIES.getValue(packet.intendedTypeLocation)) && ModBlockEntities.modScreenTypes.modMenuSupplier.containsKey(packet.menuId)){
                 AbstractContainerScreen<?> screen = ModScreens.get(ForgeRegistries.BLOCK_ENTITIES.getValue(packet.intendedTypeLocation)).create(
-                        modBlockEntities.modScreenTypes.modMenuSupplier.get(packet.menuId).create(packet.containerID, player.getInventory(), entity),
+                        ModBlockEntities.modScreenTypes.modMenuSupplier.get(packet.menuId).create(packet.containerID, player.getInventory(), entity),
                         player.getInventory(), packet.title, entity);
                 player.containerMenu = screen.getMenu();
                 Minecraft.getInstance().setScreen(screen);

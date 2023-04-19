@@ -8,10 +8,15 @@ import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.NotNull;
 
 public class DisplayBlockEntityRender implements BlockEntityRenderer<ActionFigureBlockEntity> {
+
+    public DisplayBlockEntityRender(){
+        super();
+    }
 
 
     @Override
@@ -33,4 +38,5 @@ public class DisplayBlockEntityRender implements BlockEntityRenderer<ActionFigur
         pPoseStack.popPose();
 
     }
+
 }

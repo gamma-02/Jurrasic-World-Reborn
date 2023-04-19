@@ -37,7 +37,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import org.antlr.v4.codegen.model.Sync;
 import org.jetbrains.annotations.Nullable;
-import org.lwjgl.system.CallbackI;
 
 import java.util.ArrayList;
 

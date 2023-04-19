@@ -1,6 +1,6 @@
 package net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner;
 
-import net.gamma02.jurassicworldreborn.common.blocks.entities.modBlockEntities;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.ModBlockEntities;
 import net.gamma02.jurassicworldreborn.common.recipies.cleaner.CleaningRecipie;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -36,7 +36,7 @@ public class CleanerBlockEntity extends BlockEntity implements BlockEntityTicker
     private NonNullList<ItemStack> inventory = NonNullList.withSize(8, ItemStack.EMPTY);
 
     public CleanerBlockEntity(BlockPos pos, BlockState state) {
-        super(modBlockEntities.CLEANING_STATION.get(), pos, state);
+        super(ModBlockEntities.CLEANING_STATION.get(), pos, state);
     }
 
 

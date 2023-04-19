@@ -1,18 +1,14 @@
 package net.gamma02.jurassicworldreborn.common.blocks.entities.fence;
 
-import com.mojang.math.Constants;
-import net.gamma02.jurassicworldreborn.common.blocks.entities.modBlockEntities;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.LongArrayTag;
 import net.minecraft.nbt.LongTag;
-import net.minecraft.network.chat.NbtComponent;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
@@ -25,7 +21,7 @@ public class ElectricFenceWireBlockEntity extends BlockEntity implements BlockEn
     private byte ticks;
 
     public ElectricFenceWireBlockEntity( BlockPos pWorldPosition, BlockState pBlockState) {
-        super(modBlockEntities.WIRE_FENCE_BLOCK_ENTITY.get(), pWorldPosition, pBlockState);
+        super(ModBlockEntities.WIRE_FENCE_BLOCK_ENTITY.get(), pWorldPosition, pBlockState);
     }
 
     public void tick() {

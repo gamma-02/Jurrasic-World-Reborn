@@ -8,7 +8,8 @@
     "GoatMixin"
   ],
   "client": [
-    "LivingEntityRendererMixin"
+    "LivingEntityRendererMixin",
+    "MinecraftMixin"
   ],
   "server": [
   ],

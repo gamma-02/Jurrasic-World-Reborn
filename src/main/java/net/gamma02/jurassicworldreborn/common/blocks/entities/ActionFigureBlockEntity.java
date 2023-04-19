@@ -27,7 +27,7 @@ public class ActionFigureBlockEntity extends BlockEntity {
     private SerializedData serializedData = new InvalidData();
 
     public ActionFigureBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
-        super(modBlockEntities.DISPLAY_BLOCK_ENTITY.get(), pWorldPosition, pBlockState);
+        super(ModBlockEntities.DISPLAY_BLOCK_ENTITY.get(), pWorldPosition, pBlockState);
     }
 
 

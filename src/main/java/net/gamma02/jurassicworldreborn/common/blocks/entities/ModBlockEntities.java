@@ -17,12 +17,11 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import javax.swing.*;
 import java.util.HashMap;
 
 import static net.gamma02.jurassicworldreborn.Jurassicworldreborn.modid;
 
-public class modBlockEntities<T extends BlockEntity> {
+public class ModBlockEntities<T extends BlockEntity> {
 
     public static DeferredRegister<BlockEntityType<?>> modBlockEntities = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, modid);
 

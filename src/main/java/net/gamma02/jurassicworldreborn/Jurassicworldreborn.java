@@ -7,7 +7,7 @@ import net.gamma02.jurassicworldreborn.common.CommonRegistries;
 import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerMenu;
-import net.gamma02.jurassicworldreborn.common.blocks.entities.modBlockEntities;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.ModBlockEntities;
 import net.gamma02.jurassicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
 import net.gamma02.jurassicworldreborn.common.items.ModItems;
 import net.gamma02.jurassicworldreborn.common.network.Network;
@@ -18,7 +18,6 @@ import net.minecraft.client.renderer.Sheets;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.ai.goal.CatLieOnBedGoal;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
@@ -105,9 +104,9 @@ public class Jurassicworldreborn {
 
         ModItems.modItems.register(modEventBus);
 
-        modBlockEntities.modBlockEntities.register(modEventBus);
+        ModBlockEntities.modBlockEntities.register(modEventBus);
 
-        modBlockEntities.modScreenTypes.modScreenTypes.register(modEventBus);
+        ModBlockEntities.modScreenTypes.modScreenTypes.register(modEventBus);
 
         Network.init();
 
@@ -149,9 +148,9 @@ public class Jurassicworldreborn {
 
 
         //Binding screens to types
-        MenuScreens.<CleanerMenu, CleanerScreen>register(modBlockEntities.modScreenTypes.CleanerScreenType.get(), CleanerScreen::new);
+        MenuScreens.<CleanerMenu, CleanerScreen>register(ModBlockEntities.modScreenTypes.CleanerScreenType.get(), CleanerScreen::new);
 
-        ModScreens.<CleanerBlockEntity, CleanerMenu, CleanerScreen>register(modBlockEntities.CLEANING_STATION.get(), CleanerScreen::new);
+        ModScreens.<CleanerBlockEntity, CleanerMenu, CleanerScreen>register(ModBlockEntities.CLEANING_STATION.get(), CleanerScreen::new);
 
 
     }

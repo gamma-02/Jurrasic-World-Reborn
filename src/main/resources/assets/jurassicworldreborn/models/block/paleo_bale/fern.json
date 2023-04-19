@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "end": "jurassicworldreborn:blocks/paleo_bale/fern_top",
+    "side": "jurassicworldreborn:blocks/paleo_bale/fern_side"
+  }
+}

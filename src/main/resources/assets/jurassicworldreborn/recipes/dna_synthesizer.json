@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "jurassicworldreborn:dna_synthesizer",
+  "pattern": [
+    "AAB",
+    "ACD",
+    "AAC"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:iron_ingot",
+      "data": 0
+    },
+    "C": {
+      "item": "jurassicworldreborn:advanced_circuit",
+      "data": 0
+    },
+    "D": {
+      "item": "jurassicworldreborn:disc_reader",
+      "data": 0
+    },
+    "B": {
+      "item": "jurassicworldreborn:computer_screen",
+      "data": 0
+    }
+  },
+  "result": {
+    "item": "jurassicworldreborn:dna_synthesizer",
+    "data": 0
+  }
+}

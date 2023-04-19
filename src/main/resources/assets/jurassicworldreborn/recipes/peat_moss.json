@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "jurassicworldreborn:peat_moss",
+  "pattern": [
+    "AAA",
+    "AAA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "jurassicworldreborn:moss",
+      "data": 0
+    }
+  },
+  "result": {
+    "item": "jurassicworldreborn:peat_moss",
+    "data": 0
+  }
+}

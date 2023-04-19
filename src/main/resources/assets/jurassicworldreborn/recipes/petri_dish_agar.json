@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "jurassicworldreborn:petri_dish_agar",
+  "ingredients": [
+    {
+      "item": "jurassicworldreborn:petri_dish",
+      "data": 0
+    },
+    {
+      "item": "jurassicworldreborn:petri_dish",
+      "data": 0
+    },
+    {
+      "item": "jurassicworldreborn:petri_dish",
+      "data": 0
+    },
+    {
+      "item": "jurassicworldreborn:petri_dish",
+      "data": 0
+    },
+    {
+      "item": "jurassicworldreborn:liquid_agar",
+      "data": 0
+    }
+  ],
+  "result": {
+    "item": "jurassicworldreborn:petri_dish_agar",
+    "data": 0,
+    "count": 4
+  }
+}

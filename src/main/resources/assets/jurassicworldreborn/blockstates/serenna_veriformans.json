@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "jurassicworldreborn:serenna_veriformans_bottom"
+    },
+    "half=upper": {
+      "model": "jurassicworldreborn:serenna_veriformans_top"
+    }
+  }
+}

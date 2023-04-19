@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "jurassicworldreborn:plant_cells_petri_dish",
+  "ingredients": [
+    {
+      "item": "jurassicworldreborn:plant_cells",
+      "data": 0
+    },
+    {
+      "item": "jurassicworldreborn:petri_dish_agar",
+      "data": 0
+    }
+  ],
+  "result": {
+    "item": "jurassicworldreborn:plant_cells_petri_dish",
+    "data": 0
+  }
+}

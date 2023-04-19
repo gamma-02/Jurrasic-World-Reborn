@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "jurassicworldreborn:items/dart_base",
+    "layer1": "jurassicworldreborn:items/dart_overlay"
+  }
+}

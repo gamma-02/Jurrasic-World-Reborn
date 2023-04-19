@@ -1,0 +1,6 @@
+{
+  "parent": "jurassicworldreborn:block/swarm",
+  "textures": {
+    "all": "jurassicworldreborn:blocks/plankton_swarm"
+  }
+}

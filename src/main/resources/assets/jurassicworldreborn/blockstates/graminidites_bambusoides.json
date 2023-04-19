@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "jurassicworldreborn:graminidites_bambusoides_bottom"
+    },
+    "half=upper": {
+      "model": "jurassicworldreborn:graminidites_bambusoides_top"
+    }
+  }
+}

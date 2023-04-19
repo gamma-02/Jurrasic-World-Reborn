@@ -1,0 +1,18 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "jurassicworldreborn:ginkgo_log_petrified"
+    },
+    "axis=z": {
+      "model": "jurassicworldreborn:ginkgo_log_petrified",
+	  "x": 90
+    },
+    "axis=x": {
+      "model": "jurassicworldreborn:ginkgo_log_petrified",
+      "x": 90, "y": 90
+    },
+    "axis=none": {
+      "model": "jurassicworldreborn:ginkgo_petrified_bark"
+    }
+  }
+}

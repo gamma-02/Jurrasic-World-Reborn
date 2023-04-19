@@ -1,0 +1,8 @@
+{
+  "parent": "block/inner_stairs",
+  "textures": {
+    "bottom": "jurassicworldreborn:blocks/planks_calamites",
+    "top": "jurassicworldreborn:blocks/planks_calamites",
+    "side": "jurassicworldreborn:blocks/planks_calamites"
+  }
+}

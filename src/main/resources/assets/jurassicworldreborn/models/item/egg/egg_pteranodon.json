@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "jurassicworldreborn:items/egg/pteranodon",
+    "layer1": "jurassicworldreborn:items/overlay/pteranodon"
+  }
+}

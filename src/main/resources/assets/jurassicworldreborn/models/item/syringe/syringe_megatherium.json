@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "jurassicworldreborn:items/syringe/syringe",
+    "layer1": "jurassicworldreborn:items/overlay/megatherium"
+  }
+}

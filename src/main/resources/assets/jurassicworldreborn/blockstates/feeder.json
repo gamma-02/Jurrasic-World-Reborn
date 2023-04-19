@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=south": {
+      "model": "jurassicworldreborn:feeder"
+    },
+    "facing=north": {
+      "model": "jurassicworldreborn:feeder"
+    },
+    "facing=west": {
+      "model": "jurassicworldreborn:feeder"
+    },
+    "facing=east": {
+      "model": "jurassicworldreborn:feeder"
+    },
+    "facing=up": {
+      "model": "jurassicworldreborn:feeder"
+    },
+    "facing=down": {
+      "model": "jurassicworldreborn:feeder"
+    }
+  }
+}

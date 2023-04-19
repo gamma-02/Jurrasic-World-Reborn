@@ -1,0 +1,6 @@
+{
+  "parent": "block/leaves",
+  "textures": {
+    "all": "jurassicworldreborn:blocks/leaves_araucaria"
+  }
+}

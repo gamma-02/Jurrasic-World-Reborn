@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "jurassicworldreborn:phoenix_seeds",
+  "ingredients": [
+    {
+      "item": "jurassicworldreborn:phoenix_fruit",
+      "data": 0
+    }
+  ],
+  "result": {
+    "item": "jurassicworldreborn:phoenix_seeds",
+    "data": 0
+  }
+}

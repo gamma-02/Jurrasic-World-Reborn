@@ -1,0 +1,30 @@
+{
+  "type": "forge:ore_shapeless",
+  "group": "jurassicworldreborn:advanced_circuit",
+  "ingredients": [
+    {
+      "item": "jurassicworldreborn:basic_circuit",
+      "data": 0
+    },
+    {
+      "item": "jurassicworldreborn:basic_circuit",
+      "data": 0
+    },
+    {
+      "type": "forge:ore_dict",
+      "ore": "nuggetIron"
+    },
+    {
+      "item": "minecraft:gold_nugget",
+      "data": 0
+    },
+    {
+      "item": "minecraft:redstone",
+      "data": 0
+    }
+  ],
+  "result": {
+    "item": "jurassicworldreborn:advanced_circuit",
+    "data": 0
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "jurassicworldreborn:unfinished_car",
+  "pattern": [
+    "ABC",
+    "DEF",
+    "FFF"
+  ],
+  "key": {
+    "B": {
+      "item": "jurassicworldreborn:car_chassis",
+      "data": 0
+    },
+    "D": {
+      "item": "minecraft:iron_ingot",
+      "data": 0
+    },
+    "C": {
+      "item": "jurassicworldreborn:car_seats",
+      "data": 0
+    },
+    "A": {
+      "item": "jurassicworldreborn:car_windscreen",
+      "data": 0
+    },
+    "F": {
+      "item": "jurassicworldreborn:car_tire",
+      "data": 0
+    },
+    "E": {
+      "item": "jurassicworldreborn:engine_system",
+      "data": 0
+    }
+  },
+  "result": {
+    "item": "jurassicworldreborn:unfinished_car",
+    "data": 0
+  }
+}

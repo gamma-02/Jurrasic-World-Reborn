@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "up": "jurassicworldreborn:blocks/bug_crate_top",
+    "down": "jurassicworldreborn:blocks/bug_crate_bottom",
+    "north": "jurassicworldreborn:blocks/bug_crate_side",
+    "south": "jurassicworldreborn:blocks/bug_crate_side",
+    "west": "jurassicworldreborn:blocks/bug_crate_side",
+    "east": "jurassicworldreborn:blocks/bug_crate_side",
+    "particle": "jurassicworldreborn:blocks/bug_crate_side"
+  }
+}

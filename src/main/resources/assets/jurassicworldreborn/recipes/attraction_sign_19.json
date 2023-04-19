@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "jurassicworldreborn:attraction_sign",
+  "ingredients": [
+    {
+      "item": "jurassicworldreborn:attraction_sign",
+      "data": 17
+    }
+  ],
+  "result": {
+    "item": "jurassicworldreborn:attraction_sign",
+    "data": 18
+  }
+}

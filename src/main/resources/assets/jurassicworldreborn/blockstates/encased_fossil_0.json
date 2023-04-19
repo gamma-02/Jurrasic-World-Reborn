@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "variant=0": {
+      "model": "jurassicworldreborn:encased_fossil_0"
+    },
+    "variant=1": {
+      "model": "jurassicworldreborn:encased_fossil_0"
+    },
+    "variant=2": {
+      "model": "jurassicworldreborn:encased_fossil_0"
+    },
+    "variant=3": {
+      "model": "jurassicworldreborn:encased_fossil_0"
+    },
+    "variant=4": {
+      "model": "jurassicworldreborn:encased_fossil_0"
+    },
+    "variant=5": {
+      "model": "jurassicworldreborn:encased_fossil_0"
+    },
+    "variant=6": {
+      "model": "jurassicworldreborn:encased_fossil_0"
+    },
+    "variant=7": {
+      "model": "jurassicworldreborn:encased_fossil_0"
+    },
+    "variant=8": {
+      "model": "jurassicworldreborn:encased_fossil_0"
+    },
+    "variant=9": {
+      "model": "jurassicworldreborn:encased_fossil_0"
+    },
+    "variant=10": {
+      "model": "jurassicworldreborn:encased_fossil_0"
+    },
+    "variant=11": {
+      "model": "jurassicworldreborn:encased_fossil_0"
+    },
+    "variant=12": {
+      "model": "jurassicworldreborn:encased_fossil_0"
+    },
+    "variant=13": {
+      "model": "jurassicworldreborn:encased_fossil_0"
+    },
+    "variant=14": {
+      "model": "jurassicworldreborn:encased_fossil_0"
+    },
+    "variant=15": {
+      "model": "jurassicworldreborn:encased_fossil_0"
+    }
+  }
+}

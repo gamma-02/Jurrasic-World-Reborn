@@ -1,0 +1,6 @@
+{
+  "parent": "block/crop",
+  "textures": {
+    "crop": "jurassicworldreborn:blocks/plants/ajuginucula_smithii/stage_3"
+  }
+}

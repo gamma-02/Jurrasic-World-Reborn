@@ -1,0 +1,7 @@
+{
+  "parent": "block/door_top",
+  "textures": {
+    "bottom": "jurassicworldreborn:blocks/door_araucaria_lower",
+    "top": "jurassicworldreborn:blocks/door_araucaria_upper"
+  }
+}

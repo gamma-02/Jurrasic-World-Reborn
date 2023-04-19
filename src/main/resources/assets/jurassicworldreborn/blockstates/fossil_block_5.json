@@ -1,0 +1,292 @@
+{
+  "variants": {
+    "variant=0": [
+      {
+        "model": "jurassicworldreborn:fossil_block_0",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_1",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_2",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_3",
+        "weight": 1
+      }
+    ],
+    "variant=1": [
+      {
+        "model": "jurassicworldreborn:fossil_block_0",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_1",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_2",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_3",
+        "weight": 1
+      }
+    ],
+    "variant=2": [
+      {
+        "model": "jurassicworldreborn:fossil_block_0",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_1",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_2",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_3",
+        "weight": 1
+      }
+    ],
+    "variant=3": [
+      {
+        "model": "jurassicworldreborn:fossil_block_0",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_1",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_2",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_3",
+        "weight": 1
+      }
+    ],
+    "variant=4": [
+      {
+        "model": "jurassicworldreborn:fossil_block_0",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_1",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_2",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_3",
+        "weight": 1
+      }
+    ],
+    "variant=5": [
+      {
+        "model": "jurassicworldreborn:fossil_block_0",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_1",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_2",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_3",
+        "weight": 1
+      }
+    ],
+    "variant=6": [
+      {
+        "model": "jurassicworldreborn:fossil_block_0",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_1",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_2",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_3",
+        "weight": 1
+      }
+    ],
+    "variant=7": [
+      {
+        "model": "jurassicworldreborn:fossil_block_0",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_1",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_2",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_3",
+        "weight": 1
+      }
+    ],
+    "variant=8": [
+      {
+        "model": "jurassicworldreborn:fossil_block_0",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_1",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_2",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_3",
+        "weight": 1
+      }
+    ],
+    "variant=9": [
+      {
+        "model": "jurassicworldreborn:fossil_block_0",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_1",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_2",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_3",
+        "weight": 1
+      }
+    ],
+    "variant=10": [
+      {
+        "model": "jurassicworldreborn:fossil_block_0",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_1",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_2",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_3",
+        "weight": 1
+      }
+    ],
+    "variant=11": [
+      {
+        "model": "jurassicworldreborn:fossil_block_0",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_1",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_2",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_3",
+        "weight": 1
+      }
+    ],
+    "variant=12": [
+      {
+        "model": "jurassicworldreborn:fossil_block_0",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_1",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_2",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_3",
+        "weight": 1
+      }
+    ],
+    "variant=13": [
+      {
+        "model": "jurassicworldreborn:fossil_block_0",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_1",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_2",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_3",
+        "weight": 1
+      }
+    ],
+    "variant=14": [
+      {
+        "model": "jurassicworldreborn:fossil_block_0",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_1",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_2",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_3",
+        "weight": 1
+      }
+    ],
+    "variant=15": [
+      {
+        "model": "jurassicworldreborn:fossil_block_0",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_1",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_2",
+        "weight": 1
+      },
+      {
+        "model": "jurassicworldreborn:fossil_block_3",
+        "weight": 1
+      }
+    ]
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "color=white": {
+      "model": "jurassicworldreborn:cultivator/bottom/cultivate_bottom_white"
+    },
+    "color=orange": {
+      "model": "jurassicworldreborn:cultivator/bottom/cultivate_bottom_orange"
+    },
+    "color=magenta": {
+      "model": "jurassicworldreborn:cultivator/bottom/cultivate_bottom_magenta"
+    },
+    "color=light_blue": {
+      "model": "jurassicworldreborn:cultivator/bottom/cultivate_bottom_light_blue"
+    },
+    "color=yellow": {
+      "model": "jurassicworldreborn:cultivator/bottom/cultivate_bottom_yellow"
+    },
+    "color=lime": {
+      "model": "jurassicworldreborn:cultivator/bottom/cultivate_bottom_lime"
+    },
+    "color=pink": {
+      "model": "jurassicworldreborn:cultivator/bottom/cultivate_bottom_pink"
+    },
+    "color=gray": {
+      "model": "jurassicworldreborn:cultivator/bottom/cultivate_bottom_gray"
+    },
+    "color=silver": {
+      "model": "jurassicworldreborn:cultivator/bottom/cultivate_bottom_silver"
+    },
+    "color=cyan": {
+      "model": "jurassicworldreborn:cultivator/bottom/cultivate_bottom_cyan"
+    },
+    "color=purple": {
+      "model": "jurassicworldreborn:cultivator/bottom/cultivate_bottom_purple"
+    },
+    "color=blue": {
+      "model": "jurassicworldreborn:cultivator/bottom/cultivate_bottom_blue"
+    },
+    "color=brown": {
+      "model": "jurassicworldreborn:cultivator/bottom/cultivate_bottom_brown"
+    },
+    "color=green": {
+      "model": "jurassicworldreborn:cultivator/bottom/cultivate_bottom_green"
+    },
+    "color=red": {
+      "model": "jurassicworldreborn:cultivator/bottom/cultivate_bottom_red"
+    },
+    "color=black": {
+      "model": "jurassicworldreborn:cultivator/bottom/cultivate_bottom_black"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "layer0": "jurassicworldreborn:blocks/low_security_fence_base_pole",
+    "particle": "blocks/iron_block"
+  },
+  "tabula": "jurassicworldreborn:models/block/low_security_fence_base_pole"
+}

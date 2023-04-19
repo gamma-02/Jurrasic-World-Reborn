@@ -1,0 +1,7 @@
+{
+  "parent": "block/door_top_rh",
+  "textures": {
+    "bottom": "jurassicworldreborn:blocks/door_psaronius_lower",
+    "top": "jurassicworldreborn:blocks/door_psaronius_upper"
+  }
+}

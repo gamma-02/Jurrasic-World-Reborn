@@ -1,0 +1,23 @@
+{
+  "type": "forge:ore_shaped",
+  "group": "jurassicworldreborn:storage_disc",
+  "pattern": [
+    " A ",
+    "ABA",
+    " A "
+  ],
+  "key": {
+    "A": {
+      "type": "forge:ore_dict",
+      "ore": "nuggetIron"
+    },
+    "B": {
+      "item": "jurassicworldreborn:basic_circuit",
+      "data": 0
+    }
+  },
+  "result": {
+    "item": "jurassicworldreborn:storage_disc",
+    "data": 0
+  }
+}

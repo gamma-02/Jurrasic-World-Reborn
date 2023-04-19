@@ -1,0 +1,31 @@
+{
+  "type": "forge:ore_shaped",
+  "group": "jurassicworldreborn:dna_analyzer",
+  "pattern": [
+    "ABA",
+    "CDA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "type": "forge:ore_dict",
+      "ore": "nuggetIron"
+    },
+    "C": {
+      "item": "jurassicworldreborn:advanced_circuit",
+      "data": 0
+    },
+    "D": {
+      "item": "jurassicworldreborn:laser",
+      "data": 0
+    },
+    "B": {
+      "item": "minecraft:glass",
+      "data": 0
+    }
+  },
+  "result": {
+    "item": "jurassicworldreborn:dna_analyzer",
+    "data": 0
+  }
+}

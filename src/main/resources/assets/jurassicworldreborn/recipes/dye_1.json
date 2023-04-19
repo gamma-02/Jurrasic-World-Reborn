@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "minecraft:dye",
+  "ingredients": [
+    {
+      "item": "jurassicworldreborn:rhamnus_salicifolius_seeds",
+      "data": 0
+    },
+    {
+      "item": "jurassicworldreborn:rhamnus_salicifolius_seeds",
+      "data": 0
+    },
+    {
+      "item": "jurassicworldreborn:rhamnus_salicifolius_seeds",
+      "data": 0
+    },
+    {
+      "item": "jurassicworldreborn:rhamnus_salicifolius_seeds",
+      "data": 0
+    }
+  ],
+  "result": {
+    "item": "minecraft:dye",
+    "data": 0
+  }
+}

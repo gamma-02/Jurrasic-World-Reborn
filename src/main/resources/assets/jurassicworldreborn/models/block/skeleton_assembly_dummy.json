@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "jurassicworldreborn:blocks/invisible",
+	"particle": "jurassicworldreborn:blocks/invisible"
+  }
+}

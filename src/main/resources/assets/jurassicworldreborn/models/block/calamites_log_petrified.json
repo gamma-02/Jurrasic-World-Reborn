@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "end": "jurassicworldreborn:blocks/log_calamites_petrified_top",
+    "side": "jurassicworldreborn:blocks/log_calamites_petrified"
+  }
+}

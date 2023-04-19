@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "jurassicworldreborn:dna_sequencer",
+  "pattern": [
+    "ABA",
+    "CBA",
+    "DBE"
+  ],
+  "key": {
+    "C": {
+      "item": "jurassicworldreborn:computer_screen",
+      "data": 0
+    },
+    "B": {
+      "item": "jurassicworldreborn:dna_analyzer",
+      "data": 0
+    },
+    "D": {
+      "item": "jurassicworldreborn:disc_reader",
+      "data": 0
+    },
+    "A": {
+      "item": "minecraft:iron_ingot",
+      "data": 0
+    },
+    "E": {
+      "item": "jurassicworldreborn:keyboard",
+      "data": 0
+    }
+  },
+  "result": {
+    "item": "jurassicworldreborn:dna_sequencer",
+    "data": 0
+  }
+}

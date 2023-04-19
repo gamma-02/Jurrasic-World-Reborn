@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=bottom": {
+      "model": "jurassicworldreborn:half_slab_calamites"
+    },
+    "half=top": {
+      "model": "jurassicworldreborn:upper_slab_calamites"
+    }
+  }
+}

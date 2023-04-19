@@ -1,0 +1,6 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "jurassicworldreborn:blocks/plants/umaltolepis_bottom"
+  }
+}

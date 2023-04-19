@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "jurassicworldreborn:cycad_zamites_bottom"
+    },
+    "half=upper": {
+      "model": "jurassicworldreborn:cycad_zamites_top"
+    }
+  }
+}

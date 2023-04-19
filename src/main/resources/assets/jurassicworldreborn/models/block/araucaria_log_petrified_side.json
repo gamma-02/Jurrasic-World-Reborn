@@ -1,0 +1,7 @@
+{
+  "parent": "block/column_side",
+  "textures": {
+    "end": "jurassicworldreborn:blocks/log_araucaria_petrified_top",
+    "side": "jurassicworldreborn:blocks/log_araucaria_petrified"
+  }
+}

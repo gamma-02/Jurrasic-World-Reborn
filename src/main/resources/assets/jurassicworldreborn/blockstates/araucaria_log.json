@@ -1,0 +1,18 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "jurassicworldreborn:araucaria_log"
+    },
+    "axis=z": {
+      "model": "jurassicworldreborn:araucaria_log",
+	  "x": 90
+    },
+    "axis=x": {
+      "model": "jurassicworldreborn:araucaria_log",
+      "x": 90, "y": 90
+    },
+    "axis=none": {
+      "model": "jurassicworldreborn:araucaria_bark"
+    }
+  }
+}

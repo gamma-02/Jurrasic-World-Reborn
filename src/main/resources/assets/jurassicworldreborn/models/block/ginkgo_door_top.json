@@ -1,0 +1,7 @@
+{
+  "parent": "block/door_top",
+  "textures": {
+    "bottom": "jurassicworldreborn:blocks/door_ginkgo_lower",
+    "top": "jurassicworldreborn:blocks/door_ginkgo_upper"
+  }
+}

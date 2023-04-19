@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "jurassicworldreborn:phoenix_planks",
+  "ingredients": [
+    {
+      "item": "jurassicworldreborn:phoenix_log",
+      "data": 0
+    }
+  ],
+  "result": {
+    "item": "jurassicworldreborn:phoenix_planks",
+    "data": 0,
+    "count": 4
+  }
+}

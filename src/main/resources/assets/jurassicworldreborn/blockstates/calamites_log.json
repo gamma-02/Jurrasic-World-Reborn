@@ -1,0 +1,18 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "jurassicworldreborn:calamites_log"
+    },
+    "axis=z": {
+      "model": "jurassicworldreborn:calamites_log",
+	  "x": 90
+    },
+    "axis=x": {
+      "model": "jurassicworldreborn:calamites_log",
+      "x": 90, "y": 90
+    },
+    "axis=none": {
+      "model": "jurassicworldreborn:calamites_bark"
+    }
+  }
+}

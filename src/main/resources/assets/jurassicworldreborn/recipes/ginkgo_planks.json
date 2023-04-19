@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "jurassicworldreborn:ginkgo_planks",
+  "ingredients": [
+    {
+      "item": "jurassicworldreborn:ginkgo_log",
+      "data": 0
+    }
+  ],
+  "result": {
+    "item": "jurassicworldreborn:ginkgo_planks",
+    "data": 0,
+    "count": 4
+  }
+}

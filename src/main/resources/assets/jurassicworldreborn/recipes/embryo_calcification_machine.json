@@ -1,0 +1,39 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "jurassicworldreborn:embryo_calcification_machine",
+  "pattern": [
+    "ABC",
+    "DED",
+    "DFD"
+  ],
+  "key": {
+    "F": {
+      "item": "minecraft:iron_block",
+      "data": 0
+    },
+    "B": {
+      "item": "minecraft:bowl",
+      "data": 0
+    },
+    "A": {
+      "item": "minecraft:iron_ingot",
+      "data": 0
+    },
+    "E": {
+      "item": "jurassicworldreborn:basic_circuit",
+      "data": 0
+    },
+    "C": {
+      "item": "jurassicworldreborn:keyboard",
+      "data": 0
+    },
+    "D": {
+      "item": "jurassicworldreborn:iron_rod",
+      "data": 0
+    }
+  },
+  "result": {
+    "item": "jurassicworldreborn:embryo_calcification_machine",
+    "data": 0
+  }
+}

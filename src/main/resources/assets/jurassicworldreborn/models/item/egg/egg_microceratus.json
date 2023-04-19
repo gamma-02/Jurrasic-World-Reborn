@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "jurassicworldreborn:items/egg/microceratus",
+    "layer1": "jurassicworldreborn:items/overlay/microceratus"
+  }
+}

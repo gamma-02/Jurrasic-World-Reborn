@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_top",
+  "textures": {
+    "top": "jurassicworldreborn:blocks/fossilized_trackway_raptor",
+    "side": "jurassicworldreborn:blocks/fossilized_trackway"
+  }
+}

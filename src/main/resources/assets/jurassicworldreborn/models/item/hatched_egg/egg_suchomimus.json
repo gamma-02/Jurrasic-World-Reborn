@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "jurassicworldreborn:items/hatched_egg/suchomimus",
+    "layer1": "jurassicworldreborn:items/overlay/suchomimus"
+  }
+}

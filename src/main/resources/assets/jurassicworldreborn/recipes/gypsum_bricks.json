@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "jurassicworldreborn:gypsum_bricks",
+  "pattern": [
+    "AA",
+    "AA"
+  ],
+  "key": {
+    "A": {
+      "item": "jurassicworldreborn:gypsum_stone",
+      "data": 0
+    }
+  },
+  "result": {
+    "item": "jurassicworldreborn:gypsum_bricks",
+    "data": 0,
+    "count": 4
+  }
+}

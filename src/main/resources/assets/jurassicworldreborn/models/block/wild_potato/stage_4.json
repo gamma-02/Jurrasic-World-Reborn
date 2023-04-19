@@ -1,0 +1,6 @@
+{
+  "parent": "block/crop",
+  "textures": {
+    "crop": "jurassicworldreborn:blocks/plants/wild_potato/stage_4"
+  }
+}

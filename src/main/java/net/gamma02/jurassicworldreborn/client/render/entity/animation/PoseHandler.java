@@ -52,9 +52,9 @@ public class PoseHandler<ENTITY extends LivingEntity & Animatable> {
         this.modelData = new EnumMap<>(GrowthStage.class);
         URI entityResource;
         try {
-            entityResource = new URI("/assets/rebornmod/models/entities/" + name + "/");
+            entityResource = new URI("/assets/jurassicworldreborn/models/entities/" + name + "/");
         } catch (URISyntaxException e) {
-            Jurassicworldreborn.getLogger().fatal("Illegal URI /assets/rebornmod/models/entities/" + name + "/", e);
+            Jurassicworldreborn.getLogger().fatal("Illegal URI /assets/jurassicworldreborn/models/entities/" + name + "/", e);
             return;
         }
         for (GrowthStage growth : GrowthStage.values()) {

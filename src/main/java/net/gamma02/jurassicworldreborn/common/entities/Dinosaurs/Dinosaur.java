@@ -248,7 +248,7 @@ public abstract class Dinosaur implements Comparable<Dinosaur> {
 
     protected TabulaModelContainer parseModel(String growthStage) {
         String formattedName = this.getName().toLowerCase(Locale.ENGLISH).replaceAll(" ", "_");
-        String modelPath = "/assets/rebornmod/models/entities/" + formattedName + "/" + growthStage + "/" + formattedName + "_" + growthStage + "_idle";
+        String modelPath = "/assets/jurassicworldreborn/models/entities/" + formattedName + "/" + growthStage + "/" + formattedName + "_" + growthStage + "_idle";
 
         try {
             return TabulaModelHelper.loadTabulaModel(modelPath);
@@ -465,7 +465,7 @@ public abstract class Dinosaur implements Comparable<Dinosaur> {
     protected String getDinosaurTexture(String subtype) {
         String dinosaurName = this.getName().toLowerCase(Locale.ENGLISH).replaceAll(" ", "_");
 
-        String texture = "rebornmod:textures/entities/" + dinosaurName + "/" + dinosaurName;
+        String texture = "jurassicworldreborn:textures/entities/" + dinosaurName + "/" + dinosaurName;
 
         if (subtype.length() > 0) {
             texture += "_" + subtype;
@@ -785,7 +785,7 @@ public abstract class Dinosaur implements Comparable<Dinosaur> {
     }
 
     public String getLocalizationName() {
-        return "entity.rebornmod." + this.getName().toLowerCase(Locale.ENGLISH).replaceAll(" ", "_") + ".name";
+        return "entity.jurassicworldreborn." + this.getName().toLowerCase(Locale.ENGLISH).replaceAll(" ", "_") + ".name";
     }
 
     public DinosaurType getDinosaurType() {

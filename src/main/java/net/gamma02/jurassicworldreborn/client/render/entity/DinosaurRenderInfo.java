@@ -31,7 +31,7 @@ public class DinosaurRenderInfo{
 
     static {
         try {
-            DEFAULT_EGG_MODEL = new TabulaModel(TabulaModelHelper.loadTabulaModel("/assets/rebornmod/models/entities/egg/tyrannosaurus"));
+            DEFAULT_EGG_MODEL = new TabulaModel(TabulaModelHelper.loadTabulaModel("/assets/jurassicworldreborn/models/entities/egg/tyrannosaurus"));
             DEFAULT_EGG_TEXTURE = new ResourceLocation(Jurassicworldreborn.MODID, "textures/entities/egg/tyrannosaurus.png");
         } catch (Exception e) {
             e.printStackTrace();
@@ -67,7 +67,7 @@ public class DinosaurRenderInfo{
 
             try {
                 String name = dinosaur.getName().toLowerCase(Locale.ENGLISH);
-                this.eggModel = new TabulaModel(TabulaModelHelper.loadTabulaModel("/assets/rebornmod/models/entities/egg/" + name));
+                this.eggModel = new TabulaModel(TabulaModelHelper.loadTabulaModel("/assets/jurassicworldreborn/models/entities/egg/" + name));
                 this.eggTexture = new ResourceLocation(Jurassicworldreborn.MODID, "textures/entities/egg/" + name + ".png");
             } catch (Exception e) {
                 this.eggModel = DEFAULT_EGG_MODEL;

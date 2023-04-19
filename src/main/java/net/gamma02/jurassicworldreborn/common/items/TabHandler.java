@@ -19,20 +19,20 @@ public class TabHandler {
 
     public static ItemStack currentDisplayFigure = ModItems.DISPLAY_BLOCK.get().getDefaultInstance();
 
-    public static final CreativeModeTab ITEMS = makeTab("rebornmod.items", ModItems.APHID_AMBER.get(), ModItems.MOSQUITO_AMBER.get());
+    public static final CreativeModeTab ITEMS = makeTab("jurassicworldreborn.items", ModItems.APHID_AMBER.get(), ModItems.MOSQUITO_AMBER.get());
 
-    public static final CreativeModeTab BLOCKS = makeTab("rebornmod.blocks", ModItems.GYPSUM_BRICKS.get());
+    public static final CreativeModeTab BLOCKS = makeTab("jurassicworldreborn.blocks", ModItems.GYPSUM_BRICKS.get());
 
-    public static final CreativeModeTab DECORATIONS = makeTab("rebornmod.decorations", ModItems.DISPLAY_BLOCK.get());
+    public static final CreativeModeTab DECORATIONS = makeTab("jurassicworldreborn.decorations", ModItems.DISPLAY_BLOCK.get());
 
     public static CreativeModeTab makeTab(String name, Item... icon){
         CreativeModeTab tab = new CreativeModeTab(name){
 
             @Override
             public ItemStack getIconItem() {//this bit in particular makes the icon scroll/change between the specified items, or registered dinosaur display cases
-                if(!SCROLLING_TAB_ITEMS.containsKey(name) && !name.equals("rebornmod.decorations")) {
+                if(!SCROLLING_TAB_ITEMS.containsKey(name) && !name.equals("jurassicworldreborn.decorations")) {
                     return super.getIconItem();
-                } else if(name.equals("rebornmod.decorations")) {
+                } else if(name.equals("jurassicworldreborn.decorations")) {
                     Calendar c = Calendar.getInstance();
                     if(c.get(Calendar.SECOND) % 3 == 0){
                         int i = Dinosaur.DINOS.indexOf(Dinosaur.getDinosaurByName(ActionFigureItem.getDinosaurID(currentDisplayFigure)));

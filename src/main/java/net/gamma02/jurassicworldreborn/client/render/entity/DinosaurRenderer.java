@@ -240,7 +240,7 @@ public class DinosaurRenderer extends LivingEntityRenderer<DinosaurEntity, Basic
                                 for example:
                                  */
                                 /**
-                                 * <a href="https://raw.githubusercontent.com/Interactive-Modding/JurassicWorldRebornMod/master/src/main/resources/assets/rebornmod/textures/entities/ankylodocus/ankylodocus_female_adult_eyelid.png">eyelids.png</a>
+                                 * <a href="https://raw.githubusercontent.com/Interactive-Modding/JurassicWorldRebornMod/master/src/main/resources/assets/jurassicworldreborn/textures/entities/ankylodocus/ankylodocus_female_adult_eyelid.png">eyelids.png</a>
                                  */
                                 /*
                                    needless to say, this is dumb. I'm going to leave a to-do here for the future to fix this.

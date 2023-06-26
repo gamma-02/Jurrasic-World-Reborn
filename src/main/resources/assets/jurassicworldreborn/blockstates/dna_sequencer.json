@@ -1,7 +1,7 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "jurassicworldreborn:dna_sequencer.tbl"
+    "model": "jurassicworldreborn:block/dna_sequencer.tbl"
   },
   "variants": {
     "facing=north": {

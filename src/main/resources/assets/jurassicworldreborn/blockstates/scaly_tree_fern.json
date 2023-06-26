@@ -1,10 +1,10 @@
 {
   "variants": {
     "half=lower": {
-      "model": "jurassicworldreborn:scaly_tree_fern_bottom"
+      "model": "jurassicworldreborn:block/scaly_tree_fern_bottom"
     },
     "half=upper": {
-      "model": "jurassicworldreborn:scaly_tree_fern_top"
+      "model": "jurassicworldreborn:block/scaly_tree_fern_top"
     }
   }
 }

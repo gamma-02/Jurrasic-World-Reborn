@@ -1,19 +1,21 @@
 package net.gamma02.jurassicworldreborn.client.sounds;
 
-import com.google.common.collect.Lists;
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.rmi.registry.RegistryHandler;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SoundHandler {
+    private static final ArrayList<SoundEvent> sounds = new ArrayList<>();
+    public static ArrayList<RegistryObject<SoundEvent>> toRegister = new ArrayList<>();
+    public static void init(){};
 
-    public static DeferredRegister<SoundEvent> registrer;
+    public static DeferredRegister<SoundEvent> registrer = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, Jurassicworldreborn.MODID);
 
 
     public static final SoundEvent TROODONS_AND_RAPTORS = create("troodons_and_raptors");
@@ -483,8 +485,7 @@ public class SoundHandler {
     public static final SoundEvent EMPTY = create("empty");
     public static final SoundEvent RELOAD = create("reload");
 
-    private static List<SoundEvent> sounds = Lists.newArrayList();
-    public static List<RegistryObject<SoundEvent>> toRegister;
+
 
 
     public static SoundEvent create(String soundName) {

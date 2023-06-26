@@ -21,7 +21,6 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import org.lwjgl.system.CallbackI;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,20 +32,20 @@ public class ModItems {
     }
 
     public static DeferredRegister<Item> modItems = DeferredRegister.create(ForgeRegistries.ITEMS, Jurassicworldreborn.modid);
-    public static DeferredRegister<Item> modBlockItems = DeferredRegister.create(ForgeRegistries.ITEMS, Jurassicworldreborn.modid);
+    public static DeferredRegister<Item> modBlockItems = modItems;
 
 
 
-    public static RegistryObject<Item> ARAUCARIA_SAPLING = modBlockItems.register("araucaria_sapling", () -> new BlockItem(ModBlocks.AraucariaSapling.get(), new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)));
+//    public static RegistryObject<Item> ARAUCARIA_SAPLING = modBlockItems.register("araucaria_sapling", () -> new BlockItem(ModBlocks.AraucariaSapling.get(), new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)));
 
-    public static RegistryObject<Item> GINKGO_SAPLING = modBlockItems.register("ginkgo_sapling", () -> new BlockItem(ModBlocks.GinkgoSapling.get(), new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)));
+//    public static RegistryObject<Item> GINKGO_SAPLING = modBlockItems.register("ginkgo_sapling", () -> new BlockItem(ModBlocks.GinkgoSapling.get(), new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)));
 
-    public static RegistryObject<Item> CALAMITES_SAPLING = modBlockItems.register("calamites_sapling", () -> new BlockItem(ModBlocks.CalamitesSapling.get(), new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)));
+//    public static RegistryObject<Item> CALAMITES_SAPLING = modBlockItems.register("calamites_sapling", () -> new BlockItem(ModBlocks.CalamitesSapling.get(), new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)));
 
-    public static RegistryObject<Item> PHEONIX_SAPLING = modBlockItems.register("pheonix_sapling", () -> new BlockItem(ModBlocks.PheonixSapling.get(), new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)));
+//    public static RegistryObject<Item> PHEONIX_SAPLING = modBlockItems.register("pheonix_sapling", () -> new BlockItem(ModBlocks.PheonixSapling.get(), new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)));
 
-    public static RegistryObject<Item> PSARONIUS_SAPLING = modBlockItems.register("psarons_sapling", () -> new BlockItem(ModBlocks.PsaroniusSapling.get(), new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)));
-
+//    public static RegistryObject<Item> PSARONIUS_SAPLING = modBlockItems.register("psarons_sapling", () -> new BlockItem(ModBlocks.PsaroniusSapling.get(), new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)));
+//
     public static RegistryObject<Item> PLASTER_AND_BANDAGE = modItems.register("plaster_and_bandage", () -> new Item(new Item.Properties().tab(TabHandler.ITEMS)));
 
     public static RegistryObject<Item> MOSQUITO_AMBER = modItems.register("mosquito_amber", () -> new Item(new Item.Properties().tab(TabHandler.ITEMS)));
@@ -81,7 +80,7 @@ public class ModItems {
     public static final RegistryObject<RecordItem> TROODONS_AND_RAPTORS_DISC = modBlockItems.register("disc_troodons_and_raptors", () -> new RecordItem(0, () -> SoundHandler.TROODONS_AND_RAPTORS, new Item.Properties().tab(TabHandler.ITEMS)));
     public static final RegistryObject<RecordItem> DONT_MOVE_A_MUSCLE_DISC = modBlockItems.register("disc_dont_move_a_muscle", () -> new RecordItem(0, () -> SoundHandler.DONT_MOVE_A_MUSCLE, new Item.Properties().tab(TabHandler.ITEMS)));
 
-    public static final RegistryObject<BlockItem> GYPSUM_BRICKS = registerBlockItem("gypsum_bricks", ModBlocks.GYPSUM_BRICKS::get);
+    public static final RegistryObject<BlockItem> GYPSUM_BRICKS = registerBlockItem("gypsum_bricks", ModBlocks.GYPSUM_BRICKS);
 
     public static final RegistryObject<ActionFigureItem> DISPLAY_BLOCK = modItems.register("display_block_item", () -> new ActionFigureItem(new Item.Properties().tab(TabHandler.DECORATIONS)));
 
@@ -96,18 +95,37 @@ public class ModItems {
     public static void register(IEventBus bus) {
 
         //automatically register all the blocks :)
+
         for(var/*auto*/ a : ModBlocks.modBlocks.getEntries()){
+//            System.out.println(a.getId());
             ResourceLocation location = a.getId();
-            String name = location.getPath().contains("block") ? location.getPath().replace("block", "item") : location.getPath().concat("_item");
-            modBlocks.add(registerBlockItem(name, a.get()));
+            if(compare(location)){
+                continue;
+            }
+            String name = correct(location.getPath());
+//            String name = location.getPath().contains("block") ? location.getPath().replace("block", "item") : location.getPath().concat("_item");
+//            System.out.println(name);
+
+            modBlocks.add(registerBlockItem(location.getPath(), a));
         }
 
-
         modItems.register(bus);
-        modBlockItems.register(bus);
+
+//        System.out.println("Registering blocks");
+
+
+
+
+//        modBlockItems.register(bus);
     }
 
+    private static String correct(String path) {
+        return path;
+    }
 
+    private static boolean compare(ResourceLocation location) {
+        return location.getPath().equals("display_block") || location.getPath().equals("gypsum_bricks");
+    }
 
 
     public static void registerBone(String name, Supplier<Item> sup, String dino){
@@ -135,7 +153,7 @@ public class ModItems {
             tab = CreativeModeTab.TAB_BUILDING_BLOCKS;
         }
 
-        return modBlockItems.register(name, () -> new BlockItem(block, new Item.Properties().tab(tab)));
+        return modItems.register(name, () -> new BlockItem(block, new Item.Properties().tab(tab)));
     }
 
     public static RegistryObject<BlockItem> registerBlockItem(String name, Supplier<Block> block){
@@ -145,9 +163,9 @@ public class ModItems {
             tab = CreativeModeTab.TAB_DECORATIONS;
         }else{
             tab = TabHandler.BLOCKS;
-        }
+    }
 
-        return modBlockItems.register(name, () -> new BlockItem(block.get(), new Item.Properties().tab(tab)));
+        return modItems.register(name, () -> new BlockItem(block.get(), new Item.Properties().tab(tab)));
     }
 
 

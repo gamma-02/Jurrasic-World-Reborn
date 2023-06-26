@@ -1,10 +1,10 @@
 {
   "variants": {
     "half=lower": {
-      "model": "jurassicworldreborn:heliconia_bottom"
+      "model": "jurassicworldreborn:block/heliconia_bottom"
     },
     "half=upper": {
-      "model": "jurassicworldreborn:heliconia_top"
+      "model": "jurassicworldreborn:block/heliconia_top"
     }
   }
 }

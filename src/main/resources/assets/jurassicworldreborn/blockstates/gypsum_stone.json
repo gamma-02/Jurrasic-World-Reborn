@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "jurassicworldreborn:gypsum_stone"
+    "": {
+      "model": "jurassicworldreborn:block/gypsum_stone"
     }
   }
 }

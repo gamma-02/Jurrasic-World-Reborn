@@ -1,10 +1,10 @@
 {
   "variants": {
     "half=bottom": {
-      "model": "jurassicworldreborn:half_slab_araucaria"
+      "model": "jurassicworldreborn:block/half_slab_araucaria"
     },
     "half=top": {
-      "model": "jurassicworldreborn:upper_slab_araucaria"
+      "model": "jurassicworldreborn:block/upper_slab_araucaria"
     }
   }
 }

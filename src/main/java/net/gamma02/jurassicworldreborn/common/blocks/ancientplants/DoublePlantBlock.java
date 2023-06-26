@@ -31,7 +31,7 @@ public class DoublePlantBlock extends AncientPlantBlock {
         this.registerDefaultState(this.stateDefinition.any().setValue(HALF, DoubleBlockHalf.LOWER));
     }
     public DoublePlantBlock(){
-        super(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT));
+        super(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).dynamicShape());
         this.registerDefaultState(this.stateDefinition.any().setValue(HALF, DoubleBlockHalf.LOWER));
     }
 

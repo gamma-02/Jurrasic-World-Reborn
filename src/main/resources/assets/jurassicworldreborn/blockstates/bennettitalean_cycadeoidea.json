@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "jurassicworldreborn:bennettitalean_cycadeoidea"
+    "": {
+      "model": "jurassicworldreborn:block/bennettitalean_cycadeoidea"
     }
   }
 }

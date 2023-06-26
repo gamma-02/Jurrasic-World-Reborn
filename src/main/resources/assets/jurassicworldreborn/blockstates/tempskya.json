@@ -1,10 +1,10 @@
 {
   "variants": {
     "half=lower": {
-      "model": "jurassicworldreborn:tempskya_bottom"
+      "model": "jurassicworldreborn:block/tempskya_bottom"
     },
     "half=upper": {
-      "model": "jurassicworldreborn:tempskya_top"
+      "model": "jurassicworldreborn:block/tempskya_top"
     }
   }
 }

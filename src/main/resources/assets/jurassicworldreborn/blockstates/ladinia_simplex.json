@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "jurassicworldreborn:ladinia_simplex"
+    "": {
+      "model": "jurassicworldreborn:block/ladinia_simplex"
     }
   }
 }

@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "jurassicworldreborn:cladochonus"
+    "": {
+      "model": "jurassicworldreborn:block/cladochonus"
     }
   }
 }

@@ -1,18 +1,18 @@
 {
   "variants": {
     "facing=north": {
-      "model": "jurassicworldreborn:action_figure_block",
+      "model": "jurassicworldreborn:block/action_figure_block",
       "y": 180
     },
     "facing=south": {
-      "model": "jurassicworldreborn:action_figure_block"
+      "model": "jurassicworldreborn:block/action_figure_block"
     },
     "facing=west": {
-      "model": "jurassicworldreborn:action_figure_block",
+      "model": "jurassicworldreborn:block/action_figure_block",
       "y": 90
     },
     "facing=east": {
-      "model": "jurassicworldreborn:action_figure_block",
+      "model": "jurassicworldreborn:block/action_figure_block",
       "y": 270
     }
   }

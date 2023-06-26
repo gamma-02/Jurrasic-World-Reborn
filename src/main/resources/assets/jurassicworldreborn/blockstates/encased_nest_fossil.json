@@ -1,13 +1,13 @@
 {
   "variants": {
     "variant=variant_1": {
-      "model": "jurassicworldreborn:encased_fossil_0"
+      "model": "jurassicworldreborn:block/encased_fossil_0"
     },
     "variant=variant_2": {
-      "model": "jurassicworldreborn:encased_fossil_0"
+      "model": "jurassicworldreborn:block/encased_fossil_0"
     },
     "variant=variant_3": {
-      "model": "jurassicworldreborn:encased_fossil_0"
+      "model": "jurassicworldreborn:block/encased_fossil_0"
     }
   }
 }

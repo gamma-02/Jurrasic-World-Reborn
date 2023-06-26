@@ -1,7 +1,7 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "jurassicworldreborn:dna_combinator.tbl"
+    "model": "jurassicworldreborn:block/dna_combinator.tbl"
   },
   "variants": {
     "facing=north,hybridizer=false": {
@@ -17,19 +17,19 @@
       "y": 90
     },
     "facing=north,hybridizer=true": {
-      "model": "jurassicworldreborn:dna_hybridizer.tbl",
+      "model": "jurassicworldreborn:block/dna_hybridizer.tbl",
       "y": 0
     },
     "facing=south,hybridizer=true": {
-      "model": "jurassicworldreborn:dna_hybridizer.tbl",
+      "model": "jurassicworldreborn:block/dna_hybridizer.tbl",
       "y": 180
     },
     "facing=west,hybridizer=true": {
-      "model": "jurassicworldreborn:dna_hybridizer.tbl",
+      "model": "jurassicworldreborn:block/dna_hybridizer.tbl",
       "y": 270
     },
     "facing=east,hybridizer=true": {
-      "model": "jurassicworldreborn:dna_hybridizer.tbl",
+      "model": "jurassicworldreborn:block/dna_hybridizer.tbl",
       "y": 90
     }
   }

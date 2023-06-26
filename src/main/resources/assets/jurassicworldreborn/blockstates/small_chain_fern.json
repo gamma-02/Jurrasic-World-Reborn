@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "jurassicworldreborn:small_chain_fern"
+    "": {
+      "model": "jurassicworldreborn:block/small_chain_fern"
     }
   }
 }

@@ -1,18 +1,18 @@
 {
   "variants": {
     "axis=y": {
-      "model": "jurassicworldreborn:araucaria_log_petrified"
+      "model": "jurassicworldreborn:block/araucaria_log_petrified"
     },
     "axis=z": {
-      "model": "jurassicworldreborn:araucaria_log_petrified",
+      "model": "jurassicworldreborn:block/araucaria_log_petrified",
 	  "x": 90
     },
     "axis=x": {
-      "model": "jurassicworldreborn:araucaria_log_petrified",
+      "model": "jurassicworldreborn:block/araucaria_log_petrified",
       "x": 90, "y": 90
     },
     "axis=none": {
-      "model": "jurassicworldreborn:araucaria_petrified_bark"
+      "model": "jurassicworldreborn:block/araucaria_petrified_bark"
     }
   }
 }

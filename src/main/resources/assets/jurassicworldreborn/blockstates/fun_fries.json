@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "jurassicworldreborn:fun_fries"
+    "": {
+      "model": "jurassicworldreborn:block/fun_fries"
     }
   }
 }

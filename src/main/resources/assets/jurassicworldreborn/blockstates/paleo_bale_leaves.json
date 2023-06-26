@@ -1,14 +1,14 @@
 {
   "variants": {
     "axis=y": {
-      "model": "jurassicworldreborn:paleo_bale/leaves"
+      "model": "jurassicworldreborn:block/paleo_bale/leaves"
     },
     "axis=z": {
-      "model": "jurassicworldreborn:paleo_bale/leaves",
+      "model": "jurassicworldreborn:block/paleo_bale/leaves",
       "x": 90
     },
     "axis=x": {
-      "model": "jurassicworldreborn:paleo_bale/leaves",
+      "model": "jurassicworldreborn:block/paleo_bale/leaves",
       "x": 90,
       "y": 90
     }

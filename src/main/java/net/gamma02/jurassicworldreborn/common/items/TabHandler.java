@@ -1,6 +1,5 @@
 package net.gamma02.jurassicworldreborn.common.items;
 
-import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
 import net.gamma02.jurassicworldreborn.common.items.misc.ActionFigureItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -8,24 +7,33 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
-import java.sql.Date;
 import java.util.*;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class TabHandler {
+    public static ArrayList<CreativeModeTab> tabs = new ArrayList<>();
 
 
     public static HashMap<String, ArrayDeque<Item>> SCROLLING_TAB_ITEMS = new HashMap<>();
 
-    public static ItemStack currentDisplayFigure = ModItems.DISPLAY_BLOCK.get().getDefaultInstance();
+    public static Supplier<ItemStack> currentDisplayFigure = ((Supplier<ItemStack>)() -> {
 
-    public static final CreativeModeTab ITEMS = makeTab("jurassicworldreborn.items", ModItems.APHID_AMBER.get(), ModItems.MOSQUITO_AMBER.get());
+     var a = ModItems.DISPLAY_BLOCK.get().getDefaultInstance();
+     if( a == null)
+     {
+         return Items.AIR.getDefaultInstance();
+     }
+     return a;
+    });
 
-    public static final CreativeModeTab BLOCKS = makeTab("jurassicworldreborn.blocks", ModItems.GYPSUM_BRICKS.get());
+    public static final CreativeModeTab ITEMS = makeTab("jurassicworldreborn.items", () -> ModItems.APHID_AMBER.get(), () -> ModItems.MOSQUITO_AMBER.get());
 
-    public static final CreativeModeTab DECORATIONS = makeTab("jurassicworldreborn.decorations", ModItems.DISPLAY_BLOCK.get());
+    public static final CreativeModeTab BLOCKS = makeTab("jurassicworldreborn.blocks", () -> ModItems.GYPSUM_BRICKS.get());
 
-    public static CreativeModeTab makeTab(String name, Item... icon){
+    public static final CreativeModeTab DECORATIONS = makeTab("jurassicworldreborn.decorations", () -> ModItems.DISPLAY_BLOCK.get());
+
+    public static CreativeModeTab makeTab(String name, Supplier<Item>... icon){
         CreativeModeTab tab = new CreativeModeTab(name){
 
             @Override
@@ -35,10 +43,10 @@ public class TabHandler {
                 } else if(name.equals("jurassicworldreborn.decorations")) {
                     Calendar c = Calendar.getInstance();
                     if(c.get(Calendar.SECOND) % 3 == 0){
-                        int i = Dinosaur.DINOS.indexOf(Dinosaur.getDinosaurByName(ActionFigureItem.getDinosaurID(currentDisplayFigure)));
-                        ActionFigureItem.setDinosaurID(currentDisplayFigure, Dinosaur.DINOS.get(i).getName());
+                        int i = Dinosaur.DINOS.indexOf(Dinosaur.getDinosaurByName(ActionFigureItem.getDinosaurID(currentDisplayFigure.get())));
+                        ActionFigureItem.setDinosaurID(currentDisplayFigure.get(), Dinosaur.DINOS.get(i).getName());
                     }
-                    return currentDisplayFigure;
+                    return currentDisplayFigure.get();
                 } else{
                     Calendar c = Calendar.getInstance();
                     Item i = SCROLLING_TAB_ITEMS.get(name).getFirst();
@@ -54,10 +62,10 @@ public class TabHandler {
             @Override
             public ItemStack makeIcon() {
                 if(icon.length == 1) {
-                    return icon[0].getDefaultInstance();
+                    return icon[0].get().getDefaultInstance();
                 }else{
-                    SCROLLING_TAB_ITEMS.put(name, Arrays.stream(icon).collect(Collectors.toCollection(ArrayDeque::new)));
-                    return icon[0].getDefaultInstance();
+                    SCROLLING_TAB_ITEMS.put(name, Arrays.stream(icon).map(Supplier::get).collect(Collectors.toCollection(ArrayDeque::new)));
+                    return icon[0].get().getDefaultInstance();
                 }
             }
         };
@@ -65,5 +73,4 @@ public class TabHandler {
         return tab;
     }
 
-    public static ArrayList<CreativeModeTab> tabs = new ArrayList<>();
 }

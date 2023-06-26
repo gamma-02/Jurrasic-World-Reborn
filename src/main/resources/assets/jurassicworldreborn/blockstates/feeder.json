@@ -1,22 +1,22 @@
 {
   "variants": {
     "facing=south": {
-      "model": "jurassicworldreborn:feeder"
+      "model": "jurassicworldreborn:block/feeder"
     },
     "facing=north": {
-      "model": "jurassicworldreborn:feeder"
+      "model": "jurassicworldreborn:block/feeder"
     },
     "facing=west": {
-      "model": "jurassicworldreborn:feeder"
+      "model": "jurassicworldreborn:block/feeder"
     },
     "facing=east": {
-      "model": "jurassicworldreborn:feeder"
+      "model": "jurassicworldreborn:block/feeder"
     },
     "facing=up": {
-      "model": "jurassicworldreborn:feeder"
+      "model": "jurassicworldreborn:block/feeder"
     },
     "facing=down": {
-      "model": "jurassicworldreborn:feeder"
+      "model": "jurassicworldreborn:block/feeder"
     }
   }
 }

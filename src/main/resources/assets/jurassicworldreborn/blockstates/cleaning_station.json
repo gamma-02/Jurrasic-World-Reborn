@@ -1,9 +1,9 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "jurassicworldreborn:cleaning_station.tbl",
+    "model": "jurassicworldreborn:block/cleaning_station.tbl",
     "variants": {
-      "normal": [{}],
+      "": [{}],
       "inventory": [{}]
     }
   },

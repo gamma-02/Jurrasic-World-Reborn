@@ -1,19 +1,19 @@
 {
   "variants": {
     "stage=0": {
-      "model": "jurassicworldreborn:ginkgo_sapling"
+      "model": "jurassicworldreborn:block/ginkgo_sapling"
     },
     "stage=1": {
-      "model": "jurassicworldreborn:ginkgo_sapling"
+      "model": "jurassicworldreborn:block/ginkgo_sapling"
     },
     "stage=2": {
-      "model": "jurassicworldreborn:ginkgo_sapling"
+      "model": "jurassicworldreborn:block/ginkgo_sapling"
     },
     "stage=3": {
-      "model": "jurassicworldreborn:ginkgo_sapling"
+      "model": "jurassicworldreborn:block/ginkgo_sapling"
     },
     "stage=4": {
-      "model": "jurassicworldreborn:ginkgo_sapling"
+      "model": "jurassicworldreborn:block/ginkgo_sapling"
     }
   }
 }

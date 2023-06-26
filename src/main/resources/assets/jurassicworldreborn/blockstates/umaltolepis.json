@@ -1,10 +1,10 @@
 {
   "variants": {
     "half=lower": {
-      "model": "jurassicworldreborn:umaltolepis_bottom"
+      "model": "jurassicworldreborn:block/umaltolepis_bottom"
     },
     "half=upper": {
-      "model": "jurassicworldreborn:umaltolepis_top"
+      "model": "jurassicworldreborn:block/umaltolepis_top"
     }
   }
 }

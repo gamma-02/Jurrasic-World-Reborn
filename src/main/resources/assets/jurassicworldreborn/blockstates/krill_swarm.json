@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "jurassicworldreborn:krill_swarm"
+    "": {
+      "model": "jurassicworldreborn:block/krill_swarm"
     }
   }
 }

@@ -1,18 +1,18 @@
 {
   "variants": {
     "facing=north": {
-      "model": "jurassicworldreborn:fossil_grinder",
+      "model": "jurassicworldreborn:block/fossil_grinder",
       "y": 180
     },
     "facing=south": {
-      "model": "jurassicworldreborn:fossil_grinder"
+      "model": "jurassicworldreborn:block/fossil_grinder"
     },
     "facing=west": {
-      "model": "jurassicworldreborn:fossil_grinder",
+      "model": "jurassicworldreborn:block/fossil_grinder",
       "y": 90
     },
     "facing=east": {
-      "model": "jurassicworldreborn:fossil_grinder",
+      "model": "jurassicworldreborn:block/fossil_grinder",
       "y": 270
     }
   }

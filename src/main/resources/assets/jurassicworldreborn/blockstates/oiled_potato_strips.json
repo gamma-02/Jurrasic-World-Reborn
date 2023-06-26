@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "jurassicworldreborn:oiled_potato_strips"
+    "": {
+      "model": "jurassicworldreborn:block/oiled_potato_strips"
     }
   }
 }

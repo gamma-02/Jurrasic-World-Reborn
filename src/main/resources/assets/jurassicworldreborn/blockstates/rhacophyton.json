@@ -1,10 +1,10 @@
 {
   "variants": {
     "half=lower": {
-      "model": "jurassicworldreborn:rhacophyton_bottom"
+      "model": "jurassicworldreborn:block/rhacophyton_bottom"
     },
     "half=upper": {
-      "model": "jurassicworldreborn:rhacophyton_top"
+      "model": "jurassicworldreborn:block/rhacophyton_top"
     }
   }
 }

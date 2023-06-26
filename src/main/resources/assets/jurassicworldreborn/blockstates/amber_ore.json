@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "jurassicworldreborn:amber_ore"
+    "": {
+      "model": "jurassicworldreborn:block/amber_ore"
     }
   }
 }

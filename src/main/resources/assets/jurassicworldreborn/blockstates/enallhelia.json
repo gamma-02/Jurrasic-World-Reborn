@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "jurassicworldreborn:enallhelia"
+    "": {
+      "model": "jurassicworldreborn:block/enallhelia"
     }
   }
 }

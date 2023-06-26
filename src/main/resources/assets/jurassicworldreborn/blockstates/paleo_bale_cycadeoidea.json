@@ -1,14 +1,14 @@
 {
   "variants": {
     "axis=y": {
-      "model": "jurassicworldreborn:paleo_bale/bennettitalean"
+      "model": "jurassicworldreborn:block/paleo_bale/bennettitalean"
     },
     "axis=z": {
-      "model": "jurassicworldreborn:paleo_bale/bennettitalean",
+      "model": "jurassicworldreborn:block/paleo_bale/bennettitalean",
       "x": 90
     },
     "axis=x": {
-      "model": "jurassicworldreborn:paleo_bale/bennettitalean",
+      "model": "jurassicworldreborn:block/paleo_bale/bennettitalean",
       "x": 90,
       "y": 90
     }

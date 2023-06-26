@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "jurassicworldreborn:araucaria_planks"
+    "": {
+      "model": "jurassicworldreborn:block/araucaria_planks"
     }
   }
 }

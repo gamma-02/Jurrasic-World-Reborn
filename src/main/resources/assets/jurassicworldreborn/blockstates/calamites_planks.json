@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "jurassicworldreborn:calamites_planks"
+    "": {
+      "model": "jurassicworldreborn:block/calamites_planks"
     }
   }
 }

@@ -1,10 +1,10 @@
 {
   "variants": {
     "half=lower": {
-      "model": "jurassicworldreborn:dicroidium_zuberi_bottom"
+      "model": "jurassicworldreborn:block/dicroidium_zuberi_bottom"
     },
     "half=upper": {
-      "model": "jurassicworldreborn:dicroidium_zuberi_top"
+      "model": "jurassicworldreborn:block/dicroidium_zuberi_top"
     }
   }
 }

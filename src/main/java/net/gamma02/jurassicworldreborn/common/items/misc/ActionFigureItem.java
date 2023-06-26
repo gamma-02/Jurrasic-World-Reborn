@@ -22,7 +22,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.Property;
@@ -31,7 +30,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.IItemRenderProperties;
-import org.spongepowered.asm.mixin.MixinEnvironment;
 
 import javax.annotation.Nullable;
 import java.util.function.Consumer;
@@ -310,7 +308,7 @@ public class ActionFigureItem extends Item {
     }
 
     public static byte getVariant(ItemStack stack) {
-        return (byte) (stack.getTag().getByte("Variant") >> (byte)(1 & 7));
+        return (byte) ((stack.getTag() != null ? stack.getTag().getByte("Variant") : 0) >> (byte)(1 & 7));
     }
 
     public static boolean isSkeleton(ItemStack stack) {
@@ -355,6 +353,8 @@ public class ActionFigureItem extends Item {
     @Override
     public ItemStack getDefaultInstance() {
         ItemStack basic = new ItemStack(this);
+
+        basic.setTag(new CompoundTag());
 
         basic.setTag(new NbtBuilder(basic.getTag()).putString(DINOSAUR_ID_TAG, Dinosaur.DINOS.get(0).getName()).putBoolean(SKELETON_TAG, false).putByte(VARIANT_TAG, (byte)0 ).build());
 

@@ -1,6 +1,7 @@
 package net.gamma02.jurassicworldreborn.common.blocks.entities;
 
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
 import net.gamma02.jurassicworldreborn.common.items.ModItems;
 import net.gamma02.jurassicworldreborn.common.items.misc.ActionFigureItem;
@@ -15,7 +16,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -31,7 +31,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 public class ActionFigureBlock extends Block implements EntityBlock
@@ -58,7 +57,10 @@ public class ActionFigureBlock extends Block implements EntityBlock
     private static VoxelShape getBounds(BlockGetter world, BlockPos pos) {
         BlockEntity entity = world.getBlockEntity(pos);
         if (entity instanceof ActionFigureBlockEntity displayEntity) {
-            Dinosaur dinosaur = displayEntity.getEntity().getDinosaur();
+            DinosaurEntity dinoEntity = displayEntity.getEntity();
+            if(dinoEntity == null)
+                return Block.box(0, 0, 0, 16, 16, 16);
+            Dinosaur dinosaur = dinoEntity.getDinosaur();
             if (!displayEntity.isSkeleton()) {
                 Dinosaur metadata = dinosaur;
                 float width = Mth.clamp(metadata.getAdultSizeX() * 0.25F, 0.1F, 1.0F);

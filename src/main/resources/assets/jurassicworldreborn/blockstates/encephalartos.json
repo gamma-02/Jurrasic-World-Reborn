@@ -1,10 +1,10 @@
 {
   "variants": {
     "half=lower": {
-      "model": "jurassicworldreborn:encephalartos_bottom"
+      "model": "jurassicworldreborn:block/encephalartos_bottom"
     },
     "half=upper": {
-      "model": "jurassicworldreborn:encephalartos_top"
+      "model": "jurassicworldreborn:block/encephalartos_top"
     }
   }
 }

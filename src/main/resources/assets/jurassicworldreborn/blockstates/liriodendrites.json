@@ -1,10 +1,10 @@
 {
   "variants": {
     "half=lower": {
-      "model": "jurassicworldreborn:liriodendrites_bottom"
+      "model": "jurassicworldreborn:block/liriodendrites_bottom"
     },
     "half=upper": {
-      "model": "jurassicworldreborn:liriodendrites_top"
+      "model": "jurassicworldreborn:block/liriodendrites_top"
     }
   }
 }

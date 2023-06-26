@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "jurassicworldreborn:small_cycad"
+    "": {
+      "model": "jurassicworldreborn:block/small_cycad"
     }
   }
 }

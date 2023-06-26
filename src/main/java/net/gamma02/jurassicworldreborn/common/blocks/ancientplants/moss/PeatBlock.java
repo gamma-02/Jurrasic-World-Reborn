@@ -7,11 +7,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.GrassBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.Material;
-import net.minecraftforge.common.Tags;
 
 import java.util.Random;
 
@@ -21,7 +20,7 @@ public class PeatBlock extends Block {
 
     public PeatBlock(Properties p_49795_) {
         super(p_49795_);
-        this.registerDefaultState(this.defaultBlockState().setValue(MOISTURE, 0));
+        this.registerDefaultState(this.getStateDefinition().any().setValue(MOISTURE, 0));
     }
 
 
@@ -72,7 +71,8 @@ public class PeatBlock extends Block {
         return false;
     }
 
-
-
-
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
+        pBuilder.add(MOISTURE);
+    }
 }

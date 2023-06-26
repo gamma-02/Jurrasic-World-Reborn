@@ -1,7 +1,7 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "jurassicworldreborn:dna_extractor.tbl"
+    "model": "jurassicworldreborn:block/dna_extractor.tbl"
   },
   "variants": {
     "facing=north": {

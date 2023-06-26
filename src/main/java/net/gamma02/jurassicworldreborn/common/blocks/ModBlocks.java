@@ -8,7 +8,6 @@ import net.gamma02.jurassicworldreborn.common.blocks.ancientplants.SmallPlantBlo
 import net.gamma02.jurassicworldreborn.common.blocks.ancientplants.moss.AncientMossCarpet;
 import net.gamma02.jurassicworldreborn.common.blocks.ancientplants.moss.PeatBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.ActionFigureBlock;
-import net.gamma02.jurassicworldreborn.common.blocks.entities.ActionFigureBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNACombinatorHybridizerBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNAExtractorBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNASequencerBlock;
@@ -16,36 +15,31 @@ import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNASynth
 import net.gamma02.jurassicworldreborn.common.blocks.entities.EmbryonicThing.EmbryoCalcificationMachineBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.EmbryonicThing.EmbryonicMachineBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.bugcrate.BugCrate;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerBlock;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.cultivator.CultivatorBottomBlock;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.cultivator.CultivatorTopBlock;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.feeder.FeederBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.fence.ElectricFenceBaseBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.fence.ElectricFencePoleBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.fence.ElectricFenceWireBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.fence.FenceType;
-import net.gamma02.jurassicworldreborn.common.blocks.entities.paleobale.PaleoBaleBlock;
-import net.gamma02.jurassicworldreborn.common.blocks.parkBlocks.*;
-import net.gamma02.jurassicworldreborn.common.blocks.entities.cultivator.CultivatorBottomBlock;
-import net.gamma02.jurassicworldreborn.common.blocks.entities.cultivator.CultivatorTopBlock;
-import net.gamma02.jurassicworldreborn.common.blocks.entities.feeder.FeederBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.grinder.FossilGrinderBlock;
-import net.gamma02.jurassicworldreborn.common.blocks.fossil.*;
-import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerBlock;
-import net.gamma02.jurassicworldreborn.common.blocks.wood.ModSaplingBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.incubator.IncubatorBlock;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.paleobale.PaleoBaleBlock;
+import net.gamma02.jurassicworldreborn.common.blocks.fossil.*;
+import net.gamma02.jurassicworldreborn.common.blocks.parkBlocks.TourRailBlock;
+import net.gamma02.jurassicworldreborn.common.blocks.wood.ModSaplingBlock;
 import net.gamma02.jurassicworldreborn.common.items.ModItems;
 import net.minecraft.world.level.block.BaseCoralPlantBlock;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import org.lwjgl.system.CallbackI;
-
-import java.nio.channels.ReadableByteChannel;
 
 public class ModBlocks {
 
@@ -103,8 +97,8 @@ public class ModBlocks {
 
     public static RegistryObject<Block> GYPSUM_BRICKS = modBlocks.register("gypsum_bricks", () -> new Block(defaultStone().strength(2.0f)));
 
-    public static final RegistryObject<Block> REINFORCED_STONE = modBlocks.register("gypsum_bricks", () -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(2.0F)));
-    public static final RegistryObject<Block> REINFORCED_BRICKS = modBlocks.register("gypsum_bricks", () -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(3.0F)));
+    public static final RegistryObject<Block> REINFORCED_STONE = modBlocks.register("reinforced_stone", () -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(2.0F)));
+    public static final RegistryObject<Block> REINFORCED_BRICKS = modBlocks.register("reinforced_bricks", () -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(3.0F)));
 
     public static RegistryObject<CultivatorTopBlock> CULTIVATOR_TOP = modBlocks.register("cultivate_top", () -> new CultivatorTopBlock(defaultMachine()));
 
@@ -148,7 +142,7 @@ public class ModBlocks {
     public static RegistryObject<ImplimentedAncientPlant> RHAMNUS_SALICIFOLIUS_PLANT = modBlocks.register("rhamnus_salicifolius_plant", () -> new ImplimentedAncientPlant(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).noCollission()));
     public static RegistryObject<SmallPlantBlock> CINNAMON_FERN = modBlocks.register("cinnamon_fern", SmallPlantBlock::new);
     public static RegistryObject<SmallPlantBlock> BRISTLE_FERN = modBlocks.register("bristle_fern", SmallPlantBlock::new);
-    public static RegistryObject<DoublePlantBlock> TEMPSKYA = modBlocks.register("tempskya", DoublePlantBlock::new);
+    public static RegistryObject<DoublePlantBlock> TEMPSKYA = modBlocks.register("tempskya", () -> new DoublePlantBlock(BlockBehaviour.Properties.of(Material.PLANT).dynamicShape()));
     public static RegistryObject<SmallPlantBlock> WOOLLY_STALKED_BEGONIA = modBlocks.register("woolly_stalked_begonia", SmallPlantBlock::new);
     public static RegistryObject<SmallPlantBlock> LARGESTIPULE_LEATHER_ROOT = modBlocks.register("largestipule_leather_root", SmallPlantBlock::new);
     public static RegistryObject<DoublePlantBlock> RHACOPHYTON = modBlocks.register("rhacophyton", DoublePlantBlock::new);

@@ -17,6 +17,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class ActionFigureBlockEntity extends BlockEntity {
+
+
     private DinosaurEntity entity;
     private int rotation;
     private boolean isFossile;
@@ -44,6 +46,7 @@ public class ActionFigureBlockEntity extends BlockEntity {
         }
         this.setChanged();
     }
+
 
     @Override
     public void load(CompoundTag nbt) {
@@ -145,8 +148,8 @@ public class ActionFigureBlockEntity extends BlockEntity {
     }
 
     public DinosaurEntity getEntity() {
-        if (this.entity == null && this.serializedData != null) {
-            return this.createEntity();
+        if(this.entity == null){
+            this.createEntity();
         }
         return this.entity;
     }
@@ -229,7 +232,11 @@ public class ActionFigureBlockEntity extends BlockEntity {
     private class InvalidData extends LegacyId {
         @Override
         public void deserialize(CompoundTag compound) {
-            this.dinosaurId = Dinosaur.getDinosaurByName("None").getName();
+            this.dinosaurId = Dinosaur.EMPTY.getName();
         }
+    }
+
+    public void setEntity(DinosaurEntity entity) {
+        this.entity = entity;
     }
 }

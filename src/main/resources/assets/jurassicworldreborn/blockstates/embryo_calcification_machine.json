@@ -1,7 +1,7 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "jurassicworldreborn:embryo_calcification_machine.tbl"
+    "model": "jurassicworldreborn:block/embryo_calcification_machine.tbl"
   },
   "variants": {
     "egg=false,facing=north": {
@@ -17,19 +17,19 @@
       "y": 90
     },
     "egg=true,facing=north": {
-      "model": "jurassicworldreborn:embryo_calcification_machine_egg.tbl",
+      "model": "jurassicworldreborn:block/embryo_calcification_machine_egg.tbl",
       "y": 0
     },
     "egg=true,facing=south": {
-      "model": "jurassicworldreborn:embryo_calcification_machine_egg.tbl",
+      "model": "jurassicworldreborn:block/embryo_calcification_machine_egg.tbl",
       "y": 180
     },
     "egg=true,facing=west": {
-      "model": "jurassicworldreborn:embryo_calcification_machine_egg.tbl",
+      "model": "jurassicworldreborn:block/embryo_calcification_machine_egg.tbl",
       "y": 270
     },
     "egg=true,facing=east": {
-      "model": "jurassicworldreborn:embryo_calcification_machine_egg.tbl",
+      "model": "jurassicworldreborn:block/embryo_calcification_machine_egg.tbl",
       "y": 90
     }
   }

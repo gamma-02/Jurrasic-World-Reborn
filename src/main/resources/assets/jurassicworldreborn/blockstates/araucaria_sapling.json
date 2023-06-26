@@ -1,19 +1,19 @@
 {
   "variants": {
     "stage=0": {
-      "model": "jurassicworldreborn:araucaria_sapling"
+      "model": "jurassicworldreborn:block/araucaria_sapling"
     },
     "stage=1": {
-      "model": "jurassicworldreborn:araucaria_sapling"
+      "model": "jurassicworldreborn:block/araucaria_sapling"
     },
     "stage=2": {
-      "model": "jurassicworldreborn:araucaria_sapling"
+      "model": "jurassicworldreborn:block/araucaria_sapling"
     },
     "stage=3": {
-      "model": "jurassicworldreborn:araucaria_sapling"
+      "model": "jurassicworldreborn:block/araucaria_sapling"
     },
     "stage=4": {
-      "model": "jurassicworldreborn:araucaria_sapling"
+      "model": "jurassicworldreborn:block/araucaria_sapling"
     }
   }
 }

@@ -2,8 +2,8 @@
   "forge_marker": 1,
   "variants": {
     "half": {
-      "main": {"model": "jurassicworldreborn:skeleton_assembly.tbl"},
-      "dummy": {"model": "jurassicworldreborn:blank_model"}
+      "main": {"model": "jurassicworldreborn:block/skeleton_assembly.tbl"},
+      "dummy": {"model": "jurassicworldreborn:block/blank_model"}
     },
     "facing": {
       "north": {"y": 0},

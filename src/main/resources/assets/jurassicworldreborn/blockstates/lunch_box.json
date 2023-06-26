@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "jurassicworldreborn:lunch_box"
+    "": {
+      "model": "jurassicworldreborn:block/lunch_box"
     }
   }
 }

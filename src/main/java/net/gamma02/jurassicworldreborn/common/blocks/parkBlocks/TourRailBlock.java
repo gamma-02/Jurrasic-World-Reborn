@@ -11,24 +11,23 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
-
-import static net.minecraft.core.Direction.*;
-
 import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Predicate;
 
+import static net.minecraft.core.Direction.*;
+
 public class TourRailBlock extends Block implements EntityBlock {
 
-    public EnumProperty<EnumRailDirection> SHAPE = EnumProperty.create("shape", TourRailBlock.EnumRailDirection.class);
+    public static EnumProperty<EnumRailDirection> SHAPE = EnumProperty.create("shape", EnumRailDirection.class);
 
     public static final VoxelShape FLAT = Block.box(0.0D, 0.0D, 0.0D, 1.0D, 2.0D, 1.0D);
     public static final VoxelShape ASCENDING = Block.box(0.0D, 0.0D, 0.0D, 1.0D, 8.0D, 1.0D);
@@ -36,7 +35,12 @@ public class TourRailBlock extends Block implements EntityBlock {
 
     public TourRailBlock(Properties p_49795_, TourRailBlock.SpeedType speed) {
         super(p_49795_);
-        this.registerDefaultState(this.defaultBlockState().setValue(SHAPE, EnumRailDirection.NORTH_SOUTH));
+        this.registerDefaultState(this.getStateDefinition().any().setValue(SHAPE, EnumRailDirection.NORTH_SOUTH));
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
+        pBuilder.add(SHAPE);
     }
 
     @Nullable
@@ -191,6 +195,10 @@ public class TourRailBlock extends Block implements EntityBlock {
 
         private enum Type {
             VALUE, COPYCAT
+        }
+
+        public String getName(){
+            return this.name();
         }
     }
 

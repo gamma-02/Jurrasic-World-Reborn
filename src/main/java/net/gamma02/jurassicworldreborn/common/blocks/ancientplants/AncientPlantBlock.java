@@ -1,6 +1,8 @@
 package net.gamma02.jurassicworldreborn.common.blocks.ancientplants;
 
+import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
@@ -20,6 +22,7 @@ public class AncientPlantBlock extends BushBlock {
 
     public AncientPlantBlock(Properties properties) {
         super(properties);
+        Jurassicworldreborn.renderlayers.put(this, RenderType.cutout());
     }
 
     public AncientPlantBlock(){

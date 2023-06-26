@@ -1,18 +1,18 @@
 {
   "variants": {
     "axis=y": {
-      "model": "jurassicworldreborn:phoenix_log_petrified"
+      "model": "jurassicworldreborn:block/phoenix_log_petrified"
     },
     "axis=z": {
-      "model": "jurassicworldreborn:phoenix_log_petrified",
+      "model": "jurassicworldreborn:block/phoenix_log_petrified",
 	   "x": 90
     },
     "axis=x": {
-      "model": "jurassicworldreborn:phoenix_log_petrified",
+      "model": "jurassicworldreborn:block/phoenix_log_petrified",
       "x": 90, "y": 90
     },
     "axis=none": {
-      "model": "jurassicworldreborn:phoenix_petrified_bark"
+      "model": "jurassicworldreborn:block/phoenix_petrified_bark"
     }
   }
 }

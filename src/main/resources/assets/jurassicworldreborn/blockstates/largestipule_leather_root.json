@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "jurassicworldreborn:largestipule_leather_root"
+    "": {
+      "model": "jurassicworldreborn:block/largestipule_leather_root"
     }
   }
 }

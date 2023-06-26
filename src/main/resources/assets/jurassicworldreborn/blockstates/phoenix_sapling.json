@@ -1,19 +1,19 @@
 {
   "variants": {
     "stage=0": {
-      "model": "jurassicworldreborn:phoenix_sapling"
+      "model": "jurassicworldreborn:block/phoenix_sapling"
     },
     "stage=1": {
-      "model": "jurassicworldreborn:phoenix_sapling"
+      "model": "jurassicworldreborn:block/phoenix_sapling"
     },
     "stage=2": {
-      "model": "jurassicworldreborn:phoenix_sapling"
+      "model": "jurassicworldreborn:block/phoenix_sapling"
     },
     "stage=3": {
-      "model": "jurassicworldreborn:phoenix_sapling"
+      "model": "jurassicworldreborn:block/phoenix_sapling"
     },
     "stage=4": {
-      "model": "jurassicworldreborn:phoenix_sapling"
+      "model": "jurassicworldreborn:block/phoenix_sapling"
     }
   }
 }

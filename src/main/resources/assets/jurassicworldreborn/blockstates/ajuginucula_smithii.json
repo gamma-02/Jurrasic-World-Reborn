@@ -1,28 +1,28 @@
 {
   "variants": {
     "age=0": {
-      "model": "jurassicworldreborn:ajuginucula_smithii/stage_0"
+      "model": "jurassicworldreborn:block/ajuginucula_smithii/stage_0"
     },
     "age=1": {
-      "model": "jurassicworldreborn:ajuginucula_smithii/stage_1"
+      "model": "jurassicworldreborn:block/ajuginucula_smithii/stage_1"
     },
     "age=2": {
-      "model": "jurassicworldreborn:ajuginucula_smithii/stage_2"
+      "model": "jurassicworldreborn:block/ajuginucula_smithii/stage_2"
     },
     "age=3": {
-      "model": "jurassicworldreborn:ajuginucula_smithii/stage_3"
+      "model": "jurassicworldreborn:block/ajuginucula_smithii/stage_3"
     },
     "age=4": {
-      "model": "jurassicworldreborn:ajuginucula_smithii/stage_4"
+      "model": "jurassicworldreborn:block/ajuginucula_smithii/stage_4"
     },
     "age=5": {
-      "model": "jurassicworldreborn:ajuginucula_smithii/stage_5"
+      "model": "jurassicworldreborn:block/ajuginucula_smithii/stage_5"
     },
     "age=6": {
-      "model": "jurassicworldreborn:ajuginucula_smithii/stage_6"
+      "model": "jurassicworldreborn:block/ajuginucula_smithii/stage_6"
     },
     "age=7": {
-      "model": "jurassicworldreborn:ajuginucula_smithii/stage_7"
+      "model": "jurassicworldreborn:block/ajuginucula_smithii/stage_7"
     }
   }
 }

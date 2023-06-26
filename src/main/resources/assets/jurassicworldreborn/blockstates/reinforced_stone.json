@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "jurassicworldreborn:reinforced_stone"
+    "": {
+      "model": "jurassicworldreborn:block/reinforced_stone"
     }
   }
 }

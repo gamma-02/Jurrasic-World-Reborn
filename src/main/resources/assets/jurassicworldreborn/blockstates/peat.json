@@ -1,28 +1,28 @@
 {
   "variants": {
     "moisture=0": {
-      "model": "jurassicworldreborn:peat"
+      "model": "jurassicworldreborn:block/peat"
     },
     "moisture=1": {
-      "model": "jurassicworldreborn:peat"
+      "model": "jurassicworldreborn:block/peat"
     },
     "moisture=2": {
-      "model": "jurassicworldreborn:peat"
+      "model": "jurassicworldreborn:block/peat"
     },
     "moisture=3": {
-      "model": "jurassicworldreborn:peat"
+      "model": "jurassicworldreborn:block/peat"
     },
     "moisture=4": {
-      "model": "jurassicworldreborn:peat"
+      "model": "jurassicworldreborn:block/peat"
     },
     "moisture=5": {
-      "model": "jurassicworldreborn:peat"
+      "model": "jurassicworldreborn:block/peat"
     },
     "moisture=6": {
-      "model": "jurassicworldreborn:peat"
+      "model": "jurassicworldreborn:block/peat"
     },
     "moisture=7": {
-      "model": "jurassicworldreborn:peat"
+      "model": "jurassicworldreborn:block/peat"
     }
   }
 }

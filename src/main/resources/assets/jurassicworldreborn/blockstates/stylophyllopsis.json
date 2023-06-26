@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "jurassicworldreborn:stylophyllopsis"
+    "": {
+      "model": "jurassicworldreborn:block/stylophyllopsis"
     }
   }
 }

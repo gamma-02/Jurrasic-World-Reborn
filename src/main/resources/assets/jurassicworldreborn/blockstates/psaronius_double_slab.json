@@ -1,10 +1,10 @@
 {
   "variants": {
     "half=bottom": {
-      "model": "jurassicworldreborn:psaronius_planks"
+      "model": "jurassicworldreborn:block/psaronius_planks"
     },
     "half=top": {
-      "model": "jurassicworldreborn:psaronius_planks"
+      "model": "jurassicworldreborn:block/psaronius_planks"
     }
   }
 }

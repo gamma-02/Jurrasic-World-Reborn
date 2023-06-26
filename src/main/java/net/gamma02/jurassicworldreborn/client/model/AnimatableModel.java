@@ -33,8 +33,8 @@ public class AnimatableModel extends FixedTabulaModel {
         } else {
             this.setMovementScale(animatable.isSleeping() ? 0.5F : 1.0F);
         }
-
-        super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, rotationYaw, rotationPitch);
+        //Was not a nessicary call and was erroring
+//        super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, rotationYaw, rotationPitch);
     }
 
     public String[] getCubeIdentifierArray() {

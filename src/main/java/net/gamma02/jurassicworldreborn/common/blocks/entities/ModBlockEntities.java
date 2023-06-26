@@ -28,7 +28,9 @@ public class ModBlockEntities<T extends BlockEntity> {
     public static RegistryObject<BlockEntityType<CleanerBlockEntity>> CLEANING_STATION = modBlockEntities.register("cleaning_station", () -> BlockEntityType.Builder.of(CleanerBlockEntity::new, ModBlocks.CLEANER_BLOCK.get()).build(null));
     public static RegistryObject<BlockEntityType<EncasedFossilBlockEntity>> FOSSIL = modBlockEntities.register("encased_fossil", () -> BlockEntityType.Builder.of(EncasedFossilBlockEntity::new, ModBlocks.FAUNA_FOSSIL.get(), ModBlocks.DEEPSLATE_FAUNA_FOSSIL.get(), ModBlocks.ENCASED_FAUNA_FOSSIL.get()).build(null));
 
-    public static RegistryObject<BlockEntityType<TourRailBlockEntity>> TOUR_RAIL_BLOCK_ENTITY = modBlockEntities.register("tour_rail_block_entity", () -> BlockEntityType.Builder.of(TourRailBlockEntity::new, ModBlocks.TOUR_RAIL.get()).build(null));
+    public static RegistryObject<BlockEntityType<TourRailBlockEntity>> TOUR_RAIL_BLOCK_ENTITY = modBlockEntities.register("tour_rail_block_entity", () -> {
+        return BlockEntityType.Builder.of(TourRailBlockEntity::new, ModBlocks.TOUR_RAIL.get()).build(null);
+    });
 
     public static RegistryObject<BlockEntityType<ElectricFenceBaseBlockEntity>> BASE_FENCE_BLOCK_ENTITY = modBlockEntities.register("base_fence_block_entity", () -> BlockEntityType.Builder.of(ElectricFenceBaseBlockEntity::new, ModBlocks.LOW_SECURITY_FENCE_BASE.get(), ModBlocks.HIGH_SECURITY_FENCE_BASE.get(), ModBlocks.MED_SECURITY_FENCE_BASE.get()).build(null));
 

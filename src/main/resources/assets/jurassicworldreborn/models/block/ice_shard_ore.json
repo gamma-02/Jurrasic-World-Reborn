@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "jurassicworldreborn:blocks/ice_shard"
+    "all": "jurassicworldreborn:blocks/ice_shard_ore"
   }
 }

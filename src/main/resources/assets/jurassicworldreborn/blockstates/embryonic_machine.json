@@ -1,7 +1,7 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "jurassicworldreborn:embryonic_machine.tbl"
+    "model": "jurassicworldreborn:block/embryonic_machine.tbl"
   },
   "variants": {
     "dish=false,facing=north,tubes=false": {
@@ -17,51 +17,51 @@
       "y": 90
     },
     "dish=false,facing=north,tubes=true": {
-      "model": "jurassicworldreborn:embryonic_machine_test_tubes.tbl",
+      "model": "jurassicworldreborn:block/embryonic_machine_test_tubes.tbl",
       "y": 0
     },
     "dish=false,facing=south,tubes=true": {
-      "model": "jurassicworldreborn:embryonic_machine_test_tubes.tbl",
+      "model": "jurassicworldreborn:block/embryonic_machine_test_tubes.tbl",
       "y": 180
     },
     "dish=false,facing=west,tubes=true": {
-      "model": "jurassicworldreborn:embryonic_machine_test_tubes.tbl",
+      "model": "jurassicworldreborn:block/embryonic_machine_test_tubes.tbl",
       "y": 270
     },
     "dish=false,facing=east,tubes=true": {
-      "model": "jurassicworldreborn:embryonic_machine_test_tubes.tbl",
+      "model": "jurassicworldreborn:block/embryonic_machine_test_tubes.tbl",
       "y": 90
     },
     "dish=true,facing=north,tubes=false": {
-      "model": "jurassicworldreborn:embryonic_machine_petri_dish.tbl",
+      "model": "jurassicworldreborn:block/embryonic_machine_petri_dish.tbl",
       "y": 0
     },
     "dish=true,facing=south,tubes=false": {
-      "model": "jurassicworldreborn:embryonic_machine_petri_dish.tbl",
+      "model": "jurassicworldreborn:block/embryonic_machine_petri_dish.tbl",
       "y": 180
     },
     "dish=true,facing=west,tubes=false": {
-      "model": "jurassicworldreborn:embryonic_machine_petri_dish.tbl",
+      "model": "jurassicworldreborn:block/embryonic_machine_petri_dish.tbl",
       "y": 270
     },
     "dish=true,facing=east,tubes=false": {
-      "model": "jurassicworldreborn:embryonic_machine_petri_dish.tbl",
+      "model": "jurassicworldreborn:block/embryonic_machine_petri_dish.tbl",
       "y": 90
     },
     "dish=true,facing=north,tubes=true": {
-      "model": "jurassicworldreborn:embryonic_machine_petri_dish_test_tubes.tbl",
+      "model": "jurassicworldreborn:block/embryonic_machine_petri_dish_test_tubes.tbl",
       "y": 0
     },
     "dish=true,facing=south,tubes=true": {
-      "model": "jurassicworldreborn:embryonic_machine_petri_dish_test_tubes.tbl",
+      "model": "jurassicworldreborn:block/embryonic_machine_petri_dish_test_tubes.tbl",
       "y": 180
     },
     "dish=true,facing=west,tubes=true": {
-      "model": "jurassicworldreborn:embryonic_machine_petri_dish_test_tubes.tbl",
+      "model": "jurassicworldreborn:block/embryonic_machine_petri_dish_test_tubes.tbl",
       "y": 270
     },
     "dish=true,facing=east,tubes=true": {
-      "model": "jurassicworldreborn:embryonic_machine_petri_dish_test_tubes.tbl",
+      "model": "jurassicworldreborn:block/embryonic_machine_petri_dish_test_tubes.tbl",
       "y": 90
     }
   }

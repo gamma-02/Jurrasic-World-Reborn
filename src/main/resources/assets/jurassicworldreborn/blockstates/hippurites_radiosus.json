@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "jurassicworldreborn:hippurites_radiosus"
+    "": {
+      "model": "jurassicworldreborn:block/hippurites_radiosus"
     }
   }
 }

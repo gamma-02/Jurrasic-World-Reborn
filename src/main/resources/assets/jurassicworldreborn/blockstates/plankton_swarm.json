@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "jurassicworldreborn:plankton_swarm"
+    "": {
+      "model": "jurassicworldreborn:block/plankton_swarm"
     }
   }
 }

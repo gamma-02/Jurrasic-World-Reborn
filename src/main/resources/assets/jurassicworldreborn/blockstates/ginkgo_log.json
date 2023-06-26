@@ -1,18 +1,18 @@
 {
   "variants": {
     "axis=y": {
-      "model": "jurassicworldreborn:ginkgo_log"
+      "model": "jurassicworldreborn:block/ginkgo_log"
     },
     "axis=z": {
-      "model": "jurassicworldreborn:ginkgo_log",
+      "model": "jurassicworldreborn:block/ginkgo_log",
 	  "x": 90
     },
     "axis=x": {
-      "model": "jurassicworldreborn:ginkgo_log",
+      "model": "jurassicworldreborn:block/ginkgo_log",
       "x": 90, "y": 90
     },
     "axis=none": {
-      "model": "jurassicworldreborn:ginkgo_bark"
+      "model": "jurassicworldreborn:block/ginkgo_bark"
     }
   }
 }

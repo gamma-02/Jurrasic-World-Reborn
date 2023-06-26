@@ -5,14 +5,16 @@ import net.gamma02.jurassicworldreborn.client.screens.ModScreens;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.CommonRegistries;
 import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.ModBlockEntities;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerMenu;
-import net.gamma02.jurassicworldreborn.common.blocks.entities.ModBlockEntities;
 import net.gamma02.jurassicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
+import net.gamma02.jurassicworldreborn.common.entities.ModEntities;
 import net.gamma02.jurassicworldreborn.common.items.ModItems;
 import net.gamma02.jurassicworldreborn.common.network.Network;
 import net.gamma02.jurassicworldreborn.common.recipies.cleaner.CleaningRecipie;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.core.Holder;
@@ -27,13 +29,13 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -91,22 +93,30 @@ public class Jurassicworldreborn {
         // Register wood types and get DynamicWoodTypeRegistry setup and running
         CommonRegistries.init();
 
-        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(RecipeSerializer.class, Jurassicworldreborn::registerRecipeSerializers);
+        //that would be the reason for having no crab entities-
+        ModEntities.MOD_ENTITY_TYPES.register(modEventBus);
 
-
-
-        // Register the DynamicWoodTypeRegistry
         DynamicWoodTypeRegistry.register(modEventBus);
 
         modFeatures.register(modEventBus);
 
         ModBlocks.register(modEventBus);
 
-        ModItems.modItems.register(modEventBus);
+        ModItems.register(modEventBus);
 
         ModBlockEntities.modBlockEntities.register(modEventBus);
 
         ModBlockEntities.modScreenTypes.modScreenTypes.register(modEventBus);
+
+
+
+
+        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(RecipeSerializer.class, Jurassicworldreborn::registerRecipeSerializers);
+
+
+
+        // Register the DynamicWoodTypeRegistry
+
 
         Network.init();
 
@@ -135,6 +145,8 @@ public class Jurassicworldreborn {
     }
 
     public void clientSetup(final FMLClientSetupEvent evt){
+
+        SoundHandler.init();
         //wood type rendering
         evt.enqueueWork(() -> {
             Sheets.addWoodType(CommonRegistries.AraucariaType);
@@ -151,6 +163,12 @@ public class Jurassicworldreborn {
         MenuScreens.<CleanerMenu, CleanerScreen>register(ModBlockEntities.modScreenTypes.CleanerScreenType.get(), CleanerScreen::new);
 
         ModScreens.<CleanerBlockEntity, CleanerMenu, CleanerScreen>register(ModBlockEntities.CLEANING_STATION.get(), CleanerScreen::new);
+
+
+        for (Block b:
+             renderlayers.keySet()) {
+            ItemBlockRenderTypes.setRenderLayer(b, renderlayers.get(b));
+        }
 
 
     }

@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "jurassicworldreborn:stamp_set"
+    "": {
+      "model": "jurassicworldreborn:block/stamp_set"
     }
   }
 }

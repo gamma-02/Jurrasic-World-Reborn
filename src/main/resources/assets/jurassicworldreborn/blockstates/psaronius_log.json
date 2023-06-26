@@ -1,18 +1,18 @@
 {
   "variants": {
     "axis=y": {
-      "model": "jurassicworldreborn:psaronius_log"
+      "model": "jurassicworldreborn:block/psaronius_log"
     },
     "axis=z": {
-      "model": "jurassicworldreborn:psaronius_log",
+      "model": "jurassicworldreborn:block/psaronius_log",
 	   "x": 90
     },
     "axis=x": {
-      "model": "jurassicworldreborn:psaronius_log",
+      "model": "jurassicworldreborn:block/psaronius_log",
       "x": 90, "y": 90
     },
     "axis=none": {
-      "model": "jurassicworldreborn:psaronius_bark"
+      "model": "jurassicworldreborn:block/psaronius_bark"
     }
   }
 }

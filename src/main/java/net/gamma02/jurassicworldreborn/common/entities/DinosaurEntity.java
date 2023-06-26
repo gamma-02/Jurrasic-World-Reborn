@@ -660,6 +660,7 @@ public abstract class DinosaurEntity extends PathfinderMob implements IEntityAdd
 
         this.getAttributes().getInstance(Attributes.FOLLOW_RANGE).setBaseValue(64.0D);
 
+
         if (prevHealth != newHealth) {
             this.heal((float) (newHealth - prevHealth));
         }

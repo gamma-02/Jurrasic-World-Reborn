@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "jurassicworldreborn:cry_pansy"
+    "": {
+      "model": "jurassicworldreborn:block/cry_pansy"
     }
   }
 }

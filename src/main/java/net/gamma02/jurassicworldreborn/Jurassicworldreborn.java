@@ -17,13 +17,17 @@ import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
@@ -90,8 +94,7 @@ public class Jurassicworldreborn {
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
 
-        // Register wood types and get DynamicWoodTypeRegistry setup and running
-        CommonRegistries.init();
+
 
         //that would be the reason for having no crab entities-
         ModEntities.MOD_ENTITY_TYPES.register(modEventBus);
@@ -119,6 +122,22 @@ public class Jurassicworldreborn {
 
 
         Network.init();
+
+
+//        HashMap<String, JsonObject> jsonMap = DynamicWoodTypeRegistry.getJsonBlockStateModelDefinitions();
+
+//        Gson json = new GsonBuilder().setPrettyPrinting().create();
+//        for(var s : jsonMap.keySet()){
+//            try(BufferedWriter writer = new BufferedWriter(new FileWriter( "C:\\Users\\gamma\\OneDrive\\Documents\\C++ automation io\\WoodTypeOutput\\" + s + ".json"))){
+//                String prettyOutput = json.toJson(jsonMap.get(s));
+//                writer.write(prettyOutput);
+//                writer.close();
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
+
+
 
 
 
@@ -149,6 +168,7 @@ public class Jurassicworldreborn {
         SoundHandler.init();
         //wood type rendering
         evt.enqueueWork(() -> {
+
             Sheets.addWoodType(CommonRegistries.AraucariaType);
             Sheets.addWoodType(CommonRegistries.CalamitesType);
             Sheets.addWoodType(CommonRegistries.GinkgoType);
@@ -193,6 +213,12 @@ public class Jurassicworldreborn {
     public void onServerStarting(ServerStartingEvent event) {
         // do something when the server starts
         LOGGER.info("HELLO from server starting");
+    }
+    public static Boolean never(BlockState p_50779_, BlockGetter p_50780_, BlockPos p_50781_, EntityType<?> p_50782_) {
+        return (boolean)false;
+    }
+    public static boolean never(BlockState p_50806_, BlockGetter p_50807_, BlockPos p_50808_) {
+        return false;
     }
 
     @SubscribeEvent

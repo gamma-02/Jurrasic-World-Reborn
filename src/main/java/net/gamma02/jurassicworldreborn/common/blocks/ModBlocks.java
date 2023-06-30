@@ -1,10 +1,7 @@
 package net.gamma02.jurassicworldreborn.common.blocks;
 
 import net.gamma02.jurassicworldreborn.common.CommonRegistries;
-import net.gamma02.jurassicworldreborn.common.blocks.ancientplants.AncientPlantBlock;
-import net.gamma02.jurassicworldreborn.common.blocks.ancientplants.DoublePlantBlock;
-import net.gamma02.jurassicworldreborn.common.blocks.ancientplants.ImplimentedAncientPlant;
-import net.gamma02.jurassicworldreborn.common.blocks.ancientplants.SmallPlantBlock;
+import net.gamma02.jurassicworldreborn.common.blocks.ancientplants.*;
 import net.gamma02.jurassicworldreborn.common.blocks.ancientplants.moss.AncientMossCarpet;
 import net.gamma02.jurassicworldreborn.common.blocks.ancientplants.moss.PeatBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.ActionFigureBlock;
@@ -126,8 +123,8 @@ public class ModBlocks {
 
     public static RegistryObject<ImplimentedAncientPlant> DICKSONIA = modBlocks.register("dicksonia", () -> new ImplimentedAncientPlant(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).noCollission()));
     public static RegistryObject<ImplimentedAncientPlant> DICROIDIUM_ZUBERI = modBlocks.register("dicroidium_zuberi", () -> new ImplimentedAncientPlant(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).noCollission()));
-    public static RegistryObject<ImplimentedAncientPlant> AJUGINUCULA_SMITHII = modBlocks.register("ajuginucula_smithii", () -> new ImplimentedAncientPlant(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).noCollission()));
-    public static RegistryObject<ImplimentedAncientPlant> WILD_ONION = modBlocks.register("wild_onion", () -> new ImplimentedAncientPlant(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).noCollission()));
+    public static RegistryObject<AncientCrop> AJUGINUCULA_SMITHII = modBlocks.register("ajuginucula_smithii", () -> new SevenStageAncientCrop(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).noCollission()));
+    public static RegistryObject<AncientCrop> WILD_ONION = modBlocks.register("wild_onion_plant", () -> new AncientCrop(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).noCollission()));
     public static RegistryObject<ImplimentedAncientPlant> GRACILARIA = modBlocks.register("gracilaria", () -> new ImplimentedAncientPlant(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).noCollission()));
     public static RegistryObject<ImplimentedAncientPlant> DICTYOPHYLLUM = modBlocks.register("dictyophyllum", () -> new ImplimentedAncientPlant(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).noCollission()));
     public static RegistryObject<ImplimentedAncientPlant> WEST_INDIAN_LILAC = modBlocks.register("west_indian_lilac", () -> new ImplimentedAncientPlant(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).noCollission()));
@@ -138,8 +135,8 @@ public class ModBlocks {
     public static RegistryObject<ImplimentedAncientPlant> LIRIODENDRITES = modBlocks.register("liriodendrites", () -> new ImplimentedAncientPlant(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).noCollission()));
     public static RegistryObject<ImplimentedAncientPlant> RAPHAELIA = modBlocks.register("raphaelia", () -> new ImplimentedAncientPlant(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).noCollission()));
     public static RegistryObject<ImplimentedAncientPlant> ENCEPHALARTOS = modBlocks.register("encephalartos", () -> new ImplimentedAncientPlant(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).noCollission()));
-    public static RegistryObject<ImplimentedAncientPlant> WILD_POTATO_PLANT = modBlocks.register("wild_potato_plant", () -> new ImplimentedAncientPlant(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).noCollission()));
-    public static RegistryObject<ImplimentedAncientPlant> RHAMNUS_SALICIFOLIUS_PLANT = modBlocks.register("rhamnus_salicifolius_plant", () -> new ImplimentedAncientPlant(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).noCollission()));
+    public static RegistryObject<AncientCrop> WILD_POTATO_PLANT = modBlocks.register("wild_potato_plant", () -> new AncientCrop(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).noCollission()));
+    public static RegistryObject<AncientCrop> RHAMNUS_SALICIFOLIUS_PLANT = modBlocks.register("rhamnus_salicifolius", () -> new SevenStageAncientCrop(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).noCollission()));
     public static RegistryObject<SmallPlantBlock> CINNAMON_FERN = modBlocks.register("cinnamon_fern", SmallPlantBlock::new);
     public static RegistryObject<SmallPlantBlock> BRISTLE_FERN = modBlocks.register("bristle_fern", SmallPlantBlock::new);
     public static RegistryObject<DoublePlantBlock> TEMPSKYA = modBlocks.register("tempskya", () -> new DoublePlantBlock(BlockBehaviour.Properties.of(Material.PLANT).dynamicShape()));

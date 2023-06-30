@@ -4,7 +4,6 @@ import com.google.gson.JsonObject;
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.common.CommonRegistries;
 import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
-import net.gamma02.jurassicworldreborn.common.util.JsonOutputGenerator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.EntityType;
@@ -16,7 +15,6 @@ import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -24,7 +22,6 @@ import oshi.util.tuples.Pair;
 
 import java.util.*;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class DynamicWoodTypeRegistry {
 
@@ -55,7 +52,7 @@ public class DynamicWoodTypeRegistry {
     public static HashMap<WoodType, List<RegistryObject<Block>>> DynamicWoodTypes = new HashMap<>();
     public static List<WoodType> woodTypes;
 
-    private static HashMap<JsonObject, String> jsonFileMap = new HashMap<>();
+    private static HashMap<String, JsonObject> jsonFileMap = new HashMap<>();
 
 
 
@@ -95,7 +92,7 @@ public class DynamicWoodTypeRegistry {
 
     }
 
-    public static HashMap<JsonObject, String> getJsonBlockStateModelDefinitions(){
+    public static HashMap<String, JsonObject> getJsonBlockStateModelDefinitions(){
         return jsonFileMap;
     }
 
@@ -122,7 +119,7 @@ public class DynamicWoodTypeRegistry {
         return saplings;
     }
 
-    private static HashMap<JsonObject, String> getJsonBlockStateModelDefinitionsFix(){
+    private static HashMap<String, JsonObject> getJsonBlockStateModelDefinitionsFix(){
         HashMap<JsonObject, String> objectNameMap = new HashMap<JsonObject, String>();
         for(WoodType type : woodTypes) {
             HashMap<ProductType, ArrayList<String>> productNames = new HashMap<>();
@@ -161,7 +158,7 @@ public class DynamicWoodTypeRegistry {
                             }
                         }else if(prop1.getPossibleValues().stream().anyMatch((e) -> Arrays.stream(Direction.values()).anyMatch((a) -> a == e))){
                             for(Direction dir : ((DirectionProperty) prop1).getPossibleValues()){
-                                productNames1.forEach((str) -> names.add(str + (str.equals("") ? "" : ",") + ((DirectionProperty) prop1).getName() + "=" + dir.getName()));
+                                productNames1.forEach((str) -> names.add(str + (str.equals("") ? "" : ",") + ( prop1).getName() + "=" + dir.getName()));
                             }
                         }else{
                             for(Enum e : ((Collection<Enum>)prop1.getPossibleValues())){
@@ -212,7 +209,12 @@ public class DynamicWoodTypeRegistry {
 
 
         }
-        return objectNameMap;
+        HashMap<String, JsonObject> realMap = new HashMap<>();
+        for(JsonObject j : objectNameMap.keySet()){
+            var string = objectNameMap.get(j);
+            realMap.put(string, j);
+        }
+        return realMap;
     }
 
 
@@ -332,6 +334,16 @@ public class DynamicWoodTypeRegistry {
         return new RotatedPillarBlock(BlockBehaviour.Properties.of(Material.WOOD, (state) -> {
             return state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? p_50789_ : p_50790_;
         }).strength(2.0F).sound(SoundType.WOOD));
+    }
+
+    public static List<Block> getProductsFromProductTypes(ProductType... types){
+        List<Block> blocks = Collections.emptyList();
+
+        for(var type : types){
+            blocks.addAll(getProductOfType(type));
+        }
+
+        return blocks;
     }
 
 

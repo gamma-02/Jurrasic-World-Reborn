@@ -10,9 +10,6 @@
     "axis=x": {
       "model": "jurassicworldreborn:block/araucaria_log",
       "x": 90, "y": 90
-    },
-    "axis=none": {
-      "model": "jurassicworldreborn:block/araucaria_bark"
     }
   }
 }

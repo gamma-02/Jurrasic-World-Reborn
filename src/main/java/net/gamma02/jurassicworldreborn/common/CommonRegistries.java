@@ -2,8 +2,8 @@ package net.gamma02.jurassicworldreborn.common;
 
 
 import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
-import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerMenu;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.ModBlockEntities;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerMenu;
 import net.gamma02.jurassicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
 import net.gamma02.jurassicworldreborn.common.worldgen.OreVeinFeature;
 import net.gamma02.jurassicworldreborn.common.worldgen.tree.*;
@@ -12,6 +12,8 @@ import net.gamma02.jurassicworldreborn.common.worldgen.tree.petrified.PetrifiedT
 import net.minecraft.core.Holder;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -28,7 +30,10 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static net.gamma02.jurassicworldreborn.Jurassicworldreborn.modid;
 import static net.gamma02.jurassicworldreborn.Jurassicworldreborn.resource;
@@ -42,6 +47,8 @@ public class CommonRegistries {
     public static WoodType GinkgoType = WoodType.register(WoodType.create("ginkgo"));
     public static WoodType PhoenixType = WoodType.register(WoodType.create("phoenix"));
     public static WoodType PsaroniusType = WoodType.register(WoodType.create("psaronius"));
+
+    public static ArrayList<WoodType> modWoodTypes = new ArrayList<>(List.of(AraucariaType, CalamitesType, GinkgoType, PhoenixType, PsaroniusType));
 
 
     public static DeferredRegister<Feature<?>> modFeatures = DeferredRegister.create(ForgeRegistries.FEATURES, modid);
@@ -123,11 +130,15 @@ public class CommonRegistries {
 
 
     public static void init(){
+        if(new HashSet<>(DynamicWoodTypeRegistry.woodTypes).containsAll(modWoodTypes)){
+            return;
+        }
         DynamicWoodTypeRegistry.addWoodType(GinkgoType, MaterialColor.RAW_IRON, MaterialColor.PODZOL);
         DynamicWoodTypeRegistry.addWoodType(AraucariaType, MaterialColor.TERRACOTTA_LIGHT_GRAY, MaterialColor.STONE);
         DynamicWoodTypeRegistry.addWoodType(CalamitesType, MaterialColor.TERRACOTTA_LIGHT_GREEN, MaterialColor.TERRACOTTA_LIGHT_GREEN);
         DynamicWoodTypeRegistry.addWoodType(PhoenixType, MaterialColor.TERRACOTTA_WHITE, MaterialColor.TERRACOTTA_LIGHT_GRAY);
         DynamicWoodTypeRegistry.addWoodType(PsaroniusType, MaterialColor.TERRACOTTA_GREEN, MaterialColor.TERRACOTTA_GREEN);
+        addBlocksToBlockEntity(BlockEntityType.SIGN, DynamicWoodTypeRegistry.getProductsFromProductTypes(DynamicWoodTypeRegistry.ProductType.SIGN, DynamicWoodTypeRegistry.ProductType.WALL_SIGN));
     }
 
     public static class ConfiguredFeatureRegistries{
@@ -169,6 +180,31 @@ public class CommonRegistries {
         private static List<PlacementModifier> commonOrePlacement(int p_195344_, PlacementModifier p_195345_) {
             return orePlacement(CountPlacement.of(p_195344_), p_195345_);
         }
+    }
+    //code adapted from Charm
+    public static void addBlocksToBlockEntity(BlockEntityType<?> type, Block... blocks) {
+        Set<Block> typeBlocks = type.validBlocks;
+        List<Block> mutable = new ArrayList<>(typeBlocks);
+
+        for (Block block : blocks) {
+            if (!mutable.contains(block))
+                mutable.add(block);
+        }
+
+        mutable.removeAll(typeBlocks);
+        type.validBlocks.addAll(mutable);
+    }
+    public static void addBlocksToBlockEntity(BlockEntityType<?> type, List<Block> blocks) {
+        Set<Block> typeBlocks = type.validBlocks;
+        List<Block> mutable = new ArrayList<>(typeBlocks);
+
+        for (Block block : blocks) {
+            if (!mutable.contains(block))
+                mutable.add(block);
+        }
+
+        mutable.removeAll(typeBlocks);
+        type.validBlocks.addAll(mutable);
     }
 
 }

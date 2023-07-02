@@ -85,7 +85,7 @@ public class CleaningRecipie implements Recipe<CleanerBlockEntity> {
     private static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<CleaningRecipie>{
 
         Serializer(){
-            this.setRegistryName(resource("cleaner_recipie_serializer"));
+            this.setRegistryName(resource("cleaning_recipe_serializer"));
         }
 
 

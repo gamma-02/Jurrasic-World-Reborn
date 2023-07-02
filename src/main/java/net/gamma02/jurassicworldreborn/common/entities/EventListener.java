@@ -1,17 +1,21 @@
 package net.gamma02.jurassicworldreborn.common.entities;
 
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
+import net.gamma02.jurassicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
 import net.gamma02.jurassicworldreborn.common.entities.animal.CrabEntity;
 import net.gamma02.jurassicworldreborn.common.entities.animal.SharkEntity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 
 import java.util.HashMap;
 
+import static net.gamma02.jurassicworldreborn.common.CommonRegistries.addBlocksToBlockEntity;
 import static net.gamma02.jurassicworldreborn.common.entities.ModEntities.CRAB_ENTITY_TYPE;
 import static net.gamma02.jurassicworldreborn.common.entities.ModEntities.SHARK_ENTITY_TYPE;
 
@@ -40,4 +44,14 @@ public class EventListener {
         event.put(ModEntities.SHARK_ENTITY_TYPE.get(), SharkEntity.createAttributes().build());
 
     }
+
+    @SubscribeEvent
+    public static void finalizeSetup(final FMLLoadCompleteEvent evt){
+        //Make sure the signs are actually added to the sign block entity
+        addBlocksToBlockEntity(BlockEntityType.SIGN, DynamicWoodTypeRegistry.getProductsFromProductTypes(DynamicWoodTypeRegistry.ProductType.SIGN, DynamicWoodTypeRegistry.ProductType.WALL_SIGN));
+
+
+    }
+
+
 }

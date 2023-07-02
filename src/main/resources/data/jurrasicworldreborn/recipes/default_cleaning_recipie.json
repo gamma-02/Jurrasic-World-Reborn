@@ -1,5 +1,5 @@
 {
-  "type": "cleaning_recipe_type",
+  "type": "jurassicworldreborn:cleaning_recipe_serializer",
   "input": {
     "item": "jurassicworldreborn:encased_fauna_fossil"
   },

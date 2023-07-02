@@ -130,7 +130,7 @@ public class CommonRegistries {
 
 
     public static void init(){
-        if(new HashSet<>(DynamicWoodTypeRegistry.woodTypes).containsAll(modWoodTypes)){
+        if(DynamicWoodTypeRegistry.woodTypes != null && new HashSet<>(DynamicWoodTypeRegistry.woodTypes).containsAll(modWoodTypes)){
             return;
         }
         DynamicWoodTypeRegistry.addWoodType(GinkgoType, MaterialColor.RAW_IRON, MaterialColor.PODZOL);
@@ -138,7 +138,6 @@ public class CommonRegistries {
         DynamicWoodTypeRegistry.addWoodType(CalamitesType, MaterialColor.TERRACOTTA_LIGHT_GREEN, MaterialColor.TERRACOTTA_LIGHT_GREEN);
         DynamicWoodTypeRegistry.addWoodType(PhoenixType, MaterialColor.TERRACOTTA_WHITE, MaterialColor.TERRACOTTA_LIGHT_GRAY);
         DynamicWoodTypeRegistry.addWoodType(PsaroniusType, MaterialColor.TERRACOTTA_GREEN, MaterialColor.TERRACOTTA_GREEN);
-        addBlocksToBlockEntity(BlockEntityType.SIGN, DynamicWoodTypeRegistry.getProductsFromProductTypes(DynamicWoodTypeRegistry.ProductType.SIGN, DynamicWoodTypeRegistry.ProductType.WALL_SIGN));
     }
 
     public static class ConfiguredFeatureRegistries{
@@ -183,16 +182,7 @@ public class CommonRegistries {
     }
     //code adapted from Charm
     public static void addBlocksToBlockEntity(BlockEntityType<?> type, Block... blocks) {
-        Set<Block> typeBlocks = type.validBlocks;
-        List<Block> mutable = new ArrayList<>(typeBlocks);
-
-        for (Block block : blocks) {
-            if (!mutable.contains(block))
-                mutable.add(block);
-        }
-
-        mutable.removeAll(typeBlocks);
-        type.validBlocks.addAll(mutable);
+        addBlocksToBlockEntity(type, List.of(blocks));
     }
     public static void addBlocksToBlockEntity(BlockEntityType<?> type, List<Block> blocks) {
         Set<Block> typeBlocks = type.validBlocks;
@@ -203,8 +193,7 @@ public class CommonRegistries {
                 mutable.add(block);
         }
 
-        mutable.removeAll(typeBlocks);
-        type.validBlocks.addAll(mutable);
+        type.validBlocks = new HashSet<>(mutable);
     }
 
 }

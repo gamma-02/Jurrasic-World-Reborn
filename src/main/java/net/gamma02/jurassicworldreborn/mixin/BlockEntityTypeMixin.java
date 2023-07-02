@@ -18,8 +18,7 @@ public class BlockEntityTypeMixin<T extends BlockEntity> {
 
     @Inject(method = "of", at = @At("HEAD"))
     private static <T extends BlockEntity> void ofMixin(BlockEntityType.BlockEntitySupplier<? extends T> pFactory, Block[] pValidBlocks, CallbackInfoReturnable<BlockEntityType.Builder<T>> cir){
-        // Register wood types and get DynamicWoodTypeRegistry setup and running
-        CommonRegistries.init();
+
         if(Arrays.stream(pValidBlocks).anyMatch((b) -> b == Blocks.OAK_SIGN || b == Blocks.DARK_OAK_WALL_SIGN)){
 
             Block[] newValidBlocks = new Block[pValidBlocks.length + 10/*This is the amount of tree types we have in the mod*/];

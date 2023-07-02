@@ -6,6 +6,7 @@ import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
 import net.gamma02.jurassicworldreborn.common.blocks.ancientplants.AncientPlantBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.paleobale.PaleoBaleBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.fossil.AncientCoralBlock;
+import net.gamma02.jurassicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.gamma02.jurassicworldreborn.common.items.misc.ActionFigureItem;
 import net.gamma02.jurassicworldreborn.common.items.misc.SwarmItem;
@@ -17,6 +18,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.RecordItem;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -83,6 +85,23 @@ public class ModItems {
     public static final RegistryObject<BlockItem> GYPSUM_BRICKS = registerBlockItem("gypsum_bricks", ModBlocks.GYPSUM_BRICKS);
 
     public static final RegistryObject<ActionFigureItem> DISPLAY_BLOCK = modItems.register("display_block_item", () -> new ActionFigureItem(new Item.Properties().tab(TabHandler.DECORATIONS)));
+
+    static{
+//
+        for(WoodType woodType : DynamicWoodTypeRegistry.woodTypes){
+            for(DynamicWoodTypeRegistry.ProductType type : DynamicWoodTypeRegistry.ProductType.vals()){
+//            Block block = DynamicWoodTypeRegistry.getProductFromWoodType(woodType, type);
+            if(type == DynamicWoodTypeRegistry.ProductType.WALL_SIGN){
+                continue;
+            }else if(type == DynamicWoodTypeRegistry.ProductType.SIGN){
+                modItems.register(woodType.name() + "_" + type.getProductName(), () -> type.signItemFunction.apply(DynamicWoodTypeRegistry.getProductFromWoodType(woodType, DynamicWoodTypeRegistry.ProductType.SIGN), DynamicWoodTypeRegistry.getProductFromWoodType(woodType, DynamicWoodTypeRegistry.ProductType.WALL_SIGN)));
+                continue;
+            }
+            modItems.register(woodType.name() + "_" + type.getProductName(), () -> type.itemFunction.apply(DynamicWoodTypeRegistry.getProductFromWoodType(woodType, type)));
+
+        }
+        }
+    }
 
     public static final ArrayList<RegistryObject<BlockItem>> modBlocks = new ArrayList<>();
 

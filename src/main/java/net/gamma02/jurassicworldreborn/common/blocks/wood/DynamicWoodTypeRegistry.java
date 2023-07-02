@@ -4,9 +4,14 @@ import com.google.gson.JsonObject;
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.common.CommonRegistries;
 import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
+import net.gamma02.jurassicworldreborn.common.items.TabHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.DoubleHighBlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.SignItem;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -21,6 +26,7 @@ import net.minecraftforge.registries.RegistryObject;
 import oshi.util.tuples.Pair;
 
 import java.util.*;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class DynamicWoodTypeRegistry {
@@ -61,9 +67,12 @@ public class DynamicWoodTypeRegistry {
 
 
     public static void addWoodType(WoodType type, MaterialColor woodColor, MaterialColor barkColor){
+//        ModItems.init();
         ArrayList<RegistryObject<Block>> typeList = new ArrayList<>();
         for(ProductType b : ProductType.values()){
-            typeList.add(woodTypeRegister.register(type.name() + "_" + b.productName, () -> (b != ProductType.SIGN && b != ProductType.WALL_SIGN && b != ProductType.STAIRS ? b.getBlock.apply(new Pair<>(woodColor, barkColor)) : b == ProductType.SIGN ? /* START SIGN */ new StandingSignBlock(BlockBehaviour.Properties.of(Material.WOOD, woodColor).noCollission().strength(1.0F).sound(SoundType.WOOD), type) /* END SIGN */ : b == ProductType.WALL_SIGN ? /* WALL SIGN */ new WallSignBlock(BlockBehaviour.Properties.of(Material.WOOD, woodColor).noCollission().strength(1.0F).sound(SoundType.WOOD), type) /* END WALL SIGN */ : /* STAIRS */ new StairBlock(() -> DynamicWoodTypeRegistry.getProductFromWoodType(type, ProductType.PLANKS).defaultBlockState(), BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS)))));
+            var auto = woodTypeRegister.register(type.name() + "_" + b.productName, () -> (b != ProductType.SIGN && b != ProductType.WALL_SIGN && b != ProductType.STAIRS ? b.getBlock.apply(new Pair<>(woodColor, barkColor)) : b == ProductType.SIGN ? /* START SIGN */ new StandingSignBlock(BlockBehaviour.Properties.of(Material.WOOD, woodColor).noCollission().strength(1.0F).sound(SoundType.WOOD), type) /* END SIGN */ : b == ProductType.WALL_SIGN ? /* WALL SIGN */ new WallSignBlock(BlockBehaviour.Properties.of(Material.WOOD, woodColor).noCollission().strength(1.0F).sound(SoundType.WOOD), type) /* END WALL SIGN */ : /* STAIRS */ new StairBlock(() -> DynamicWoodTypeRegistry.getProductFromWoodType(type, ProductType.PLANKS).defaultBlockState(), BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS))));
+//            ModItems.modBlockItems.register(type.name() + "_" + b.getProductName(), () -> b.signItemFunction != null ? b.signItemFunction.apply(getProductFromWoodType(type, ProductType.SIGN), getProductFromWoodType(type, ProductType.WALL_SIGN)) : b.itemFunction.apply(auto.get()));
+            typeList.add(auto);
         }
         DynamicWoodTypes.put(type, typeList);
     }
@@ -72,7 +81,7 @@ public class DynamicWoodTypeRegistry {
         return DynamicWoodTypes.get(type).get(product.index).get();
     }
 
-    public static List<Block> getProductOfType(ProductType product){
+    public static ArrayList<Block> getProductOfType(ProductType product){
         ArrayList<Block> products = new ArrayList<>();
         for(WoodType type : DynamicWoodTypes.keySet()) {
             products.add(DynamicWoodTypes.get(type).get(product.index).get());
@@ -221,69 +230,84 @@ public class DynamicWoodTypeRegistry {
     public enum ProductType {
         LOG("log", 0, (color) ->{
             return log(color.getB(), color.getA());
-        }, new ArrayList<Property<?>>(Collections.singleton(RotatedPillarBlock.AXIS))),
+        }, new ArrayList<Property<?>>(Collections.singleton(RotatedPillarBlock.AXIS)), (block) -> new BlockItem(block,  new Item.Properties().tab(TabHandler.BLOCKS))),
         STRIPPED_LOG("stripped_log", 1, (color) ->{
             return log(color.getA(), color.getA());
-        }, new ArrayList<Property<?>>(Collections.singleton(RotatedPillarBlock.AXIS))),
+        }, new ArrayList<Property<?>>(Collections.singleton(RotatedPillarBlock.AXIS)), (block) -> new BlockItem(block,  new Item.Properties().tab(TabHandler.BLOCKS))),
         WOOD("wood", 2, (color) ->{
             return new RotatedPillarBlock(BlockBehaviour.Properties.of(Material.WOOD, color.getB()).strength(2.0F).sound(SoundType.WOOD));
-        }, new ArrayList<Property<?>>(Collections.singleton(RotatedPillarBlock.AXIS))),
+        }, new ArrayList<Property<?>>(Collections.singleton(RotatedPillarBlock.AXIS)), (block) -> new BlockItem(block,  new Item.Properties().tab(TabHandler.BLOCKS))),
         STRIPPED_WOOD("stripped_wood", 3, (color) -> {
             return new RotatedPillarBlock(BlockBehaviour.Properties.of(Material.WOOD, color.getA()).strength(2.0F).sound(SoundType.WOOD));
-        }, new ArrayList<Property<?>>(Collections.singleton(RotatedPillarBlock.AXIS))),
+        }, new ArrayList<Property<?>>(Collections.singleton(RotatedPillarBlock.AXIS)), (block) -> new BlockItem(block,  new Item.Properties().tab(TabHandler.BLOCKS))),
         PLANKS("planks", 4, (color) ->{
             return new Block(BlockBehaviour.Properties.of(Material.WOOD, color.getA()).strength(2.0F).sound(SoundType.WOOD));
-        }, new ArrayList<>(Blocks.OAK_PLANKS.getStateDefinition().getProperties())),
+        }, new ArrayList<>(Blocks.OAK_PLANKS.getStateDefinition().getProperties()), (block) -> new BlockItem(block,  new Item.Properties().tab(TabHandler.BLOCKS))),
         SLAB("slab", 5, (color) -> {
             return new SlabBlock(BlockBehaviour.Properties.of(Material.WOOD, color.getA()).strength(2.0F, 3.0F).sound(SoundType.WOOD));
-        }, new ArrayList<>(Blocks.OAK_SLAB.getStateDefinition().getProperties())),
+        }, new ArrayList<>(Blocks.OAK_SLAB.getStateDefinition().getProperties()), (block) -> new BlockItem(block,  new Item.Properties().tab(TabHandler.BLOCKS))),
         FENCE("fence", 6, (color) -> {
             return new FenceBlock(BlockBehaviour.Properties.of(Material.WOOD, color.getA()).strength(2.0F, 3.0F).sound(SoundType.WOOD));
-        }, new ArrayList<>(Blocks.OAK_FENCE.getStateDefinition().getProperties())),
+        }, new ArrayList<>(Blocks.OAK_FENCE.getStateDefinition().getProperties()), (block) -> new BlockItem(block,  new Item.Properties().tab(TabHandler.BLOCKS))),
         FENCEGATE("fence_gate", 7, (color) -> {
             return new FenceGateBlock(BlockBehaviour.Properties.of(Material.WOOD, color.getA()).strength(2.0F, 3.0F).sound(SoundType.WOOD));
-        }, new ArrayList<>(Blocks.OAK_FENCE_GATE.getStateDefinition().getProperties())),
+        }, new ArrayList<>(Blocks.OAK_FENCE_GATE.getStateDefinition().getProperties()), (block) -> new BlockItem(block,  new Item.Properties().tab(TabHandler.BLOCKS))),
         DOOR("door", 8, (color) -> {
             return new DoorBlock(BlockBehaviour.Properties.of(Material.WOOD, color.getA()).strength(3.0F).sound(SoundType.WOOD).noOcclusion());
-        }, new ArrayList<>(Blocks.OAK_DOOR.getStateDefinition().getProperties())),
+        }, new ArrayList<>(Blocks.OAK_DOOR.getStateDefinition().getProperties()), (block) -> new DoubleHighBlockItem(block,  new Item.Properties().tab(TabHandler.BLOCKS))),
         TRAPDOOR("trap_door", 9, (color) -> {
             return new TrapDoorBlock(BlockBehaviour.Properties.of(Material.WOOD, color.getA()).strength(3.0F).sound(SoundType.WOOD).noOcclusion().isValidSpawn((a, b, c, d) -> {
                 return false;
             }));
-        }, new ArrayList<>(Blocks.OAK_TRAPDOOR.getStateDefinition().getProperties())),
+        }, new ArrayList<>(Blocks.OAK_TRAPDOOR.getStateDefinition().getProperties()), (block) -> new BlockItem(block,  new Item.Properties().tab(TabHandler.BLOCKS))),
         PRESSURE_PLATE("pressure_plate", 10, (color) -> {
             return new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, BlockBehaviour.Properties.of(Material.WOOD, color.getA()).noCollission().strength(0.5F).sound(SoundType.WOOD));
-        }, new ArrayList<>(Blocks.OAK_PRESSURE_PLATE.getStateDefinition().getProperties())),
+        }, new ArrayList<>(Blocks.OAK_PRESSURE_PLATE.getStateDefinition().getProperties()), (block) -> new BlockItem(block,  new Item.Properties().tab(TabHandler.BLOCKS))),
         BUTTON("button", 11, (color) -> {
             return new WoodButtonBlock(BlockBehaviour.Properties.of(Material.DECORATION).noCollission().strength(0.5F).sound(SoundType.WOOD));
-        }, new ArrayList<>(Blocks.OAK_BUTTON.getStateDefinition().getProperties())),
-        SIGN("sign", 12, null, new ArrayList<>(Blocks.OAK_SIGN.getStateDefinition().getProperties())),
-        WALL_SIGN("wall_sign", 13, null, new ArrayList<>(Blocks.OAK_WALL_SIGN.getStateDefinition().getProperties())),
+        }, new ArrayList<>(Blocks.OAK_BUTTON.getStateDefinition().getProperties()), (block) -> new BlockItem(block,  new Item.Properties().tab(TabHandler.BLOCKS))),
+        SIGN("sign", 12, null, new ArrayList<>(Blocks.OAK_SIGN.getStateDefinition().getProperties()), (standing, wall) -> new SignItem(new Item.Properties().tab(TabHandler.BLOCKS), standing, wall)),
+        WALL_SIGN("wall_sign", 13, null, new ArrayList<>(Blocks.OAK_WALL_SIGN.getStateDefinition().getProperties()), (standing, wall) -> null),
         LEAVES("leaves", 14, (color) -> {
             return new LeavesBlock(BlockBehaviour.Properties.of(Material.LEAVES).strength(0.2F).randomTicks().sound(SoundType.GRASS).noOcclusion().isValidSpawn(ProductType::ocelotOrParrot).isSuffocating(ProductType::no).isViewBlocking(ProductType::no));
-        }, new ArrayList<Property<?>>(Blocks.OAK_LEAVES.getStateDefinition().getProperties())),
+        }, new ArrayList<Property<?>>(Blocks.OAK_LEAVES.getStateDefinition().getProperties()), (block) -> new BlockItem(block, new Item.Properties().tab(TabHandler.BLOCKS))),
         PETRIFIED_LOG("petrified_log", 15, (color) -> {
             return log(color.getB(), color.getA());
-        }, new ArrayList<Property<?>>(Collections.singleton(RotatedPillarBlock.AXIS))),
-        STAIRS("stairs", 16, null, new ArrayList<>(Blocks.OAK_STAIRS.getStateDefinition().getProperties()));
+        }, new ArrayList<Property<?>>(Collections.singleton(RotatedPillarBlock.AXIS)), (block) -> new BlockItem(block, new Item.Properties().tab(TabHandler.BLOCKS))),
+        STAIRS("stairs", 16, null, new ArrayList<>(Blocks.OAK_STAIRS.getStateDefinition().getProperties()), (block) -> new BlockItem(block, new Item.Properties().tab(TabHandler.BLOCKS)));
 
         private static boolean no(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos) {
             return false;
         }
 
         private final String productName;
+
+        public final Function<Block, Item> itemFunction;
+        public final BiFunction<Block, Block, Item> signItemFunction;
         private final int index;
         private final Function<Pair<MaterialColor, MaterialColor>, Block> getBlock;
 
         public final ArrayList<Property<?>> properties;
 
-        ProductType(String productName, int index, Function<Pair<MaterialColor, MaterialColor>, Block> getBlock, List<Property<?>> properties){
+        ProductType(String productName, int index, Function<Pair<MaterialColor, MaterialColor>, Block> getBlock, List<Property<?>> properties, Function<Block, Item> getItem){
             this.productName = productName;
 
             this.index = index;
 
             this.getBlock = getBlock;
             this.properties = new ArrayList<Property<?>>(properties);
+            this.itemFunction = getItem;
+            this.signItemFunction = null;
+        }
+        ProductType(String productName, int index, Function<Pair<MaterialColor, MaterialColor>, Block> getBlock, List<Property<?>> properties, BiFunction<Block, Block, Item> getItem){
+            this.productName = productName;
+
+            this.index = index;
+
+            this.getBlock = getBlock;
+            this.properties = new ArrayList<Property<?>>(properties);
+            this.signItemFunction = getItem;
+            this.itemFunction = null;
 
         }
 
@@ -337,7 +361,7 @@ public class DynamicWoodTypeRegistry {
     }
 
     public static List<Block> getProductsFromProductTypes(ProductType... types){
-        List<Block> blocks = Collections.emptyList();
+        ArrayList<Block> blocks = new ArrayList<>();
 
         for(var type : types){
             blocks.addAll(getProductOfType(type));

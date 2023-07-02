@@ -9,6 +9,7 @@ import net.gamma02.jurassicworldreborn.common.blocks.entities.ModBlockEntities;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerMenu;
 import net.gamma02.jurassicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
+import net.gamma02.jurassicworldreborn.common.entities.EventListener;
 import net.gamma02.jurassicworldreborn.common.entities.ModEntities;
 import net.gamma02.jurassicworldreborn.common.items.ModItems;
 import net.gamma02.jurassicworldreborn.common.network.Network;
@@ -90,9 +91,13 @@ public class Jurassicworldreborn {
 
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(EventListener::finalizeSetup);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
+
+        // Register wood types and get DynamicWoodTypeRegistry setup and running
+        CommonRegistries.init();
 
 
 
@@ -161,7 +166,10 @@ public class Jurassicworldreborn {
         // some preinit code
         LOGGER.info("HELLO FROM PREINIT");
         LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
+
     }
+
+
 
     public void clientSetup(final FMLClientSetupEvent evt){
 
@@ -202,10 +210,11 @@ public class Jurassicworldreborn {
         // Vanilla has a registry for recipe types, but it does not actively use this registry.
         // While this makes registering your recipe type an optional step, I recommend
         // registering it anyway to allow other mods to discover your custom recipe types.
-        Registry.register(Registry.RECIPE_TYPE, new ResourceLocation(CLEANING_RECIPE_TYPE.toString()), CLEANING_RECIPE_TYPE);
+        Registry.register(Registry.RECIPE_TYPE, new ResourceLocation(modid, "cleaning_recipe_type"), CLEANING_RECIPE_TYPE);
 
         // Register the recipe serializer. This handles from json, from packet, and to packet.
         event.getRegistry().register(CleaningRecipie.INSTANCE);
+
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call

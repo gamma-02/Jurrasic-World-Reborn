@@ -1,24 +1,20 @@
 package net.gamma02.jurassicworldreborn.common.blocks.wood;
 
+import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.Mth;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.BushBlock;
-import net.minecraft.world.level.block.SaplingBlock;
-import net.minecraft.world.level.block.grower.AbstractTreeGrower;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraftforge.client.model.generators.VariantBlockStateBuilder;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 
@@ -35,6 +31,7 @@ public class ModSaplingBlock extends BushBlock implements BonemealableBlock {
         this.feature = feature;
 
         this.registerDefaultState(this.stateDefinition.any().setValue(STAGE, 0));
+        Jurassicworldreborn.setRenderType(this, RenderType.cutout());
     }
 
     @Override

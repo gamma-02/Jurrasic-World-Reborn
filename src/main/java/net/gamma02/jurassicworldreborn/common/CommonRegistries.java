@@ -1,6 +1,7 @@
 package net.gamma02.jurassicworldreborn.common;
 
 
+import com.google.common.collect.ImmutableMap;
 import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.ModBlockEntities;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerMenu;
@@ -12,6 +13,7 @@ import net.gamma02.jurassicworldreborn.common.worldgen.tree.petrified.PetrifiedT
 import net.minecraft.core.Holder;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
+import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.properties.WoodType;
@@ -30,10 +32,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static net.gamma02.jurassicworldreborn.Jurassicworldreborn.modid;
 import static net.gamma02.jurassicworldreborn.Jurassicworldreborn.resource;
@@ -194,6 +193,28 @@ public class CommonRegistries {
         }
 
         type.validBlocks = new HashSet<>(mutable);
+    }
+
+    public static void addLogsToStrippables(HashMap<Block, Block> logStrippedMap){
+        Map<Block, Block> initialMap = AxeItem.STRIPPABLES;
+        ImmutableMap.Builder<Block, Block> builder = new ImmutableMap.Builder<Block, Block>();
+        for(Block b : initialMap.keySet()){
+            builder.put(b, initialMap.get(b));
+        }
+        for(Block b : logStrippedMap.keySet()){
+            builder.put(b, logStrippedMap.get(b));
+        }
+        ImmutableMap<Block, Block> map = null;
+        try{
+            map = builder.build();
+        }catch(IllegalArgumentException e){
+            System.out.println(e.toString());
+        }
+        if(map != null) {
+            AxeItem.STRIPPABLES = builder.build();
+            return;
+        }
+
     }
 
 }

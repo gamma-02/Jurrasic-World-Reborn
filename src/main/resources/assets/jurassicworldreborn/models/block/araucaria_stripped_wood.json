@@ -1,7 +1,7 @@
 {
   "parent": "block/cube_column",
   "textures": {
-    "end": "jurassicworldreborn:blocks/stripped_araucaria_log_top",
+    "end": "jurassicworldreborn:blocks/stripped_araucaria_log",
     "side": "jurassicworldreborn:blocks/stripped_araucaria_log"
   }
 }

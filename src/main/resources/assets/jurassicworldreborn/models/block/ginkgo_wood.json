@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "end": "jurassicworldreborn:blocks/log_ginkgo",
+    "side": "jurassicworldreborn:blocks/log_ginkgo"
+  }
+}

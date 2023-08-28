@@ -1,0 +1,15 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "jurassicworldreborn:block/psaronius_stripped_wood"
+    },
+    "axis=z": {
+      "model": "jurassicworldreborn:block/psaronius_stripped_wood",
+	  "x": 90
+    },
+    "axis=x": {
+      "model": "jurassicworldreborn:block/psaronius_stripped_wood",
+      "x": 90, "y": 90
+    }
+  }
+}

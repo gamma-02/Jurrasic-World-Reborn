@@ -1,0 +1,15 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "jurassicworldreborn:block/phoenix_wood"
+    },
+    "axis=z": {
+      "model": "jurassicworldreborn:block/phoenix_wood",
+	  "x": 90
+    },
+    "axis=x": {
+      "model": "jurassicworldreborn:block/phoenix_wood",
+      "x": 90, "y": 90
+    }
+  }
+}

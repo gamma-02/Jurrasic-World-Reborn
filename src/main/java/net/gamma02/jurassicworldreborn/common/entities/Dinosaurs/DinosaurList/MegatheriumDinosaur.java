@@ -1,6 +1,8 @@
 package net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurList;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Stream;
 
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.*;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
@@ -8,8 +10,11 @@ import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.Diet;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.FoodType;
 import net.gamma02.jurassicworldreborn.common.util.TimePeriod;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.BiomeTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.Tags;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class MegatheriumDinosaur extends Dinosaur {
     public static final double SPEED = 0.3F;
@@ -49,11 +54,21 @@ public class MegatheriumDinosaur extends Dinosaur {
         this.setRecipe(recipe);
         this.enableSkeleton();
         ArrayList<ResourceKey<Biome>> biomeList = new ArrayList<>();
-        biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.PLAINS));
-        biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.FOREST));
-        biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.SAVANNA));
-        biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.CONIFEROUS));
-        biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.SNOWY));
+//        biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.PLAINS));
+//        biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.FOREST));
+//        biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.SAVANNA));
+//        biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.CONIFEROUS));
+//        biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.SNOWY));
+        Stream<TagKey<Biome>> tags = Arrays.stream(new TagKey[]{BiomeTags.IS_SAVANNA, Tags.Biomes.IS_CONIFEROUS, BiomeTags.IS_MOUNTAIN, Tags.Biomes.IS_PLAINS, BiomeTags.IS_FOREST, Tags.Biomes.IS_SNOWY});
+        ArrayList<Biome> allBiomes = new ArrayList<>(ForgeRegistries.BIOMES.getValues());
+
+        for (Biome biome:
+                allBiomes) {
+            var key = ForgeRegistries.BIOMES.getResourceKey(biome);
+            if(key.isPresent() && tags.anyMatch((tag) -> ForgeRegistries.BIOMES.tags().getTag(tag).contains(biome))){
+                biomeList.add(key.get());
+            }
+        }
         this.setSpawn(1, biomeList);
     }
 }

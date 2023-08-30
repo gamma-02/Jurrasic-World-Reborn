@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -165,6 +166,24 @@ public class InventoryDinosaur implements Container {
     }
 
     public void dropItems(Level world, Random rand) {
+        for (int i = 0; i < this.getInventorySize(); ++i) {
+
+            ItemStack itemstack = this.getItem(i);
+
+            if (!itemstack.isEmpty()) {
+                float offsetX = rand.nextFloat() * 0.8F + 0.1F;
+                float offsetY = rand.nextFloat() * 0.8F + 0.1F;
+                float offsetZ = rand.nextFloat() * 0.8F + 0.1F;
+                ItemEntity itemEntity = new ItemEntity(world, this.entity.getX() + offsetX, this.entity.getY() + offsetY, this.entity.getZ() + offsetZ, new ItemStack(itemstack.getItem(), itemstack.getCount(), itemstack.getTag()));
+                float multiplier = 0.05F;
+                itemEntity.setDeltaMovement((float) rand.nextGaussian() * multiplier, (float) rand.nextGaussian() * multiplier + 0.2F,(float) rand.nextGaussian() * multiplier );
+                world.addFreshEntity(itemEntity);
+                itemstack.shrink(itemstack.getCount());
+
+            }
+        }
+    }
+    public void dropItems(Level world, RandomSource rand) {
         for (int i = 0; i < this.getInventorySize(); ++i) {
 
             ItemStack itemstack = this.getItem(i);

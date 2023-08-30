@@ -2,8 +2,10 @@ package net.gamma02.jurassicworldreborn.common.items.Bones;
 
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Bone;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.ComponentContents;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.contents.LiteralContents;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -21,11 +23,11 @@ public class BoneItem extends Item {
 
     @Override
     public @NotNull Component getName(@NotNull ItemStack pStack) {
-        String translatedDinoless = new TranslatableComponent("item." + this.shape.toString() + "name").getString();
+        TranslatableContents translatedDinoless = new TranslatableContents("item." + this.shape.toString() + "name");
 
-        String translated = translatedDinoless.replaceAll("\\{dino}", this.groupOwner.getOwner().getName());
+        LiteralContents translated = new LiteralContents(MutableComponent.create(translatedDinoless).getString().replaceAll("\\{dino}", this.groupOwner.getOwner().getName()));
 
-        return new TextComponent(translated);
+        return MutableComponent.create(translated);
     }
 
     public Bone getShape(){

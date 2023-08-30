@@ -9,7 +9,15 @@ import java.util.ArrayList;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraftforge.common.BiomeDictionary;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Stream;
+
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.BiomeTags;
+import net.minecraft.tags.TagKey;
+import net.minecraftforge.common.Tags;
+import net.minecraftforge.registries.ForgeRegistries;
 
 
 public class SpinoraptorDinosaur extends Dinosaur implements Hybrid

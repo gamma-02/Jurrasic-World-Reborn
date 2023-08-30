@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import net.gamma02.jurassicworldreborn.common.CommonRegistries;
 import net.gamma02.jurassicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
@@ -26,7 +27,7 @@ public class PhoenixTreeGenerator extends Feature<NoneFeatureConfiguration> {
         BlockState leaves = DynamicWoodTypeRegistry.getProductFromWoodType(CommonRegistries.PhoenixType, DynamicWoodTypeRegistry.ProductType.LEAVES).defaultBlockState();;
         
         WorldGenLevel world = ctx.level();
-        Random rand = ctx.random();
+        RandomSource rand = ctx.random();
         BlockPos position = ctx.origin();
         this.setBlockState(world, position, log);
 

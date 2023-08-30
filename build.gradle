@@ -5,6 +5,8 @@ buildscript {
         maven { url = 'https://maven.minecraftforge.net' }
         maven { url = 'https://files.minecraftforge.net/maven' }
         maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
+        maven { url = 'https://maven.parchmentmc.org' } // Add this line
+
 
         mavenCentral()
 
@@ -43,7 +45,7 @@ minecraft {
     // Use non-default mappings at your own risk. They may not always work.
     // Simply re-run your setup task after changing the mappings to update your workspace.
 //    mappings channel: 'official', version: '1.18.2' <- decided to use Parchment instead
-    mappings channel: 'parchment', version: '2022.08.07-1.18.2'
+    mappings channel: 'parchment', version: '2022.11.27-1.19.2'
 
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
@@ -174,6 +176,10 @@ repositories {
 //            includeGroup "curse.maven"
 //        }
 //    }
+    maven {
+        url = 'https://files.minecraftforge.net/maven'
+    }
+
     maven {
         name = "CurseForge"
         url = "https://minecraft.curseforge.com/api/maven/"

@@ -10,7 +10,15 @@ import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.MovementType;
 import net.gamma02.jurassicworldreborn.common.util.TimePeriod;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraftforge.common.BiomeDictionary;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Stream;
+
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.BiomeTags;
+import net.minecraft.tags.TagKey;
+import net.minecraftforge.common.Tags;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class BeelzebufoDinosaur extends Dinosaur {
     public static final double SPEED = 0.4F;
@@ -47,9 +55,16 @@ public class BeelzebufoDinosaur extends Dinosaur {
         this.setRecipe(recipe);
         this.enableSkeleton();
         ArrayList<ResourceKey<Biome>> biomeList = new ArrayList<ResourceKey<Biome>>();
-        biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.SANDY));
-        biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.BEACH));
-        biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.RIVER));
+        Stream<TagKey<Biome>> tags = Arrays.stream(new TagKey[]{Tags.Biomes.IS_SANDY, BiomeTags.IS_BEACH, BiomeTags.IS_RIVER, Tags.Biomes.IS_SNOWY});
+        ArrayList<Biome> allBiomes = new ArrayList<>(ForgeRegistries.BIOMES.getValues());
+
+        for (Biome biome:
+                allBiomes) {
+            var key = ForgeRegistries.BIOMES.getResourceKey(biome);
+            if(key.isPresent() && tags.anyMatch((tag) -> ForgeRegistries.BIOMES.tags().getTag(tag).contains(biome))){
+                biomeList.add(key.get());
+            }
+        }
         this.setSpawn(1, biomeList);
     }
 }

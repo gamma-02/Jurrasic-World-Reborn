@@ -5,6 +5,7 @@ import net.gamma02.jurassicworldreborn.common.CommonRegistries;
 import net.gamma02.jurassicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
@@ -24,7 +25,7 @@ public class CalamitesTreeGenerator extends Feature<NoneFeatureConfiguration> {
         BlockState log = DynamicWoodTypeRegistry.getProductFromWoodType(CommonRegistries.CalamitesType, DynamicWoodTypeRegistry.ProductType.LOG).defaultBlockState();
         BlockState leaves = DynamicWoodTypeRegistry.getProductFromWoodType(CommonRegistries.CalamitesType, DynamicWoodTypeRegistry.ProductType.LEAVES).defaultBlockState();
         WorldGenLevel world = context.level();
-        Random rand = context.random();
+        RandomSource rand = context.random();
         BlockPos position = context.origin();
 
         this.setBlockState(world, position, log);

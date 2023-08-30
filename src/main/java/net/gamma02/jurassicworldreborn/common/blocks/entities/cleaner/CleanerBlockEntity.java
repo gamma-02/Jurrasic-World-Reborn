@@ -5,7 +5,9 @@ import net.gamma02.jurassicworldreborn.common.recipies.cleaner.CleaningRecipie;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.MenuProvider;
@@ -192,6 +194,6 @@ public class CleanerBlockEntity extends BlockEntity implements BlockEntityTicker
 
     @Override
     public @NotNull Component getDisplayName() {
-        return new TranslatableComponent("block.jurassicworldreborn.cleaner_block_name");
+        return MutableComponent.create(new TranslatableContents("block.jurassicworldreborn.cleaner_block_name"));
     }
 }

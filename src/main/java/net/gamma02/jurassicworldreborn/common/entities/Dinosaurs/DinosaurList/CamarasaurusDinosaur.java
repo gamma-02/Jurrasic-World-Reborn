@@ -9,7 +9,15 @@ import net.minecraft.resources.ResourceKey;
 import java.util.ArrayList;
 
 import net.minecraft.world.level.biome.Biome;
-import net.minecraftforge.common.BiomeDictionary;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Stream;
+
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.BiomeTags;
+import net.minecraft.tags.TagKey;
+import net.minecraftforge.common.Tags;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class CamarasaurusDinosaur extends Dinosaur
 {
@@ -48,8 +56,16 @@ public class CamarasaurusDinosaur extends Dinosaur
         this.setRecipe(recipe);
         this.enableSkeleton();
         ArrayList<ResourceKey<Biome>> biomeList = new ArrayList();
-        biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.SAVANNA));
-        biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.PLAINS));
+        Stream<TagKey<Biome>> tags = Arrays.stream(new TagKey[]{Tags.Biomes.IS_PLAINS, BiomeTags.IS_SAVANNA});
+        ArrayList<Biome> allBiomes = new ArrayList<>(ForgeRegistries.BIOMES.getValues());
+
+        for (Biome biome:
+                allBiomes) {
+            var key = ForgeRegistries.BIOMES.getResourceKey(biome);
+            if(key.isPresent() && tags.anyMatch((tag) -> ForgeRegistries.BIOMES.tags().getTag(tag).contains(biome))){
+                biomeList.add(key.get());
+            }
+        }
         this.setSpawn(1, biomeList);
     }
 }

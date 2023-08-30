@@ -8,7 +8,15 @@ import net.gamma02.jurassicworldreborn.common.util.TimePeriod;
 import java.util.ArrayList;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraftforge.common.BiomeDictionary;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Stream;
+
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.BiomeTags;
+import net.minecraft.tags.TagKey;
+import net.minecraftforge.common.Tags;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class DilophosaurusDinosaur extends Dinosaur {
     public static final double SPEED = 0.4F;
@@ -45,12 +53,16 @@ public class DilophosaurusDinosaur extends Dinosaur {
         this.setRecipe(recipe);
 
         ArrayList<ResourceKey<Biome>> biomeList = new ArrayList<>();
-        biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.SAVANNA));
-        biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.SANDY));
-        biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.PLAINS));
-        biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.FOREST));
-        biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.MESA));
-        biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.CONIFEROUS));
+        Stream<TagKey<Biome>> tags = Arrays.stream(new TagKey[]{Tags.Biomes.IS_PLAINS, BiomeTags.IS_FOREST, BiomeTags.IS_SAVANNA, Tags.Biomes.IS_CONIFEROUS, BiomeTags.IS_BADLANDS, Tags.Biomes.IS_SANDY});
+        ArrayList<Biome> allBiomes = new ArrayList<>(ForgeRegistries.BIOMES.getValues());
+
+        for (Biome biome:
+                allBiomes) {
+            var key = ForgeRegistries.BIOMES.getResourceKey(biome);
+            if(key.isPresent() && tags.anyMatch((tag) -> ForgeRegistries.BIOMES.tags().getTag(tag).contains(biome))){
+                biomeList.add(key.get());
+            }
+        }
         this.setSpawn(1, biomeList);
         this.enableSkeleton();
 

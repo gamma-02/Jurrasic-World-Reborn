@@ -1,7 +1,9 @@
 package net.gamma02.jurassicworldreborn.common.entities.EntityUtils;
 
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -28,12 +30,13 @@ public class DinosaurDamageSource extends DamageSource {
         return this.isThornsDamage;
     }
 
-    @Override
-    public TranslatableComponent getLocalizedDeathMessage(LivingEntity entity) {
+
+    public Component getLocalizedDeathMessage(LivingEntity pLivingEntity){
         ItemStack stack = this.entity instanceof LivingEntity ? ((LivingEntity) this.entity).getMainHandItem() : null;
         String deathMessage = "death.attack." + this.msgId;
         String itemDeathMessage = deathMessage + ".item";
-        return stack != null && stack.hasCustomHoverName() && I18n.exists(itemDeathMessage) ? new TranslatableComponent(itemDeathMessage, entity.getDisplayName(), this.entity.getDisplayName(), stack.getDisplayName()) : new TranslatableComponent(deathMessage, entity.getDisplayName(), this.entity.getDisplayName());
+        return MutableComponent.create((stack != null && stack.hasCustomHoverName() && I18n.exists(itemDeathMessage)) ? new TranslatableContents(itemDeathMessage, entity.getDisplayName(), this.entity.getDisplayName(), stack.getDisplayName()) : new TranslatableContents(deathMessage, entity.getDisplayName(), this.entity.getDisplayName()));
+
     }
 
     @Override

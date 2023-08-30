@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -31,8 +32,8 @@ public class PetrifiedTreeGenerator extends Feature<PetrifiedTreeConfig> {
 
     @Override
     public boolean place(FeaturePlaceContext<PetrifiedTreeConfig> context) {
-        Random random = context.random();
-        float chance = random.nextFloat(100);
+        RandomSource random = context.random();
+        float chance = random.nextInt(100);
         chance = Float.parseFloat(Float.toString(chance).substring(4));
 //        if(context.config().chance >= chance) {
             WorldGenLevel world = context.level();
@@ -61,7 +62,7 @@ public class PetrifiedTreeGenerator extends Feature<PetrifiedTreeConfig> {
     }
 
 
-    private void generatePetrifiedTree(WorldGenLevel world, WoodType treeType, int x, int y, int z, Random rand, PetrifiedTreeConfig config) {
+    private void generatePetrifiedTree(WorldGenLevel world, WoodType treeType, int x, int y, int z, RandomSource rand, PetrifiedTreeConfig config) {
         Predicate<BlockState> predicate = (state) ->  Feature.isReplaceable(BlockTags.FEATURES_CANNOT_REPLACE).test(state) || state.isAir();
         float rotX = (float) (rand.nextDouble() * 360.0F);
         float rotY = (float) (rand.nextDouble() * 360.0F) - 180.0F;

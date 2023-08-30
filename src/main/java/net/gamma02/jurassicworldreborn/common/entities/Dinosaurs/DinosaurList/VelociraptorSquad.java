@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraftforge.common.BiomeDictionary;
 
 public class VelociraptorSquad {//ha! I like this class :)
     private ResourceLocation texture;

@@ -6,9 +6,15 @@ import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.Diet;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.FoodType;
 import net.gamma02.jurassicworldreborn.common.util.TimePeriod;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.BiomeTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.Tags;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class GallimimusDinosaur extends Dinosaur {
     public static final double SPEED = 0.41F;
@@ -46,8 +52,18 @@ public class GallimimusDinosaur extends Dinosaur {
         this.setRecipe(recipe);
         
         ArrayList<ResourceKey<Biome>> biomeList = new ArrayList<>();
-        biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.PLAINS));
-        biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.DRY));
+//        biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.PLAINS));
+//        biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.DRY));
+        Stream<TagKey<Biome>> tags = Arrays.stream(new TagKey[]{Tags.Biomes.IS_PLAINS, Tags.Biomes.IS_DRY_OVERWORLD});
+        ArrayList<Biome> allBiomes = new ArrayList<>(ForgeRegistries.BIOMES.getValues());
+
+        for (Biome biome:
+                allBiomes) {
+            var key = ForgeRegistries.BIOMES.getResourceKey(biome);
+            if(key.isPresent() && tags.anyMatch((tag) -> ForgeRegistries.BIOMES.tags().getTag(tag).contains(biome))){
+                biomeList.add(key.get());
+            }
+        }
         this.setSpawn(1, biomeList);
         this.enableSkeleton();
     }

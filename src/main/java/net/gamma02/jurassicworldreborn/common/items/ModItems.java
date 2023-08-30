@@ -78,9 +78,9 @@ public class ModItems {
     public static final RegistryObject<SwarmItem> PLANKTON = modBlockItems.register("plankton", () -> new SwarmItem(ModBlocks.PLANKTON_SWARM.get(), new Item.Properties().tab(TabHandler.ITEMS)));
     public static final RegistryObject<SwarmItem> KRILL = modBlockItems.register("krill", () -> new SwarmItem(ModBlocks.KRILL_SWARM.get(), new Item.Properties().tab(TabHandler.ITEMS)));
 
-    public static final RegistryObject<RecordItem> JURASSICRAFT_THEME_DISC = modBlockItems.register("disc_jurassicraft_theme", () -> new RecordItem(0, () -> SoundHandler.JURASSICRAFT_THEME, new Item.Properties().tab(TabHandler.ITEMS)));
-    public static final RegistryObject<RecordItem> TROODONS_AND_RAPTORS_DISC = modBlockItems.register("disc_troodons_and_raptors", () -> new RecordItem(0, () -> SoundHandler.TROODONS_AND_RAPTORS, new Item.Properties().tab(TabHandler.ITEMS)));
-    public static final RegistryObject<RecordItem> DONT_MOVE_A_MUSCLE_DISC = modBlockItems.register("disc_dont_move_a_muscle", () -> new RecordItem(0, () -> SoundHandler.DONT_MOVE_A_MUSCLE, new Item.Properties().tab(TabHandler.ITEMS)));
+    public static final RegistryObject<RecordItem> JURASSICRAFT_THEME_DISC = modBlockItems.register("disc_jurassicraft_theme", () -> new RecordItem(101/*dont ask*/, () -> SoundHandler.JURASSICRAFT_THEME, new Item.Properties().tab(TabHandler.ITEMS), 4740));
+    public static final RegistryObject<RecordItem> TROODONS_AND_RAPTORS_DISC = modBlockItems.register("disc_troodons_and_raptors", () -> new RecordItem(102, () -> SoundHandler.TROODONS_AND_RAPTORS, new Item.Properties().tab(TabHandler.ITEMS), 1760));
+    public static final RegistryObject<RecordItem> DONT_MOVE_A_MUSCLE_DISC = modBlockItems.register("disc_dont_move_a_muscle", () -> new RecordItem(103, () -> SoundHandler.DONT_MOVE_A_MUSCLE, new Item.Properties().tab(TabHandler.ITEMS), 2040));
 
     public static final RegistryObject<BlockItem> GYPSUM_BRICKS = registerBlockItem("gypsum_bricks", ModBlocks.GYPSUM_BRICKS);
 

@@ -23,7 +23,7 @@ import static net.gamma02.jurassicworldreborn.Jurassicworldreborn.modid;
 
 public class ModBlockEntities<T extends BlockEntity> {
 
-    public static DeferredRegister<BlockEntityType<?>> modBlockEntities = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, modid);
+    public static DeferredRegister<BlockEntityType<?>> modBlockEntities = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, modid);
 
     public static RegistryObject<BlockEntityType<CleanerBlockEntity>> CLEANING_STATION = modBlockEntities.register("cleaning_station", () -> BlockEntityType.Builder.of(CleanerBlockEntity::new, ModBlocks.CLEANER_BLOCK.get()).build(null));
     public static RegistryObject<BlockEntityType<EncasedFossilBlockEntity>> FOSSIL = modBlockEntities.register("encased_fossil", () -> BlockEntityType.Builder.of(EncasedFossilBlockEntity::new, ModBlocks.FAUNA_FOSSIL.get(), ModBlocks.DEEPSLATE_FAUNA_FOSSIL.get(), ModBlocks.ENCASED_FAUNA_FOSSIL.get()).build(null));
@@ -43,7 +43,7 @@ public class ModBlockEntities<T extends BlockEntity> {
     public static class modScreenTypes{
 
         public static HashMap<ResourceLocation, ModMenuSupplier<?>> modMenuSupplier = new HashMap<>();
-        public static DeferredRegister<MenuType<?>> modScreenTypes = DeferredRegister.create(ForgeRegistries.CONTAINERS, modid);
+        public static DeferredRegister<MenuType<?>> modScreenTypes = DeferredRegister.create(ForgeRegistries.MENU_TYPES, modid);
 
         public static RegistryObject<MenuType<CleanerMenu>> CleanerScreenType = modScreenTypes.register("cleaner_screen_type", () -> new MenuType<>(CleanerMenu::new));
 

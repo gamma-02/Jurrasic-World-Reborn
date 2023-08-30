@@ -25,29 +25,27 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
-import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegisterEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 
-import static net.gamma02.jurassicworldreborn.common.CommonRegistries.*;
+import static net.gamma02.jurassicworldreborn.common.CommonRegistries.modFeatures;
 import static net.gamma02.jurassicworldreborn.common.recipies.cleaner.CleaningRecipie.CLEANING_RECIPE_TYPE;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -80,6 +78,7 @@ public class Jurassicworldreborn {
     public static Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> CONFIGURED_PHEONIX;
 
     public static Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> CONFIGURED_PSARONIUS;
+
 
 
 
@@ -119,7 +118,6 @@ public class Jurassicworldreborn {
 
 
 
-        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(RecipeSerializer.class, Jurassicworldreborn::registerRecipeSerializers);
 
 
 
@@ -165,7 +163,7 @@ public class Jurassicworldreborn {
     private void setup(final FMLCommonSetupEvent event) {
         // some preinit code
         LOGGER.info("HELLO FROM PREINIT");
-        LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
+        LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT);
 
     }
 
@@ -195,6 +193,7 @@ public class Jurassicworldreborn {
 
         for (Block b:
              renderlayers.keySet()) {
+            //noinspection removal
             ItemBlockRenderTypes.setRenderLayer(b, renderlayers.get(b));
         }
 
@@ -205,15 +204,20 @@ public class Jurassicworldreborn {
         return LOGGER;
     }
 
-    public static void registerRecipeSerializers(RegistryEvent.Register<RecipeSerializer<?>> event) {
+    @SubscribeEvent
+    public static void registerRecipeSerializers(RegisterEvent event) {
 
         // Vanilla has a registry for recipe types, but it does not actively use this registry.
         // While this makes registering your recipe type an optional step, I recommend
         // registering it anyway to allow other mods to discover your custom recipe types.
         Registry.register(Registry.RECIPE_TYPE, new ResourceLocation(modid, "cleaning_recipe_type"), CLEANING_RECIPE_TYPE);
 
+
+        event.register(ForgeRegistries.Keys.RECIPE_SERIALIZERS, (helper) ->{
+            ((RegisterEvent.RegisterHelper<RecipeSerializer<?>>)helper).register(new ResourceLocation(modid, "cleaning_recipe_serializer"), CleaningRecipie.INSTANCE);
+        });
         // Register the recipe serializer. This handles from json, from packet, and to packet.
-        event.getRegistry().register(CleaningRecipie.INSTANCE);
+
 
     }
 
@@ -230,21 +234,7 @@ public class Jurassicworldreborn {
         return false;
     }
 
-    @SubscribeEvent
-    public void onBiomeLoad(BiomeLoadingEvent evt){
-        if(evt.getCategory() != Biome.BiomeCategory.NETHER && evt.getCategory() != Biome.BiomeCategory.THEEND){
-            evt.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, ICE_SHARD_ORE_PLACEMENT);
-            evt.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, FAUNA_FOSSIL_PLACEMENT);
-            evt.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, FLORA_FOSSIL_PLACEMENT);
-            evt.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, AMBER_ORE_PLACEMENT);
-            if(evt.getCategory() != Biome.BiomeCategory.NONE) {
-                evt.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, PLACED_LARGE_PETRIFIED_TREE);
-                evt.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, PLACED_SMALL_PETRIFIED_TREE);
-            }
 
-
-        }
-    }
 
 
 

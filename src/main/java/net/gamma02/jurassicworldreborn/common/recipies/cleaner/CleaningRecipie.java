@@ -12,7 +12,6 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.crafting.CraftingHelper;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.Nullable;
 
@@ -82,10 +81,9 @@ public class CleaningRecipie implements Recipe<CleanerBlockEntity> {
         return CLEANING_RECIPE_TYPE;
     }
 
-    private static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<CleaningRecipie>{
+    private static class Serializer implements RecipeSerializer<CleaningRecipie>{
 
         Serializer(){
-            this.setRegistryName(resource("cleaning_recipe_serializer"));
         }
 
 

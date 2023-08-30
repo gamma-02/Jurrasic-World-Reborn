@@ -5,6 +5,7 @@ import net.gamma02.jurassicworldreborn.common.CommonRegistries;
 import net.gamma02.jurassicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.*;
@@ -27,7 +28,7 @@ public class GinkgoTreeGenerator extends Feature<NoneFeatureConfiguration> {
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
         BlockState log = DynamicWoodTypeRegistry.getProductFromWoodType(CommonRegistries.GinkgoType, DynamicWoodTypeRegistry.ProductType.LOG).defaultBlockState();
         BlockState leaves = DynamicWoodTypeRegistry.getProductFromWoodType(CommonRegistries.GinkgoType, DynamicWoodTypeRegistry.ProductType.LEAVES).defaultBlockState();
-        Random rand = context.random();
+        RandomSource rand = context.random();
         BlockPos position = context.origin();
         WorldGenLevel world = context.level();
 

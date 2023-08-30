@@ -13,6 +13,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -300,7 +301,7 @@ public class MicroraptorEntity extends DinosaurEntity {
 	this.glidingPos = glidingPos;
     }
 
-    public Random getRNG(){
+    public RandomSource getRNG(){
         return this.getRandom();
     }
 }

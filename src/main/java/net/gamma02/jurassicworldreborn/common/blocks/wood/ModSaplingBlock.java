@@ -3,9 +3,12 @@ package net.gamma02.jurassicworldreborn.common.blocks.wood;
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.BushBlock;
@@ -13,8 +16,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,9 +29,9 @@ import java.util.Random;
 public class ModSaplingBlock extends BushBlock implements BonemealableBlock {
 
     public static final IntegerProperty STAGE = BlockStateProperties.STAGE;
-    private final RegistryObject<Feature<NoneFeatureConfiguration>> feature;
+    private final Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> feature;
 
-    public ModSaplingBlock(RegistryObject<Feature<NoneFeatureConfiguration>> feature, Properties properties) {
+    public ModSaplingBlock(Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> feature, Properties properties) {
         super(properties);
         this.feature = feature;
 
@@ -40,11 +45,11 @@ public class ModSaplingBlock extends BushBlock implements BonemealableBlock {
     }
 
     @Override
-    public boolean isBonemealSuccess(Level world, Random rand, BlockPos pos, BlockState state) {
-        return (double)world.random.nextFloat() < 0.45D;
+    public boolean isBonemealSuccess(@NotNull Level world, RandomSource rand, @NotNull BlockPos pos, @NotNull BlockState state) {
+        return (double)rand.nextFloat() < 0.45f;
     }
 
-    public void randomTick(@NotNull BlockState state, ServerLevel world, BlockPos pos, @NotNull Random rand) {
+    public void randomTick(@NotNull BlockState state, ServerLevel world, BlockPos pos, @NotNull RandomSource rand) {
         if (world.getMaxLocalRawBrightness(pos.above()) >= 9 && rand.nextInt(7) == 0) {
             if (!world.isAreaLoaded(pos, 1)) return; // Forge: prevent loading unloaded chunks when checking neighbor's light <- lmaoooo hahahahaaaa
             this.advanceTree(world, pos, state, rand);
@@ -52,18 +57,18 @@ public class ModSaplingBlock extends BushBlock implements BonemealableBlock {
 
     }
 
-    public void advanceTree(ServerLevel world, BlockPos pos, BlockState state, Random rand) {
+    public void advanceTree(ServerLevel world, BlockPos pos, BlockState state, RandomSource rand) {
         if (state.getValue(STAGE) == 0) {
             world.setBlock(pos, state.cycle(STAGE), 4);
         } else {
-            if (!net.minecraftforge.event.ForgeEventFactory.saplingGrowTree(world, rand, pos)) return;
-            this.feature.get().place(NoneFeatureConfiguration.INSTANCE, world, world.getChunkSource().getGenerator(), rand, pos);
+            if (net.minecraftforge.event.ForgeEventFactory.blockGrowFeature( world, rand, pos, this.feature).getResult().equals(Event.Result.DENY)) return;
+            this.feature.get().place( world, world.getChunkSource().getGenerator(), rand, pos);
         }
 
     }
 
     @Override
-    public void performBonemeal(@NotNull ServerLevel world, @NotNull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
+    public void performBonemeal(@NotNull ServerLevel world, @NotNull RandomSource rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         this.advanceTree(world, pos, state, rand);
     }
 

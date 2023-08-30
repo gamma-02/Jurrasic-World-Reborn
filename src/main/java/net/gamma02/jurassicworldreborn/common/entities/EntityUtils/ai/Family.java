@@ -10,6 +10,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.entity.EntityLookup;
@@ -82,7 +83,7 @@ public class Family {
             centerZ = (this.home.getZ() / 2) + (centerZ / 2);
         }
         double centerDistance = entity.distanceToSqr(centerX, entity.getY(), centerZ);
-        Random random = entity.getRandom();
+        RandomSource random = entity.getRandom();
         if (random.nextDouble() * centerDistance > 128) {
             for (DinosaurEntity member : members) {
                 if (member.getAttackTarget() == null && member.getNavigation().isDone()) {

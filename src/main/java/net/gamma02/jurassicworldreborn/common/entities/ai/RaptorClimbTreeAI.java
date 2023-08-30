@@ -5,6 +5,7 @@ import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.Microrap
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -57,7 +58,7 @@ public class RaptorClimbTreeAI extends Goal {//this is a lot more complicated th
             return false;
         }
         BlockPos pos = new BlockPos(this.entity.getX(), this.entity.getBoundingBox().minY, this.entity.getZ());
-        Random rand = this.entity.getRNG();
+        RandomSource rand = this.entity.getRNG();
         for (int i = 0; i < 20; ++i) {
             BlockPos target = pos.offset(rand.nextInt(14) - 7, -5, rand.nextInt(14) - 7);
             for (int iteration = 0; iteration <= 15; iteration++) {
@@ -127,7 +128,7 @@ public class RaptorClimbTreeAI extends Goal {//this is a lot more complicated th
         if (this.reachedTarget) {
             BlockPos currentTrunk = new BlockPos(this.targetTrunk.getX(), this.entity.getY(), this.targetTrunk.getZ());
             if (!this.gliding && this.world.getBlockState(currentTrunk).isAir()) {
-                Random random = this.entity.getRNG();
+                RandomSource random = this.entity.getRNG();
                 if(random.nextFloat() < 0.3f) {
                     this.entity.push(-this.approachSide.getStepX() * 0.1F, 0.2F, -this.approachSide.getStepZ() * 0.1F);
                 } else {

@@ -5,6 +5,7 @@ import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
@@ -33,7 +34,7 @@ public class AncientPlantBlock extends BushBlock {
     public void onNeighborChange(BlockState state, LevelReader level, BlockPos pos, BlockPos neighbor) {
         //the LevelReader should always be a Level, so this should be safe:
         Level world = (Level)level;
-        Random rand = world.getRandom();
+        RandomSource rand = world.getRandom();
 //            if (GameRuleHandler.PLANT_SPREADING.getBoolean(world)) {todo SOON: gamerules
                 int light = world.getLightEmission(pos);
 

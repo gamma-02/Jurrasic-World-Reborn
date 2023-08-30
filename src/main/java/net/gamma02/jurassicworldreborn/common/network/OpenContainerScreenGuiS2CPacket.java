@@ -32,9 +32,9 @@ public class OpenContainerScreenGuiS2CPacket<B extends BlockEntity> {
 
         entityPos = new BlockPos(x, y, z);
         containerID = pContainerId;
-        menuId = ForgeRegistries.CONTAINERS.getKey(pMenuType);
+        menuId = ForgeRegistries.MENU_TYPES.getKey(pMenuType);
         title = pTitle;
-        intendedTypeLocation = ForgeRegistries.BLOCK_ENTITIES.getKey(intendedType);
+        intendedTypeLocation = ForgeRegistries.BLOCK_ENTITY_TYPES.getKey(intendedType);
 
     }
 
@@ -42,10 +42,10 @@ public class OpenContainerScreenGuiS2CPacket<B extends BlockEntity> {
 
         entityPos = pos;
         containerID = pContainerId;
-        menuId = pMenuType.getRegistryName();
+        menuId = ForgeRegistries.MENU_TYPES.getKey(pMenuType);
         System.out.println(menuId);
         title = pTitle;
-        intendedTypeLocation = ForgeRegistries.BLOCK_ENTITIES.getKey(intendedType);
+        intendedTypeLocation = ForgeRegistries.BLOCK_ENTITY_TYPES.getKey(intendedType);
 
     }
 
@@ -60,13 +60,13 @@ public class OpenContainerScreenGuiS2CPacket<B extends BlockEntity> {
         BlockPos pos = pBuffer.readBlockPos();
         int id = pBuffer.readVarInt();
         Component title = pBuffer.readComponent();
-        BlockEntityType<T> type = (BlockEntityType<T>) ForgeRegistries.BLOCK_ENTITIES.getValue(pBuffer.readResourceLocation());
+        BlockEntityType<T> type = (BlockEntityType<T>) ForgeRegistries.BLOCK_ENTITY_TYPES.getValue(pBuffer.readResourceLocation());
 
         String namespace = pBuffer.readUtf();
 
         ResourceLocation menuLoc = new ResourceLocation(namespace);
 
-        MenuType<?> menu = ForgeRegistries.CONTAINERS.getValue(menuLoc);
+        MenuType<?> menu = ForgeRegistries.MENU_TYPES.getValue(menuLoc);
 
 
 
@@ -79,15 +79,15 @@ public class OpenContainerScreenGuiS2CPacket<B extends BlockEntity> {
         Player player = Minecraft.getInstance().player;
         BlockEntity entity = Minecraft.getInstance().level != null ? Minecraft.getInstance().level.getBlockEntity(packet.entityPos) : null;
         if(entity != null){
-            if(entity.getType().getRegistryName().equals(packet.intendedTypeLocation) && ModScreens.has(ForgeRegistries.BLOCK_ENTITIES.getValue(packet.intendedTypeLocation)) && ModBlockEntities.modScreenTypes.modMenuSupplier.containsKey(packet.menuId)){
-                AbstractContainerScreen<?> screen = ModScreens.get(ForgeRegistries.BLOCK_ENTITIES.getValue(packet.intendedTypeLocation)).create(
+            if(ForgeRegistries.BLOCK_ENTITY_TYPES.getKey(entity.getType()).equals(packet.intendedTypeLocation) && ModScreens.has(ForgeRegistries.BLOCK_ENTITY_TYPES.getValue(packet.intendedTypeLocation)) && ModBlockEntities.modScreenTypes.modMenuSupplier.containsKey(packet.menuId)){
+                AbstractContainerScreen<?> screen = ModScreens.get(ForgeRegistries.BLOCK_ENTITY_TYPES.getValue(packet.intendedTypeLocation)).create(
                         ModBlockEntities.modScreenTypes.modMenuSupplier.get(packet.menuId).create(packet.containerID, player.getInventory(), entity),
                         player.getInventory(), packet.title, entity);
                 player.containerMenu = screen.getMenu();
                 Minecraft.getInstance().setScreen(screen);
 
             }else{
-                if(!ModScreens.has(ForgeRegistries.BLOCK_ENTITIES.getValue(packet.intendedTypeLocation))){
+                if(!ModScreens.has(ForgeRegistries.BLOCK_ENTITY_TYPES.getValue(packet.intendedTypeLocation))){
                     System.out.println("NOT REGISTERED IN MY CUSTOM REGISTERING SYSTEM!");
                 }
                 System.out.println("WRONG SCREEN OPEN PACKET RECIEVED. IGNORING.");

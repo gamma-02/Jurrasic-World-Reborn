@@ -2,18 +2,27 @@ package net.gamma02.jurassicworldreborn.common;
 
 
 import com.google.common.collect.ImmutableMap;
+import com.mojang.datafixers.Products;
+import com.mojang.datafixers.kinds.App;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.ModBlockEntities;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerMenu;
 import net.gamma02.jurassicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
+import net.gamma02.jurassicworldreborn.common.worldgen.BiomeModification;
 import net.gamma02.jurassicworldreborn.common.worldgen.OreVeinFeature;
 import net.gamma02.jurassicworldreborn.common.worldgen.tree.*;
 import net.gamma02.jurassicworldreborn.common.worldgen.tree.petrified.PetrifiedTreeConfig;
 import net.gamma02.jurassicworldreborn.common.worldgen.tree.petrified.PetrifiedTreeGenerator;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.Registry;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.properties.WoodType;
@@ -24,12 +33,13 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraft.world.level.material.MaterialColor;
-import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.*;
@@ -52,19 +62,49 @@ public class CommonRegistries {
 
     public static DeferredRegister<Feature<?>> modFeatures = DeferredRegister.create(ForgeRegistries.FEATURES, modid);
 
+
+    public static DeferredRegister<Codec<? extends BiomeModifier>> BIOME_MODIFIER_SEARLIZERS = DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, modid);
+
+    public static RegistryObject<Codec<BiomeModification>> FEATURES = BIOME_MODIFIER_SEARLIZERS.register("biome_modifications", () ->{
+        return RecordCodecBuilder.create(builder -> {
+            return builder.group(
+                    // declare fields
+                    (Biome.LIST_CODEC.fieldOf("biomes").forGetter(BiomeModification::biomes)),
+                    PlacedFeature.CODEC.fieldOf("feature").forGetter(BiomeModification::feature)
+                    // declare constructor
+            ).apply(builder, BiomeModification::new);
+
+        });
+    });
+
+
+
     public static Feature<OreConfiguration> FLORA_FOSSIL_ORE = new OreVeinFeature(OreConfiguration.CODEC);
 
     public static Feature<PetrifiedTreeConfig> PETRIFIED_TREE_GENERATOR = new PetrifiedTreeGenerator(PetrifiedTreeConfig.CODEC);
 
-    public static RegistryObject<Feature<NoneFeatureConfiguration>> AraucariaTreeFeature = modFeatures.register("araucaria_tree_feature", () -> new AraucariaTreeGenerator(NoneFeatureConfiguration.CODEC));
+    public static RegistryObject<Feature<NoneFeatureConfiguration>> AraucariaTreePreFeature = modFeatures.register("araucaria_tree_pre_feature", () -> new AraucariaTreeGenerator(NoneFeatureConfiguration.CODEC));
 
-    public static RegistryObject<Feature<NoneFeatureConfiguration>> GinkgoTreeFeature = modFeatures.register("ginkgo_tree_feature", () -> new GinkgoTreeGenerator(NoneFeatureConfiguration.CODEC));
+    public static RegistryObject<Feature<NoneFeatureConfiguration>> GinkgoTreePreFeature = modFeatures.register("ginkgo_tree_pre_feature", () -> new GinkgoTreeGenerator(NoneFeatureConfiguration.CODEC));
 
-    public static RegistryObject<Feature<NoneFeatureConfiguration>> CalamitesTreeFeature = modFeatures.register("calamites_tree_feature", () -> new CalamitesTreeGenerator(NoneFeatureConfiguration.CODEC));
+    public static RegistryObject<Feature<NoneFeatureConfiguration>> CalamitesTreePreFeature = modFeatures.register("calamites_tree_pre_feature", () -> new CalamitesTreeGenerator(NoneFeatureConfiguration.CODEC));
 
-    public static RegistryObject<Feature<NoneFeatureConfiguration>> PhoenixTreeFeature = modFeatures.register("phoenix_tree_feature", () -> new PhoenixTreeGenerator(NoneFeatureConfiguration.CODEC));
+    public static RegistryObject<Feature<NoneFeatureConfiguration>> PhoenixTreePreFeature = modFeatures.register("phoenix_tree_pre_feature", () -> new PhoenixTreeGenerator(NoneFeatureConfiguration.CODEC));
 
-    public static RegistryObject<Feature<NoneFeatureConfiguration>> PsaroniusTreeFeature = modFeatures.register("psaronius_tree_feature", () -> new PsaroniusTreeGenerator(NoneFeatureConfiguration.CODEC));
+    public static RegistryObject<Feature<NoneFeatureConfiguration>> PsaroniusTreePreFeature = modFeatures.register("psaronius_tree_pre_feature", () -> new PsaroniusTreeGenerator(NoneFeatureConfiguration.CODEC));
+
+    public static Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> AraucariaTreeFeature = FeatureUtils.register("araucaria_tree_feature", AraucariaTreePreFeature.get(),  new NoneFeatureConfiguration());
+
+    public static Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> GinkgoTreeFeature = FeatureUtils.register("ginkgo_tree_feature", GinkgoTreePreFeature.get(),  new NoneFeatureConfiguration());
+
+    public static Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> CalamitesTreeFeature = FeatureUtils.register("calamites_tree_feature", CalamitesTreePreFeature.get(),  new NoneFeatureConfiguration());
+
+    public static Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> PhoenixTreeFeature = FeatureUtils.register("phoenix_tree_feature", PhoenixTreePreFeature.get(),  new NoneFeatureConfiguration());
+
+    public static Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> PsaroniusTreeFeature = FeatureUtils.register("psaronius_tree_feature", PsaroniusTreePreFeature.get(),  new NoneFeatureConfiguration());
+
+
+
 
     public static Holder<ConfiguredFeature<OreConfiguration, ?>> CONFIGURED_FLORA_FOSSIL;
 
@@ -100,10 +140,12 @@ public class CommonRegistries {
 
 
     @SubscribeEvent
-    public static void blockRegisteringEvent(final RegistryEvent.Register<Feature<?>> evt){
-        FLORA_FOSSIL_ORE.setRegistryName(resource("flora_fossil_ore"));
-        PETRIFIED_TREE_GENERATOR.setRegistryName(resource("petrified_tree_generation_feature"));
-        evt.getRegistry().registerAll(FLORA_FOSSIL_ORE, PETRIFIED_TREE_GENERATOR);
+    public static void blockRegisteringEvent(final RegisterEvent evt){
+        evt.register(ForgeRegistries.Keys.FEATURES, (featureRegisterHelper -> {
+            featureRegisterHelper.register(resource("flora_fossil_ore"), FLORA_FOSSIL_ORE);
+            featureRegisterHelper.register(resource("petrified_tree_generation_feature"), PETRIFIED_TREE_GENERATOR);
+        }));
+
     }
 
     @SubscribeEvent

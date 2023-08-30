@@ -13,7 +13,15 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraftforge.common.BiomeDictionary;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Stream;
+
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.BiomeTags;
+import net.minecraft.tags.TagKey;
+import net.minecraftforge.common.Tags;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraft.world.entity.player.Player;
 
 
@@ -57,10 +65,18 @@ public class CoelacanthDinosaur extends Dinosaur {
         this.setRecipe(recipe);
         
         ArrayList<ResourceKey<Biome>> biomeList = new ArrayList<>();
-        biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.OCEAN));
-        biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.WATER));
-        biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.RIVER));
+        Stream<TagKey<Biome>> tags = Arrays.stream(new TagKey[]{Tags.Biomes.IS_WATER, BiomeTags.IS_OCEAN, BiomeTags.IS_RIVER});
+        ArrayList<Biome> allBiomes = new ArrayList<>(ForgeRegistries.BIOMES.getValues());
+
+        for (Biome biome:
+                allBiomes) {
+            var key = ForgeRegistries.BIOMES.getResourceKey(biome);
+            if(key.isPresent() && tags.anyMatch((tag) -> ForgeRegistries.BIOMES.tags().getTag(tag).contains(biome))){
+                biomeList.add(key.get());
+            }
+        }
         this.setSpawn(1, biomeList);
+
         this.enableSkeleton();
     }
 

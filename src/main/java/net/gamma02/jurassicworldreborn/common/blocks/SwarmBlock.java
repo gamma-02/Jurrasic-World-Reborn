@@ -4,6 +4,7 @@ import net.gamma02.jurassicworldreborn.common.items.misc.SwarmItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -77,7 +78,7 @@ public class SwarmBlock extends Block {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random rand) {
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource rand) {
         super.randomTick(state, world, pos, rand);
         this.checkForDrop(world, pos, state);
         if (rand.nextInt(10) == 0) {

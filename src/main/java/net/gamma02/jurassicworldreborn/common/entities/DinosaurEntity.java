@@ -1339,14 +1339,14 @@ public abstract class DinosaurEntity extends PathfinderMob implements IEntityAdd
 //                    player.(this.inventory); todo: inventories
                      } else {
                     if (this.level.isClientSide) {
-//                        TranslatableComponent denied = new TranslatableComponent("message.too_young.name");todo: translations
+//                        TranslatableContents denied = new TranslatableContents("message.too_young.name");todo: translations
 //                        denied.getStyle().applyFormat(ChatFormatting.RED);
 //                        Minecraft.getInstance().player.sendMessage(denied, null);
                     }
                 }
             } else {
                 if (this.level.isClientSide) {
-//                    TranslatableComponent denied = new TranslatableComponent("message.not_owned.name");todo: translations
+//                    TranslatableContents denied = new TranslatableContents("message.not_owned.name");todo: translations
 //                    denied.getStyle().applyFormat(ChatFormatting.RED);
 //                    Minecraft.getInstance().player.sendMessage(denied, null);
                 }
@@ -1356,7 +1356,7 @@ public abstract class DinosaurEntity extends PathfinderMob implements IEntityAdd
                 if (this.isOwner(player)) {
 //                    RebornMod.NETWORK_WRAPPER.sendToServer(new BiPacketOrder(this)); todo: networking
                 } else {
-//                    TranslatableComponent denied = new TranslatableComponent(/*"message.not_owned.name"*/"");todo: translations
+//                    TranslatableContents denied = new TranslatableContents(/*"message.not_owned.name"*/"");todo: translations
 //                    denied.getStyle().applyFormat(ChatFormatting.RED);
 //                    Minecraft.getInstance().player.sendMessage(denied, null);
                 }

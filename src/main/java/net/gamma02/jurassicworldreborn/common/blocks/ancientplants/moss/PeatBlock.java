@@ -3,6 +3,7 @@ package net.gamma02.jurassicworldreborn.common.blocks.ancientplants.moss;
 import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
@@ -26,7 +27,7 @@ public class PeatBlock extends Block {
 
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random rand) {
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource rand) {
         int moisture = state.getValue(MOISTURE);
 
         if (!this.hasWater(world, pos) && !world.isRainingAt(pos.above()) && !(world.getBiome(pos).is(Biomes.SWAMP))) {

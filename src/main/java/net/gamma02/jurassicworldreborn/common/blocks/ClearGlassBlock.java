@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.Property;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -135,7 +136,7 @@ public class ClearGlassBlock extends GlassBlock {
 //    }
 
     public static void printState(BlockState state){
-        System.out.print(" Block: " + Objects.requireNonNull(state.getBlock().getRegistryName()) + ", Properties: ");
+        System.out.print(" Block: " + Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(state.getBlock())) + ", Properties: ");
         for(Property<?> p : state.getProperties()){
             System.out.print(p.getName() + ": " + state.getValue(p) + " ");
         }

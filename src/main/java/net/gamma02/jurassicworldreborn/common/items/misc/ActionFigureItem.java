@@ -29,7 +29,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.IItemRenderProperties;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
 import javax.annotation.Nullable;
 import java.util.function.Consumer;
@@ -39,14 +39,16 @@ public class ActionFigureItem extends Item {
         super(properties);
     }
 
+
+
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void initializeClient(Consumer<IItemRenderProperties> consumer) {
+    public void initializeClient(Consumer consumer) {
         super.initializeClient(consumer);
-        IItemRenderProperties prop = new IItemRenderProperties() {
+        IClientItemExtensions prop = new IClientItemExtensions() {
             @Override
-            public BlockEntityWithoutLevelRenderer getItemStackRenderer() {
-                return IItemRenderProperties.super.getItemStackRenderer();
+            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+                return IClientItemExtensions.super.getCustomRenderer();
             }
         };
         consumer.accept(prop);//jankiest shit ive seen please work - gamma

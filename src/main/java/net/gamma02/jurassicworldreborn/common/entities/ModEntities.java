@@ -20,7 +20,7 @@ import static net.gamma02.jurassicworldreborn.Jurassicworldreborn.modid;
 public class ModEntities {
     public static HashMap<Dinosaur, Bone.BoneGroup> boneMap = new HashMap<>();
 
-    public static DeferredRegister<EntityType<?>> MOD_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITIES, modid);
+    public static DeferredRegister<EntityType<?>> MOD_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, modid);
 
     public static RegistryObject<EntityType<VenomEntity>> VenomType = MOD_ENTITY_TYPES.<EntityType<VenomEntity>>register("venom_entity", () -> EntityType.Builder.<VenomEntity>of(VenomEntity::new, MobCategory.MISC).build("venom_entity"));
 

@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelSimulatedReader;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.*;
@@ -34,7 +35,7 @@ public class AraucariaTreeGenerator extends Feature<NoneFeatureConfiguration> {
         BlockState log = DynamicWoodTypeRegistry.getProductFromWoodType(CommonRegistries.AraucariaType, DynamicWoodTypeRegistry.ProductType.LOG).defaultBlockState();
         BlockState leaves = DynamicWoodTypeRegistry.getProductFromWoodType(CommonRegistries.AraucariaType, DynamicWoodTypeRegistry.ProductType.LEAVES).defaultBlockState();
         BlockPos position = p_159749_.origin();
-        Random rand = p_159749_.random();
+        RandomSource rand = p_159749_.random();
 
         this.setBlockState(world, position, log);
 

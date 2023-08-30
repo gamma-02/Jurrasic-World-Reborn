@@ -5,6 +5,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 public class CleanerMenu extends AbstractContainerMenu {
@@ -84,6 +85,11 @@ public class CleanerMenu extends AbstractContainerMenu {
         this.playerInv = inventory;
     }
 
+
+    @Override
+    public ItemStack quickMoveStack(Player pPlayer, int pIndex) {
+        return null;
+    }
 
     @Override
     public boolean stillValid(Player pPlayer) {

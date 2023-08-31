@@ -9,8 +9,8 @@
     "LivingEntityMixin"
   ],
   "client": [
-    "LivingEntityRendererMixin",
-    "MinecraftMixin"
+    "DisplayBlockMixin",
+    "LivingEntityRendererMixin"
   ],
   "server": [
   ],

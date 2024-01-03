@@ -86,7 +86,7 @@ public class Jurassicworldreborn {
 
     public static Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> CONFIGURED_CALAMITES;
 
-    public static Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> CONFIGURED_PHEONIX;
+    public static Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> CONFIGURED_PHOENIX;
 
     public static Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> CONFIGURED_PSARONIUS;
 
@@ -165,7 +165,7 @@ public class Jurassicworldreborn {
 //        CONFIGURED_ARAUCARIA = FeatureUtils.register("jurassicworldreborn:configured_araucria_feature", AraucariaTreeFeature, NoneFeatureConfiguration.INSTANCE);
 //        CONFIGURED_GINKGO = FeatureUtils.register("jurassicworldreborn:configured_ginkgo_feature", GinkgoTreeFeature, NoneFeatureConfiguration.INSTANCE);
 //        CONFIGURED_CALAMITES = FeatureUtils.register("jurassicworldreborn:configured_calamites_feature", CalamitesTreeFeature, NoneFeatureConfiguration.INSTANCE);
-//        CONFIGURED_PHEONIX = FeatureUtils.register("jurassicworldreborn:configured_pheonix_feature", PheonixTreeFeature, NoneFeatureConfiguration.INSTANCE);
+//        CONFIGURED_PHOENIX = FeatureUtils.register("jurassicworldreborn:configured_phoenix_feature", PhoenixTreeFeature, NoneFeatureConfiguration.INSTANCE);
 //        CONFIGURED_PSARONIUS = FeatureUtils.register("jurassicworldreborn:configured_psaronius_feature", PsaroniusTreeFeature, NoneFeatureConfiguration.INSTANCE);
 
         FMLJavaModLoadingContext.get().getModEventBus().register(this.getClass());

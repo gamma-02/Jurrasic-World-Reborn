@@ -2,6 +2,7 @@ package net.gamma02.jurassicworldreborn.common.worldgen.tree;
 
 import com.mojang.serialization.Codec;
 import net.gamma02.jurassicworldreborn.common.CommonRegistries;
+import net.gamma02.jurassicworldreborn.common.blocks.wood.AncientLeavesBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
@@ -13,8 +14,6 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.material.Material;
 
-import java.util.Random;
-
 public class PsaroniusTreeGenerator extends Feature<NoneFeatureConfiguration> {
 
     public PsaroniusTreeGenerator(Codec<NoneFeatureConfiguration> codec) {
@@ -24,19 +23,26 @@ public class PsaroniusTreeGenerator extends Feature<NoneFeatureConfiguration> {
     @Override
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
         BlockState log = DynamicWoodTypeRegistry.getProductFromWoodType(CommonRegistries.PsaroniusType, DynamicWoodTypeRegistry.ProductType.LOG).defaultBlockState();
-        BlockState leaves = DynamicWoodTypeRegistry.getProductFromWoodType(CommonRegistries.PsaroniusType, DynamicWoodTypeRegistry.ProductType.LEAVES).defaultBlockState();
+        BlockState leaves = DynamicWoodTypeRegistry.getProductFromWoodType(CommonRegistries.PsaroniusType, DynamicWoodTypeRegistry.ProductType.LEAVES).defaultBlockState().setValue(AncientLeavesBlock.DISTANCE, 1);
 
         WorldGenLevel world = context.level();
         RandomSource rand = context.random();
         BlockPos position = context.origin();
 
-        this.setBlockState(world, position, log);
+
         
         
         
         int scale = rand.nextInt(1) + 1;
         int height = scale + 6 + rand.nextInt(2);
         BlockPos topPosition = position.above(height);
+
+        if(!this.canPlace(context, height, scale))
+            return false;
+
+        world.setBlock(position, log, 19);
+
+
         for (int y = 0; y < height; y++) {
             BlockPos logPosition = position.above(y);
             this.setBlockState(world, logPosition, log);
@@ -74,6 +80,37 @@ public class PsaroniusTreeGenerator extends Feature<NoneFeatureConfiguration> {
                 }
             }
         }
+    }
+
+    private boolean canPlace(FeaturePlaceContext<NoneFeatureConfiguration> pContext, int height, int branchHeight) {
+
+        BlockPos.MutableBlockPos min = pContext.origin().mutable();
+
+        min.move(-3, branchHeight, -3);
+
+        BlockPos.MutableBlockPos max = pContext.origin().mutable();
+
+        max.move(3, height+4, 3);
+
+        for(int y = 0; y < branchHeight+5; y++){
+            if(!TreePlaceUtil.validTreePos(pContext.level(), pContext.origin().above(y))){
+                return false;
+            }
+        }
+
+
+        for (int x = min.getX(); x < max.getX(); x++) {
+            for (int y = min.getY(); y < max.getY(); y++) {
+                for (int z = min.getZ(); z < max.getZ(); z++) {
+                    if(!TreePlaceUtil.validTreePos(pContext.level(), new BlockPos(x, y, z))){
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+
     }
 
     private void setBlockState(WorldGenLevel world, BlockPos pos, BlockState state) {

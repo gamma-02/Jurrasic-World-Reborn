@@ -53,8 +53,6 @@ public class DNACombinatorHybridizerScreen extends AbstractContainerScreen<DNACo
         super.init();
         int xSize = this.leftPos;
         int ySize = this.topPos;
-        int guiX = (this.width - xSize) / 2;
-        int guiY = (this.height - ySize) / 2;
 
 
 

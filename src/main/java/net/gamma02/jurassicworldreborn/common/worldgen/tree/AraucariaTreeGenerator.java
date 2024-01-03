@@ -2,26 +2,18 @@ package net.gamma02.jurassicworldreborn.common.worldgen.tree;
 
 import com.mojang.serialization.Codec;
 import net.gamma02.jurassicworldreborn.common.CommonRegistries;
+import net.gamma02.jurassicworldreborn.common.blocks.wood.AncientLeavesBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
-
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.LevelSimulatedReader;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.grower.AbstractTreeGrower;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.material.Material;
-import net.minecraftforge.common.Tags;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Random;
 
 public class AraucariaTreeGenerator extends Feature<NoneFeatureConfiguration> {
     public AraucariaTreeGenerator(Codec<NoneFeatureConfiguration> codec) {
@@ -30,17 +22,27 @@ public class AraucariaTreeGenerator extends Feature<NoneFeatureConfiguration> {
 
 
     @Override
-    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> p_159749_) {
-        WorldGenLevel world = p_159749_.level();
-        BlockState log = DynamicWoodTypeRegistry.getProductFromWoodType(CommonRegistries.AraucariaType, DynamicWoodTypeRegistry.ProductType.LOG).defaultBlockState();
-        BlockState leaves = DynamicWoodTypeRegistry.getProductFromWoodType(CommonRegistries.AraucariaType, DynamicWoodTypeRegistry.ProductType.LEAVES).defaultBlockState();
-        BlockPos position = p_159749_.origin();
-        RandomSource rand = p_159749_.random();
+    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> pContext) {
 
-        this.setBlockState(world, position, log);
+
+
+        WorldGenLevel world = pContext.level();
+        BlockState log = DynamicWoodTypeRegistry.getProductFromWoodType(CommonRegistries.AraucariaType, DynamicWoodTypeRegistry.ProductType.LOG).defaultBlockState();
+        BlockState leaves = DynamicWoodTypeRegistry.getProductFromWoodType(CommonRegistries.AraucariaType, DynamicWoodTypeRegistry.ProductType.LEAVES).defaultBlockState().setValue(AncientLeavesBlock.DISTANCE, 1);
+
+        BlockPos position = pContext.origin();
+        RandomSource rand = pContext.random();
+
 
         int height = rand.nextInt(15) + 10;
         int branchHeight = (int) (height / 1.3);
+
+        if(!this.canPlace(pContext, height, branchHeight)){
+            return false;
+        }
+
+        world.setBlock(position, log, 19);
+
         for (int y = 0; y < height; y++) {
             BlockPos logPos = position.above(y);
             world.setBlock(logPos, log, 19);
@@ -70,6 +72,37 @@ public class AraucariaTreeGenerator extends Feature<NoneFeatureConfiguration> {
         }
         this.generateClump(world, position.above(height + 2), 16, 3.5, leaves);
         return true;
+    }
+
+    private boolean canPlace(FeaturePlaceContext<NoneFeatureConfiguration> pContext, int height, int branchHeight) {
+
+        BlockPos.MutableBlockPos min = pContext.origin().mutable();
+
+        min.move(-6, branchHeight, -6);
+
+        BlockPos.MutableBlockPos max = pContext.origin().mutable();
+
+        max.move(6, height+4, 6);
+
+        for(int y = 0; y < branchHeight; y++){
+            if(!TreePlaceUtil.validTreePos(pContext.level(), pContext.origin().above(y))){
+                return false;
+            }
+        }
+
+
+        for (int x = min.getX(); x < max.getX(); x++) {
+            for (int y = min.getY(); y < max.getY(); y++) {
+                for (int z = min.getZ(); z < max.getZ(); z++) {
+                    if(!TreePlaceUtil.validTreePos(pContext.level(), new BlockPos(x, y, z))){
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+
     }
 
     private void generateClump(WorldGenLevel world, BlockPos pos, double size, BlockState state) {

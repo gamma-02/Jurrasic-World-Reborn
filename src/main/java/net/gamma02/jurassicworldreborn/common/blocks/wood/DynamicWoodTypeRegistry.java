@@ -116,7 +116,7 @@ public class DynamicWoodTypeRegistry {
         } else if (type.equals(CommonRegistries.GinkgoType)) {
             return ModBlocks.GinkgoSapling.get();
         } else if (type.equals(CommonRegistries.PhoenixType)) {
-            return ModBlocks.PheonixSapling.get();
+            return ModBlocks.PhoenixSapling.get();
         }
         return null;
     }
@@ -269,14 +269,14 @@ public class DynamicWoodTypeRegistry {
         SIGN("sign", 12, null, new ArrayList<>(Blocks.OAK_SIGN.getStateDefinition().getProperties()), (standing, wall) -> new SignItem(new Item.Properties().tab(TabHandler.BLOCKS), standing, wall)),
         WALL_SIGN("wall_sign", 13, null, new ArrayList<>(Blocks.OAK_WALL_SIGN.getStateDefinition().getProperties()), (standing, wall) -> null),
         LEAVES("leaves", 14, (color) -> {
-            return new LeavesBlock(BlockBehaviour.Properties.of(Material.LEAVES).strength(0.2F).randomTicks().sound(SoundType.GRASS).noOcclusion().isValidSpawn(ProductType::ocelotOrParrot).isSuffocating(ProductType::no).isViewBlocking(ProductType::no));
+            return new AncientLeavesBlock(BlockBehaviour.Properties.of(Material.LEAVES).strength(0.2F).randomTicks().sound(SoundType.GRASS).noOcclusion().isValidSpawn(ProductType::ocelotOrParrot).isSuffocating(ProductType::falsePredicate).isViewBlocking(ProductType::falsePredicate));
         }, new ArrayList<Property<?>>(Blocks.OAK_LEAVES.getStateDefinition().getProperties()), (block) -> new BlockItem(block, new Item.Properties().tab(TabHandler.BLOCKS))),
         PETRIFIED_LOG("petrified_log", 15, (color) -> {
             return log(color.getB(), color.getA());
         }, new ArrayList<Property<?>>(Collections.singleton(RotatedPillarBlock.AXIS)), (block) -> new BlockItem(block, new Item.Properties().tab(TabHandler.BLOCKS))),
         STAIRS("stairs", 16, null, new ArrayList<>(Blocks.OAK_STAIRS.getStateDefinition().getProperties()), (block) -> new BlockItem(block, new Item.Properties().tab(TabHandler.BLOCKS)));
 
-        private static boolean no(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos) {
+        private static boolean falsePredicate(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos) {
             return false;
         }
 
@@ -295,7 +295,7 @@ public class DynamicWoodTypeRegistry {
             this.index = index;
 
             this.getBlock = getBlock;
-            this.properties = new ArrayList<Property<?>>(properties);
+            this.properties = new ArrayList<>(properties);
             this.itemFunction = getItem;
             this.signItemFunction = null;
         }
@@ -305,7 +305,7 @@ public class DynamicWoodTypeRegistry {
             this.index = index;
 
             this.getBlock = getBlock;
-            this.properties = new ArrayList<Property<?>>(properties);
+            this.properties = new ArrayList<>(properties);
             this.signItemFunction = getItem;
             this.itemFunction = null;
 

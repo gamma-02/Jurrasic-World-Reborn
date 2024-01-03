@@ -8,7 +8,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.BushBlock;
@@ -17,14 +16,13 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
 import java.util.function.Supplier;
 
 public class ModSaplingBlock extends BushBlock implements BonemealableBlock {
@@ -32,12 +30,16 @@ public class ModSaplingBlock extends BushBlock implements BonemealableBlock {
     public static final IntegerProperty STAGE = BlockStateProperties.STAGE;
     private final Supplier<Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>>> feature;
 
+    protected static final VoxelShape SAPLING_SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 12.0D, 14.0D);
+
+
     public ModSaplingBlock(Supplier<Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>>> feature, Properties properties) {
         super(properties);
         this.feature = feature;
 
         this.registerDefaultState(this.stateDefinition.any().setValue(STAGE, 0));
-        Jurassicworldreborn.setRenderType(this, RenderType.cutoutMipped());
+
+        Jurassicworldreborn.setRenderType(this, RenderType.cutout());
     }
 
     @Override
@@ -76,5 +78,10 @@ public class ModSaplingBlock extends BushBlock implements BonemealableBlock {
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> p_56001_) {
         p_56001_.add(STAGE);
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+        return SAPLING_SHAPE;
     }
 }

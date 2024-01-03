@@ -47,7 +47,7 @@ public class ModItems {
 
 //    public static RegistryObject<Item> CALAMITES_SAPLING = modBlockItems.register("calamites_sapling", () -> new BlockItem(ModBlocks.CalamitesSapling.get(), new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)));
 
-//    public static RegistryObject<Item> PHEONIX_SAPLING = modBlockItems.register("pheonix_sapling", () -> new BlockItem(ModBlocks.PheonixSapling.get(), new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)));
+//    public static RegistryObject<Item> PHOENIX_SAPLING = modBlockItems.register("phoenix_sapling", () -> new BlockItem(ModBlocks.PhoenixSapling.get(), new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)));
 
 //    public static RegistryObject<Item> PSARONIUS_SAPLING = modBlockItems.register("psarons_sapling", () -> new BlockItem(ModBlocks.PsaroniusSapling.get(), new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)));
 //

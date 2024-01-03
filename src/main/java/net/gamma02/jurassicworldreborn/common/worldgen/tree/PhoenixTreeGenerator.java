@@ -2,6 +2,7 @@ package net.gamma02.jurassicworldreborn.common.worldgen.tree;
 
 import com.mojang.serialization.Codec;
 import net.gamma02.jurassicworldreborn.common.CommonRegistries;
+import net.gamma02.jurassicworldreborn.common.blocks.wood.AncientLeavesBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
@@ -13,8 +14,6 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.material.Material;
 
-import java.util.Random;
-
 public class PhoenixTreeGenerator extends Feature<NoneFeatureConfiguration> {
     public PhoenixTreeGenerator(Codec<NoneFeatureConfiguration> p_65786_) {
         super(p_65786_);
@@ -24,14 +23,19 @@ public class PhoenixTreeGenerator extends Feature<NoneFeatureConfiguration> {
     @Override
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> ctx) {
         BlockState log = DynamicWoodTypeRegistry.getProductFromWoodType(CommonRegistries.PhoenixType, DynamicWoodTypeRegistry.ProductType.LOG).defaultBlockState();
-        BlockState leaves = DynamicWoodTypeRegistry.getProductFromWoodType(CommonRegistries.PhoenixType, DynamicWoodTypeRegistry.ProductType.LEAVES).defaultBlockState();;
+        BlockState leaves = DynamicWoodTypeRegistry.getProductFromWoodType(CommonRegistries.PhoenixType, DynamicWoodTypeRegistry.ProductType.LEAVES).defaultBlockState().setValue(AncientLeavesBlock.DISTANCE, 1);
         
         WorldGenLevel world = ctx.level();
         RandomSource rand = ctx.random();
         BlockPos position = ctx.origin();
-        this.setBlockState(world, position, log);
+
 
         int height = rand.nextInt(6) + 7;
+
+        if(!this.canPlace(ctx, height, height))
+            return false;
+
+        world.setBlock(position, log, 19);
 
         for (int y = 0; y < height; y++) {
             this.setBlockState(world, position.above(y), log);
@@ -122,6 +126,37 @@ public class PhoenixTreeGenerator extends Feature<NoneFeatureConfiguration> {
         this.setBlockState(world, position.offset(-3, height + 1, -3), leaves);
 
         return true;
+    }
+
+    private boolean canPlace(FeaturePlaceContext<NoneFeatureConfiguration> pContext, int height, int branchHeight) {
+
+        BlockPos.MutableBlockPos min = pContext.origin().mutable();
+
+        min.move(-4, branchHeight, -4);
+
+        BlockPos.MutableBlockPos max = pContext.origin().mutable();
+
+        max.move(4, height+4, 4);
+
+        for(int y = 0; y < branchHeight; y++){
+            if(!TreePlaceUtil.validTreePos(pContext.level(), pContext.origin().above(y))){
+                return false;
+            }
+        }
+
+
+        for (int x = min.getX(); x < max.getX(); x++) {
+            for (int y = min.getY(); y < max.getY(); y++) {
+                for (int z = min.getZ(); z < max.getZ(); z++) {
+                    if(!TreePlaceUtil.validTreePos(pContext.level(), new BlockPos(x, y, z))){
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+
     }
 
     private void setBlockState(WorldGenLevel world, BlockPos pos, BlockState state) {

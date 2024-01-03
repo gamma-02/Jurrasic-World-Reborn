@@ -4,6 +4,7 @@ import com.github.alexthe666.citadel.animation.Animation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
 import net.gamma02.jurassicworldreborn.common.entities.ai.HurtByTargetGoal;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.animal.Animal;
@@ -16,7 +17,7 @@ public class HerrerasaurusEntity extends DinosaurEntity
 {
     public HerrerasaurusEntity(Level world, EntityType<HerrerasaurusEntity> type)
     {
-        super(world, type);
+        super(world, type, DinosaurHandler.HERRERASAURUS);
         this.target(AchillobatorEntity.class, SpinoraptorEntity.class, SmilodonEntity.class, TitanisEntity.class, MegatheriumEntity.class, ArsinoitheriumEntity.class, AlligatorGarEntity.class, AlvarezsaurusEntity.class, BeelzebufoEntity.class, VelociraptorBlueEntity.class, VelociraptorCharlieEntity.class, ChasmosaurusEntity.class, ChilesaurusEntity.class, CoelurusEntity.class, CompsognathusEntity.class, CrassigyrinusEntity.class, VelociraptorDeltaEntity.class, DilophosaurusEntity.class, DodoEntity.class, DiplocaulusEntity.class, VelociraptorEchoEntity.class, GallimimusEntity.class, GuanlongEntity.class, HyaenodonEntity.class, HypsilophodonEntity.class, LeaellynasauraEntity.class, LeptictidiumEntity.class, MegapiranhaEntity.class, MetriacanthosaurusEntity.class, MicroceratusEntity.class, MicroraptorEntity.class, MussaurusEntity.class, OrnithomimusEntity.class, OthnieliaEntity.class, OviraptorEntity.class, PostosuchusEntity.class, ProtoceratopsEntity.class, SegisaurusEntity.class, TroodonEntity.class, VelociraptorEntity.class, PachycephalosaurusEntity.class, Player.class
 , Animal.class, Villager.class);
         this.addTask(1, new HurtByTargetGoal(this,  Player.class
@@ -52,3 +53,4 @@ public class HerrerasaurusEntity extends DinosaurEntity
         return null;
     }
 }
+

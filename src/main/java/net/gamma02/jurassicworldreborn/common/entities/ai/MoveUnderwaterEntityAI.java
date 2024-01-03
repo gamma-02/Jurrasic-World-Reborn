@@ -1,7 +1,7 @@
 package net.gamma02.jurassicworldreborn.common.entities.ai;
 
-import net.gamma02.jurassicworldreborn.common.entities.SwimmingDinosaurEntity;
-import net.minecraft.world.entity.ai.goal.Goal;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
+import net.gamma02.jurassicworldreborn.common.entities.SwimmingDinosaurEntity;import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.util.AirAndWaterRandomPos;
 import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.entity.ai.util.RandomPos;

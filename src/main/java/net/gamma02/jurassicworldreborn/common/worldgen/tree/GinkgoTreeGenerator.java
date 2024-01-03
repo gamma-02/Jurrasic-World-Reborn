@@ -51,7 +51,7 @@ public class GinkgoTreeGenerator extends Feature<NoneFeatureConfiguration> {
                     }
                 }
 
-                int bushSize = (int) (branchLength * 0.8);
+                int bushSize = (int) (branchLength * 1.8);
 
                 for (int x = -bushSize; x <= bushSize; x++) {
                     for (int z = -bushSize; z <= bushSize; z++) {

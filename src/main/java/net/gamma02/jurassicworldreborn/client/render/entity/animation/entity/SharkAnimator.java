@@ -10,7 +10,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class SharkAnimator extends EntityAnimator<SharkEntity> {
     @Override
-    protected void performAnimations(AnimatableModel model, SharkEntity entity, float f, float f1, float ticks, float rotationYaw, float rotationPitch, float scale) {
+    protected void performAnimations(AnimatableModel model, SharkEntity entity, float swing, float swingAmount, float ticks, float rotationYaw, float rotationPitch, float scale) {
         AdvancedModelBox leftFlipper = model.getCube("LeftFin1");
         AdvancedModelBox rightFlipper = model.getCube("RightFin1");
         AdvancedModelBox tail5 = model.getCube("Tail5");
@@ -22,7 +22,7 @@ public class SharkAnimator extends EntityAnimator<SharkEntity> {
 
         AdvancedModelBox[] body = new AdvancedModelBox[] { tail5, tail4, tail3, tail2, tail1, body1 };
 
-        model.chainSwing(body, 1F, 0.3514F, -3, f, f1);
+        model.chainSwing(body, 1F, 0.3514F, -3, swing, swingAmount);
 
         model.walk(rightFlipper, 0.25F, 0.2F, false, 0F, 0F, ticks, 0.005F);
         model.walk(leftFlipper, 0.25F, 0.2F, false, 0F, 0F, ticks, 0.005F);

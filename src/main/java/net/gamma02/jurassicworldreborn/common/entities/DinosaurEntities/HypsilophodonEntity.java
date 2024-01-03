@@ -4,6 +4,7 @@ import com.github.alexthe666.citadel.animation.Animation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.entity.EntityType;
@@ -12,7 +13,7 @@ public class HypsilophodonEntity extends DinosaurEntity
 {
     public HypsilophodonEntity(Level world, EntityType<HypsilophodonEntity> type)
     {
-        super(world, type);
+        super(world, type, DinosaurHandler.HYPSILOPHODON);
     }
 
     @Override
@@ -36,3 +37,4 @@ public class HypsilophodonEntity extends DinosaurEntity
         return 0.62F;
     }
 }
+

@@ -4,6 +4,7 @@ import com.github.alexthe666.citadel.animation.Animation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
 import net.gamma02.jurassicworldreborn.common.entities.ai.BirdPreenAnimationAI;
 import net.gamma02.jurassicworldreborn.common.entities.ai.LeapingMeleeEntityAI;
 import net.gamma02.jurassicworldreborn.common.entities.ai.RaptorClimbTreeAI;
@@ -42,7 +43,7 @@ public class MicroraptorEntity extends DinosaurEntity {
     private Vec3 glidingPos;
 
     public MicroraptorEntity(Level world, EntityType<MicroraptorEntity> type) {
-        super(world, type);
+        super(world, type, DinosaurHandler.MICRORAPTOR);
         this.target(Chicken.class, Rabbit.class, CompsognathusEntity.class, HypsilophodonEntity.class, LeptictidiumEntity.class, MicroceratusEntity.class, OthnieliaEntity.class);
         this.addTask(1, new LeapingMeleeEntityAI(this, this.dinosaur.getAttackSpeed()));
         this.addTask(2, new RaptorClimbTreeAI(this, 1.0f));//why the raptors be climbin tho - gamma_02
@@ -305,3 +306,4 @@ public class MicroraptorEntity extends DinosaurEntity {
         return this.getRandom();
     }
 }
+

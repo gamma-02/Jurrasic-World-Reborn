@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "jurassicworldreborn:araucaria_log",
+    "jurassicworldreborn:ginkgo_log",
+    "jurassicworldreborn:calamites_log",
+    "jurassicworldreborn:phoenix_log",
+    "jurassicworldreborn:psaronius_log"
+  ]
+}

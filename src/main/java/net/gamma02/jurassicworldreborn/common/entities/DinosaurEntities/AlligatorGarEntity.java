@@ -2,19 +2,19 @@ package net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities;
 
 import com.github.alexthe666.citadel.animation.Animation;
 import com.mojang.math.Vector3f;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
 import net.gamma02.jurassicworldreborn.common.entities.SwimmingDinosaurEntity;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Squid;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.entity.EntityType;
 
 
 
 public class AlligatorGarEntity extends SwimmingDinosaurEntity
 {
     public AlligatorGarEntity(Level world, EntityType<AlligatorGarEntity> type) {
-        super(world, type);
+        super(world, type, DinosaurHandler.ALLIGATORGAR);
         this.target(Squid.class);
     }
 
@@ -28,3 +28,4 @@ public class AlligatorGarEntity extends SwimmingDinosaurEntity
         return new Vector3f(-90F, 0, 0);
     }
 }
+

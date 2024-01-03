@@ -1,6 +1,7 @@
 package net.gamma02.jurassicworldreborn.common.entities.EntityUtils.ai;
 
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;

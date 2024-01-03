@@ -1,19 +1,14 @@
 package net.gamma02.jurassicworldreborn.client.render.entity;
 
 import com.github.alexthe666.citadel.client.model.basic.BasicEntityModel;
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.platform.TextureUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.gamma02.jurassicworldreborn.client.model.AnimatableModel;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimator;
-import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.*;//yooo it did that automatically :) - gamma
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.*;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.GrowthStage;
 import net.gamma02.jurassicworldreborn.common.util.EntityColorTint;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.Model;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -21,12 +16,9 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.spongepowered.asm.mixin.MixinEnvironment;
 
 import java.awt.*;
 import java.util.Random;
@@ -41,7 +33,7 @@ public class DinosaurRenderer extends LivingEntityRenderer<DinosaurEntity, Basic
 
     public Random random;
 
-    Color tint = new Color(0, 0, 0, 0);
+    Color tint = new Color(0, 0, 0, 255);
 
 
 
@@ -82,14 +74,20 @@ public class DinosaurRenderer extends LivingEntityRenderer<DinosaurEntity, Basic
 
     @Override
     public void scale(DinosaurEntity entity, PoseStack stack, float partialTick) {
-//        float scaleModifier = entity.getAttributes().getScaleModifier();todo: where can I get at this now?
-        float scale = (float) entity.interpolate(this.dinosaur.getScaleInfant(), this.dinosaur.getScaleAdult()) /* * scaleModifier*/;
-        this.shadowRadius = scale * this.shadowRadius;
+        float scaleModifier = entity.getLegacyAttributes().getScaleModifier() * 5;
+        float scale = (float) entity.interpolate(this.dinosaur.getScaleInfant(), this.dinosaur.getScaleAdult()) * scaleModifier;
+//        this.shadowRadius = scale * this.shadowRadius;
+
+        float offsetX = this.dinosaur.getOffsetX();
+        float offsetY = this.dinosaur.getOffsetY();
+        float offsetZ = this.dinosaur.getOffsetZ();
 
 
         stack.translate(this.dinosaur.getOffsetX() * scale, this.dinosaur.getOffsetY() * scale, this.dinosaur.getOffsetZ() * scale);
-
-        String name = String.valueOf(entity.getCustomName());
+        if(entity.getCustomName() == null){
+            return;
+        }
+        String name = entity.getCustomName().getString();
         switch (name) {
             case "Kashmoney360"://wow, they never got one lmao - gamma
             case "JTGhawk137":
@@ -112,7 +110,7 @@ public class DinosaurRenderer extends LivingEntityRenderer<DinosaurEntity, Basic
                 break;
             case "Vitiate":
                 int color = Color.HSBtoRGB((entity.level.getGameTime() % 1000) / 100f, 1f, 1f);
-                this.tint = new Color((color & 0xFF) / 255f, ((color >> 8) & 0xFF) / 255f, ((color >> 16) & 0xFF) / 255f, 0.5f/*can tweak this later*/);
+                this.tint = new Color((color & 0xFF) / 255f, ((color >> 8) & 0xFF) / 255f, ((color >> 16) & 0xFF) / 255f, 1f/*can tweak this later*/);
                 break;
             case "VPFbGsfp5QR3WsLXM4JBDJXMG":
                 stack.scale(scale * random.nextInt(69), scale * random.nextInt(69), scale * random.nextInt(69));
@@ -122,6 +120,7 @@ public class DinosaurRenderer extends LivingEntityRenderer<DinosaurEntity, Basic
                 break;
             default:
                 stack.scale(scale, scale, scale);
+                this.tint = new Color(0, 0, 0, 0);
                 break;
         }
     }
@@ -134,8 +133,11 @@ public class DinosaurRenderer extends LivingEntityRenderer<DinosaurEntity, Basic
 
     @Override
     public void render(DinosaurEntity entity, float pEntityYaw, float pPartialTicks, PoseStack pMatrixStack, MultiBufferSource pBuffer, int pPackedLight) {
-        this.model =  this.renderInfo.getModel(entity.getGrowthStage(), (byte) entity.getSkeletonVariant());
-        EntityColorTint.setColor(this.tint);
+        this.model = this.renderInfo.getModel(entity.getGrowthStage(), (byte) entity.getSkeletonVariant());
+        if(this.tint.getRGB() != new Color(0, 0, 0, 255).getRGB()) {
+            EntityColorTint.setColor(this.tint);
+            EntityColorTint.addEntityClassToList(entity.getClass());
+        }
         super.render(entity, pEntityYaw, pPartialTicks, pMatrixStack, pBuffer, pPackedLight);
     }
 
@@ -268,6 +270,7 @@ public class DinosaurRenderer extends LivingEntityRenderer<DinosaurEntity, Basic
                 if(texture != null){
                     AbstractTexture textureObject = Minecraft.getInstance().getTextureManager().getTexture(texture);
                     if(textureObject != MissingTextureAtlasSprite.getTexture()) {//don't know if this will work. might cause issues. - gamma
+
                         //todo: eyelids lmao
                     }
                 }

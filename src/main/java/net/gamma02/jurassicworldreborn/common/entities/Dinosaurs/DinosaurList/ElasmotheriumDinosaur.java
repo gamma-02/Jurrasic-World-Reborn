@@ -53,17 +53,21 @@ public class ElasmotheriumDinosaur extends Dinosaur {
         this.setRecipe(recipe);
         this.enableSkeleton();
         ArrayList<ResourceKey<Biome>> biomeList = new ArrayList<>();
-        Stream<TagKey<Biome>> tags = Arrays.stream(new TagKey[]{BiomeTags.IS_SAVANNA, Tags.Biomes.IS_CONIFEROUS, Tags.Biomes.IS_PLAINS, BiomeTags.IS_FOREST, BiomeTags.IS_BADLANDS, Tags.Biomes.IS_SNOWY});
+        TagKey<Biome>[] tags = (new TagKey[]{BiomeTags.IS_SAVANNA, Tags.Biomes.IS_CONIFEROUS, Tags.Biomes.IS_PLAINS, BiomeTags.IS_FOREST, BiomeTags.IS_BADLANDS, Tags.Biomes.IS_SNOWY});
         ArrayList<Biome> allBiomes = new ArrayList<>(ForgeRegistries.BIOMES.getValues());
 
-        for (Biome biome:
-                allBiomes) {
-            var key = ForgeRegistries.BIOMES.getResourceKey(biome);
-            if(key.isPresent() && tags.anyMatch((tag) -> ForgeRegistries.BIOMES.tags().getTag(tag).contains(biome))){
-                biomeList.add(key.get());
+        biomeList = new ArrayList<>(allBiomes.stream().filter((biome ->{
+            boolean accept = false;
+            
+            for(var tag : tags){
+                if(ForgeRegistries.BIOMES.tags().getTag(tag).contains(biome)){
+                    accept = true;
+                }
             }
-        }
+            return accept;
+            
+        })).map((biome) -> ForgeRegistries.BIOMES.getResourceKey(biome).get()).toList());
         this.setSpawn(1, biomeList);
-        this.setSpawn(1, biomeList);
+this.init();
     }
 }

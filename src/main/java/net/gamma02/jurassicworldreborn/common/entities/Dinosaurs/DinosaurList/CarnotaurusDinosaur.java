@@ -55,16 +55,21 @@ public class CarnotaurusDinosaur extends Dinosaur
 //        biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.PLAINS));
 //        biomeList.addAll(BiomeDictionary.getBiomes(BiomeDictionary.Type.FOREST));
 
-        Stream<TagKey<Biome>> tags = Arrays.stream(new TagKey[]{Tags.Biomes.IS_PLAINS, BiomeTags.IS_FOREST, BiomeTags.IS_SAVANNA});
+        TagKey<Biome>[] tags = (new TagKey[]{Tags.Biomes.IS_PLAINS, BiomeTags.IS_FOREST, BiomeTags.IS_SAVANNA});
         ArrayList<Biome> allBiomes = new ArrayList<>(ForgeRegistries.BIOMES.getValues());
 
-        for (Biome biome:
-                allBiomes) {
-            var key = ForgeRegistries.BIOMES.getResourceKey(biome);
-            if(key.isPresent() && tags.anyMatch((tag) -> ForgeRegistries.BIOMES.tags().getTag(tag).contains(biome))){
-                biomeList.add(key.get());
+        biomeList = new ArrayList<>(allBiomes.stream().filter((biome ->{
+            boolean accept = false;
+            
+            for(var tag : tags){
+                if(ForgeRegistries.BIOMES.tags().getTag(tag).contains(biome)){
+                    accept = true;
+                }
             }
-        }
+            return accept;
+            
+        })).map((biome) -> ForgeRegistries.BIOMES.getResourceKey(biome).get()).toList());
         this.setSpawn(1, biomeList);
+this.init();
     }
 }

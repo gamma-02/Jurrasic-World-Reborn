@@ -2,6 +2,7 @@ package net.gamma02.jurassicworldreborn.common.entities.ai;
 
 import com.mojang.math.Vector3d;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.ai.Herd;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.ai.goal.Goal;

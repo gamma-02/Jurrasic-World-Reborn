@@ -5,7 +5,7 @@ import net.gamma02.jurassicworldreborn.common.blocks.ancientplants.*;
 import net.gamma02.jurassicworldreborn.common.blocks.ancientplants.moss.AncientMossCarpet;
 import net.gamma02.jurassicworldreborn.common.blocks.ancientplants.moss.PeatBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.ActionFigureBlock;
-import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNACombinatorHybridizerBlock;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNACombinatorHybridizer.DNACombinatorHybridizerBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNAExtractorBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNASequencerBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNASynthesizerBlock;
@@ -43,15 +43,15 @@ public class ModBlocks {
 
     public static DeferredRegister<Block> modBlocks = DeferredRegister.create(ForgeRegistries.BLOCKS, "jurassicworldreborn");
 
-    public static RegistryObject<ModSaplingBlock> AraucariaSapling = modBlocks.register("araucria_sapling", () -> new ModSaplingBlock(CommonRegistries.AraucariaTreeFeature, BlockBehaviour.Properties.of(Material.REPLACEABLE_FIREPROOF_PLANT)));
+    public static RegistryObject<ModSaplingBlock> AraucariaSapling = modBlocks.register("araucria_sapling", () -> new ModSaplingBlock(() -> CommonRegistries.AraucariaTreeFeature, BlockBehaviour.Properties.of(Material.REPLACEABLE_FIREPROOF_PLANT)));
 
-    public static RegistryObject<ModSaplingBlock> GinkgoSapling = modBlocks.register("ginkgo_sapling", () -> new ModSaplingBlock(CommonRegistries.GinkgoTreeFeature, BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT)));
+    public static RegistryObject<ModSaplingBlock> GinkgoSapling = modBlocks.register("ginkgo_sapling", () -> new ModSaplingBlock(() -> CommonRegistries.GinkgoTreeFeature, BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT)));
 
-    public static RegistryObject<ModSaplingBlock> CalamitesSapling = modBlocks.register("calamites_sapling", () -> new ModSaplingBlock(CommonRegistries.CalamitesTreeFeature, BlockBehaviour.Properties.of(Material.REPLACEABLE_FIREPROOF_PLANT)));
+    public static RegistryObject<ModSaplingBlock> CalamitesSapling = modBlocks.register("calamites_sapling", () -> new ModSaplingBlock(() -> CommonRegistries.CalamitesTreeFeature, BlockBehaviour.Properties.of(Material.REPLACEABLE_FIREPROOF_PLANT)));
 
-    public static RegistryObject<ModSaplingBlock> PheonixSapling = modBlocks.register("pheonix_sapling", () -> new ModSaplingBlock(CommonRegistries.PhoenixTreeFeature, BlockBehaviour.Properties.of(Material.REPLACEABLE_FIREPROOF_PLANT)));
+    public static RegistryObject<ModSaplingBlock> PheonixSapling = modBlocks.register("pheonix_sapling", () -> new ModSaplingBlock(() -> CommonRegistries.PhoenixTreeFeature, BlockBehaviour.Properties.of(Material.REPLACEABLE_FIREPROOF_PLANT)));
 
-    public static RegistryObject<ModSaplingBlock> PsaroniusSapling = modBlocks.register("psaronius_sapling", () -> new ModSaplingBlock(CommonRegistries.PsaroniusTreeFeature, BlockBehaviour.Properties.of(Material.REPLACEABLE_FIREPROOF_PLANT)));
+    public static RegistryObject<ModSaplingBlock> PsaroniusSapling = modBlocks.register("psaronius_sapling", () -> new ModSaplingBlock(() -> CommonRegistries.PsaroniusTreeFeature, BlockBehaviour.Properties.of(Material.REPLACEABLE_FIREPROOF_PLANT)));
 
     public static RegistryObject<FloraFossil> FLORA_FOSSIL = modBlocks.register("flora_fossil", () -> new FloraFossil(BlockBehaviour.Properties.of(Material.STONE)));
     public static RegistryObject<FloraFossil> DEEPSLATE_FLORA_FOSSIL = modBlocks.register("deepslate_flora_fossil", () -> new FloraFossil(BlockBehaviour.Properties.of(Material.STONE)));
@@ -70,7 +70,7 @@ public class ModBlocks {
 
     public static RegistryObject<Block> DEEPSLATE_ICE_SHARD_ORE = modBlocks.register("deepslate_ice_shard_ore", () -> new Block(BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops()));
 
-    public static RegistryObject<CleanerBlock> CLEANER_BLOCK = modBlocks.register("cleaner_block", () -> new CleanerBlock(BlockBehaviour.Properties.of(Material.STONE)));
+    public static RegistryObject<CleanerBlock> CLEANER_BLOCK = modBlocks.register("cleaning_station", () -> new CleanerBlock(BlockBehaviour.Properties.of(Material.STONE)));
 
     public static RegistryObject<FossilGrinderBlock> FOSSIL_GRINDER = modBlocks.register("fossil_grinder", () -> new FossilGrinderBlock(defaultMachine()));
 
@@ -208,7 +208,7 @@ public class ModBlocks {
     }
 
     public static BlockBehaviour.Properties defaultMachine(){
-        return BlockBehaviour.Properties.of(Material.METAL).strength(2.0F);
+        return BlockBehaviour.Properties.of(Material.STONE).strength(2.0F);
     }
 
     public static BlockBehaviour.Properties defaultStone(){

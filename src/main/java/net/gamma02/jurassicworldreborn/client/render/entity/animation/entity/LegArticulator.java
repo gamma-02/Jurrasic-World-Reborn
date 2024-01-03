@@ -52,6 +52,7 @@ public final class LegArticulator {
         }
     }
 
+
     private static void articulateLegPair(float sc, float heightLeft, float heightRight, float avg, float offsetY, AdvancedModelBox leftThigh, AdvancedModelBox leftCalf, AdvancedModelBox rightThigh, AdvancedModelBox rightCalf, float rotThigh, float rotCalf) {
         float difLeft = Math.max(0, heightRight - heightLeft);
         float difRight = Math.max(0, heightLeft - heightRight);

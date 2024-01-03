@@ -3,7 +3,7 @@
   "textures": {
     "layer0": "jurassicworldreborn:blocks/tour_rail_corner",
     "layer1": "jurassicworldreborn:blocks/tour_rail_corner_stripe",
-    "particle": "blocks/iron_block"
+    "particle": "block/iron_block"
   },
   "tabula": "jurassicworldreborn:models/block/tour_rail_corner"
 }

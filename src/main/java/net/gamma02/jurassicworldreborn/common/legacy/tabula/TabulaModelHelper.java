@@ -15,6 +15,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 public class TabulaModelHelper {
+
+
+
     public static TabulaCubeContainer getCubeByName(String name, TabulaModelContainer model) {
         List<TabulaCubeContainer> allCubes = getAllCubes(model);
 
@@ -94,6 +97,12 @@ public class TabulaModelHelper {
         }
 
         InputStream stream = TabulaModelHelper.class.getResourceAsStream(path);
+        if(stream == null){
+//            URL test = TabulaModelHelper.class.getResource(path);
+//            Jurassicworldreborn.getLogger().error("NULL STREAM FOR PATH " + path);
+//            Jurassicworldreborn.getLogger().error("REAL PATH: " + test.getPath());
+            return null;
+        }
         return TabulaModelHelper.loadTabulaModel(getModelJsonStream(path, stream));
     }
 

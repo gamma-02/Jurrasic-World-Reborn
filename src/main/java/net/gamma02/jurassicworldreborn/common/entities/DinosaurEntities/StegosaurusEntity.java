@@ -6,6 +6,7 @@ import com.github.alexthe666.citadel.animation.LegSolverQuadruped;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.level.Level;
@@ -15,7 +16,7 @@ public class StegosaurusEntity extends DinosaurEntity {
     public LegSolverQuadruped legSolver;
 
     public StegosaurusEntity(Level world, EntityType<StegosaurusEntity> type) {
-        super(world, type);
+        super(world, type, DinosaurHandler.STEGOSAURUS);
                 this.addTask(1, new HurtByTargetGoal(this));
     }
 
@@ -42,4 +43,5 @@ public class StegosaurusEntity extends DinosaurEntity {
         return null;
     }
 }
+
 

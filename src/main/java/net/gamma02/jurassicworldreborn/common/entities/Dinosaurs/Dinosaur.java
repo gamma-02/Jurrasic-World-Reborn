@@ -1,34 +1,21 @@
 package net.gamma02.jurassicworldreborn.common.entities.Dinosaurs;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-
-
 import com.github.alexthe666.citadel.client.model.container.TabulaCubeContainer;
 import com.github.alexthe666.citadel.client.model.container.TabulaModelContainer;
-
-
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.PoseHandler;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.*;
 import net.gamma02.jurassicworldreborn.common.legacy.tabula.TabulaModelHelper;
 import net.gamma02.jurassicworldreborn.common.util.TimePeriod;
-
-
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.biome.Biome;
 
 import javax.vecmath.Matrix4d;
 import javax.vecmath.Vector3d;
+import java.util.*;
 
 public abstract class Dinosaur implements Comparable<Dinosaur> {
     public static final ArrayList<Dinosaur> DINOS = new ArrayList<>();
@@ -122,6 +109,9 @@ public abstract class Dinosaur implements Comparable<Dinosaur> {
 
 
     public static Dinosaur getDinosaurByName(String name) {
+        if(name == null){
+            return EMPTY;
+        }
         for(Dinosaur d : DINOS) {
             if(d.getName().toLowerCase(Locale.ROOT).equals(name.toLowerCase(Locale.ROOT))) {
                 return d;
@@ -329,6 +319,11 @@ public abstract class Dinosaur implements Comparable<Dinosaur> {
 
     public String getName() {
         return this.name;
+    }
+
+    public String getFormattedName(){
+        String formattedName = this.getName().toLowerCase(Locale.ENGLISH).replaceAll(" ", "_");
+        return formattedName;
     }
 
     public void setName(String name) {

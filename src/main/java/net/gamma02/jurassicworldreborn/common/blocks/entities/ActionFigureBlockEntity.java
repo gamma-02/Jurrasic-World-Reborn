@@ -2,6 +2,7 @@ package net.gamma02.jurassicworldreborn.common.blocks.entities;
 
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;

@@ -5,6 +5,7 @@ import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -20,7 +21,7 @@ public class DeinotheriumEntity extends DinosaurEntity {
     private static final EntityDataAccessor<Integer> VARIANT= SynchedEntityData.defineId(DeinotheriumEntity.class, EntityDataSerializers.INT);
 
     public DeinotheriumEntity(Level world, EntityType<DeinotheriumEntity> type) {
-        super(world, type);
+        super(world, type, DinosaurHandler.DEINOTHERIUM);
         this.setVariant(this.getRandom().nextInt(3));
     }
 
@@ -83,3 +84,4 @@ public class DeinotheriumEntity extends DinosaurEntity {
         return isMale()?new ResourceLocation(Jurassicworldreborn.modid, texture + "_male_" + "adult" + "_" + variant + ".png"):new ResourceLocation(Jurassicworldreborn.modid, texture + "_female_" + "adult" + "_" + variant +".png");
     }
 }
+

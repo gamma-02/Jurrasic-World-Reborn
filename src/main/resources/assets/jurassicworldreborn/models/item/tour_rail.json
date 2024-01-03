@@ -3,7 +3,7 @@
   "tabula": "jurassicworldreborn:models/block/tour_rail_straight",
   "textures": {
     "layer0": "jurassicworldreborn:blocks/tour_rail_straight",
-    "particle": "blocks/iron_block"
+    "particle": "block/iron_block"
   },
   "display": {
     "firstperson_righthand": {

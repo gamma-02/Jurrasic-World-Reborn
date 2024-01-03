@@ -1,5 +1,6 @@
 package net.gamma02.jurassicworldreborn.common.entities;
 
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
 import net.gamma02.jurassicworldreborn.common.entities.ai.MoveUnderwaterEntityAI;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -15,8 +16,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.phys.Vec3;
 
 public abstract class SwimmingDinosaurEntity extends DinosaurEntity {
-    public SwimmingDinosaurEntity(Level world, EntityType type) {
-        super(world, type);
+    public SwimmingDinosaurEntity(Level world, EntityType type, Dinosaur dino) {
+        super(world, type, dino);
         this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true);
         this.lookControl = new SmoothSwimmingLookControl(this, 10);
         this.addTask(1, new MoveUnderwaterEntityAI(this));

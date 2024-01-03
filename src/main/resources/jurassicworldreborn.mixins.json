@@ -5,12 +5,16 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "jurassicworldreborn.refmap.json",
   "mixins": [
+    "ContainerMenuMixin",
     "GoatMixin",
-    "LivingEntityMixin"
+    "LivingEntityMixin",
+    "ServerPlayerMixin",
+    "accessors.NonNullListAccessor"
   ],
   "client": [
     "DisplayBlockMixin",
-    "LivingEntityRendererMixin"
+    "LivingEntityRendererMixin",
+    "MinecraftMixin"
   ],
   "server": [
   ],

@@ -5,6 +5,7 @@ import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
 import net.gamma02.jurassicworldreborn.common.entities.ai.LeapingMeleeEntityAI;
 import net.gamma02.jurassicworldreborn.common.entities.ai.RaptorLeapEntityAI;
 import net.minecraft.world.entity.animal.goat.Goat;
@@ -28,7 +29,7 @@ public class CompsognathusEntity extends DinosaurEntity {
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(CompsognathusEntity.class, EntityDataSerializers.INT);
 
     public CompsognathusEntity(Level world, EntityType<CompsognathusEntity> type) {
-        super(world, type);
+        super(world, type, DinosaurHandler.COMPSOGNATHUS);
         this.setVariant(this.getRandom().nextInt(6));
         this.doesEatEggs(true);
         this.target(DodoEntity.class, OthnieliaEntity.class, MicroceratusEntity.class, MicroraptorEntity.class, CrassigyrinusEntity.class, LeptictidiumEntity.class, Player.class
@@ -137,4 +138,5 @@ public class CompsognathusEntity extends DinosaurEntity {
         return isMale()?new ResourceLocation(Jurassicworldreborn.modid, texture + "_male_" + "adult" + "_" + variant + ".png"):new ResourceLocation(Jurassicworldreborn.modid, texture + "_female_" + "adult" + "_" + variant +".png");
     }
 }
+
 

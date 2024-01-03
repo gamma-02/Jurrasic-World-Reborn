@@ -1,0 +1,21 @@
+package net.gamma02.jurassicworldreborn.common.genetics;
+
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.List;
+
+public interface StorageType {
+    ItemStack createItem();
+
+    void saveAdditional(CompoundTag nbt);
+
+    void load(CompoundTag nbt);
+
+    void addInformation(ItemStack stack, List<Component> tooltip);
+
+    default int getMetadata(){
+        return 0;
+    }
+}

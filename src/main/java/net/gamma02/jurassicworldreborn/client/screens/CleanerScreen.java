@@ -11,6 +11,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import org.jetbrains.annotations.NotNull;
 
 import static net.gamma02.jurassicworldreborn.Jurassicworldreborn.resource;
 
@@ -21,7 +22,7 @@ public class CleanerScreen extends AbstractContainerScreen<CleanerMenu> {
     private static final int progressBarYOffset = 14;
 
     private static final int fluidBarXOffset = 177;
-    private static final int fluidBarYOffset = 81;//move this DOWN
+    private static final int fluidBarYOffset = 32;//move this DOWN
 
 
 
@@ -49,7 +50,7 @@ public class CleanerScreen extends AbstractContainerScreen<CleanerMenu> {
 
 
     @Override
-    protected void renderBg(PoseStack pPoseStack, float pPartialTick, int pMouseX, int pMouseY) {
+    protected void renderBg(@NotNull PoseStack pPoseStack, float pPartialTick, int pMouseX, int pMouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
@@ -57,18 +58,26 @@ public class CleanerScreen extends AbstractContainerScreen<CleanerMenu> {
         int j = this.topPos;
         this.blit(pPoseStack, i, j, 0, 0, 175, 165);
 
-        boolean isInstanceNull = menu.isInstanceNull();
+//        boolean isInstanceNull = menu.isInstanceNull();
 
         //render progress bar
-        if(!isInstanceNull && this.menu.isCleaning()){
+        if(this.menu.isCleaning()){
             int progress = menu.getProgress();
-            this.blit(pPoseStack, 78, 34, progressBarXOffset, progressBarYOffset, progress, 16/*or 17 if it doesn't work thats why*/);
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+            RenderSystem.setShaderTexture(0, TEXTURE);
+            this.blit(pPoseStack, i+78, j+34, progressBarXOffset, progressBarYOffset, progress, 16/*or 17 if it doesn't work thats why*/);
         }
 
+        int fluidHeight = menu.getAmountOfFluid();
         //render fluid amount
-        if(!isInstanceNull && this.menu.getAmountOfFluid() > 0){
-            int fluidHeight = this.menu.getAmountOfFluid()/49;
-            this.blit(pPoseStack, 47, 68, fluidBarXOffset, fluidBarYOffset, 4, fluidHeight);
+        if(fluidHeight > 0){
+//            fluidHeight = 50;
+            fluidHeight = fluidHeight/20;
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+            RenderSystem.setShaderTexture(0, TEXTURE);
+            this.blit(pPoseStack, i+47, j+19, fluidBarXOffset, fluidBarYOffset, 4, fluidHeight);
         }
 
     }

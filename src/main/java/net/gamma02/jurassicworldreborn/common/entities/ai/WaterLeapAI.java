@@ -1,8 +1,8 @@
 package net.gamma02.jurassicworldreborn.common.entities.ai;
 
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimation;
-import net.gamma02.jurassicworldreborn.common.entities.SwimmingDinosaurEntity;
-import net.minecraft.core.BlockPos;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
+import net.gamma02.jurassicworldreborn.common.entities.SwimmingDinosaurEntity;import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.level.block.Blocks;

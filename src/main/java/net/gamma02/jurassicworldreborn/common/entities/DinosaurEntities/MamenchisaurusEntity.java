@@ -6,6 +6,7 @@ import com.github.alexthe666.citadel.animation.LegSolverQuadruped;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
@@ -22,7 +23,7 @@ public class MamenchisaurusEntity extends DinosaurEntity {
     public LegSolverQuadruped legSolver;
 
     public MamenchisaurusEntity(Level world, EntityType<MamenchisaurusEntity> type) {
-        super(world, type);
+        super(world, type, DinosaurHandler.MAMENCHISAURUS);
         this.addTask(1, new HurtByTargetGoal(this));
 
     }
@@ -89,3 +90,4 @@ public class MamenchisaurusEntity extends DinosaurEntity {
         }
     }
 }
+

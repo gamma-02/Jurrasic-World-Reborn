@@ -5,6 +5,7 @@ import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.ActionFigureBlockEntity;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;

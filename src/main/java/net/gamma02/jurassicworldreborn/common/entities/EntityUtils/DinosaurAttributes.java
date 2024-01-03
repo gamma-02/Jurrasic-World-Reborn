@@ -4,7 +4,6 @@ import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.ai.attributes.AttributeMap;
 
 import java.util.Random;
 

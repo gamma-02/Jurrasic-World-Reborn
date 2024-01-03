@@ -1,6 +1,7 @@
 package net.gamma02.jurassicworldreborn.common.entities.ai;
 
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
 import net.minecraft.world.entity.LivingEntity;
 
 import java.util.EnumSet;

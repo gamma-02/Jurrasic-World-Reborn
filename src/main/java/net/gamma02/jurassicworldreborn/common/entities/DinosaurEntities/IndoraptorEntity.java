@@ -5,6 +5,7 @@ import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
 import net.gamma02.jurassicworldreborn.common.entities.ai.HurtByTargetGoal;
 import net.gamma02.jurassicworldreborn.common.entities.ai.LeapingMeleeEntityAI;
 import net.gamma02.jurassicworldreborn.common.entities.ai.RaptorLeapEntityAI;
@@ -31,7 +32,7 @@ public class IndoraptorEntity extends DinosaurEntity {
 };
 
     public IndoraptorEntity(Level world, EntityType<IndoraptorEntity> type) {
-        super(world, type);
+        super(world, type, DinosaurHandler.INDORAPTOR);
         this.setVariant(this.getRandom().nextInt(2));
         this.target(LivingEntity.class, Player.class
 );
@@ -126,4 +127,5 @@ public class IndoraptorEntity extends DinosaurEntity {
         return isMale()?new ResourceLocation(Jurassicworldreborn.modid, texture + "_male_" + "adult" + "_" + variant + ".png"):new ResourceLocation(Jurassicworldreborn.modid, texture + "_female_" + "adult" + "_" + variant +".png");
     }
 }
+
 

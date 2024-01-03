@@ -2,12 +2,15 @@ package net.gamma02.jurassicworldreborn.client.render;
 
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.client.model.AnimatableModel;
+import net.gamma02.jurassicworldreborn.client.render.block.CleaningStationRenderer;
 import net.gamma02.jurassicworldreborn.client.render.block.DisplayBlockEntityRender;
 import net.gamma02.jurassicworldreborn.client.render.entity.DinosaurRenderInfo;
 import net.gamma02.jurassicworldreborn.client.render.entity.DinosaurRenderer;
+import net.gamma02.jurassicworldreborn.client.render.entity.SharkEntityRenderer;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimator;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.entity.*;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.ModBlockEntities;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.GrowthStage;
 import net.gamma02.jurassicworldreborn.common.entities.ModEntities;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -19,6 +22,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.function.Supplier;
@@ -26,7 +30,7 @@ import java.util.function.Supplier;
 import static net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler.*;
 
 @OnlyIn(Dist.CLIENT)
-@Mod.EventBusSubscriber(modid = Jurassicworldreborn.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = Jurassicworldreborn.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value=Dist.CLIENT)
 public class RenderingHandler{
 
     public static ArrayList<EntityAnimator<? extends LivingEntity>> ANIMATORS = new ArrayList<>();
@@ -34,7 +38,9 @@ public class RenderingHandler{
 
 
     @SubscribeEvent
-    public void registerEntityRendersEvent(final EntityRenderersEvent.RegisterRenderers event){
+    public static void registerEntityRendersEvent(EntityRenderersEvent.@NotNull RegisterRenderers event){
+
+        DinosaurHandler.doDinosInit();
 
         //Registration for the Achillobator. Did this first, all of the others should follow this template of sorts.
         DinosaurRenderInfo AchillobatorInfo = new DinosaurRenderInfo(ACHILLOBATOR, new AchillobatorAnimator());
@@ -45,8 +51,18 @@ public class RenderingHandler{
                         AchillobatorInfo));
         helper.doEntityRegistration(event);
 
-        event.registerBlockEntityRenderer(ModBlockEntities.DISPLAY_BLOCK_ENTITY.get(), helper.makeProvider(DisplayBlockEntityRender::new));
+        event.registerEntityRenderer(ModEntities.SHARK_ENTITY_TYPE.get(), (ctx) ->
+                new SharkEntityRenderer(ctx, 1.6f)
+                );
 
+        event.registerBlockEntityRenderer(ModBlockEntities.DISPLAY_BLOCK_ENTITY.get(), helper.makeProvider(DisplayBlockEntityRender::new));
+        event.registerBlockEntityRenderer(ModBlockEntities.CLEANING_STATION.get(), helper.makeProvider(CleaningStationRenderer::new));
+
+    }
+
+
+    static {
+        System.out.println("Loaded!");
     }
 
 

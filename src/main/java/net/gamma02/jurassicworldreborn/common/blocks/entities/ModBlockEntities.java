@@ -1,6 +1,8 @@
 package net.gamma02.jurassicworldreborn.common.blocks.entities;
 
 import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNACombinatorHybridizer.DNACombinatorHybridizerBlockEntity;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNACombinatorHybridizer.DNACombinatorHybridizerMenu;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerMenu;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.fence.ElectricFenceBaseBlockEntity;
@@ -28,6 +30,8 @@ public class ModBlockEntities<T extends BlockEntity> {
     public static RegistryObject<BlockEntityType<CleanerBlockEntity>> CLEANING_STATION = modBlockEntities.register("cleaning_station", () -> BlockEntityType.Builder.of(CleanerBlockEntity::new, ModBlocks.CLEANER_BLOCK.get()).build(null));
     public static RegistryObject<BlockEntityType<EncasedFossilBlockEntity>> FOSSIL = modBlockEntities.register("encased_fossil", () -> BlockEntityType.Builder.of(EncasedFossilBlockEntity::new, ModBlocks.FAUNA_FOSSIL.get(), ModBlocks.DEEPSLATE_FAUNA_FOSSIL.get(), ModBlocks.ENCASED_FAUNA_FOSSIL.get()).build(null));
 
+    public static RegistryObject<BlockEntityType<DNACombinatorHybridizerBlockEntity>> DNA_COMBINATOR_HYBRIDIZER = modBlockEntities.register("dna_combinator_hybridizer", () -> BlockEntityType.Builder.of(DNACombinatorHybridizerBlockEntity::new, ModBlocks.DNA_COMBINER.get()).build(null));
+
     public static RegistryObject<BlockEntityType<TourRailBlockEntity>> TOUR_RAIL_BLOCK_ENTITY = modBlockEntities.register("tour_rail_block_entity", () -> {
         return BlockEntityType.Builder.of(TourRailBlockEntity::new, ModBlocks.TOUR_RAIL.get()).build(null);
     });
@@ -45,7 +49,9 @@ public class ModBlockEntities<T extends BlockEntity> {
         public static HashMap<ResourceLocation, ModMenuSupplier<?>> modMenuSupplier = new HashMap<>();
         public static DeferredRegister<MenuType<?>> modScreenTypes = DeferredRegister.create(ForgeRegistries.MENU_TYPES, modid);
 
-        public static RegistryObject<MenuType<CleanerMenu>> CleanerScreenType = modScreenTypes.register("cleaner_screen_type", () -> new MenuType<>(CleanerMenu::new));
+        public static RegistryObject<MenuType<CleanerMenu>> CleanerMenuType = modScreenTypes.register("cleaner_screen_type", () -> new MenuType<>(CleanerMenu::new));
+
+        public static RegistryObject<MenuType<DNACombinatorHybridizerMenu>> COMBINATOR_MENU_TYPE = modScreenTypes.register("combinator_menu_type", () -> new MenuType<>(DNACombinatorHybridizerMenu::new));
 
         public interface ModMenuSupplier< T extends AbstractContainerMenu>{
 

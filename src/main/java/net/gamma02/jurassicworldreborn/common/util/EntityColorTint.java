@@ -1,10 +1,11 @@
 package net.gamma02.jurassicworldreborn.common.util;
 
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.world.entity.Entity;
 
 import java.awt.*;
 import java.util.ArrayList;
-import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 
 public class EntityColorTint {
     /**
@@ -13,6 +14,8 @@ public class EntityColorTint {
     public static Color tintColor = new Color(0, 0, 0, 0);
 
     public static ArrayList<Class<? extends Entity>> entityClasses = new ArrayList<>();
+
+    private static EntityRenderer<?> renderer;
 
 
     /**
@@ -34,6 +37,11 @@ public class EntityColorTint {
     public static void setColor(Color color) {
         tintColor = color;
     }
+
+    public static void setEntityToColor(EntityRenderer<?> renderer){
+        EntityColorTint.renderer = renderer;
+    }
+
 
     public static void addEntityClassToList(Class<? extends Entity> clazz) {
         entityClasses.add(clazz);

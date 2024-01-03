@@ -1,7 +1,6 @@
 package net.gamma02.jurassicworldreborn.client.render.entity.animation;
 
 import com.github.alexthe666.citadel.animation.Animation;
-import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
@@ -16,10 +15,7 @@ import net.gamma02.jurassicworldreborn.common.legacy.tabula.TabulaModelHelper;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.ForgeConfig;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.DistExecutor;
-
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,14 +23,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.concurrent.Callable;
+import java.util.*;
 
 public class PoseHandler<ENTITY extends LivingEntity & Animatable> {
     private static final Gson GSON = new GsonBuilder()
@@ -148,7 +137,7 @@ public class PoseHandler<ENTITY extends LivingEntity & Animatable> {
 //
 //        return new ModelData(animations);
         ModelData data;
-        ModelData clientAttempt = DistExecutor.<ModelData>unsafeCallWhenOn(Dist.CLIENT, () -> SafeClientMethods.loadModelDataForClient(posedModelResources, animations));//crying and sobbing why is forge like this
+        ModelData clientAttempt = DistExecutor.<ModelData>safeCallWhenOn(Dist.CLIENT, () ->  SafeClientMethods.loadModelDataForClient(posedModelResources, animations));//crying and sobbing why is forge like this
         if(clientAttempt != null){
             return clientAttempt;
         }else{

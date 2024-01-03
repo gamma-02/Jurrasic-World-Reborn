@@ -4,7 +4,7 @@
   "textures": {
     "layer0": "jurassicworldreborn:blocks/tour_rail_straight",
     "layer1": "jurassicworldreborn:blocks/tour_rail_straight_stripe",
-    "particle": "blocks/iron_block"
+    "particle": "block/iron_block"
   },
   "display": {
     "firstperson_righthand": {

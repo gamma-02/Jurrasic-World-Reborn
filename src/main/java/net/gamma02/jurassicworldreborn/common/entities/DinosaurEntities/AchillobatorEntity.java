@@ -3,8 +3,8 @@ package net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities;
 import com.github.alexthe666.citadel.animation.Animation;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
-import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
 import net.gamma02.jurassicworldreborn.common.entities.ai.HurtByTargetGoal;
 import net.gamma02.jurassicworldreborn.common.entities.ai.LeapingMeleeEntityAI;
 import net.gamma02.jurassicworldreborn.common.entities.ai.RaptorLeapEntityAI;
@@ -22,7 +22,8 @@ public class AchillobatorEntity extends DinosaurEntity
 {
     public AchillobatorEntity(Level world, EntityType<AchillobatorEntity> type)
     {
-        super(world, type);
+        super(world, type, DinosaurHandler.ACHILLOBATOR);
+//        this.dinosaur = DinosaurHandler.ACHILLOBATOR;
         this.target(AlvarezsaurusEntity.class, TitanisEntity.class, SpinoraptorEntity.class, MegatheriumEntity.class, SmilodonEntity.class, ArsinoitheriumEntity.class, BeelzebufoEntity.class, VelociraptorBlueEntity.class, CearadactylusEntity.class, VelociraptorCharlieEntity.class, ChilesaurusEntity.class, CoelurusEntity.class, ProceratosaurusEntity.class, CompsognathusEntity.class, VelociraptorDeltaEntity.class, DilophosaurusEntity.class, DimorphodonEntity.class, VelociraptorEchoEntity.class, GallimimusEntity.class, DodoEntity.class, HypsilophodonEntity.class, Player.class
 , LeaellynasauraEntity.class, LeptictidiumEntity.class, MetriacanthosaurusEntity.class, MicroraptorEntity.class, MussaurusEntity.class, OrnithomimusEntity.class, OthnieliaEntity.class, OviraptorEntity.class, ProtoceratopsEntity.class, Animal.class, Villager.class);
         this.addTask(1, new LeapingMeleeEntityAI(this, this.dinosaur.getAttackSpeed()));

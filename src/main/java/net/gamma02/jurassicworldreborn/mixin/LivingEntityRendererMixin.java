@@ -19,7 +19,8 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 @Mixin(LivingEntityRenderer.class)
-public class LivingEntityRendererMixin {
+public abstract class LivingEntityRendererMixin {
+
 
     //this is going to be dumb. I'm sorry for my crimes. - gamma
     ArrayList<Optional<?>> renderParams = new ArrayList<>();
@@ -43,17 +44,22 @@ public class LivingEntityRendererMixin {
         }
     }
 
-    @Redirect(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/EntityModel;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;IIFFFF)V"))
+    @Redirect(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/EntityModel;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;IIFFFF)V", ordinal = 0))
     public void renderMixin(EntityModel<? extends Entity> instance, PoseStack pose, VertexConsumer consumer, int light, int overlay, float r, float g, float b, float a){
+
         if(!renderParams.isEmpty() && renderParams.get(0).isPresent()){//run our code here! if it is empty, however, we want to run minecraft's. - gamma
             if(EntityColorTint.isEntityInList(((Optional<LivingEntity>)renderParams.get(0)).get())){//this should NEVER error. if it does, i fucked up. - gamma
+//                System.out.println("got entity");
                 Color tint = EntityColorTint.getColor();
-                instance.renderToBuffer(pose, consumer, light, overlay, tint.getRed(), tint.getGreen(), tint.getBlue(), tint.getAlpha());//render with a tint! - gamma
+//                System.out.println(tint);
+//                System.out.println("light: %s | overlay: %s | rgba : %s %s %s %s".formatted(light, overlay, r, g, b, a));
+                instance.renderToBuffer(pose, consumer, light, overlay, tint.getRed()/255f, tint.getGreen()/255f, tint.getBlue()/255f, tint.getAlpha()/255f);//render with a tint! - gamma
                 EntityColorTint.clearColor();
             }
-        }else{
-            instance.renderToBuffer(pose, consumer, light, overlay, r, g, b, a);
+
         }
+        instance.renderToBuffer(pose, consumer, light, overlay, r, g, b, a);
+
     }
 
 

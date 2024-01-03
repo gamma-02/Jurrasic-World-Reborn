@@ -23,7 +23,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.syncher.*;
+import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
@@ -48,7 +48,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -82,11 +81,10 @@ public abstract class DinosaurEntity extends PathfinderMob implements IEntityAdd
     private static final EntityDataAccessor<Boolean> WATCHER_IS_RUNNING = SynchedEntityData.defineId(DinosaurEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> WATCHER_WAS_FED = SynchedEntityData.defineId(DinosaurEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> WATCHER_WAS_MOVED = SynchedEntityData.defineId(DinosaurEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Integer> WATCHER_SCALE = SynchedEntityData.defineId(DinosaurEntity.class, EntityDataSerializers.INT);
 
     public HashMap<Animation, Byte> variants = new HashMap<>();
-    private final InventoryDinosaur inventory;
-    private final MetabolismContainer metabolism;
+    private InventoryDinosaur inventory;
+    private MetabolismContainer metabolism;
     protected Dinosaur dinosaur;
 //    protected EntityAITasks animationTasks;
     protected Order order = Order.WANDER;
@@ -165,9 +163,14 @@ public abstract class DinosaurEntity extends PathfinderMob implements IEntityAdd
 
     private int messageTick = 0;
 
-    public DinosaurEntity(Level world, EntityType<? extends DinosaurEntity> type) {
+    public DinosaurEntity(Level world, EntityType<? extends DinosaurEntity> type, Dinosaur dino) {
         super(type, world);// todo
+
+        this.dinosaur = dino;
         blocked = false;
+
+
+
         //Necessary to set the bounding box, rather than having NULL_BOX
         setSize(1, 1);
 
@@ -175,17 +178,17 @@ public abstract class DinosaurEntity extends PathfinderMob implements IEntityAdd
         this.jumpControl = new DinosaurJumpHelper(this);
 
         this.setFullyGrown();
-        this.updateAttributes();
+        this.metabolism = new MetabolismContainer(this);
+        this.inventory = new InventoryDinosaur(this);
+
         this.setPathfindingMalus(BlockPathTypes.DOOR_WOOD_CLOSED, 0);
         this.setPathfindingMalus(BlockPathTypes.DOOR_IRON_CLOSED, 0);
 
-//        this.navigation = new DinosaurPathNavigate(this, this.level);TODO: AI
+//        this.navigation = new DinosaurPathNavigate(this, this.level);
 //        ((DinosaurPathNavigate) this.navigator).setCanSwim(true);
-//        this.lookControl = new DinosaurLookHelper(this);TODO:lookControl
+//        this.lookControl = new DinosaurLookHelper(this);
         this.legSolver = this.level == null || !this.level.isClientSide ? null : this.createLegSolver();
 
-        this.metabolism = new MetabolismContainer(this);
-        this.inventory = new InventoryDinosaur(this);
 
 //        this.genetics = GeneticsHelper.randomGenetics(this.random); todo:genetics and big gay
         this.isMale = this.random.nextBoolean();
@@ -197,9 +200,10 @@ public abstract class DinosaurEntity extends PathfinderMob implements IEntityAdd
 
         this.setUseInertialTweens(true);
 
-//        this.animationTasks = new EntityAITasks(world.profiler);TODO:AI
+//        this.animationTasks = new EntityAITasks(world.profiler); todo: more research here
 
-//        if (!dinosaur.isMarineCreature()) {                       TODO:AI
+
+//        if (!dinosaur.isMarineCreature()) {TODO: FINISH AI
 //            this.addTask(0, new AdvancedSwimEntityAI(this));
 //        }
 //        this.addTask(0, new DinosaurWanderEntityAI(this, 0.8D, 2, 10));
@@ -240,6 +244,9 @@ public abstract class DinosaurEntity extends PathfinderMob implements IEntityAdd
 
         this.noCulling = true;
         this.setSkeleton(false);
+        this.attributes = DinosaurAttributes.create(this);
+        this.updateAttributes();
+
     }
 
     @Nullable
@@ -667,7 +674,7 @@ public abstract class DinosaurEntity extends PathfinderMob implements IEntityAdd
     }
 
     public static AttributeSupplier.Builder createAttributes(){
-        return LivingEntity.createLivingAttributes().add(Attributes.MAX_HEALTH).add(Attributes.MOVEMENT_SPEED).add(Attributes.ATTACK_KNOCKBACK).add(Attributes.FOLLOW_RANGE);
+        return LivingEntity.createLivingAttributes().add(Attributes.MAX_HEALTH).add(Attributes.MOVEMENT_SPEED).add(Attributes.ATTACK_KNOCKBACK).add(Attributes.FOLLOW_RANGE).add(Attributes.ATTACK_DAMAGE);
     }
 
     private void updateBounds() {
@@ -706,7 +713,10 @@ public abstract class DinosaurEntity extends PathfinderMob implements IEntityAdd
     public void setupDisplay(boolean isMale) {
         this.setFullyGrown();
         this.setMale(isMale);
-        this.tickCount = 4;//wtf why - gamma_02
+
+
+
+        this.tickCount = 4;//wtf why - gamma_02 | gamma from the future: whyyyy
     }
 
     @Override
@@ -1075,9 +1085,15 @@ public abstract class DinosaurEntity extends PathfinderMob implements IEntityAdd
         }
     }
 
+    private boolean ticked = false;
     @Override
     public void tick() {
         super.tick();
+        if(!ticked) {
+
+
+            ticked = true;
+        }
         if(this.level.isClientSide && this.entityData.get(WATCHER_WAS_FED)) {
             this.level.addParticle(ParticleTypes.HAPPY_VILLAGER, this.getX() + (double)(this.random.nextFloat() * this.getBbWidth() * 2.0F) - (double)this.getBbWidth(), this.getY() + 0.5D + (double)(this.random.nextFloat() * this.getBbHeight()), this.getZ() + (double)(this.random.nextFloat() * this.getBbWidth() * 2.0F) - (double)this.getBbWidth(), 0.0D, 0.0D, 0.0D);
         }
@@ -1222,7 +1238,7 @@ public abstract class DinosaurEntity extends PathfinderMob implements IEntityAdd
 
         if (this.legSolver != null) {
             double msc = dinosaur.getScaleInfant() / dinosaur.getScaleAdult();
-            this.legSolver.update(this, (float) this.interpolate(msc, 1.0) * this.getEntityData().get(WATCHER_SCALE));
+            this.legSolver.update(this, (float) this.interpolate(msc, 1.0) * this.attributes.getScaleModifier());
         }
 
 
@@ -1285,6 +1301,11 @@ public abstract class DinosaurEntity extends PathfinderMob implements IEntityAdd
 
     @Override
     protected void dropCustomDeathLoot(DamageSource pSource, int pLooting, boolean pRecentlyHit) {
+
+        if(pSource.isBypassInvul() && pSource.isBypassArmor()){
+            return;
+        }
+
         for (String bone : this.dinosaur.getBones()) {
             if (this.random.nextInt(10) != 0) {
                 this.dropStackWithGenetics(new ItemStack(ModItems.getBoneForDinosaur((EntityType<DinosaurEntity>) this.getType()), 1));
@@ -2026,12 +2047,15 @@ public abstract class DinosaurEntity extends PathfinderMob implements IEntityAdd
     }
 
     public void addTask(int priority, Goal goal){
+        if(this.taskHelper == null){//jesus christ
+            this.taskHelper = new TaskHelper(this.getClass());
+        }
         this.taskHelper.addGoal(goal, priority);
     }
 
     protected void registerGoals(){
         if(this.taskHelper == null){
-            LOGGER.warning("NO TASK HELPER FOUND, " + this.getName().getString() + " HAS NO GOALS");
+//            LOGGER.warning("NO TASK HELPER FOUND, " + this.getName().getString() + " HAS NO GOALS");
             this.taskHelper = new TaskHelper(this.goalSelector, this.targetSelector, this.getClass());
         }
         this.taskHelper.setSelectorsAndRegisterGoals(this.goalSelector, this.targetSelector);

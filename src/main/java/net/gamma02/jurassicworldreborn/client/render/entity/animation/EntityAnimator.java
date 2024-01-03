@@ -5,7 +5,6 @@ import com.github.alexthe666.citadel.client.model.ITabulaModelAnimator;
 import com.github.alexthe666.citadel.client.model.TabulaModel;
 import net.gamma02.jurassicworldreborn.client.model.AnimatableModel;
 import net.gamma02.jurassicworldreborn.client.render.RenderingHandler;
-import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.Animatable;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.GrowthStage;
 import net.minecraft.world.entity.LivingEntity;
@@ -51,6 +50,7 @@ public abstract class EntityAnimator<ENTITY extends LivingEntity & Animatable> i
             if(cube == null) {
                 cube = model.getCube("throat" + i++);
             }
+//            Arrays.stream(((AnimatableModel) model).getCubeIdentifierArray()).forEach(Jurassicworldreborn::checkCubeId);
             float j = 1 - (i * 0.00001F);
             if(cube != null ) {
                 cube.scaleX *= j;

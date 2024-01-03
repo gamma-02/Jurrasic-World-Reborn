@@ -95,4 +95,11 @@ public class DinosaurHandler {
     public static final Dinosaur DIPLODOCUS=new DiplodocusDinosaur();
     public static final Dinosaur ANKYLODOCUS=new AnkylodocusDinosaur();
     public static final Dinosaur CAMARASAURUS=new CamarasaurusDinosaur();
+
+    public static void doDinosInit(){
+        Dinosaur.DINOS.forEach((dino) -> {
+            if(dino != Dinosaur.EMPTY)
+                dino.init();
+        });
+    }
 }

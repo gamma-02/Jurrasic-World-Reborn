@@ -2,7 +2,7 @@
   "parent": "block/cube_all",
   "textures": {
     "layer0": "jurassicworldreborn:blocks/skeleton_assembly",
-    "particle": "blocks/planks_oak"
+    "particle": "block/oak_planks"
   },
   "tabula": "jurassicworldreborn:models/block/skeleton_assembly"
 }

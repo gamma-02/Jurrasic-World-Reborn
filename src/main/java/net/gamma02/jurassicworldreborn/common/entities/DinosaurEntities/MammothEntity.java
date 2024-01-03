@@ -5,6 +5,7 @@ import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -20,7 +21,7 @@ public class MammothEntity extends DinosaurEntity {//is a mammoth really a dinos
     private static final EntityDataAccessor<Integer> VARIANT= SynchedEntityData.defineId(MammothEntity.class, EntityDataSerializers.INT);
 
     public MammothEntity(Level world, EntityType<MammothEntity> type) {
-        super(world, type);
+        super(world, type, DinosaurHandler.MAMMOTH);
         this.setVariant(this.getRandom().nextInt(5));
     }
 
@@ -85,3 +86,4 @@ public class MammothEntity extends DinosaurEntity {//is a mammoth really a dinos
         return isMale()?new ResourceLocation(Jurassicworldreborn.modid, texture + "_male_" + "adult" + "_" + variant + ".png"):new ResourceLocation(Jurassicworldreborn.modid, texture + "_female_" + "adult" + "_" + variant +".png");
     }
 }
+

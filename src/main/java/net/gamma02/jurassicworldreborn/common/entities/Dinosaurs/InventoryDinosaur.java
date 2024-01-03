@@ -62,7 +62,11 @@ public class InventoryDinosaur implements Container {
 
     @Override
     public ItemStack getItem(int index) {
-        return this.inventory.get(index);
+        if(!this.inventory.isEmpty() && index < this.inventory.size()) {
+            return this.inventory.get(index);
+        }else{
+            return ItemStack.EMPTY;
+        }
     }
 
     @Override

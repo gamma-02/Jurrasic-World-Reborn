@@ -1,23 +1,17 @@
 package net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurList;
 
-import java.util.ArrayList;
-
-import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.*;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.BrachiosaurusEntity;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.Diet;
 import net.gamma02.jurassicworldreborn.common.util.TimePeriod;
-import java.util.ArrayList;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.level.biome.Biome;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.stream.Stream;
-
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.ArrayList;
 
 public class BrachiosaurusDinosaur extends Dinosaur {
     public static final double SPEED = 0.22F;
@@ -51,17 +45,24 @@ public class BrachiosaurusDinosaur extends Dinosaur {
                                  {"","hind_leg_bones","hind_leg_bones","front_leg_bones","front_leg_bones"}};
         this.setRecipe(recipe);
         ArrayList<ResourceKey<Biome>> biomeList = new ArrayList<>();
-        Stream<TagKey<Biome>> tags = Arrays.stream(new TagKey[]{Tags.Biomes.IS_PLAINS, BiomeTags.IS_SAVANNA});
+        TagKey<Biome>[] tags = (new TagKey[]{Tags.Biomes.IS_PLAINS, BiomeTags.IS_SAVANNA});
         ArrayList<Biome> allBiomes = new ArrayList<>(ForgeRegistries.BIOMES.getValues());
+        
+        
 
-        for (Biome biome:
-                allBiomes) {
-            var key = ForgeRegistries.BIOMES.getResourceKey(biome);
-            if(key.isPresent() && tags.anyMatch((tag) -> ForgeRegistries.BIOMES.tags().getTag(tag).contains(biome))){
-                biomeList.add(key.get());
+        biomeList = new ArrayList<>(allBiomes.stream().filter((biome ->{
+            boolean accept = false;
+            
+            for(var tag : tags){
+                if(ForgeRegistries.BIOMES.tags().getTag(tag).contains(biome)){
+                    accept = true;
+                }
             }
-        }
+            return accept;
+            
+        })).map((biome) -> ForgeRegistries.BIOMES.getResourceKey(biome).get()).toList());
         this.setSpawn(1, biomeList);
+this.init();
         this.enableSkeleton();
     }
 }

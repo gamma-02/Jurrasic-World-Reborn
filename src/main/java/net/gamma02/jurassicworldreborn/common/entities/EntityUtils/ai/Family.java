@@ -2,6 +2,7 @@ package net.gamma02.jurassicworldreborn.common.entities.EntityUtils.ai;
 
 import com.mojang.math.Constants;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.GrowthStage;
 import net.gamma02.jurassicworldreborn.common.util.BlockPosUtil;
 import net.minecraft.client.multiplayer.ClientLevel;

@@ -1,5 +1,6 @@
 package net.gamma02.jurassicworldreborn.common.network;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.gamma02.jurassicworldreborn.client.screens.ModScreens;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.ModBlockEntities;
 import net.minecraft.client.Minecraft;
@@ -17,7 +18,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.function.Supplier;
 
-public class OpenContainerScreenGuiS2CPacket<B extends BlockEntity> {
+public class OpenContainerScreenGuiS2CPacket<B extends BlockEntity> implements ModPacket<OpenContainerScreenGuiS2CPacket<B>>{
 
     public BlockPos entityPos;
      public int containerID;
@@ -75,16 +76,27 @@ public class OpenContainerScreenGuiS2CPacket<B extends BlockEntity> {
         return new OpenContainerScreenGuiS2CPacket<T>(pos, id, menu, title, type);
     }
 
-    public static void handle(OpenContainerScreenGuiS2CPacket packet, Supplier<NetworkEvent.Context> context){
+
+    @Override
+    public void handleOnRenderThread(OpenContainerScreenGuiS2CPacket<B> packet, Supplier<NetworkEvent.Context> context) {
+
         Player player = Minecraft.getInstance().player;
         BlockEntity entity = Minecraft.getInstance().level != null ? Minecraft.getInstance().level.getBlockEntity(packet.entityPos) : null;
         if(entity != null){
-            if(ForgeRegistries.BLOCK_ENTITY_TYPES.getKey(entity.getType()).equals(packet.intendedTypeLocation) && ModScreens.has(ForgeRegistries.BLOCK_ENTITY_TYPES.getValue(packet.intendedTypeLocation)) && ModBlockEntities.modScreenTypes.modMenuSupplier.containsKey(packet.menuId)){
-                AbstractContainerScreen<?> screen = ModScreens.get(ForgeRegistries.BLOCK_ENTITY_TYPES.getValue(packet.intendedTypeLocation)).create(
-                        ModBlockEntities.modScreenTypes.modMenuSupplier.get(packet.menuId).create(packet.containerID, player.getInventory(), entity),
-                        player.getInventory(), packet.title, entity);
-                player.containerMenu = screen.getMenu();
-                Minecraft.getInstance().setScreen(screen);
+            if(ForgeRegistries.BLOCK_ENTITY_TYPES.getKey(entity.getType()).equals(packet.intendedTypeLocation) &&
+                    ModScreens.has(ForgeRegistries.BLOCK_ENTITY_TYPES.getValue(packet.intendedTypeLocation)) &&
+                    ModBlockEntities.modScreenTypes.modMenuSupplier.containsKey(packet.menuId)){
+                if(RenderSystem.isOnRenderThread()) {
+                    AbstractContainerScreen<?> screen = ModScreens.get(ForgeRegistries.BLOCK_ENTITY_TYPES.getValue(packet.intendedTypeLocation)).create(
+                            ModBlockEntities.modScreenTypes.modMenuSupplier.get(packet.menuId)
+                                    .create(packet.containerID, player.getInventory(), entity), player.getInventory(), packet.title, entity);
+                    player.containerMenu = screen.getMenu();
+                    Minecraft.getInstance().setScreen(screen);
+                }else{
+                    System.out.println("Thread wrong!, %s".formatted(Thread.currentThread().getName()));
+
+                }
+
 
             }else{
                 if(!ModScreens.has(ForgeRegistries.BLOCK_ENTITY_TYPES.getValue(packet.intendedTypeLocation))){
@@ -94,5 +106,16 @@ public class OpenContainerScreenGuiS2CPacket<B extends BlockEntity> {
             }
 
         }
+        context.get().setPacketHandled(true);
+
+
     }
+
+    public static <T extends BlockEntity> void handle(OpenContainerScreenGuiS2CPacket<T> packet, Supplier<NetworkEvent.Context> context){
+
+        Network.INSTANCE.ensureRunningOnSameThread(packet, context.get().getNetworkManager(), context.get(), Minecraft.getInstance());
+
+    }
+
+
 }

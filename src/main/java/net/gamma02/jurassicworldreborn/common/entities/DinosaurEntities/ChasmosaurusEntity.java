@@ -4,6 +4,7 @@ import com.github.alexthe666.citadel.animation.Animation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.level.Level;
@@ -13,7 +14,7 @@ public class ChasmosaurusEntity extends DinosaurEntity
 {
     public ChasmosaurusEntity(Level world, EntityType<ChasmosaurusEntity> type)
     {
-        super(world, type);
+        super(world, type, DinosaurHandler.CHASMOSAURUS);
                 this.addTask(1, new HurtByTargetGoal(this));
 
     }
@@ -36,3 +37,4 @@ public class ChasmosaurusEntity extends DinosaurEntity
         return null;
     }
 }
+

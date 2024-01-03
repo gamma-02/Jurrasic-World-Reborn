@@ -1,36 +1,41 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "jurassicworldreborn:block/dna_combinator.tbl"
+    "model": "jurassicworldreborn:block/dna_combinator"
   },
   "variants": {
-    "facing=north,hybridizer=false": {
+    "facing=north,is_hybridizer=false": {
+      "model":"jurassicworldreborn:block/dna_combinator",
       "y": 0
     },
-    "facing=south,hybridizer=false": {
+    "facing=south,is_hybridizer=false": {
+      "model":"jurassicworldreborn:block/dna_combinator",
       "y": 180
     },
-    "facing=west,hybridizer=false": {
+    "facing=west,is_hybridizer=false": {
+      "model":"jurassicworldreborn:block/dna_combinator",
       "y": 270
     },
-    "facing=east,hybridizer=false": {
+    "facing=east,is_hybridizer=false": {
+      "model":"jurassicworldreborn:block/dna_combinator",
       "y": 90
     },
-    "facing=north,hybridizer=true": {
-      "model": "jurassicworldreborn:block/dna_hybridizer.tbl",
+    "facing=north,is_hybridizer=true": {
+      "model": "jurassicworldreborn:block/dna_hybridizer",
       "y": 0
     },
-    "facing=south,hybridizer=true": {
-      "model": "jurassicworldreborn:block/dna_hybridizer.tbl",
+    "facing=south,is_hybridizer=true": {
+      "model": "jurassicworldreborn:block/dna_hybridizer",
       "y": 180
     },
-    "facing=west,hybridizer=true": {
-      "model": "jurassicworldreborn:block/dna_hybridizer.tbl",
+    "facing=west,is_hybridizer=true": {
+      "model": "jurassicworldreborn:block/dna_hybridizer",
       "y": 270
     },
-    "facing=east,hybridizer=true": {
-      "model": "jurassicworldreborn:block/dna_hybridizer.tbl",
+    "facing=east,is_hybridizer=true": {
+      "model": "jurassicworldreborn:block/dna_hybridizer",
       "y": 90
     }
   }
+
 }

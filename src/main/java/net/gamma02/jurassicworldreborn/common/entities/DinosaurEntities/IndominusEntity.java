@@ -4,6 +4,7 @@ import com.github.alexthe666.citadel.animation.Animation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -28,7 +29,7 @@ public class IndominusEntity extends DinosaurEntity
     private boolean isCamouflaging;
     public IndominusEntity(Level world, EntityType<IndominusEntity> type)
     {
-        super(world, type);
+        super(world, type, DinosaurHandler.INDOMINUS);
         this.target(LivingEntity.class, Player.class
 );
     }
@@ -165,3 +166,4 @@ public class IndominusEntity extends DinosaurEntity
         return SoundHandler.INDOMINUS_BREATHING;
     }
 }
+

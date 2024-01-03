@@ -2,14 +2,9 @@ package net.gamma02.jurassicworldreborn.common;
 
 
 import com.google.common.collect.ImmutableMap;
-import com.mojang.datafixers.Products;
-import com.mojang.datafixers.kinds.App;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
-import net.gamma02.jurassicworldreborn.common.blocks.entities.ModBlockEntities;
-import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerMenu;
 import net.gamma02.jurassicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
 import net.gamma02.jurassicworldreborn.common.worldgen.BiomeModification;
 import net.gamma02.jurassicworldreborn.common.worldgen.OreVeinFeature;
@@ -17,8 +12,6 @@ import net.gamma02.jurassicworldreborn.common.worldgen.tree.*;
 import net.gamma02.jurassicworldreborn.common.worldgen.tree.petrified.PetrifiedTreeConfig;
 import net.gamma02.jurassicworldreborn.common.worldgen.tree.petrified.PetrifiedTreeGenerator;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderSet;
-import net.minecraft.core.Registry;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.world.item.AxeItem;
@@ -63,6 +56,8 @@ public class CommonRegistries {
     public static DeferredRegister<Feature<?>> modFeatures = DeferredRegister.create(ForgeRegistries.FEATURES, modid);
 
 
+
+
     public static DeferredRegister<Codec<? extends BiomeModifier>> BIOME_MODIFIER_SEARLIZERS = DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, modid);
 
     public static RegistryObject<Codec<BiomeModification>> FEATURES = BIOME_MODIFIER_SEARLIZERS.register("biome_modifications", () ->{
@@ -93,17 +88,17 @@ public class CommonRegistries {
 
     public static RegistryObject<Feature<NoneFeatureConfiguration>> PsaroniusTreePreFeature = modFeatures.register("psaronius_tree_pre_feature", () -> new PsaroniusTreeGenerator(NoneFeatureConfiguration.CODEC));
 
-    public static Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> AraucariaTreeFeature = FeatureUtils.register("araucaria_tree_feature", AraucariaTreePreFeature.get(),  new NoneFeatureConfiguration());
-
-    public static Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> GinkgoTreeFeature = FeatureUtils.register("ginkgo_tree_feature", GinkgoTreePreFeature.get(),  new NoneFeatureConfiguration());
-
-    public static Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> CalamitesTreeFeature = FeatureUtils.register("calamites_tree_feature", CalamitesTreePreFeature.get(),  new NoneFeatureConfiguration());
-
-    public static Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> PhoenixTreeFeature = FeatureUtils.register("phoenix_tree_feature", PhoenixTreePreFeature.get(),  new NoneFeatureConfiguration());
-
-    public static Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> PsaroniusTreeFeature = FeatureUtils.register("psaronius_tree_feature", PsaroniusTreePreFeature.get(),  new NoneFeatureConfiguration());
 
 
+    public static Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> AraucariaTreeFeature;
+
+    public static Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> GinkgoTreeFeature;
+
+    public static Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> CalamitesTreeFeature;
+
+    public static Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> PhoenixTreeFeature;
+
+    public static Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> PsaroniusTreeFeature;
 
 
     public static Holder<ConfiguredFeature<OreConfiguration, ?>> CONFIGURED_FLORA_FOSSIL;
@@ -156,7 +151,7 @@ public class CommonRegistries {
 //        JsonOutputGenerator.doJsonProcessing(DynamicWoodTypeRegistry.getJsonBlockStateModelDefinitions());
 
 
-        ModBlockEntities.modScreenTypes.modMenuSupplier.put(ModBlockEntities.modScreenTypes.CleanerScreenType.getId(), CleanerMenu::new);
+//        ModBlockEntities.modScreenTypes.modMenuSupplier.put(ModBlockEntities.modScreenTypes.CleanerScreenType.getId(), CleanerMenu::new);
 
     }
 
@@ -170,22 +165,31 @@ public class CommonRegistries {
 
 
 
-    public static void init(){
-        if(DynamicWoodTypeRegistry.woodTypes != null && new HashSet<>(DynamicWoodTypeRegistry.woodTypes).containsAll(modWoodTypes)){
-            return;
+    static {
+        if(!(DynamicWoodTypeRegistry.woodTypes != null && new HashSet<>(DynamicWoodTypeRegistry.woodTypes).containsAll(modWoodTypes))){
+            DynamicWoodTypeRegistry.addWoodType(GinkgoType, MaterialColor.RAW_IRON, MaterialColor.PODZOL);
+            DynamicWoodTypeRegistry.addWoodType(AraucariaType, MaterialColor.TERRACOTTA_LIGHT_GRAY, MaterialColor.STONE);
+            DynamicWoodTypeRegistry.addWoodType(CalamitesType, MaterialColor.TERRACOTTA_LIGHT_GREEN, MaterialColor.TERRACOTTA_LIGHT_GREEN);
+            DynamicWoodTypeRegistry.addWoodType(PhoenixType, MaterialColor.TERRACOTTA_WHITE, MaterialColor.TERRACOTTA_LIGHT_GRAY);
+            DynamicWoodTypeRegistry.addWoodType(PsaroniusType, MaterialColor.TERRACOTTA_GREEN, MaterialColor.TERRACOTTA_GREEN);
+
         }
-        DynamicWoodTypeRegistry.addWoodType(GinkgoType, MaterialColor.RAW_IRON, MaterialColor.PODZOL);
-        DynamicWoodTypeRegistry.addWoodType(AraucariaType, MaterialColor.TERRACOTTA_LIGHT_GRAY, MaterialColor.STONE);
-        DynamicWoodTypeRegistry.addWoodType(CalamitesType, MaterialColor.TERRACOTTA_LIGHT_GREEN, MaterialColor.TERRACOTTA_LIGHT_GREEN);
-        DynamicWoodTypeRegistry.addWoodType(PhoenixType, MaterialColor.TERRACOTTA_WHITE, MaterialColor.TERRACOTTA_LIGHT_GRAY);
-        DynamicWoodTypeRegistry.addWoodType(PsaroniusType, MaterialColor.TERRACOTTA_GREEN, MaterialColor.TERRACOTTA_GREEN);
     }
 
     public static class ConfiguredFeatureRegistries{
 
+
         public static void init(){
 
-            System.out.println("registering placment and configured");
+            System.out.println("registering placement and configured");
+
+            AraucariaTreeFeature = FeatureUtils.register("araucaria_tree_feature", AraucariaTreePreFeature.get(),  new NoneFeatureConfiguration());
+            GinkgoTreeFeature = FeatureUtils.register("ginkgo_tree_feature", GinkgoTreePreFeature.get(),  new NoneFeatureConfiguration());
+            CalamitesTreeFeature = FeatureUtils.register("calamites_tree_feature", CalamitesTreePreFeature.get(),  new NoneFeatureConfiguration());
+            PhoenixTreeFeature = FeatureUtils.register("phoenix_tree_feature", PhoenixTreePreFeature.get(),  new NoneFeatureConfiguration());
+            PsaroniusTreeFeature = FeatureUtils.register("psaronius_tree_feature", PsaroniusTreePreFeature.get(),  new NoneFeatureConfiguration());
+
+
 
             ORE_FAUNA_FOSSIL_LIST = List.of(OreConfiguration.target(STONE_ORE_REPLACEABLES, ModBlocks.FAUNA_FOSSIL.get().defaultBlockState()), OreConfiguration.target(DEEPSLATE_ORE_REPLACEABLES, ModBlocks.DEEPSLATE_FAUNA_FOSSIL.get().defaultBlockState()));
             ORE_AMBER_LIST = List.of(OreConfiguration.target(STONE_ORE_REPLACEABLES, ModBlocks.AMBER_ORE.get().defaultBlockState()), OreConfiguration.target(DEEPSLATE_ORE_REPLACEABLES, ModBlocks.DEEPSLATE_AMBER_ORE.get().defaultBlockState()));

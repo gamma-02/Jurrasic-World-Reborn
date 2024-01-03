@@ -25,18 +25,19 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
+import java.util.function.Supplier;
 
 public class ModSaplingBlock extends BushBlock implements BonemealableBlock {
 
     public static final IntegerProperty STAGE = BlockStateProperties.STAGE;
-    private final Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> feature;
+    private final Supplier<Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>>> feature;
 
-    public ModSaplingBlock(Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> feature, Properties properties) {
+    public ModSaplingBlock(Supplier<Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>>> feature, Properties properties) {
         super(properties);
         this.feature = feature;
 
         this.registerDefaultState(this.stateDefinition.any().setValue(STAGE, 0));
-        Jurassicworldreborn.setRenderType(this, RenderType.cutout());
+        Jurassicworldreborn.setRenderType(this, RenderType.cutoutMipped());
     }
 
     @Override
@@ -61,8 +62,8 @@ public class ModSaplingBlock extends BushBlock implements BonemealableBlock {
         if (state.getValue(STAGE) == 0) {
             world.setBlock(pos, state.cycle(STAGE), 4);
         } else {
-            if (net.minecraftforge.event.ForgeEventFactory.blockGrowFeature( world, rand, pos, this.feature).getResult().equals(Event.Result.DENY)) return;
-            this.feature.get().place( world, world.getChunkSource().getGenerator(), rand, pos);
+            if (net.minecraftforge.event.ForgeEventFactory.blockGrowFeature( world, rand, pos, this.feature.get()).getResult().equals(Event.Result.DENY)) return;
+            this.feature.get().get().place( world, world.getChunkSource().getGenerator(), rand, pos);
         }
 
     }

@@ -2,8 +2,8 @@ package net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities;
 
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
-import net.gamma02.jurassicworldreborn.common.entities.FlyingDinosaurEntity;
-import com.github.alexthe666.citadel.animation.Animation;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
+import net.gamma02.jurassicworldreborn.common.entities.FlyingDinosaurEntity;import com.github.alexthe666.citadel.animation.Animation;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Squid;
 import net.minecraft.world.entity.npc.Villager;
@@ -16,7 +16,7 @@ public class ZhenyuanopterusEntity extends FlyingDinosaurEntity
 {
     public ZhenyuanopterusEntity(Level world, EntityType<ZhenyuanopterusEntity> type)
     {
-        super(world, type);
+        super(world, type, DinosaurHandler.ZHENYUANOPTERUS);
         this.target(AlligatorGarEntity.class, Squid.class, AlvarezsaurusEntity.class, BeelzebufoEntity.class, CoelurusEntity.class, CompsognathusEntity.class, CoelacanthEntity.class, GuanlongEntity.class, CrassigyrinusEntity.class, DimorphodonEntity.class, DodoEntity.class, DiplocaulusEntity.class, MoganopterusEntity.class, HypsilophodonEntity.class, LeaellynasauraEntity.class, LeptictidiumEntity.class, LudodactylusEntity.class, MegapiranhaEntity.class, MicroceratusEntity.class, MicroraptorEntity.class, MussaurusEntity.class, OthnieliaEntity.class, OviraptorEntity.class, ProtoceratopsEntity.class, SegisaurusEntity.class, TroodonEntity.class, Player.class
 , Animal.class, Villager.class);
     }
@@ -40,3 +40,4 @@ public class ZhenyuanopterusEntity extends FlyingDinosaurEntity
         return null;
     }
 }
+

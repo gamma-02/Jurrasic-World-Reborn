@@ -8,6 +8,9 @@ import net.gamma02.jurassicworldreborn.common.blocks.entities.paleobale.PaleoBal
 import net.gamma02.jurassicworldreborn.common.blocks.fossil.AncientCoralBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
+import net.gamma02.jurassicworldreborn.common.items.genetics.DNAItem;
+import net.gamma02.jurassicworldreborn.common.items.genetics.PlantDNAItem;
+import net.gamma02.jurassicworldreborn.common.items.genetics.StorageDiscItem;
 import net.gamma02.jurassicworldreborn.common.items.misc.ActionFigureItem;
 import net.gamma02.jurassicworldreborn.common.items.misc.SwarmItem;
 import net.minecraft.resources.ResourceLocation;
@@ -82,6 +85,11 @@ public class ModItems {
     public static final RegistryObject<RecordItem> TROODONS_AND_RAPTORS_DISC = modBlockItems.register("disc_troodons_and_raptors", () -> new RecordItem(102, () -> SoundHandler.TROODONS_AND_RAPTORS, new Item.Properties().tab(TabHandler.ITEMS), 1760));
     public static final RegistryObject<RecordItem> DONT_MOVE_A_MUSCLE_DISC = modBlockItems.register("disc_dont_move_a_muscle", () -> new RecordItem(103, () -> SoundHandler.DONT_MOVE_A_MUSCLE, new Item.Properties().tab(TabHandler.ITEMS), 2040));
 
+    public static final RegistryObject<DNAItem> DNA = modItems.register("dna", () -> new DNAItem(new Item.Properties().tab(TabHandler.ITEMS)));
+    public static final RegistryObject<PlantDNAItem> PLANT_DNA = modItems.register("plant_dna", () -> new PlantDNAItem(new Item.Properties().tab(TabHandler.ITEMS)));
+
+    public static final RegistryObject<StorageDiscItem> STORAGE_DISC = modItems.register("storage_disc", () -> new StorageDiscItem(new Item.Properties().tab(TabHandler.ITEMS)));
+
     public static final RegistryObject<BlockItem> GYPSUM_BRICKS = registerBlockItem("gypsum_bricks", ModBlocks.GYPSUM_BRICKS);
 
     public static final RegistryObject<ActionFigureItem> DISPLAY_BLOCK = modItems.register("display_block_item", () -> new ActionFigureItem(new Item.Properties().tab(TabHandler.DECORATIONS)));
@@ -148,7 +156,7 @@ public class ModItems {
 
 
     public static void registerBone(String name, Supplier<Item> sup, String dino){
-        BONES.put(dino.indexOf(':') >= 0 ? dino  : "jurassicworldreborn:" + dino, modItems.register(name, sup));
+        BONES.put(dino.indexOf(':') >= 0 ? dino  : "jurassicworldreborn:" + dino, modItems.register(name, sup));//this is going to error. Need arrayList of bones, this will do for now
     }
     public static void registerMeat(String name, Supplier<Item> sup, String dino){
         String key = dino.indexOf(':') >= 0 ? dino : "jurassicworldreborn:" + dino;

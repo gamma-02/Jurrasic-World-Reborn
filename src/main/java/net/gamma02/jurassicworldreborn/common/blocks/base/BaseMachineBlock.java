@@ -1,7 +1,6 @@
 package net.gamma02.jurassicworldreborn.common.blocks.base;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -10,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class BaseMachineBlock extends HorizontalDirectionalBlock implements EntityBlock {
 
-    //todo: mechanics of this lol
+    //TODO: mechanics of this lol
     public BaseMachineBlock(Properties p_52591_) {
         super(p_52591_);
     }

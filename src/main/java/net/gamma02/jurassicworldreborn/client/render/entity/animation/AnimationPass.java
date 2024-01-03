@@ -5,6 +5,7 @@ import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.Animatable;
+import net.minecraft.util.Mth;
 
 import java.util.Map;
 
@@ -15,6 +16,9 @@ public class AnimationPass {
     protected float[][] positionIncrements;
     protected float[][] prevRotationIncrements;
     protected float[][] prevPositionIncrements;
+
+    protected float[][] prevPosition;
+    protected float[][] prevRotation;
     protected int poseCount;
     protected int poseIndex;
     protected float poseLength;
@@ -24,6 +28,7 @@ public class AnimationPass {
 
     protected AdvancedModelBox[] parts;
     protected PosedCuboid[] pose;
+    protected PosedCuboid[] prevPose;
 
     protected Animation animation;
 
@@ -47,6 +52,9 @@ public class AnimationPass {
         this.prevPositionIncrements = new float[parts.length][3];
         this.rotationIncrements = new float[parts.length][3];
         this.positionIncrements = new float[parts.length][3];
+        this.prevRotation = new float[parts.length][3];
+        this.prevPosition = new float[parts.length][3];
+
 
         this.animation = this.getRequestedAnimation(entity);
         this.initPoseModel();
@@ -60,6 +68,9 @@ public class AnimationPass {
 
     public void initPoseModel() {
         float[][] pose = this.animations.get(this.animation);
+        if(this.pose != null){
+            this.prevPose = this.pose;
+        }
         if (pose != null) {
             this.poseCount = pose.length;
             this.poseIndex = 0;
@@ -84,6 +95,8 @@ public class AnimationPass {
             positionIncrements[0] = (nextPose.positionX - (part.defaultPositionX + this.prevPositionIncrements[partIndex][0])) * animationDegree;
             positionIncrements[1] = (nextPose.positionY - (part.defaultPositionY + this.prevPositionIncrements[partIndex][1])) * animationDegree;
             positionIncrements[2] = (nextPose.positionZ - (part.defaultPositionZ + this.prevPositionIncrements[partIndex][2])) * animationDegree;
+
+//            System.out.println(Arrays.toString(this.rotationIncrements[partIndex]));
         }
     }
 
@@ -105,7 +118,7 @@ public class AnimationPass {
         return Math.min(1.0F, Math.max(0.0F, inertiaFactor));
     }
 
-    public void performAnimations(Animatable entity, float limbSwing, float limbSwingAmount, float ticks) {
+    public void performAnimations(Animatable entity, float limbSwing, float limbSwingAmount, float ageInTicks) {
         this.limbSwing = limbSwing;
         this.limbSwingAmount = limbSwingAmount;
 
@@ -128,21 +141,22 @@ public class AnimationPass {
                 if (this.pose[partIndex] == null) {
                     Jurassicworldreborn.getLogger().error("Part " + partIndex + " in pose is null");
                 } else {
+
                     this.applyRotations(partIndex);
                     this.applyTranslations(partIndex);
                 }
             }
         }
 
-        if (this.updateAnimationTick(entity, ticks)) {
-            this.onPoseFinish(entity, ticks);
+        if (this.updateAnimationTick(entity, ageInTicks)) {
+            this.onPoseFinish(entity, ageInTicks);
         }
 
-        this.prevTicks = ticks;
+        this.prevTicks = ageInTicks;
     }
 
     public boolean updateAnimationTick(Animatable entity, float ticks) {
-        float incrementAmount = (ticks - this.prevTicks) * this.getAnimationSpeed(entity);
+        float incrementAmount = (ticks - this.prevTicks)/*elapsed time in ticks*/ * this.getAnimationSpeed(entity);
         if (this.animationTick < 0.0F) {
             this.animationTick = 0.0F;
         }
@@ -176,9 +190,21 @@ public class AnimationPass {
 
         float[] rotationIncrements = this.rotationIncrements[partIndex];
 
-        part.rotateAngleX += (rotationIncrements[0] * this.inertiaFactor + this.prevRotationIncrements[partIndex][0]);
-        part.rotateAngleY += (rotationIncrements[1] * this.inertiaFactor + this.prevRotationIncrements[partIndex][1]);
-        part.rotateAngleZ += (rotationIncrements[2] * this.inertiaFactor + this.prevRotationIncrements[partIndex][2]);
+//        part.rotateAngleX = (rotationIncrements[0] * this.inertiaFactor + this.prevRotationIncrements[partIndex][0]);
+//        part.rotateAngleY = (rotationIncrements[1] * this.inertiaFactor + this.prevRotationIncrements[partIndex][1]);
+//        part.rotateAngleZ = (rotationIncrements[2] * this.inertiaFactor + this.prevRotationIncrements[partIndex][2]);
+        this.prevRotation[partIndex][0] = part.rotateAngleX;
+        this.prevRotation[partIndex][1] = part.rotateAngleY;
+        this.prevRotation[partIndex][2] = part.rotateAngleZ;
+
+        if(this.prevPose == null){
+            this.prevPose = this.pose;
+        }
+
+        //This sets the part's rotation angles to that of the pose's rotation angles. TODO: INTERPOLATION(either linear, customized bezier, or sine)
+        part.rotateAngleX = this.quadrinomialInterpolatePose(this.prevPose[partIndex].rotationX, this.pose[partIndex].rotationX);
+        part.rotateAngleY = this.quadrinomialInterpolatePose(this.prevPose[partIndex].rotationY, this.pose[partIndex].rotationY);
+        part.rotateAngleZ = this.quadrinomialInterpolatePose(this.prevPose[partIndex].rotationZ, this.pose[partIndex].rotationZ);
     }
 
     protected void applyTranslations(int partIndex) {
@@ -186,14 +212,24 @@ public class AnimationPass {
 
         float[] translationIncrements = this.positionIncrements[partIndex];
 
-        part.rotationPointX += (translationIncrements[0] * this.inertiaFactor + this.prevPositionIncrements[partIndex][0]);
-        part.rotationPointY += (translationIncrements[1] * this.inertiaFactor + this.prevPositionIncrements[partIndex][1]);
-        part.rotationPointZ += (translationIncrements[2] * this.inertiaFactor + this.prevPositionIncrements[partIndex][2]);
+//        part.rotationPointX += (translationIncrements[0] * this.inertiaFactor + this.prevPositionIncrements[partIndex][0]);
+//        part.rotationPointY += (translationIncrements[1] * this.inertiaFactor + this.prevPositionIncrements[partIndex][1]);
+//        part.rotationPointZ += (translationIncrements[2] * this.inertiaFactor + this.prevPositionIncrements[partIndex][2]);
+
+        this.prevPosition[partIndex][0] = part.rotationPointX;
+        this.prevPosition[partIndex][1] = part.rotationPointY;
+        this.prevPosition[partIndex][2] = part.rotationPointZ;
+
+        //This sets the part's rotation points(?) to that of the pose's rotation points(?). TODO: INTERPOLATION(either linear, customized bezier, or sine)
+        part.rotationPointX = this.quadrinomialInterpolatePose(this.prevPose[partIndex].positionX, this.pose[partIndex].positionX);
+        part.rotationPointY = this.quadrinomialInterpolatePose(this.prevPose[partIndex].positionY, this.pose[partIndex].positionY);
+        part.rotationPointZ = this.quadrinomialInterpolatePose(this.prevPose[partIndex].positionZ, this.pose[partIndex].positionZ);
     }
 
     protected void setPose(int poseIndex) {
         this.poseCount = this.animations.get(this.animation).length;
         this.poseIndex = poseIndex;
+        this.prevPose = this.pose;
         this.pose = this.poses[(int) this.animations.get(this.animation)[this.poseIndex][0]];
     }
 
@@ -210,6 +246,7 @@ public class AnimationPass {
     protected void startAnimation(Animatable entity) {
         float[][] pose = this.animations.get(this.animation);
         if (pose != null) {
+//            this.prevPose = this.pose;
             this.pose = this.poses[(int) this.animations.get(this.animation)[this.poseIndex][0]];
             this.poseLength = Math.max(1, pose[this.poseIndex][1]);
             this.animationTick = 0;
@@ -219,6 +256,7 @@ public class AnimationPass {
     }
 
     protected void setPose(Animatable entity, float ticks) {
+//        this.prevPose = this.pose;
         this.pose = this.poses[(int) this.animations.get(this.animation)[this.poseIndex][0]];
         this.poseLength = this.animations.get(this.animation)[this.poseIndex][1];
         this.animationTick = 0;
@@ -260,20 +298,91 @@ public class AnimationPass {
 
         this.setPose(0);
 
+        this.animationStartTime = System.currentTimeMillis();
+
         this.startAnimation(entity);
     }
 
     protected void updatePreviousPose() {
         for (int partIndex = 0; partIndex < this.parts.length; partIndex++) {
-            this.prevRotationIncrements[partIndex][0] += this.rotationIncrements[partIndex][0] * this.inertiaFactor;
-            this.prevRotationIncrements[partIndex][1] += this.rotationIncrements[partIndex][1] * this.inertiaFactor;
-            this.prevRotationIncrements[partIndex][2] += this.rotationIncrements[partIndex][2] * this.inertiaFactor;
+            this.prevRotationIncrements[partIndex][0] = this.rotationIncrements[partIndex][0] * this.inertiaFactor;
+            this.prevRotationIncrements[partIndex][1] = this.rotationIncrements[partIndex][1] * this.inertiaFactor;
+            this.prevRotationIncrements[partIndex][2] = this.rotationIncrements[partIndex][2] * this.inertiaFactor;
 
             this.prevPositionIncrements[partIndex][0] += this.positionIncrements[partIndex][0] * this.inertiaFactor;
             this.prevPositionIncrements[partIndex][1] += this.positionIncrements[partIndex][1] * this.inertiaFactor;
             this.prevPositionIncrements[partIndex][2] += this.positionIncrements[partIndex][2] * this.inertiaFactor;
         }
     }
+
+    //start interpolation code
+
+    public long animationStartTime = 0;
+
+    /**
+     * This interpolates between each pose variable based upon the animation tick, specifically how far
+     * through the animation this pass is, conformed to a float percentage between {@code 0.0F} and {@code 1.0F}
+     *
+     * @param oldPoseVar The old pose's variable to start at
+     * @param newPoseVar the new pose's variable to end at
+     * @return the result of a linear interpolation between the start and end var
+     */
+    public float linearInterpolatePose(float oldPoseVar, float newPoseVar){
+        return Mth.lerp(conformAnimationTick(),
+                oldPoseVar,
+                newPoseVar);
+    }
+
+    public float quadrinomialInterpolatePose(float oldPoseVar, float newPoseVar){
+//        float frameTime = Minecraft.getInstance().getPartialTick();
+        long clientTickTime = (this.animationStartTime - getIntegerOverflowInsurance()) + 500 - (System.currentTimeMillis() - getIntegerOverflowInsurance());
+        if( clientTickTime < 0 ){
+            return newPoseVar;
+        }
+        float lerpTime = (Math.toIntExact(clientTickTime))/500F;
+
+        if(oldPoseVar == newPoseVar){
+//            System.out.println("old == new!");
+        }
+
+//        return Mth.lerp(conformQuadranomialTick(lerpTime), oldPoseVar, newPoseVar);
+        return Mth.lerp(this.animationTick/this.poseLength, oldPoseVar, newPoseVar);
+
+
+
+    }
+
+    /**
+     * bounds the animation tick between 0 and 1
+     * @return the percentage of the animation that has been done
+     */
+    public float conformAnimationTick(){
+//        System.out.println("Percent tick: " + this.animationTick / this.poseLength);
+        return Mth.clamp(
+                ( this.animationTick / (this.poseLength) ),
+                0,
+                1
+                );
+    }
+
+    /**
+     * bounds the animation tick between 0 and 1 using a
+     * @return the percentage of the animation that has been done
+     */
+
+    public float conformQuadranomialTick(float conformee){
+
+        return (float) Mth.clamp(
+                Math.pow(conformee, 4),
+                0,
+                1
+        );
+    }
+
+    public long getIntegerOverflowInsurance(){
+        return 1000000000;
+    }
+
 
     protected float getAnimationSpeed(Animatable entity) {
         return 1.0F;

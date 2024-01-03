@@ -73,7 +73,7 @@ public class ActionFigureItem extends Item {
 //        pos = pos.offset(side);
 //        ItemStack stack = player.getHeldItem(hand);
 //        if (!player.world.isRemote && player.canPlayerEdit(pos, side, stack)) {
-//            Block block = BlockHandler.DISPLAY_BLOCK;
+//            Block block = ModBlocks.DISPLAY_BLOCK;
 //
 //            if (block.canPlaceBlockAt(world, pos)) {
 //                IBlockState state = block.getDefaultState();

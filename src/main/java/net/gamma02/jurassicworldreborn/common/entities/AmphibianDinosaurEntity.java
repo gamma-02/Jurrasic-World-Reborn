@@ -1,5 +1,6 @@
 package net.gamma02.jurassicworldreborn.common.entities;
 
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.ai.DinosaurMoveHelper;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
@@ -19,8 +20,8 @@ public abstract class AmphibianDinosaurEntity extends DinosaurEntity {
 //    private PathNavigate navigateLand = new PathNavigateGround(this, world);
     private int waterTicks;
     private int landTicks;
-    public AmphibianDinosaurEntity(Level world, EntityType type) {
-        super(world, type);
+    public AmphibianDinosaurEntity(Level world, EntityType type, Dinosaur dino) {
+        super(world, type, dino);
 //        this.tasks.removeTask(new DinosaurWanderEntityAI(this, 0.8D, 2, 10));TODO:AI
 //        this.addTask(10, new EntityAIFindWater(this, 1, 2, 30));
 //        this.addTask(10, new Wander(this,2, 10, 2));

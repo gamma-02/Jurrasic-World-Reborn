@@ -3,8 +3,8 @@ package net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities;
 import com.github.alexthe666.citadel.animation.Animation;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
-import net.gamma02.jurassicworldreborn.common.entities.FlyingDinosaurEntity;
-import net.minecraft.sounds.SoundEvent;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
+import net.gamma02.jurassicworldreborn.common.entities.FlyingDinosaurEntity;import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
@@ -15,7 +15,7 @@ public class CearadactylusEntity extends FlyingDinosaurEntity
 {
     public CearadactylusEntity(Level world, EntityType<CearadactylusEntity> type)
     {
-        super(world, type);
+        super(world, type, DinosaurHandler.CEARADACTYLUS);
         this.target(AlligatorGarEntity.class,
                 AlvarezsaurusEntity.class,
                 BeelzebufoEntity.class,
@@ -59,3 +59,4 @@ public class CearadactylusEntity extends FlyingDinosaurEntity
             return null;
         }
     }
+

@@ -4,6 +4,7 @@ import com.github.alexthe666.citadel.animation.Animation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
 import net.gamma02.jurassicworldreborn.common.entities.ai.PeckGroundAnimationAI;
 import net.gamma02.jurassicworldreborn.common.entities.ai.RaptorLeapEntityAI;
 import net.minecraft.sounds.SoundEvent;
@@ -14,7 +15,7 @@ public class OrnithomimusEntity extends DinosaurEntity
 {
     public OrnithomimusEntity(Level world, EntityType<OrnithomimusEntity> type)
     {
-        super(world, type);
+        super(world, type, DinosaurHandler.ORNITHOMIMUS);
         this.addTask(3, new PeckGroundAnimationAI(this));
         this.addTask(1, new RaptorLeapEntityAI(this));
     }
@@ -50,3 +51,4 @@ public class OrnithomimusEntity extends DinosaurEntity
         return null;
     }
 }
+

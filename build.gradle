@@ -224,10 +224,23 @@ dependencies {
 
 
     //Citadel
-    compileOnly "curse.maven:citadel4-331936:${citadel_version}"
-    runtimeOnly "curse.maven:citadel4-331936:${citadel_version}"
+//    compileOnly "curse.maven:citadel4-331936:${citadel_version}"
+//    runtimeOnly "curse.maven:citadel4-331936:${citadel_version}"
+    compileOnly fg.deobf("curse.maven:citadel-331936:${citadel_version}")
+    runtimeOnly fg.deobf("curse.maven:citadel-331936:${citadel_version}")
+
+
     //VecMathImpl
     implementation "javax.vecmath:vecmath:${vecmath_version}"
+
+
+    //performance mods
+    implementation fg.deobf("curse.maven:ferritecore-429235:4117906")
+    implementation fg.deobf("curse.maven:krypton-reforged-549394:4606519")
+    implementation fg.deobf("curse.maven:krypton-reforged-549394:4606519")
+    implementation fg.deobf("curse.maven:radon-596879:3822783")
+    implementation fg.deobf("curse.maven:saturn-670986:4800861")
+
 }
 
 // Example for how to get properties into the manifest for reading at runtime.

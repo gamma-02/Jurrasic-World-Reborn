@@ -1,6 +1,7 @@
 package net.gamma02.jurassicworldreborn.common.entities.EntityUtils;
 
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
 import net.gamma02.jurassicworldreborn.common.items.Food.FoodHelper;
 import net.minecraft.world.item.Item;
 

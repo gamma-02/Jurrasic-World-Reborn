@@ -4,6 +4,7 @@ import com.github.alexthe666.citadel.animation.Animation;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
@@ -17,7 +18,7 @@ public class StyracosaurusEntity extends DinosaurEntity {
     private StyracosaurusEntity king = null;
 
     public StyracosaurusEntity(Level world, EntityType<StyracosaurusEntity> type) {
-        super(world, type);
+        super(world, type, DinosaurHandler.STYRACOSAURUS);
                 this.addTask(1, new HurtByTargetGoal(this));
 
     }
@@ -80,3 +81,4 @@ public class StyracosaurusEntity extends DinosaurEntity {
         super.aiStep();
     }
 }
+

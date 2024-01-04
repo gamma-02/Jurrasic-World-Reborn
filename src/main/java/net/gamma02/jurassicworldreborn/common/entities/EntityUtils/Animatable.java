@@ -6,17 +6,39 @@ import net.gamma02.jurassicworldreborn.client.render.entity.animation.PoseHandle
 import net.minecraft.world.entity.LivingEntity;
 
 public interface Animatable extends IAnimatedEntity {
-    boolean isCarcass();
-    boolean isMoving();
-    boolean isClimbing();
-    boolean inWater();
-    boolean isSwimming();
-    boolean isRunning();
-    boolean inLava();
-    boolean canUseGrowthStage(GrowthStage growthStage);
-    boolean isMarineCreature();
-    boolean shouldUseInertia();
-    boolean isSleeping();
+    default boolean isCarcass(){
+        return false;
+    }
+    default boolean isMoving(){
+        return false;
+    }
+    default boolean isClimbing(){
+        return false;
+    }
+    default boolean inWater(){
+        return false;
+    }
+    default boolean isSwimming(){
+        return false;
+    }
+    default boolean isRunning(){
+        return false;
+    }
+    default boolean inLava(){
+        return false;
+    }
+    default boolean canUseGrowthStage(GrowthStage growthStage){
+        return false;
+    }
+    default boolean isMarineCreature(){
+        return false;
+    }
+    default boolean shouldUseInertia(){
+        return true;
+    }
+    default boolean isSleeping(){
+        return false;
+    }
     GrowthStage getGrowthStage();
     <ENTITY extends LivingEntity & Animatable> PoseHandler<ENTITY> getPoseHandler();
 }

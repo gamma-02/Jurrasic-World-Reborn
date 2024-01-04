@@ -1,5 +1,4 @@
 package net.gamma02.jurassicworldreborn.client.render;
-
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.client.model.AnimatableModel;
 import net.gamma02.jurassicworldreborn.client.render.block.CleaningStationRenderer;
@@ -29,6 +28,7 @@ import java.util.function.Supplier;
 
 import static net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler.*;
 
+
 @OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(modid = Jurassicworldreborn.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value=Dist.CLIENT)
 public class RenderingHandler{
@@ -42,14 +42,10 @@ public class RenderingHandler{
 
         DinosaurHandler.doDinosInit();
 
-        //Registration for the Achillobator. Did this first, all of the others should follow this template of sorts.
-        DinosaurRenderInfo AchillobatorInfo = new DinosaurRenderInfo(ACHILLOBATOR, new AchillobatorAnimator());
-        event.registerEntityRenderer(ModEntities.ACHILLOBATOR_ENTITY_TYPE.get(), (ctx) ->
-                new DinosaurRenderer(ctx,
-                        helper.getDefaultModelFromDinosaur(AchillobatorInfo),
-                        0.5f,
-                        AchillobatorInfo));
         helper.doEntityRegistration(event);
+
+
+
 
         event.registerEntityRenderer(ModEntities.SHARK_ENTITY_TYPE.get(), (ctx) ->
                 new SharkEntityRenderer(ctx, 1.6f)
@@ -80,6 +76,8 @@ public class RenderingHandler{
         }
 
         static void doEntityRegistration(final EntityRenderersEvent.RegisterRenderers event){
+
+
             //OviraptorEntity registration: auto generated
             DinosaurRenderInfo OviraptorInfo = new DinosaurRenderInfo(OVIRAPTOR, new OviraptorAnimator());
             event.registerEntityRenderer(ModEntities.OVIRAPTOR_ENTITY_TYPE.get(), (ctx) ->

@@ -263,4 +263,6 @@ public class CommonRegistries {
 
     }
 
+    public static void init(){}
+
 }

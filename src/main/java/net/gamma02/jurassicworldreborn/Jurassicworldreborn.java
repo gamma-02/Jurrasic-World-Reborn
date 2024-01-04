@@ -112,11 +112,12 @@ public class Jurassicworldreborn {
 
 
         // Register wood types and get DynamicWoodTypeRegistry setup and running
-        try {
-            ClassLoader.getSystemClassLoader().loadClass("net.gamma02.jurassicworldreborn.common.CommonRegistries");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            ClassLoader.getSystemClassLoader().loadClass("net.gamma02.jurassicworldreborn.common.CommonRegistries");
+//        } catch (ClassNotFoundException e) {
+//            throw new RuntimeException(e);
+//        }
+        CommonRegistries.init();
 
 
         //that would be the reason for having no crab entities-

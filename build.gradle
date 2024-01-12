@@ -194,7 +194,10 @@ repositories {
         name = "CurseMaven"
         url = "https://www.cursemaven.com"
     }
-
+    maven {
+        name = 'GeckoLib'
+        url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+    }
 }
 
 
@@ -232,9 +235,14 @@ dependencies {
     compileOnly fg.deobf("curse.maven:citadel-331936:${citadel_version}")
     runtimeOnly fg.deobf("curse.maven:citadel-331936:${citadel_version}")
 
+    //GeckoLib
+    implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${geckolib_version}")
+
 
     //VecMathImpl
     implementation "javax.vecmath:vecmath:${vecmath_version}"
+
+
 
 
     //performance mods

@@ -1,19 +1,23 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "jurassicworldreborn:block/dna_synthesizer.tbl"
+    "model": "jurassicworldreborn:block/dna_synthesizer"
   },
   "variants": {
     "facing=north": {
+      "model": "jurassicworldreborn:block/dna_synthesizer",
       "y": 0
     },
     "facing=south": {
+      "model": "jurassicworldreborn:block/dna_synthesizer",
       "y": 180
     },
     "facing=west": {
+      "model": "jurassicworldreborn:block/dna_synthesizer",
       "y": 270
     },
     "facing=east": {
+      "model": "jurassicworldreborn:block/dna_synthesizer",
       "y": 90
     }
   }

@@ -3,11 +3,13 @@ package net.gamma02.jurassicworldreborn.common.blocks.entities;
 import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNACombinatorHybridizer.DNACombinatorHybridizerBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNACombinatorHybridizer.DNACombinatorHybridizerMenu;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNAExtractor.DNAExtractorBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerMenu;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.fence.ElectricFenceBaseBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.fence.ElectricFencePoleBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.fence.ElectricFenceWireBlockEntity;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.incubator.IncubatorBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.parkBlocks.TourRailBlockEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -36,6 +38,7 @@ public class ModBlockEntities<T extends BlockEntity> {
         return BlockEntityType.Builder.of(TourRailBlockEntity::new, ModBlocks.TOUR_RAIL.get()).build(null);
     });
 
+    public static RegistryObject<BlockEntityType<DNAExtractorBlockEntity>> DNA_EXTRACTOR_BLOCK_ENTITY = modBlockEntities.register("dna_extractor_block_entity", () -> BlockEntityType.Builder.of(DNAExtractorBlockEntity::new, ModBlocks.DNA_EXTRACTOR.get()).build(null));
     public static RegistryObject<BlockEntityType<ElectricFenceBaseBlockEntity>> BASE_FENCE_BLOCK_ENTITY = modBlockEntities.register("base_fence_block_entity", () -> BlockEntityType.Builder.of(ElectricFenceBaseBlockEntity::new, ModBlocks.LOW_SECURITY_FENCE_BASE.get(), ModBlocks.HIGH_SECURITY_FENCE_BASE.get(), ModBlocks.MED_SECURITY_FENCE_BASE.get()).build(null));
 
     public static RegistryObject<BlockEntityType<ElectricFenceWireBlockEntity>> WIRE_FENCE_BLOCK_ENTITY = modBlockEntities.register("wire_fence_block_entity", () -> BlockEntityType.Builder.of(ElectricFenceWireBlockEntity::new, ModBlocks.LOW_SECURITY_FENCE_WIRE.get(), ModBlocks.HIGH_SECURITY_FENCE_WIRE.get(), ModBlocks.MED_SECURITY_FENCE_WIRE.get()).build(null));
@@ -43,6 +46,8 @@ public class ModBlockEntities<T extends BlockEntity> {
     public static RegistryObject<BlockEntityType<ElectricFencePoleBlockEntity>> POLE_FENCE_BLOCK_ENTITY = modBlockEntities.register("pole_fence_block_entity", () -> BlockEntityType.Builder.of(ElectricFencePoleBlockEntity::new, ModBlocks.LOW_SECURITY_FENCE_POLE.get(), ModBlocks.MED_SECURITY_FENCE_POLE.get(), ModBlocks.HIGH_SECURITY_FENCE_POLE.get()).build(null));
 
     public static RegistryObject<BlockEntityType<ActionFigureBlockEntity>> DISPLAY_BLOCK_ENTITY = modBlockEntities.register("display_block_entity", () -> BlockEntityType.Builder.of(ActionFigureBlockEntity::new, ModBlocks.DISPLAY_BLOCK.get()).build(null));
+
+    public static RegistryObject<BlockEntityType<IncubatorBlockEntity>> INCUBATOR_BLOCK_ENTITY = modBlockEntities.register("incubator_block_entity", () -> BlockEntityType.Builder.of(IncubatorBlockEntity::new, ModBlocks.INCUBATOR_MACHINE.get()).build(null));
 
     public static class modScreenTypes{
 

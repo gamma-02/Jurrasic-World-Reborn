@@ -13,6 +13,7 @@ import net.gamma02.jurassicworldreborn.common.blocks.entities.ModBlockEntities;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerMenu;
 import net.gamma02.jurassicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
 import net.gamma02.jurassicworldreborn.common.entities.EventListener;
 import net.gamma02.jurassicworldreborn.common.entities.ModEntities;
 import net.gamma02.jurassicworldreborn.common.items.ModItems;
@@ -119,6 +120,7 @@ public class Jurassicworldreborn {
 //        }
         CommonRegistries.init();
 
+        DinosaurHandler.doDinosInit();
 
         //that would be the reason for having no crab entities-
         ModEntities.MOD_ENTITY_TYPES.register(modEventBus);

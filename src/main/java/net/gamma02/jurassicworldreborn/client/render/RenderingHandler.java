@@ -2,7 +2,9 @@ package net.gamma02.jurassicworldreborn.client.render;
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.client.model.AnimatableModel;
 import net.gamma02.jurassicworldreborn.client.render.block.CleaningStationRenderer;
+import net.gamma02.jurassicworldreborn.client.render.block.DNAExtractorRenderer;
 import net.gamma02.jurassicworldreborn.client.render.block.DisplayBlockEntityRender;
+import net.gamma02.jurassicworldreborn.client.render.block.IncubatorRenderer;
 import net.gamma02.jurassicworldreborn.client.render.entity.DinosaurRenderInfo;
 import net.gamma02.jurassicworldreborn.client.render.entity.DinosaurRenderer;
 import net.gamma02.jurassicworldreborn.client.render.entity.SharkEntityRenderer;
@@ -24,6 +26,7 @@ import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import static net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler.*;
@@ -53,13 +56,15 @@ public class RenderingHandler{
 
         event.registerBlockEntityRenderer(ModBlockEntities.DISPLAY_BLOCK_ENTITY.get(), helper.makeProvider(DisplayBlockEntityRender::new));
         event.registerBlockEntityRenderer(ModBlockEntities.CLEANING_STATION.get(), helper.makeProvider(CleaningStationRenderer::new));
+        event.registerBlockEntityRenderer(ModBlockEntities.DNA_EXTRACTOR_BLOCK_ENTITY.get(), helper.makeProvider(DNAExtractorRenderer::new));
+        event.registerBlockEntityRenderer(ModBlockEntities.INCUBATOR_BLOCK_ENTITY.get(), helper.makeProvider(IncubatorRenderer::new));
 
     }
 
 
-    static {
-        System.out.println("Loaded!");
-    }
+//    static {
+//        System.out.println("Loaded!");
+//    }
 
 
 
@@ -71,6 +76,14 @@ public class RenderingHandler{
                 @Override
                 public BlockEntityRenderer<T> create(Context pContext) {
                     return renderer.get();
+                }
+            };
+        }
+        public static <T extends BlockEntity> BlockEntityRendererProvider<T> makeProvider(Function<BlockEntityRendererProvider.Context, BlockEntityRenderer<T>> renderer){
+            return new BlockEntityRendererProvider<T>() {
+                @Override
+                public BlockEntityRenderer<T> create(Context pContext) {
+                    return renderer.apply(pContext);
                 }
             };
         }

@@ -157,6 +157,7 @@ public abstract class MachineBaseBlockEntity<A extends MachineBaseBlockEntity> e
 
 
 
+
     private boolean isInput(int slot) {
         int[] inputs = this.getInputs();
 

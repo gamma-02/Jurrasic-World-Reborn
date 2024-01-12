@@ -3,6 +3,7 @@ package net.gamma02.jurassicworldreborn.common.entities.Dinosaurs;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurList.*;
 
 public class DinosaurHandler {
+    public static boolean inited = false;
 
     public static final Dinosaur BRACHIOSAURUS = new BrachiosaurusDinosaur();
     public static final Dinosaur DODO = new DodoDinosaur();
@@ -97,6 +98,12 @@ public class DinosaurHandler {
     public static final Dinosaur CAMARASAURUS=new CamarasaurusDinosaur();
 
     public static void doDinosInit(){
+
+        if(inited)
+            return;
+
+        inited = true;
+
         Dinosaur.DINOS.forEach((dino) -> {
             if(dino != Dinosaur.EMPTY)
                 dino.init();

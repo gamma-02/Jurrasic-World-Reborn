@@ -275,6 +275,11 @@ public abstract class DinosaurEntity extends PathfinderMob implements IEntityAdd
         }
     }
 
+    @Override
+    public EntityType<?> getType() {
+        return super.getType();
+    }
+
     public InventoryDinosaur getInventory() {
         return inventory;
     }

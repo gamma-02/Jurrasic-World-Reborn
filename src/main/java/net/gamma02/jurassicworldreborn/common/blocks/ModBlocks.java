@@ -6,7 +6,7 @@ import net.gamma02.jurassicworldreborn.common.blocks.ancientplants.moss.AncientM
 import net.gamma02.jurassicworldreborn.common.blocks.ancientplants.moss.PeatBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.ActionFigureBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNACombinatorHybridizer.DNACombinatorHybridizerBlock;
-import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNAExtractorBlock;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNAExtractor.DNAExtractorBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNASequencerBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNASynthesizerBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.EmbryonicThing.EmbryoCalcificationMachineBlock;
@@ -77,10 +77,10 @@ public class ModBlocks {
     public static RegistryObject<DNASequencerBlock> DNA_SEQUENCER = modBlocks.register("dna_sequencer", () -> new DNASequencerBlock(defaultMachine()));
 
     public static RegistryObject<DNASynthesizerBlock> DNA_SYNTHESIZER = modBlocks.register("dna_synthesizer", () -> new DNASynthesizerBlock(defaultMachine()));
+    public static RegistryObject<EmbryoCalcificationMachineBlock> CALCIFICATION_MACHINE = modBlocks.register("embryo_calcification_machine", () -> new EmbryoCalcificationMachineBlock(BlockBehaviour.Properties.of(Material.STONE)));
+
 
     public static RegistryObject<EmbryonicMachineBlock> EMBRYONIC_MACHINE = modBlocks.register("embryonic_machine", () -> new EmbryonicMachineBlock(defaultMachine()));
-
-    public static RegistryObject<EmbryoCalcificationMachineBlock> CALCIFICATION_MACHINE = modBlocks.register("embryo_calcification_machine", () -> new EmbryoCalcificationMachineBlock(defaultMachine()));
 
     public static RegistryObject<IncubatorBlock> INCUBATOR_MACHINE = modBlocks.register("incubator", () -> new IncubatorBlock(BlockBehaviour.Properties.of(Material.METAL).strength(2.1f)));//hehe
 

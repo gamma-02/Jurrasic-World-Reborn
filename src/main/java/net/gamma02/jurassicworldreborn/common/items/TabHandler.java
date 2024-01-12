@@ -33,6 +33,8 @@ public class TabHandler {
 
     public static final CreativeModeTab DECORATIONS = makeTab("jurassicworldreborn.decorations", () -> ModItems.DISPLAY_BLOCK.get());
 
+    public static final CreativeModeTab DNA = makeTab("jurassicworldreborn.dna", () -> ModItems.DNA.get());
+
     public static CreativeModeTab makeTab(String name, Supplier<Item>... icon){
         CreativeModeTab tab = new CreativeModeTab(name){
 

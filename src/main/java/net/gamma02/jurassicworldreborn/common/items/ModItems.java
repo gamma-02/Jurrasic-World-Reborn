@@ -8,9 +8,8 @@ import net.gamma02.jurassicworldreborn.common.blocks.entities.paleobale.PaleoBal
 import net.gamma02.jurassicworldreborn.common.blocks.fossil.AncientCoralBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
-import net.gamma02.jurassicworldreborn.common.items.genetics.DNAItem;
-import net.gamma02.jurassicworldreborn.common.items.genetics.PlantDNAItem;
-import net.gamma02.jurassicworldreborn.common.items.genetics.StorageDiscItem;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
+import net.gamma02.jurassicworldreborn.common.items.genetics.*;
 import net.gamma02.jurassicworldreborn.common.items.misc.ActionFigureItem;
 import net.gamma02.jurassicworldreborn.common.items.misc.SwarmItem;
 import net.minecraft.resources.ResourceLocation;
@@ -29,6 +28,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.function.Supplier;
 
 public class ModItems {
@@ -94,24 +94,30 @@ public class ModItems {
 
     public static final RegistryObject<ActionFigureItem> DISPLAY_BLOCK = modItems.register("display_block_item", () -> new ActionFigureItem(new Item.Properties().tab(TabHandler.DECORATIONS)));
 
+
+
     static{
 //
         for(WoodType woodType : DynamicWoodTypeRegistry.woodTypes){
             for(DynamicWoodTypeRegistry.ProductType type : DynamicWoodTypeRegistry.ProductType.vals()){
-//            Block block = DynamicWoodTypeRegistry.getProductFromWoodType(woodType, type);
-            if(type == DynamicWoodTypeRegistry.ProductType.WALL_SIGN){
-                continue;
-            }else if(type == DynamicWoodTypeRegistry.ProductType.SIGN){
-                modItems.register(woodType.name() + "_" + type.getProductName(), () -> type.signItemFunction.apply(DynamicWoodTypeRegistry.getProductFromWoodType(woodType, DynamicWoodTypeRegistry.ProductType.SIGN), DynamicWoodTypeRegistry.getProductFromWoodType(woodType, DynamicWoodTypeRegistry.ProductType.WALL_SIGN)));
-                continue;
-            }
-            modItems.register(woodType.name() + "_" + type.getProductName(), () -> type.itemFunction.apply(DynamicWoodTypeRegistry.getProductFromWoodType(woodType, type)));
+    //            Block block = DynamicWoodTypeRegistry.getProductFromWoodType(woodType, type);
+                if(type == DynamicWoodTypeRegistry.ProductType.WALL_SIGN){
+                    continue;
+                }else if(type == DynamicWoodTypeRegistry.ProductType.SIGN){
+                    modItems.register(woodType.name() + "_" + type.getProductName(), () -> type.signItemFunction.apply(DynamicWoodTypeRegistry.getProductFromWoodType(woodType, DynamicWoodTypeRegistry.ProductType.SIGN), DynamicWoodTypeRegistry.getProductFromWoodType(woodType, DynamicWoodTypeRegistry.ProductType.WALL_SIGN)));
+                    continue;
+                }
+                modItems.register(woodType.name() + "_" + type.getProductName(), () -> type.itemFunction.apply(DynamicWoodTypeRegistry.getProductFromWoodType(woodType, type)));
 
-        }
+            }
         }
     }
 
     public static final ArrayList<RegistryObject<BlockItem>> modBlocks = new ArrayList<>();
+
+    public static final ArrayList<RegistryObject<DinosaurEggItem>> dinoEggs = new ArrayList<>();
+    public static final ArrayList<RegistryObject<HatchedEggItem>> hatchedDinoEggs = new ArrayList<>();
+
 
 
 
@@ -136,6 +142,24 @@ public class ModItems {
             modBlocks.add(registerBlockItem(location.getPath(), a));
         }
 
+        for(var a : Dinosaur.DINOS){
+
+            String dinoName = a.getName();
+
+            String path = dinoName.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_egg_item";
+
+
+
+            RegistryObject<DinosaurEggItem> egg = modItems.register(path, () -> new DinosaurEggItem(new Item.Properties().tab(TabHandler.DNA)));
+            RegistryObject<HatchedEggItem> hatchedEgg = modItems.register("hatched_" + path, () -> new HatchedEggItem(new Item.Properties().tab(TabHandler.DNA)));
+
+
+            dinoEggs.add(egg);
+            hatchedDinoEggs.add(hatchedEgg);
+
+
+        }
+
         modItems.register(bus);
 
 //        System.out.println("Registering blocks");
@@ -146,7 +170,7 @@ public class ModItems {
 //        modBlockItems.register(bus);
     }
 
-    private static String correct(String path) {
+    private static String correct(String path) {//wtf - gamma
         return path;
     }
 
@@ -190,7 +214,7 @@ public class ModItems {
             tab = CreativeModeTab.TAB_DECORATIONS;
         }else{
             tab = TabHandler.BLOCKS;
-    }
+        }
 
         return modItems.register(name, () -> new BlockItem(block.get(), new Item.Properties().tab(tab)));
     }

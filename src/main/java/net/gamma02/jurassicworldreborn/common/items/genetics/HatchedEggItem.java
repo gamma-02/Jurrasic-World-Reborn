@@ -1,6 +1,5 @@
 package net.gamma02.jurassicworldreborn.common.items.genetics;
 
-import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
 import net.gamma02.jurassicworldreborn.common.util.LangUtil;
@@ -119,26 +118,25 @@ public class HatchedEggItem extends DNAContainerItem {
 
             Dinosaur dinosaur = this.getDinosaur(stack);
 
-            try {
-                DinosaurEntity entity = dinosaur.getDinosaurClass().getDeclaredConstructor(Level.class).newInstance();
 
-                entity.setPos(pos.getX() + hitX, pos.getY(), pos.getZ() + hitZ);
-                entity.setAge(0);
-                entity.setGenetics(this.getGeneticCode(player, stack));
-                entity.setDNAQuality(this.getDNAQuality(player, stack));
-                entity.setMale(this.getGender(player, stack));
-                if (!player.isCrouching()) {
-                    entity.setOwner(player);
-                }
+//                DinosaurEntity entity = dinosaur.getDinosaurClass().getDeclaredConstructor(Level.class).newInstance();
+            DinosaurEntity entity = DinosaurEntity.CLASS_TYPE_LIST.get(dinosaur.getDinosaurClass()).create(level);
 
-                level.addFreshEntity(entity);
-
-                if (!player.isCreative()) {
-                    stack.shrink(1);
-                }
-            } catch (ReflectiveOperationException e) {
-                Jurassicworldreborn.getLogger().warn("Failed to spawn dinosaur from hatched egg", e);
+            entity.setPos(pos.getX() + hitX, pos.getY(), pos.getZ() + hitZ);
+            entity.setAge(0);
+            entity.setGenetics(this.getGeneticCode(player, stack));
+            entity.setDNAQuality(this.getDNAQuality(player, stack));
+            entity.setMale(this.getGender(player, stack));
+            if (!player.isCrouching()) {
+                entity.setOwner(player);
             }
+
+            level.addFreshEntity(entity);
+
+            if (!player.isCreative()) {
+                stack.shrink(1);
+            }
+
         }
 
         return InteractionResult.SUCCESS;

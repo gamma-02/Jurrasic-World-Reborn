@@ -1,9 +1,9 @@
 package net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNACombinatorHybridizer;
 
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
+import net.gamma02.jurassicworldreborn.common.blocks.base.BaseMachineBlock;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
@@ -11,7 +11,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -19,33 +18,32 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-public class DNACombinatorHybridizerBlock extends BaseEntityBlock {
+public class DNACombinatorHybridizerBlock extends BaseMachineBlock {
 
     public static BooleanProperty MODE = BooleanProperty.create("is_hybridizer");
 
-    public static DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+//    public static DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     VoxelShape MODEL_SHAPE_NORTH =  Block.box(1, 0, 1, 15, 14, 15);
 
 
     public DNACombinatorHybridizerBlock(Properties p_52591_) {
         super(p_52591_);
-        this.registerDefaultState(this.getStateDefinition().any().setValue(FACING, Direction.NORTH).setValue(MODE, false));
+        this.registerDefaultState(this.getStateDefinition().any().setValue(MODE, false));
         Jurassicworldreborn.setRenderType(this, RenderType.translucent());
 
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(FACING, MODE);
+        super.createBlockStateDefinition(pBuilder);
+        pBuilder.add(MODE);
     }
 
 
@@ -55,12 +53,11 @@ public class DNACombinatorHybridizerBlock extends BaseEntityBlock {
         return new DNACombinatorHybridizerBlockEntity(pPos, pState);
     }
 
-    @Nullable
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type) {
+
+    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, net.minecraft.world.level.block.state.BlockState state, BlockEntityType<T> type) {
         return (world1, pos, state1, instance) -> {
-            if (instance instanceof DNACombinatorHybridizerBlockEntity) {
-                ((DNACombinatorHybridizerBlockEntity) instance).tick(world1, pos, state1, (DNACombinatorHybridizerBlockEntity) instance);
+            if (instance instanceof DNACombinatorHybridizerBlockEntity dna) {
+                ( dna).tick(world1, pos, state1, dna);
             } else {
                 super.getTicker(world, state, type).tick(world1, pos, state1, instance);
             }

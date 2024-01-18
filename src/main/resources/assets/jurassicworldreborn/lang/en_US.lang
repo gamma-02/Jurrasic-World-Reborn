@@ -855,7 +855,9 @@ dinosaur.pregnancytest.male=Male dinos cant get pregnant
 dinosaur.pregnancytest.not_pregnant=Dinosaur is not pregnant
 dinosaur.pregnancytest.pregnant=Dinosaur is pregnant. Congratulations!
 
-dinosaur.birthingwand.male=Male dinos cant get pregnant 
+dinosaur.birthingwand.male=Male dinos cant get pregnant
+dinosaur.birthingwand.male.fix=*in gman voice* We'll see about THAT! - gamma
+
 dinosaur.birthingwand.not_pregnant=Dinosaur is not pregnant
 
 paleopad.os.name=PaleoPad 1.0.1

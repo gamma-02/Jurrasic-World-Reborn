@@ -13,6 +13,7 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -124,13 +125,13 @@ public class DNACombinatorHybridizerMenu extends AbstractContainerMenu {
 
 
     @Override
-    public ItemStack quickMoveStack(Player player, int slotIndex) {
+    public @NotNull ItemStack quickMoveStack(@NotNull Player player, int slotIndex) {
         ItemStack transferred = ItemStack.EMPTY;
         Slot slot = this.slots.get(slotIndex);
 
         int otherSlots = this.slots.size() - 36;
 
-        if (slot != null && slot.hasItem()) {
+        if (slot.hasItem()) {
             ItemStack current = slot.getItem();
             transferred = current.copy();
 
@@ -162,7 +163,7 @@ public class DNACombinatorHybridizerMenu extends AbstractContainerMenu {
 
 
     @Override
-    public boolean stillValid(Player pPlayer) {
+    public boolean stillValid(@NotNull Player pPlayer) {
         return this.owner.stillValid(pPlayer);
     }
 
@@ -175,9 +176,4 @@ public class DNACombinatorHybridizerMenu extends AbstractContainerMenu {
         this.ownerData.set(2, mode ? 1 : 0);
     }
 
-    @Override
-    public void broadcastChanges() {
-//        System.out.println("called");
-        super.broadcastChanges();
-    }
 }

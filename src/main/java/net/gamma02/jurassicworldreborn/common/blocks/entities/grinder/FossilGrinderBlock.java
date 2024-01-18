@@ -1,11 +1,62 @@
 package net.gamma02.jurassicworldreborn.common.blocks.entities.grinder;
 
+import net.gamma02.jurassicworldreborn.common.blocks.base.BaseMachineBlock;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DirectionalBlock;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.Nullable;
 
-public class FossilGrinderBlock extends DirectionalBlock {
+public class FossilGrinderBlock extends BaseMachineBlock {
     //todo: block entities and recipies
+
+    public static DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
+
     public FossilGrinderBlock(Properties p_49795_) {
         super(p_49795_);
+//        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
+
+//        Jurassicworldreborn.setRenderType(this, RenderType.cutoutMipped());
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+        return Block.box(2.0, 0.0, 2.0, 14.0, 6.0, 14.0 );
+    }
+
+    //    @Override
+//    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
+//        pBuilder.add(FACING);
+//    }
+
+    @Override
+    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+
+        if (pLevel.isClientSide) {
+            return InteractionResult.SUCCESS;
+        } else {
+//            MenuProvider menuprovider = this.getMenuProvider(pState, pLevel, pPos);
+            if (pLevel.getBlockEntity(pPos) instanceof FossilGrinderBlockEntity e ) {
+                pPlayer.openMenu(e);
+            }
+
+            return InteractionResult.CONSUME;
+        }
+    }
+
+    @Nullable
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
+        return new FossilGrinderBlockEntity(pPos, pState);
     }
 }

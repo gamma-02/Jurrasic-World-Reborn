@@ -14,6 +14,7 @@ import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.InventoryDinosaur;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.*;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.ai.*;
+import net.gamma02.jurassicworldreborn.common.genetics.GeneticsHelper;
 import net.gamma02.jurassicworldreborn.common.items.ModItems;
 import net.gamma02.jurassicworldreborn.common.util.ai.OnionTraverser;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -163,8 +164,12 @@ public abstract class DinosaurEntity extends PathfinderMob implements IEntityAdd
 
     private int messageTick = 0;
 
+    public static final HashMap<Class<? extends DinosaurEntity>, EntityType<? extends DinosaurEntity>> CLASS_TYPE_LIST = new HashMap<>();
+
     public DinosaurEntity(Level world, EntityType<? extends DinosaurEntity> type, Dinosaur dino) {
         super(type, world);// todo
+        CLASS_TYPE_LIST.put(dino.getDinosaurClass(), type);
+
 
         this.dinosaur = dino;
         blocked = false;
@@ -190,7 +195,7 @@ public abstract class DinosaurEntity extends PathfinderMob implements IEntityAdd
         this.legSolver = this.level == null || !this.level.isClientSide ? null : this.createLegSolver();
 
 
-//        this.genetics = GeneticsHelper.randomGenetics(this.random); todo:genetics and big gay
+        this.genetics = GeneticsHelper.randomGenetics(this.random); /*todo:genetics and big gay*/
         this.isMale = this.random.nextBoolean();
 
         this.resetAttackCooldown();

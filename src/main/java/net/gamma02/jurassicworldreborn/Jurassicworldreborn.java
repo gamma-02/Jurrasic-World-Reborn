@@ -3,6 +3,7 @@ package net.gamma02.jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.client.render.RenderingHandler;
 import net.gamma02.jurassicworldreborn.client.screens.CleanerScreen;
 import net.gamma02.jurassicworldreborn.client.screens.DNACombinatorHybridizerScreen;
+import net.gamma02.jurassicworldreborn.client.screens.FossilGrinderScreen;
 import net.gamma02.jurassicworldreborn.client.screens.ModScreens;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.CommonRegistries;
@@ -216,9 +217,11 @@ public class Jurassicworldreborn {
         //Binding screens to types
         MenuScreens.<CleanerMenu, CleanerScreen>register(ModBlockEntities.modScreenTypes.CleanerMenuType.get(), CleanerScreen::new);
         MenuScreens.<DNACombinatorHybridizerMenu, DNACombinatorHybridizerScreen>register(ModBlockEntities.modScreenTypes.COMBINATOR_MENU_TYPE.get(), DNACombinatorHybridizerScreen::new);
+        MenuScreens.register(ModBlockEntities.modScreenTypes.FOSSIL_GRINDER_MENU_TYPE.get(), FossilGrinderScreen::new);
 
         ModScreens.<CleanerBlockEntity, CleanerMenu, CleanerScreen>register(ModBlockEntities.CLEANING_STATION.get(), CleanerScreen::new);
         ModScreens.<DNACombinatorHybridizerBlockEntity, DNACombinatorHybridizerMenu, DNACombinatorHybridizerScreen>register(ModBlockEntities.DNA_COMBINATOR_HYBRIDIZER.get(), DNACombinatorHybridizerScreen::new);
+//        ModScreens.<FossilGrinderBlockEntity, FossilGrinderMenu, FossilGrinderScreen>register(ModBlockEntities.FOSSIL_GRINDER_BLOCK_ENTITY.get(), FossilGrinderScreen::new);
 
 
 

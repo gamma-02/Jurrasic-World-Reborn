@@ -1,13 +1,8 @@
 package net.gamma02.jurassicworldreborn.common.blocks.entities.feeder;
 
 import io.netty.buffer.ByteBuf;
-import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
-import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerBlockEntity;
-import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
-import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
-import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.Diet;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.FoodType;
 import net.gamma02.jurassicworldreborn.common.items.Food.FoodHelper;
 import net.gamma02.jurassicworldreborn.common.util.networking.Syncable;
@@ -16,7 +11,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
-import net.minecraft.world.Container;
+import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -24,20 +19,18 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.entity.EntityTypeTest;
 import net.minecraft.world.phys.AABB;
-import org.checkerframework.checker.units.qual.A;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class FeederBlockEntity extends RandomizableContainerBlockEntity implements Syncable, BlockEntityTicker<FeederBlockEntity>, Container {
+public class FeederBlockEntity extends RandomizableContainerBlockEntity implements Syncable, BlockEntityTicker<FeederBlockEntity>, WorldlyContainer {
 
     public static final int meatSlot = 8; //any slot <= to 8 will be a meat slot
     public static final int plantSlot = 17; //any slot > 8 but <= 17 will be a plant slot
@@ -298,5 +291,20 @@ public class FeederBlockEntity extends RandomizableContainerBlockEntity implemen
      */
     public static boolean isPlantSlot(int slot){
         return slot > meatSlot && slot <= plantSlot;
+    }
+
+    @Override
+    public int[] getSlotsForFace(Direction pSide) {
+        return new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17};
+    }
+
+    @Override
+    public boolean canPlaceItemThroughFace(int pIndex, ItemStack pItemStack, @Nullable Direction pDirection) {
+        return true;
+    }
+
+    @Override
+    public boolean canTakeItemThroughFace(int pIndex, ItemStack pStack, Direction pDirection) {
+        return true;
     }
 }

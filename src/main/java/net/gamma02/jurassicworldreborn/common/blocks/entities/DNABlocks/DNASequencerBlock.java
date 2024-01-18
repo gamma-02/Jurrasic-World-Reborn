@@ -1,16 +1,10 @@
 package net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks;
 
-import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.common.blocks.base.BaseMachineBlock;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -21,7 +15,7 @@ import java.util.stream.Stream;
 public class DNASequencerBlock extends BaseMachineBlock {
     //todo: block entities, recipies, DNA
 
-    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
+//    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
     public static final VoxelShape MODEL_SHAPE_NORTH = Stream.of(
             Block.box(-0.5, 0, 5.5, 16.5, 1, 15.5),
@@ -150,15 +144,15 @@ public class DNASequencerBlock extends BaseMachineBlock {
     public DNASequencerBlock(Properties p_52591_) {
         super(p_52591_);
 
-        this.registerDefaultState(this.getStateDefinition().any().setValue(FACING, Direction.NORTH));
+//        this.registerDefaultState(this.getStateDefinition().any().setValue(FACING, Direction.NORTH));
 
-        Jurassicworldreborn.setRenderType(this, RenderType.cutoutMipped());
+//        Jurassicworldreborn.setRenderType(this, RenderType.cutoutMipped());
     }
 
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(FACING);
-    }
+//    @Override
+//    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
+//        pBuilder.add(FACING);
+//    }
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
         switch (pState.getValue(FACING)){

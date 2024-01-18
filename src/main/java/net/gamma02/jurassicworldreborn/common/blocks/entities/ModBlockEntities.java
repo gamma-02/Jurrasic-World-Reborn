@@ -9,6 +9,8 @@ import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerMen
 import net.gamma02.jurassicworldreborn.common.blocks.entities.fence.ElectricFenceBaseBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.fence.ElectricFencePoleBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.fence.ElectricFenceWireBlockEntity;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.grinder.FossilGrinderBlockEntity;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.grinder.FossilGrinderMenu;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.incubator.IncubatorBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.parkBlocks.TourRailBlockEntity;
 import net.minecraft.resources.ResourceLocation;
@@ -49,6 +51,8 @@ public class ModBlockEntities<T extends BlockEntity> {
 
     public static RegistryObject<BlockEntityType<IncubatorBlockEntity>> INCUBATOR_BLOCK_ENTITY = modBlockEntities.register("incubator_block_entity", () -> BlockEntityType.Builder.of(IncubatorBlockEntity::new, ModBlocks.INCUBATOR_MACHINE.get()).build(null));
 
+    public static RegistryObject<BlockEntityType<FossilGrinderBlockEntity>> FOSSIL_GRINDER_BLOCK_ENTITY = modBlockEntities.register("fossil_grinder_block_entity", () -> BlockEntityType.Builder.of(FossilGrinderBlockEntity::new, ModBlocks.FOSSIL_GRINDER.get()).build(null));
+
     public static class modScreenTypes{
 
         public static HashMap<ResourceLocation, ModMenuSupplier<?>> modMenuSupplier = new HashMap<>();
@@ -57,6 +61,8 @@ public class ModBlockEntities<T extends BlockEntity> {
         public static RegistryObject<MenuType<CleanerMenu>> CleanerMenuType = modScreenTypes.register("cleaner_screen_type", () -> new MenuType<>(CleanerMenu::new));
 
         public static RegistryObject<MenuType<DNACombinatorHybridizerMenu>> COMBINATOR_MENU_TYPE = modScreenTypes.register("combinator_menu_type", () -> new MenuType<>(DNACombinatorHybridizerMenu::new));
+
+        public static RegistryObject<MenuType<FossilGrinderMenu>> FOSSIL_GRINDER_MENU_TYPE = modScreenTypes.register("fossil_grinder_menu_type", () -> new MenuType<>(FossilGrinderMenu::new));
 
         public interface ModMenuSupplier< T extends AbstractContainerMenu>{
 

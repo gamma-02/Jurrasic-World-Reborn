@@ -1,6 +1,14 @@
 package net.gamma02.jurassicworldreborn.common.entities.Dinosaurs;
 
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurList.*;
+import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.Hybrid;
+import net.gamma02.jurassicworldreborn.common.util.TimePeriod;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import static net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur.DINOSAURS_BY_PERIOD_MAP;
+import static net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur.registerDinosaur;
 
 public class DinosaurHandler {
     public static boolean inited = false;
@@ -104,9 +112,114 @@ public class DinosaurHandler {
 
         inited = true;
 
+        registerDinosaur(0, VELOCIRAPTOR);
+        registerDinosaur(2, COELACANTH);
+        registerDinosaur(3, MICRORAPTOR);
+        registerDinosaur(4, BRACHIOSAURUS);
+        registerDinosaur(5, MUSSAURUS);
+        registerDinosaur(6, ACHILLOBATOR);
+        registerDinosaur(7, ANKYLOSAURUS);
+        registerDinosaur(8, DILOPHOSAURUS);
+        registerDinosaur(9, COMPSOGNATHUS);
+        registerDinosaur(10, GALLIMIMUS);
+        registerDinosaur(11, CARNOTAURUS);
+        registerDinosaur(12, DUNKLEOSTEUS);
+        registerDinosaur(13, GIGANOTOSAURUS);
+        registerDinosaur(14, PARASAUROLOPHUS);
+        registerDinosaur(15, INDOMINUS);
+        registerDinosaur(16, MAJUNGASAURUS);
+        registerDinosaur(17, PTERANODON);
+        registerDinosaur(18, RUGOPS);
+        registerDinosaur(19, SEGISAURUS);
+        registerDinosaur(20, TRICERATOPS);
+        registerDinosaur(21, TYRANNOSAURUS);
+        registerDinosaur(22, ALLIGATORGAR);
+        registerDinosaur(23, STEGOSAURUS);
+        registerDinosaur(24, SPINOSAURUS);
+        registerDinosaur(25, HYPSILOPHODON);
+        registerDinosaur(26, DODO);
+        registerDinosaur(27, LEPTICTIDIUM);
+        registerDinosaur(28, MICROCERATUS);
+        registerDinosaur(29, APATOSAURUS);
+        registerDinosaur(30, OTHNIELIA);
+        registerDinosaur(31, DIMORPHODON);
+        registerDinosaur(32, TYLOSAURUS);
+        registerDinosaur(33, LUDODACTYLUS);
+        registerDinosaur(34, PROTOCERATOPS);
+        registerDinosaur(35, TROPEOGNATHUS);
+        registerDinosaur(36, LEAELLYNASAURA);
+        registerDinosaur(37, HERRERASAURUS);
+        registerDinosaur(38, BLUE);
+        registerDinosaur(39, CHARLIE);
+        registerDinosaur(40, DELTA);
+        registerDinosaur(41, ECHO);
+        registerDinosaur(42, THERIZINOSAURUS);
+        registerDinosaur(43, MEGAPIRANHA);
+        registerDinosaur(44, BARYONYX);
+        registerDinosaur(45, CEARADACTYLUS);
+        registerDinosaur(46, MAMENCHISAURUS);
+        registerDinosaur(47, CHASMOSAURUS);
+        registerDinosaur(48, CORYTHOSAURUS);
+        registerDinosaur(49, EDMONTOSAURUS);
+        registerDinosaur(50, LAMBEOSAURUS);
+        registerDinosaur(51, METRIACANTHOSAURUS);
+        registerDinosaur(52, MOGANOPTERUS);
+        registerDinosaur(53, ORNITHOMIMUS);
+        registerDinosaur(54, ZHENYUANOPTERUS);
+        registerDinosaur(55, TROODON);
+        registerDinosaur(56, PACHYCEPHALOSAURUS);
+        registerDinosaur(57, OVIRAPTOR);
+        registerDinosaur(58, MOSASAURUS);
+        registerDinosaur(59, ALVAREZSAURUS);
+        registerDinosaur(60, BEELZEBUFO);
+        registerDinosaur(61, CERATOSAURUS);
+        registerDinosaur(62, PROCERATOSAURUS);
+        registerDinosaur(63, CARCHARODONTOSAURUS);
+        registerDinosaur(64, CHILESAURUS);
+        registerDinosaur(65, CRASSIGYRINUS);
+        registerDinosaur(66, DIPLOCAULUS);
+        registerDinosaur(67, GUANLONG);
+        registerDinosaur(68, HYAENODON);
+        registerDinosaur(69, AMMONITE);
+        registerDinosaur(70, POSTOSUCHUS);
+        registerDinosaur(71, STYRACOSAURUS);
+        registerDinosaur(72, SUCHOMIMUS);
+        registerDinosaur(73, ALLOSAURUS);
+        registerDinosaur(74, MAMMOTH);
+        registerDinosaur(75, QUETZAL);
+        registerDinosaur(76, COELURUS);
+        registerDinosaur(77, MAWSONIA);
+        registerDinosaur(78, INDORAPTOR);
+        registerDinosaur(79, DREADNOUGHTUS);
+        registerDinosaur(80, SINOCERATOPS);
+        registerDinosaur(81, ARSINOITHERIUM);
+        registerDinosaur(82, DEINOTHERIUM);
+        registerDinosaur(83, ELASMOTHERIUM);
+        registerDinosaur(84, MEGATHERIUM);
+        registerDinosaur(85, SMILODON);
+        registerDinosaur(86, RAPHUSREX);
+        registerDinosaur(87, TITANIS);
+        registerDinosaur(88, SPINORAPTOR);
+        registerDinosaur(89, DIPLODOCUS);
+        registerDinosaur(90, ANKYLODOCUS);
+        registerDinosaur(91, CAMARASAURUS);
+
         Dinosaur.DINOS.forEach((dino) -> {
-            if(dino != Dinosaur.EMPTY)
+            if(dino != Dinosaur.EMPTY) {
                 dino.init();
+
+
+                if (!(dino instanceof Hybrid)) {
+                    TimePeriod period = dino.getPeriod();
+                    List<Dinosaur> periods = DINOSAURS_BY_PERIOD_MAP.computeIfAbsent(period, k -> new LinkedList<>());
+                    periods.add(dino);
+                }
+
+
+
+            }
         });
+
+
     }
 }

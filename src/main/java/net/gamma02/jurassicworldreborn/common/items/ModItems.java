@@ -9,16 +9,15 @@ import net.gamma02.jurassicworldreborn.common.blocks.fossil.AncientCoralBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
+import net.gamma02.jurassicworldreborn.common.items.Fossils.FaunaFossilBlockItem;
 import net.gamma02.jurassicworldreborn.common.items.genetics.*;
 import net.gamma02.jurassicworldreborn.common.items.misc.ActionFigureItem;
 import net.gamma02.jurassicworldreborn.common.items.misc.SwarmItem;
+import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.RecordItem;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -94,9 +93,16 @@ public class ModItems {
 
     public static final RegistryObject<ActionFigureItem> DISPLAY_BLOCK = modItems.register("display_block_item", () -> new ActionFigureItem(new Item.Properties().tab(TabHandler.DECORATIONS)));
 
+    public static final RegistryObject<FaunaFossilBlockItem> FAUNA_FOSSIL_BLOCK = modBlockItems.register("fauna_fossil_block_item", () -> new FaunaFossilBlockItem(ModBlocks.FAUNA_FOSSIL.get(), new Item.Properties().tab(TabHandler.FOSSILS)));
+
+
+
 
 
     static{
+
+
+
 //
         for(WoodType woodType : DynamicWoodTypeRegistry.woodTypes){
             for(DynamicWoodTypeRegistry.ProductType type : DynamicWoodTypeRegistry.ProductType.vals()){

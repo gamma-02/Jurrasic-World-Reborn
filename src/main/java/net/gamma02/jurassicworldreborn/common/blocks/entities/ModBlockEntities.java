@@ -12,6 +12,7 @@ import net.gamma02.jurassicworldreborn.common.blocks.entities.fence.ElectricFenc
 import net.gamma02.jurassicworldreborn.common.blocks.entities.grinder.FossilGrinderBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.grinder.FossilGrinderMenu;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.incubator.IncubatorBlockEntity;
+import net.gamma02.jurassicworldreborn.common.blocks.fossil.FaunaFossilBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.parkBlocks.TourRailBlockEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -32,13 +33,15 @@ public class ModBlockEntities<T extends BlockEntity> {
     public static DeferredRegister<BlockEntityType<?>> modBlockEntities = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, modid);
 
     public static RegistryObject<BlockEntityType<CleanerBlockEntity>> CLEANING_STATION = modBlockEntities.register("cleaning_station", () -> BlockEntityType.Builder.of(CleanerBlockEntity::new, ModBlocks.CLEANER_BLOCK.get()).build(null));
-    public static RegistryObject<BlockEntityType<EncasedFossilBlockEntity>> FOSSIL = modBlockEntities.register("encased_fossil", () -> BlockEntityType.Builder.of(EncasedFossilBlockEntity::new, ModBlocks.FAUNA_FOSSIL.get(), ModBlocks.DEEPSLATE_FAUNA_FOSSIL.get(), ModBlocks.ENCASED_FAUNA_FOSSIL.get()).build(null));
+    public static RegistryObject<BlockEntityType<EncasedFaunaFossilBlockEntity>> ENCASED_FAUNA_FOSSIL = modBlockEntities.register("encased_fossil", () -> BlockEntityType.Builder.of(EncasedFaunaFossilBlockEntity::new, ModBlocks.FAUNA_FOSSIL.get(), ModBlocks.DEEPSLATE_FAUNA_FOSSIL.get(), ModBlocks.ENCASED_FAUNA_FOSSIL.get()).build(null));
 
     public static RegistryObject<BlockEntityType<DNACombinatorHybridizerBlockEntity>> DNA_COMBINATOR_HYBRIDIZER = modBlockEntities.register("dna_combinator_hybridizer", () -> BlockEntityType.Builder.of(DNACombinatorHybridizerBlockEntity::new, ModBlocks.DNA_COMBINER.get()).build(null));
 
     public static RegistryObject<BlockEntityType<TourRailBlockEntity>> TOUR_RAIL_BLOCK_ENTITY = modBlockEntities.register("tour_rail_block_entity", () -> {
         return BlockEntityType.Builder.of(TourRailBlockEntity::new, ModBlocks.TOUR_RAIL.get()).build(null);
     });
+
+    public static RegistryObject<BlockEntityType<FaunaFossilBlockEntity>> FAUNA_FOSSIL_BLOCK_ENTITY = modBlockEntities.register("fauna_fossil_block_entity", () -> BlockEntityType.Builder.of(FaunaFossilBlockEntity::new, ModBlocks.FAUNA_FOSSIL.get(), ModBlocks.DEEPSLATE_FAUNA_FOSSIL.get()).build(null));
 
     public static RegistryObject<BlockEntityType<DNAExtractorBlockEntity>> DNA_EXTRACTOR_BLOCK_ENTITY = modBlockEntities.register("dna_extractor_block_entity", () -> BlockEntityType.Builder.of(DNAExtractorBlockEntity::new, ModBlocks.DNA_EXTRACTOR.get()).build(null));
     public static RegistryObject<BlockEntityType<ElectricFenceBaseBlockEntity>> BASE_FENCE_BLOCK_ENTITY = modBlockEntities.register("base_fence_block_entity", () -> BlockEntityType.Builder.of(ElectricFenceBaseBlockEntity::new, ModBlocks.LOW_SECURITY_FENCE_BASE.get(), ModBlocks.HIGH_SECURITY_FENCE_BASE.get(), ModBlocks.MED_SECURITY_FENCE_BASE.get()).build(null));

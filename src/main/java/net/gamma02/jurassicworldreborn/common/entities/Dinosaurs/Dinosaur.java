@@ -2,6 +2,8 @@ package net.gamma02.jurassicworldreborn.common.entities.Dinosaurs;
 
 import com.github.alexthe666.citadel.client.model.container.TabulaCubeContainer;
 import com.github.alexthe666.citadel.client.model.container.TabulaModelContainer;
+import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
+import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.PoseHandler;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
@@ -18,7 +20,18 @@ import javax.vecmath.Vector3d;
 import java.util.*;
 
 public abstract class Dinosaur implements Comparable<Dinosaur> {
+
+    //Several fields moved over here from EntityHandler b/c of new registration
     public static final ArrayList<Dinosaur> DINOS = new ArrayList<>();
+    public static final Int2ObjectArrayMap<Dinosaur> DINOSAURS = new Int2ObjectArrayMap<>();
+    public static final Object2IntArrayMap<Dinosaur> DINOSAUR_IDS = new Object2IntArrayMap<>();
+    public static final HashMap<TimePeriod, List<Dinosaur>> DINOSAURS_BY_PERIOD_MAP = new HashMap<>();
+    private static int dinoId;
+    private static int highestID;
+
+
+
+
     private final Map<GrowthStage, List<ResourceLocation>> overlays = new HashMap<>();
     private final Map<GrowthStage, ResourceLocation> maleTextures = new HashMap<>();
     private final Map<GrowthStage, ResourceLocation> femaleTextures = new HashMap<>();
@@ -118,6 +131,20 @@ public abstract class Dinosaur implements Comparable<Dinosaur> {
             }
         }
         return EMPTY;
+    }
+
+    public static void registerDinosaur(Dinosaur dinosaur) {
+        registerDinosaur(dinoId, dinosaur);
+        dinoId++;
+    }
+
+    public static void registerDinosaur(int id, Dinosaur dinosaur) {
+        if (id > highestID) {
+            highestID = id;
+        }
+
+        DINOSAURS.put(id, dinosaur);
+        DINOSAUR_IDS.put(dinosaur, id);
     }
 
     public static class EmptyDinosaur extends Dinosaur {

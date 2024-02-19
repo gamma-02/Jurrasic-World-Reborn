@@ -26,9 +26,12 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraft.world.level.material.MaterialColor;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -147,11 +150,27 @@ public class CommonRegistries {
     public static void commonsetupevent(final FMLCommonSetupEvent evt){
         ConfiguredFeatureRegistries.init();
 
+
         //do Json processing for dynamic wood registry models
 //        JsonOutputGenerator.doJsonProcessing(DynamicWoodTypeRegistry.getJsonBlockStateModelDefinitions());
 
 
 //        ModBlockEntities.modScreenTypes.modMenuSupplier.put(ModBlockEntities.modScreenTypes.CleanerScreenType.getId(), CleanerMenu::new);
+
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @SubscribeEvent
+    public static void clientSetupEvent(final FMLClientSetupEvent evt){
+//        NonNullList<ItemStack> FOSSILS = NonNullList.withSize(Dinosaur.DINOSAURS.size(), FaunaFossilBlockItem.setDino(ModItems.FAUNA_FOSSIL_BLOCK.get().getDefaultInstance(), Dinosaur.EMPTY) );
+//
+//        Dinosaur.DINOSAURS.forEach((id, dino) -> {
+//            FOSSILS.set(id, FaunaFossilBlockItem.setDino(ModItems.FAUNA_FOSSIL_BLOCK.get().getDefaultInstance(), dino) );
+//
+//        });
+
+
+
 
     }
 

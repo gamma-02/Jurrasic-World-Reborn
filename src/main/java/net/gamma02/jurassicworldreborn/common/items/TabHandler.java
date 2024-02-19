@@ -35,6 +35,8 @@ public class TabHandler {
 
     public static final CreativeModeTab DNA = makeTab("jurassicworldreborn.dna", () -> ModItems.DNA.get());
 
+    public static final CreativeModeTab FOSSILS = makeTab("jurassicworldreborn.fossils", () -> ModItems.FAUNA_FOSSIL_BLOCK.get());
+
     public static CreativeModeTab makeTab(String name, Supplier<Item>... icon){
         CreativeModeTab tab = new CreativeModeTab(name){
 
@@ -59,6 +61,8 @@ public class TabHandler {
 //                    SCROLLING_TAB_ITEMS.get(name).addLast(i);
                     return i.getDefaultInstance();
                 }
+
+
             }
 
             @Override

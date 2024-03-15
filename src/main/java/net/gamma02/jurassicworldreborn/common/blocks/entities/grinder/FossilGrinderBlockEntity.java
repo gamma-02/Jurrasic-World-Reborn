@@ -3,7 +3,7 @@ package net.gamma02.jurassicworldreborn.common.blocks.entities.grinder;
 import com.google.common.primitives.Ints;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.MachineBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.ModBlockEntities;
-import net.gamma02.jurassicworldreborn.common.items.misc.GrindableItem;
+import net.gamma02.jurassicworldreborn.common.util.api.GrindableItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -158,7 +158,13 @@ public class FossilGrinderBlockEntity extends MachineBlockEntity<FossilGrinderBl
     }
 
     @Override
+    public @NotNull ItemStack getItem(int pIndex) {
+        return this.inventory.get(pIndex);
+    }
+
+    @Override
     protected void setItems(@NotNull NonNullList<ItemStack> pItemStacks) {
+
         this.inventory = pItemStacks;
     }
 
@@ -192,6 +198,7 @@ public class FossilGrinderBlockEntity extends MachineBlockEntity<FossilGrinderBl
             this.setChanged();
             return;
         }
+
         if(hasInputs && this.shouldGrind()){
             this.grindTime++;
 
@@ -221,7 +228,7 @@ public class FossilGrinderBlockEntity extends MachineBlockEntity<FossilGrinderBl
 
 
 
-        super.tick(pLevel, pPos, pState, pBlockEntity);
+//        super.tick(pLevel, pPos, pState, (MachineBlockEntity) pBlockEntity);
     }
 
 
@@ -245,7 +252,6 @@ public class FossilGrinderBlockEntity extends MachineBlockEntity<FossilGrinderBl
         }
     }
 
-
     protected void decreaseStackSize(int slot) {
         NonNullList<ItemStack> slots = this.inventory;
 
@@ -255,6 +261,7 @@ public class FossilGrinderBlockEntity extends MachineBlockEntity<FossilGrinderBl
             slots.set(slot, ItemStack.EMPTY);
         }
     }
+
     public int getOutputSlot(ItemStack output) {
         NonNullList<ItemStack> slots = this.inventory;
         for (int slot : OUTPUTS) {

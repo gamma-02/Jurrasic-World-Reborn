@@ -48,6 +48,13 @@ public abstract class BaseMachineBlock extends BaseEntityBlock implements Entity
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
+//        return (world1, pos, state1, instance) -> {
+//            if(instance instanceof MachineBlockEntity<?> machineBlockEntity){
+//                machineBlockEntity.tick(world1, pos, state1, machineBlockEntity);
+//            }else{
+//                super.getTicker(pLevel, pState, pBlockEntityType).tick(world1, pos, state1, instance);
+//            }
+//        };
         return super.getTicker(pLevel, pState, pBlockEntityType);
     }
 }

@@ -7,17 +7,23 @@ import net.gamma02.jurassicworldreborn.common.blocks.ancientplants.AncientPlantB
 import net.gamma02.jurassicworldreborn.common.blocks.entities.paleobale.PaleoBaleBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.fossil.AncientCoralBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
-import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
+import net.gamma02.jurassicworldreborn.common.items.Food.DinosaurMeatItem;
+import net.gamma02.jurassicworldreborn.common.items.Fossils.EncasedFaunaFossilBlockItem;
 import net.gamma02.jurassicworldreborn.common.items.Fossils.FaunaFossilBlockItem;
+import net.gamma02.jurassicworldreborn.common.items.Fossils.FossilItem;
+import net.gamma02.jurassicworldreborn.common.items.Fossils.PlasterAndBandageItem;
 import net.gamma02.jurassicworldreborn.common.items.genetics.*;
 import net.gamma02.jurassicworldreborn.common.items.misc.ActionFigureItem;
 import net.gamma02.jurassicworldreborn.common.items.misc.SwarmItem;
-import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.RecordItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -25,9 +31,8 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Locale;
+import javax.annotation.Nullable;
+import java.util.*;
 import java.util.function.Supplier;
 
 public class ModItems {
@@ -50,14 +55,14 @@ public class ModItems {
 
 //    public static RegistryObject<Item> PSARONIUS_SAPLING = modBlockItems.register("psarons_sapling", () -> new BlockItem(ModBlocks.PsaroniusSapling.get(), new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)));
 //
-    public static RegistryObject<Item> PLASTER_AND_BANDAGE = modItems.register("plaster_and_bandage", () -> new Item(new Item.Properties().tab(TabHandler.ITEMS)));
+    public static RegistryObject<Item> PLASTER_AND_BANDAGE = modItems.register("plaster_and_bandage", () -> new PlasterAndBandageItem(new Item.Properties().tab(TabHandler.ITEMS)));
 
     public static RegistryObject<Item> MOSQUITO_AMBER = modItems.register("mosquito_amber", () -> new Item(new Item.Properties().tab(TabHandler.ITEMS)));
     public static RegistryObject<Item> APHID_AMBER = modItems.register("aphid_amber", () -> new Item(new Item.Properties().tab(TabHandler.ITEMS)));
 
     public static RegistryObject<Item> SEA_LAMPREY = modItems.register("sea_lamprey", () -> new Item(new Item.Properties().tab(TabHandler.ITEMS)));
 
-    public static RegistryObject<Item> ENCASED_FAUNA_FOSSIL = modItems.register("encased_fauna_item", () -> new Item(new Item.Properties().tab(TabHandler.ITEMS)));
+    public static RegistryObject<Item> ENCASED_FAUNA_FOSSIL = modItems.register("encased_fauna_item", () -> new EncasedFaunaFossilBlockItem(ModBlocks.ENCASED_FAUNA_FOSSIL.get(), new Item.Properties().tab(TabHandler.ITEMS)));
 
     public static RegistryObject<Item> DEFAULT_BONE = modItems.register("missing_bone", () -> new Item(new Item.Properties()));
 
@@ -84,7 +89,7 @@ public class ModItems {
     public static final RegistryObject<RecordItem> TROODONS_AND_RAPTORS_DISC = modBlockItems.register("disc_troodons_and_raptors", () -> new RecordItem(102, () -> SoundHandler.TROODONS_AND_RAPTORS, new Item.Properties().tab(TabHandler.ITEMS), 1760));
     public static final RegistryObject<RecordItem> DONT_MOVE_A_MUSCLE_DISC = modBlockItems.register("disc_dont_move_a_muscle", () -> new RecordItem(103, () -> SoundHandler.DONT_MOVE_A_MUSCLE, new Item.Properties().tab(TabHandler.ITEMS), 2040));
 
-    public static final RegistryObject<DNAItem> DNA = modItems.register("dna", () -> new DNAItem(new Item.Properties().tab(TabHandler.ITEMS)));
+//    public static final RegistryObject<DNAItem> DNA = modItems.register("dna", () -> new DNAItem(new Item.Properties().tab(TabHandler.ITEMS)));
     public static final RegistryObject<PlantDNAItem> PLANT_DNA = modItems.register("plant_dna", () -> new PlantDNAItem(new Item.Properties().tab(TabHandler.ITEMS)));
 
     public static final RegistryObject<StorageDiscItem> STORAGE_DISC = modItems.register("storage_disc", () -> new StorageDiscItem(new Item.Properties().tab(TabHandler.ITEMS)));
@@ -92,6 +97,8 @@ public class ModItems {
     public static final RegistryObject<BlockItem> GYPSUM_BRICKS = registerBlockItem("gypsum_bricks", ModBlocks.GYPSUM_BRICKS);
 
     public static final RegistryObject<ActionFigureItem> DISPLAY_BLOCK = modItems.register("display_block_item", () -> new ActionFigureItem(new Item.Properties().tab(TabHandler.DECORATIONS)));
+
+//    public static final RegistryObject<SoftTissueItem> SOFT_TISSUE = modItems.register("soft_tissue");
 
     public static final RegistryObject<FaunaFossilBlockItem> FAUNA_FOSSIL_BLOCK = modBlockItems.register("fauna_fossil_block_item", () -> new FaunaFossilBlockItem(ModBlocks.FAUNA_FOSSIL.get(), new Item.Properties().tab(TabHandler.FOSSILS)));
 
@@ -121,17 +128,26 @@ public class ModItems {
 
     public static final ArrayList<RegistryObject<BlockItem>> modBlocks = new ArrayList<>();
 
-    public static final ArrayList<RegistryObject<DinosaurEggItem>> dinoEggs = new ArrayList<>();
-    public static final ArrayList<RegistryObject<HatchedEggItem>> hatchedDinoEggs = new ArrayList<>();
+    public static final HashMap<Dinosaur, RegistryObject<DinosaurEggItem>> dinoEggs = new LinkedHashMap<>();
+    public static final HashMap<Dinosaur, RegistryObject<HatchedEggItem>> hatchedDinoEggs = new LinkedHashMap<>();
 
 
 
 
-    public static HashMap<String, RegistryObject<Item>> BONES = new HashMap<>();
-    public static HashMap<String, RegistryObject<Item>> MEATS = new HashMap<>();
-    public static HashMap<String, RegistryObject<Item>> STEAKS = new HashMap<>();
+
+    public static HashMap<Dinosaur, LinkedHashMap<String, RegistryObject<Item>>> BONES = new HashMap<>();
+    public static HashMap<Dinosaur, LinkedHashMap<String, RegistryObject<Item>>> FRESH_BONES = new HashMap<>();
+    public static ArrayList<RegistryObject<Item>> ALL_BONES = new ArrayList<>();
+    public static HashMap<Dinosaur, RegistryObject<DNAItem>> DINOSAUR_DNA = new HashMap<>();
+    public static HashMap<Dinosaur, RegistryObject<SoftTissueItem>> SOFT_TISSUE = new HashMap<>();
+    public static HashMap<Dinosaur, RegistryObject<Item>> MEATS = new HashMap<>();
+    public static HashMap<Dinosaur, RegistryObject<Item>> STEAKS = new HashMap<>();
+    public static ArrayList<String> USED_IDS = new ArrayList<>();
 
     public static void register(IEventBus bus) {
+
+        //make sure all the dinosaurs are registered :D
+//        DinosaurHandler.doDinosInit();
 
         //automatically register all the blocks :)
 
@@ -148,21 +164,40 @@ public class ModItems {
             modBlocks.add(registerBlockItem(location.getPath(), a));
         }
 
-        for(var a : Dinosaur.DINOS){
+
+        for(var a : Dinosaur.DINOSAUR_IDS.keySet()){
 
             String dinoName = a.getName();
 
-            String path = dinoName.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_egg_item";
+            String formattedName = dinoName.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
+
+            String path = dinoName.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
+
+            if(a == Dinosaur.EMPTY)
+                continue;
+
+            RegistryObject<SoftTissueItem> softTissue = modItems.register("soft_tissue/soft_tissue_" + formattedName, () -> new SoftTissueItem(new Item.Properties()));
+            if(!a.givesDirectBirth()) {
+
+                RegistryObject<DinosaurEggItem> egg = modItems.register("egg/egg_" + path, () -> new DinosaurEggItem(new Item.Properties(), a));
+                dinoEggs.put(a, egg);
+
+            }
+            
+            RegistryObject<HatchedEggItem> hatchedEgg = modItems.register("hatched_egg/egg_" + path, () -> new HatchedEggItem(new Item.Properties(), a));
+            RegistryObject<DNAItem> dinoDna = modItems.register("dna/dna_" + formattedName, () -> new DNAItem(new Item.Properties(), a));
 
 
+            SOFT_TISSUE.put(a, softTissue);
+            DINOSAUR_DNA.put(a, dinoDna);
 
-            RegistryObject<DinosaurEggItem> egg = modItems.register(path, () -> new DinosaurEggItem(new Item.Properties().tab(TabHandler.DNA)));
-            RegistryObject<HatchedEggItem> hatchedEgg = modItems.register("hatched_" + path, () -> new HatchedEggItem(new Item.Properties().tab(TabHandler.DNA)));
+            hatchedDinoEggs.put(a, hatchedEgg);
 
 
-            dinoEggs.add(egg);
-            hatchedDinoEggs.add(hatchedEgg);
-
+            //Register other dinosaur-dependent items
+            registerFossilBonesForDino(a);
+            registerFreshBonesForDino(a);
+            registerMeatsForDino(a);
 
         }
 
@@ -176,6 +211,7 @@ public class ModItems {
 //        modBlockItems.register(bus);
     }
 
+
     private static String correct(String path) {//wtf - gamma
         return path;
     }
@@ -185,20 +221,98 @@ public class ModItems {
     }
 
 
-    public static void registerBone(String name, Supplier<Item> sup, String dino){
-        BONES.put(dino.indexOf(':') >= 0 ? dino  : "jurassicworldreborn:" + dino, modItems.register(name, sup));//this is going to error. Need arrayList of bones, this will do for now
-    }
-    public static void registerMeat(String name, Supplier<Item> sup, String dino){
-        String key = dino.indexOf(':') >= 0 ? dino : "jurassicworldreborn:" + dino;
-        MEATS.put(key, modItems.register(name, sup));
-        STEAKS.put(key, modItems.register(name, sup));
+    @Nullable
+    public static RegistryObject<Item> registerSingleBone(String boneName, Supplier<Item> sup, Dinosaur dino, boolean fresh){
+//        BONES.put(dino, modItems.register(dino.getName().toUpperCase(Locale.ROOT).concat(":").concat(boneName), sup));//this is going to error. Need arrayList of bones, this will do for now
+        if(dino == DinosaurHandler.BLUE || dino == DinosaurHandler.CHARLIE || dino == DinosaurHandler.DELTA || dino == DinosaurHandler.ECHO){
+            return null;
+        }
+        String formattedDinoName = dino.getName().toLowerCase().replaceAll(" ", "_");
+        String id = "/" + formattedDinoName + "_" + boneName;
+        if(fresh){
+            id = "fresh_bones".concat(id);
+        }else{
+            id = "bones".concat(id);
+        }
+//        if(( (boneName.equals("skull") && !skullExemptDinos.contains(formattedDinoName) ) ||( boneName.equals("tooth") && teethDinos.contains(formattedDinoName)) ) && !fresh ){
+//            id = "fossil/" + boneName + "_" + formattedDinoName;
+//        }
+
+
+
+        try {
+            if(USED_IDS.contains(id))
+                return null;
+            USED_IDS.add(id);
+            var item = modItems.register(id, sup);
+            ALL_BONES.add(item);
+            return item;
+        }catch(IllegalArgumentException e){
+            Jurassicworldreborn.getLogger().error("GOT YEETED BY " + e);
+//            e.printStackTrace();
+        }
+
+        return null;
     }
 
-    public static Item getBoneForDinosaur(EntityType<DinosaurEntity> type){
-        return BONES.get(type.toString()).orElse(DEFAULT_BONE.get());
+    public static void registerFossilBonesForDino(Dinosaur dinosaur){
+
+        if(dinosaur.isHybrid || dinosaur == Dinosaur.EMPTY || dinosaur.getBones() == null)//make sure the dinosaur isn't a hybrid
+            return;
+
+
+
+        LinkedHashMap<String, RegistryObject<Item>> DINO_BONES = new LinkedHashMap<>();
+        for(String s : dinosaur.getBones()){
+            RegistryObject<Item> item = registerSingleBone(s, () -> new FossilItem(new Item.Properties().tab(TabHandler.FOSSILS), s, false, dinosaur), dinosaur, false);
+            if(item != null)
+                DINO_BONES.put(s, item);
+        }
+        BONES.put(dinosaur, DINO_BONES);
     }
-    public static Item getMeatForDinosaur(EntityType<DinosaurEntity> type){
-        return MEATS.get(type.toString()).orElse(DEFAULT_BONE.get());
+
+    public static void registerFreshBonesForDino(Dinosaur dino){
+
+        LinkedHashMap<String, RegistryObject<Item>> fresh_bones = new LinkedHashMap<>();
+        if(dino.getBones() == null){
+            return;
+        }
+        for(String s : dino.getBones()){
+            RegistryObject<Item> item = registerSingleBone(s, () -> new FossilItem(new Item.Properties().tab(TabHandler.FOSSILS), s, true, dino), dino, true);
+            if(item != null)
+                fresh_bones.put(s, item);
+        }
+
+        FRESH_BONES.put(dino, fresh_bones);
+    }
+
+
+    public static RegistryObject<Item> registerSingleRawMeat(Supplier<Item> sup, Dinosaur dino){
+        return modItems.register("meat/meat_" + dino.getName().toLowerCase(Locale.ROOT).replaceAll(" ", "_"), sup);
+
+    }
+
+    public static RegistryObject<Item> registerSingleSteak(Supplier<Item> sup, Dinosaur dino){
+        return modItems.register("meat/steak_" + dino.getName().toLowerCase().replaceAll(" ", "_"), sup);
+    }
+
+    public static void registerMeatsForDino(Dinosaur dino){
+        List<MobEffectInstance> cookedEffects = dino.applyMeatEffect(new ArrayList<>(), true);
+        var cookedProperties = new FoodProperties.Builder().nutrition(8).meat();
+        for(MobEffectInstance i : cookedEffects){
+            cookedProperties.effect(() -> i, 0.9f);
+        }
+
+        List<MobEffectInstance> rawEffects = dino.applyMeatEffect(new ArrayList<>(), false);
+        var rawProperties = new FoodProperties.Builder().nutrition(3).meat();
+        for(MobEffectInstance i : rawEffects){
+            rawProperties.effect(() -> i, 0.9f);
+        }
+
+        var rawMeat = registerSingleRawMeat(() -> new DinosaurMeatItem(new Item.Properties().food(rawProperties.build()), false), dino);
+        var steak = registerSingleSteak(() -> new DinosaurMeatItem(new Item.Properties().food(cookedProperties.build()), true), dino);
+        MEATS.put(dino, rawMeat);
+        STEAKS.put(dino, steak);
     }
 
     public static RegistryObject<BlockItem> registerBlockItem(String name, Block block){

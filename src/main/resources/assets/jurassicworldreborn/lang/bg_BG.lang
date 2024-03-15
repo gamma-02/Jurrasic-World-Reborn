@@ -604,9 +604,9 @@ cultivator.lipids.name=Липиди
 
 //Others ==================================================
 blue_print.blank.name=Нищо
-lore.dna_quality.name=ДНК качество: {quality}%%
+lore.dna_quality.name=ДНК качество: %1$s%%
 lore.baby_dino.name=Клакане + Десен Бутон за да съживиш бебе Динозавър
-lore.genetic_code.name=Генетичен Код: {code}
+lore.genetic_code.name=Генетичен Код: %1$s
 lore.dinosaur.name=Динозавър: {dino}
 lore.plant.name=Растение: {plant}
 lore.change_gender.name=Десен Бутон във въздуха за да промениш пола

@@ -1,12 +1,12 @@
 package net.gamma02.jurassicworldreborn.common.util.api;
 
 import com.google.common.collect.Lists;
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
-import oshi.util.tuples.Pair;
 
 import java.util.List;
 

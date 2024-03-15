@@ -1,8 +1,10 @@
 package net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner;
 
 import net.gamma02.jurassicworldreborn.common.blocks.entities.ModBlockEntities;
+import net.gamma02.jurassicworldreborn.common.items.ModItems;
 import net.gamma02.jurassicworldreborn.common.network.Network;
 import net.gamma02.jurassicworldreborn.common.recipies.cleaner.CleaningRecipie;
+import net.gamma02.jurassicworldreborn.common.util.api.CleanableItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -35,6 +37,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public class CleanerBlockEntity extends BlockEntity implements BlockEntityTicker<CleanerBlockEntity>, Container, IFluidTank, MenuProvider {
 
     @Nullable CleaningRecipie currentRecipe;
+    private boolean usingCleaningRecipe = true;
     private int progress = 0;
     FluidStack fluid = FluidStack.EMPTY;
     private NonNullList<ItemStack> inventory = NonNullList.withSize(8, ItemStack.EMPTY);
@@ -78,17 +81,45 @@ public class CleanerBlockEntity extends BlockEntity implements BlockEntityTicker
     @Override
     @ParametersAreNonnullByDefault
     public void tick(Level world, BlockPos pos, BlockState state, CleanerBlockEntity instance) {
-        if(progress >= 200){
+        ItemStack input = this.getItem(0);
+        if(progress >= 200 && this.currentRecipe != null){
+
             this.addItem(this.currentRecipe.assemble(this));
             this.currentRecipe = null;
+
             progress = 0;
-            this.getItem(0).setCount(this.getItem(0).getCount()-1);
-        }else if(this.isCleaning()){
+            this.getItem(0).setCount(this.getItem(0).getCount() - 1);
+
+        } else if (progress >= 200 && input.getItem() == ModItems.ENCASED_FAUNA_FOSSIL.get()) {
+
+            ItemStack output = ((CleanableItem) input.getItem()).getCleanedItem(input, world.getRandom());
+            input.shrink(1);
+            this.addItem(output);
+            progress = 0;
+
+
+        }
+
+        if (this.isCleaning()) {
+
             progress++;
             this.fluid.setAmount(this.getFluidAmount() - 2);
 
         }
-        if(this.currentRecipe == null) {
+
+        this.usingCleaningRecipe = true;
+
+        if (input.getItem() == ModItems.ENCASED_FAUNA_FOSSIL.get()) {
+            this.usingCleaningRecipe = false;
+
+
+        }
+
+        if(this.getItem(0) == ItemStack.EMPTY){
+            this.progress = 0;
+        }
+
+        if(this.currentRecipe == null && this.usingCleaningRecipe) {
             for (CleaningRecipie recipie : world.getRecipeManager().getAllRecipesFor(CleaningRecipie.CLEANING_RECIPE_TYPE)) {
                 if (recipie.matches(this, world) && this.hasSpace()) {
                     this.currentRecipe = recipie;
@@ -96,6 +127,8 @@ public class CleanerBlockEntity extends BlockEntity implements BlockEntityTicker
                 }
             }
         }
+
+
         if(this.getFluidAmount() <= 0 && this.getItem(1).is(Items.WATER_BUCKET)){
             this.fluid = new FluidStack(Fluids.WATER, 1000);
             this.setItem(1, Items.BUCKET.getDefaultInstance());
@@ -104,7 +137,7 @@ public class CleanerBlockEntity extends BlockEntity implements BlockEntityTicker
     }
 
     public boolean isCleaning(){
-        return this.currentRecipe != null;
+        return ((this.getItem(0).getItem() instanceof CleanableItem) && this.hasSpace() && this.fluid.getAmount() != 0) || this.currentRecipe != null;
     }
 
     public boolean hasSpace() {

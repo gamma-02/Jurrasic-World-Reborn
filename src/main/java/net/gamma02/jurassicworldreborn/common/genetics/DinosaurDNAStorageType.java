@@ -12,7 +12,7 @@ public class DinosaurDNAStorageType implements StorageType {
 
     @Override
     public ItemStack createItem() {
-        ItemStack output = new ItemStack(ModItems.DNA.get(), 1);
+        ItemStack output = new ItemStack(ModItems.DINOSAUR_DNA.get(dna.getDinosaur()).get(), 1);
         CompoundTag compound = new CompoundTag();
         this.dna.writeToNBT(compound);
         output.setTag(compound);

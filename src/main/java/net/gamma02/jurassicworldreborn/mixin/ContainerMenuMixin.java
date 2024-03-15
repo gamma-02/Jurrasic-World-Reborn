@@ -44,14 +44,15 @@ public abstract class ContainerMenuMixin {
     @Overwrite
     public void broadcastChanges() {
         ProfilerFiller pro = Jurassicworldreborn.profilerFiller;
+//        ProfilerFiller pro = null;
         if(pro != null) {
-            pro.push("broadcastMenu");
+//            pro.push("broadcastMenu");
 //        pro.popPush();
-                pro.push("syncLoop(size " + this.slots.size() + ")");
+//                pro.push("syncLoop(size " + this.slots.size() + ")");
                     int i = 0;
-                    pro.push("getList");
-                        var slotList = new LinkedList<>(this.getItems());//cursednes - a LinkedList is faster than an ArrayList
-                    pro.popPush("realLoop");
+//                    pro.push("getList");
+            LinkedList<ItemStack> slotList = new LinkedList<>(this.getItems());//cursednes - a LinkedList is faster than an ArrayList
+//                    pro.popPush("realLoop");
 //                    pro.push("loopInit");
                     for(ItemStack itemstack : slotList) {
 //                        if( i == 0)
@@ -74,8 +75,8 @@ public abstract class ContainerMenuMixin {
 
                         i += 1;
                     }
-                    pro.pop();
-                pro.pop();
+//                    pro.pop();
+//                pro.pop();
 //            for (int i = 0; i < this.slots.size(); ++i) {
 //                pro.push("syncLoop:" + i);
 //                pro.push("getSlotStack");
@@ -92,11 +93,11 @@ public abstract class ContainerMenuMixin {
 
 
 
-                pro.push("syncToRemote");
+//                pro.push("syncToRemote");
                     this.synchronizeCarriedToRemote();
-                pro.pop();
+//                pro.pop();
 
-                pro.push("updateSlotListenersAndSync");
+//                pro.push("updateSlotListenersAndSync");
                     for (int j = 0; j < this.dataSlots.size(); ++j) {
                         DataSlot dataslot = this.dataSlots.get(j);
                         int k = dataslot.get();
@@ -106,8 +107,8 @@ public abstract class ContainerMenuMixin {
 
                         this.synchronizeDataSlotToRemote(j, k);
                     }
-                pro.pop();
-            pro.pop();
+//                pro.pop();
+//            pro.pop();
         }else{
             for (int i = 0; i < this.slots.size(); ++i) {
                 ItemStack itemstack = this.slots.get(i).getItem();

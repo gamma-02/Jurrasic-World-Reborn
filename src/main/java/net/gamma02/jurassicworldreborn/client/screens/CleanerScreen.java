@@ -46,11 +46,15 @@ public class CleanerScreen extends AbstractContainerScreen<CleanerMenu> {
 
     }
 
-
-
+    @Override
+    public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
+        super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
+        this.renderTooltip(pPoseStack, pMouseX, pMouseY);
+    }
 
     @Override
     protected void renderBg(@NotNull PoseStack pPoseStack, float pPartialTick, int pMouseX, int pMouseY) {
+
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
@@ -66,18 +70,18 @@ public class CleanerScreen extends AbstractContainerScreen<CleanerMenu> {
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             RenderSystem.setShaderTexture(0, TEXTURE);
-            this.blit(pPoseStack, i+78, j+34, progressBarXOffset, progressBarYOffset, progress, 16/*or 17 if it doesn't work thats why*/);
+            this.blit(pPoseStack, i+79, j+34, progressBarXOffset, progressBarYOffset,   progress + 1, 16/*or 17 if it doesn't work thats why*/);
         }
 
         int fluidHeight = menu.getAmountOfFluid();
         //render fluid amount
         if(fluidHeight > 0){
 //            fluidHeight = 50;
-            fluidHeight = fluidHeight/20;
+            fluidHeight /= 20;
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             RenderSystem.setShaderTexture(0, TEXTURE);
-            this.blit(pPoseStack, i+47, j+19, fluidBarXOffset, fluidBarYOffset, 4, fluidHeight);
+            this.blit(pPoseStack, i+47, j+19+50-fluidHeight, fluidBarXOffset, fluidBarYOffset + ( 50 - fluidHeight ), 4, fluidHeight);
         }
 
     }

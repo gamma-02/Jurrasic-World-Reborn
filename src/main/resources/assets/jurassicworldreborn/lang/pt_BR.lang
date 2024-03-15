@@ -608,9 +608,9 @@ cultivator.lipids.name=Lipídeos
 
 //Others ==================================================
 blue_print.blank.name=Em Branco
-lore.dna_quality.name=Qualidade do DNA: {quality}%%
+lore.dna_quality.name=Qualidade do DNA: %1$s%%
 lore.baby_dino.name=Shift + Click com o botão direito para spawnnar um filhote
-lore.genetic_code.name=Código Genético: {code}
+lore.genetic_code.name=Código Genético: %1$s
 lore.dinosaur.name=Dinossauro: {dino}
 lore.plant.name=Planta: {plant}
 lore.change_gender.name=Shift + Click com o botão direito no ar para trocar o gênero

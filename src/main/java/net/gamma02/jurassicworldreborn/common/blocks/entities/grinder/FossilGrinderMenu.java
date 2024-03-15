@@ -1,7 +1,7 @@
 package net.gamma02.jurassicworldreborn.common.blocks.entities.grinder;
 
 import net.gamma02.jurassicworldreborn.common.blocks.entities.ModBlockEntities;
-import net.gamma02.jurassicworldreborn.common.items.misc.GrindableItem;
+import net.gamma02.jurassicworldreborn.common.util.api.GrindableItem;
 import net.gamma02.jurassicworldreborn.common.util.slot.CustomSlot;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -16,9 +16,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class FossilGrinderMenu extends AbstractContainerMenu {
 
-    private Container fossilGrinder;
+    private final Container fossilGrinder;
 
-    private ContainerData fossilGrinderData;
+    private final ContainerData fossilGrinderData;
 
     public FossilGrinderMenu(int pContainerId, Inventory playerInv) {
         this(pContainerId, playerInv, new SimpleContainer(12), new SimpleContainerData(1));
@@ -32,19 +32,19 @@ public class FossilGrinderMenu extends AbstractContainerMenu {
         this.fossilGrinderData = grinderData;
 
 
+        this.addSlot(new GrindableItemSlot(fossilGrinder, 0, 23, 26));
+        this.addSlot(new GrindableItemSlot(fossilGrinder, 3, 23, 44));
+        this.addSlot(new GrindableItemSlot(fossilGrinder, 1, 41, 26));
+        this.addSlot(new GrindableItemSlot(fossilGrinder, 4, 41, 44));
+        this.addSlot(new GrindableItemSlot(fossilGrinder, 2, 59, 26));
+        this.addSlot(new GrindableItemSlot(fossilGrinder, 5, 59, 44));
 
-
-        for (int row = 0; row < 3; row++) {
-            for (int column = 0; column < 2; column++) {
-                this.addSlot(new GrindableItemSlot(fossilGrinder, row + (column * 3), row * 18 + 23, column * 18 + 26));
-            }
-        }
-
-        for (int row = 0; row < 3; row++) {
-            for (int column = 0; column < 2; column++) {
-                this.addSlot(new CustomSlot(this.fossilGrinder, row + (column * 3) + 6, row * 18 + 93 + 15, column * 18 + 26, stack -> false));
-            }
-        }
+        this.addSlot(new CustomSlot(fossilGrinder, 6, 108, 26, stack -> false));
+        this.addSlot(new CustomSlot(fossilGrinder, 9, 108, 44, stack -> false));
+        this.addSlot(new CustomSlot(fossilGrinder, 7, 126, 26, stack -> false));
+        this.addSlot(new CustomSlot(fossilGrinder, 10, 126, 44, stack -> false));
+        this.addSlot(new CustomSlot(fossilGrinder, 8, 144, 26, stack -> false));
+        this.addSlot(new CustomSlot(fossilGrinder, 11, 144, 44, stack -> false));
 
         for (int row = 0; row < 3; ++row) {
             for (int column = 0; column < 9; ++column) {
@@ -106,6 +106,7 @@ public class FossilGrinderMenu extends AbstractContainerMenu {
         public GrindableItemSlot(Container inventory, int slotIndex, int xPosition, int yPosition) {
             super(inventory, slotIndex, xPosition, yPosition);
         }
+
 
         @Override
         public boolean mayPlace(@NotNull ItemStack stack) {

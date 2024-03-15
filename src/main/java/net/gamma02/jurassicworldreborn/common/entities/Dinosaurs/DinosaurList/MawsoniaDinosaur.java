@@ -1,26 +1,22 @@
 package net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurList;
 
-import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.*;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.MawsoniaEntity;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.Diet;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.MovementType;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.SleepTime;
 import net.gamma02.jurassicworldreborn.common.util.TimePeriod;
-import java.util.ArrayList;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.biome.Biome;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.stream.Stream;
-
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MawsoniaDinosaur extends Dinosaur {
 
@@ -78,7 +74,7 @@ public class MawsoniaDinosaur extends Dinosaur {
             
         })).map((biome) -> ForgeRegistries.BIOMES.getResourceKey(biome).get()).toList());
         this.setSpawn(1, biomeList);
-this.init();
+        this.init();
 
 
         this.enableSkeleton();
@@ -87,10 +83,11 @@ this.init();
 
 
     @Override
-    public void applyMeatEffect(Player player, boolean cooked) {
+    public List<MobEffectInstance> applyMeatEffect(List<MobEffectInstance> player, boolean cooked) {
         if (!cooked) {
-            player.addEffect(new MobEffectInstance(MobEffects.POISON, 400, 1));
+            player.add(new MobEffectInstance(MobEffects.POISON, 400, 1));
         }
-        player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 200, 1));
+        player.add(new MobEffectInstance(MobEffects.CONFUSION, 200, 1));
+        return player;
     }
 }

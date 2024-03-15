@@ -27,8 +27,12 @@ public class FaunaFossilBlockEntity extends BlockEntity {
         }
     }
 
-    public Dinosaur getDinosaur(){
+    public void updateDinosaur(){
         FaunaFossil.setDinosaurFromPos(this.getBlockPos(), this.getLevel(), this.getLevel().getRandom());
+    }
+
+    public Dinosaur getDinosaur(){
+//        FaunaFossil.setDinosaurFromPos(this.getBlockPos(), this.getLevel(), this.getLevel().getRandom());
         return this.dinosaur;
     }
 

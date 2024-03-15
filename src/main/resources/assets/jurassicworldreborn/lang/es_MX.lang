@@ -608,9 +608,9 @@ cultivator.lipids.name=Lipidos
 
 //Others ==================================================
 blue_print.blank.name=Esquema en blanco
-lore.dna_quality.name=Calidad del ADN: {quality}%%
+lore.dna_quality.name=Calidad del ADN: %1$s%%
 lore.baby_dino.name=Agachar + Click derecho para generar un dinosaurio bebe
-lore.genetic_code.name=Codigo genetico: {code}
+lore.genetic_code.name=Codigo genetico: %1$s
 lore.dinosaur.name=Dinosaurio: {dino}
 lore.plant.name=Planta: {plant}
 lore.change_gender.name=Click derecho al aire para cambiar el genero

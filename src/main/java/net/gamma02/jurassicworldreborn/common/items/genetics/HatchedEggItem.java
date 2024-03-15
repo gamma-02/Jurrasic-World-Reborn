@@ -15,8 +15,11 @@ import net.minecraft.world.level.Level;
 
 
 public class HatchedEggItem extends DNAContainerItem {
-    public HatchedEggItem(Properties properties) {
+
+    private final Dinosaur dino;
+    public HatchedEggItem(Properties properties, Dinosaur dino) {
         super(properties);
+        this.dino = dino;
     }
 
 //    @Override
@@ -27,20 +30,20 @@ public class HatchedEggItem extends DNAContainerItem {
 
     @Override
     public Component getName(ItemStack pStack) {
-        Dinosaur dinosaur = this.getDinosaur(pStack);
+//        Dinosaur dinosaur = this.getDinosaur(pStack);
 
-        return Component.literal(Component.translatable((dinosaur.givesDirectBirth() ? "item.gestated.name" : "item.hatched_egg.name") + ".name").getString().replace("{dino}", LangUtil.getDinoName(this.getDinosaur(pStack)).getString()));
+        return Component.literal(Component.translatable((dino.givesDirectBirth() ? "item.jurassicworldreborn.gestated" : "item.jurassicworldreborn.hatched_egg")).getString().replace("{dino}", LangUtil.getDinoName(this.dino).getString()));
     }
 
-    public Dinosaur getDinosaur(ItemStack stack) {
-        Dinosaur dinosaur = Dinosaur.getDinosaurByName(stack.getTag() != null ? stack.getTag().getString("DinosaurName") : null);
-
-        if (dinosaur == null) {
-            dinosaur = Dinosaur.EMPTY;
-        }
-
-        return dinosaur;
-    }
+//    public Dinosaur getDinosaur(ItemStack stack) {
+//        Dinosaur dinosaur = Dinosaur.getDinosaurByName(stack.getTag() != null ? stack.getTag().getString("DinosaurName") : null);
+//
+//        if (dinosaur == null) {
+//            dinosaur = Dinosaur.EMPTY;
+//        }
+//
+//        return dinosaur;
+//    }
 
 
 
@@ -82,7 +85,7 @@ public class HatchedEggItem extends DNAContainerItem {
 
     @Override
     public int getContainerId(ItemStack stack) {
-        return Dinosaur.DINOS.indexOf(this.getDinosaur(stack));
+        return Dinosaur.DINOS.indexOf(dino);
     }
 
 //    @Override
@@ -116,16 +119,20 @@ public class HatchedEggItem extends DNAContainerItem {
 
         if (level.isInWorldBounds(pos)/*todo: add more stringent placing requirements here*/) {
 
-            Dinosaur dinosaur = this.getDinosaur(stack);
+            Dinosaur dinosaur = dino;
 
 
 //                DinosaurEntity entity = dinosaur.getDinosaurClass().getDeclaredConstructor(Level.class).newInstance();
-            DinosaurEntity entity = DinosaurEntity.CLASS_TYPE_LIST.get(dinosaur.getDinosaurClass()).create(level);
+            DinosaurEntity entity = DinosaurEntity.CLASS_TYPE_LIST.get(dinosaur.getDinosaurClass()).get().create(level);
 
-            entity.setPos(pos.getX() + hitX, pos.getY(), pos.getZ() + hitZ);
+            if(entity == null){
+                return InteractionResult.PASS;
+            }
+
+            entity.setPos(pos.getX(), pos.getY(), pos.getZ());
             entity.setAge(0);
-            entity.setGenetics(this.getGeneticCode(player, stack));
-            entity.setDNAQuality(this.getDNAQuality(player, stack));
+            entity.setGenetics(this.getGeneticCode(player.getRandom(), stack));
+            entity.setDNAQuality(this.getDNAQuality(player.isCreative(), stack));
             entity.setMale(this.getGender(player, stack));
             if (!player.isCrouching()) {
                 entity.setOwner(player);

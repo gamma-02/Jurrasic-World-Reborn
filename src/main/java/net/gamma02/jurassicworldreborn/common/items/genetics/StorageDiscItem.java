@@ -1,6 +1,7 @@
 package net.gamma02.jurassicworldreborn.common.items.genetics;
 
 import com.google.common.collect.Lists;
+import com.mojang.datafixers.util.Pair;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
 import net.gamma02.jurassicworldreborn.common.genetics.DinoDNA;
 import net.gamma02.jurassicworldreborn.common.genetics.PlantDNA;
@@ -16,7 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
-import oshi.util.tuples.Pair;
+
 
 import java.util.List;
 import java.util.Random;
@@ -31,16 +32,23 @@ public class StorageDiscItem extends Item implements SynthesizableItem {
     public void appendHoverText(ItemStack stack, @Nullable Level pLevel, List<Component> toolTip, TooltipFlag pIsAdvanced) {
 
         CompoundTag tag = stack.getTag();
-        if (tag != null) {
-            String storageId = tag.getString("StorageId");
-            StorageType type = StorageTypeRegistry.getStorageType(storageId);
-            if (type != null) {
-                type.load(tag);
-                type.addInformation(stack, toolTip);
-            }
-        } else {
-            toolTip.add(Component.translatable("cage.empty.name").withStyle(ChatFormatting.RED));
+        if(tag == null) {
+            toolTip.add(Component.translatable("cage.empty").withStyle(ChatFormatting.RED));
+            return;
+        }else if(!tag.contains("DNA")){
+            toolTip.add(Component.translatable("cage.empty").withStyle(ChatFormatting.RED));
+            return;
         }
+
+        CompoundTag dna = tag.getCompound("DNA");
+
+        String storageId = dna.getString("StorageId");
+        StorageType type = StorageTypeRegistry.getStorageType(storageId);
+        if (type != null) {
+            type.load(tag);
+            type.addInformation(stack, toolTip);
+        }
+
         super.appendHoverText(stack, pLevel, toolTip, pIsAdvanced);
     }
 

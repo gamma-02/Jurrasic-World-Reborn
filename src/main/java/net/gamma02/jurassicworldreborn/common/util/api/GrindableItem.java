@@ -1,4 +1,4 @@
-package net.gamma02.jurassicworldreborn.common.items.misc;
+package net.gamma02.jurassicworldreborn.common.util.api;
 
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.item.BlockItem;

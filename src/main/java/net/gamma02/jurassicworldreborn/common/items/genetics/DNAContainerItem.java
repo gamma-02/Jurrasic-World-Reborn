@@ -1,10 +1,17 @@
 package net.gamma02.jurassicworldreborn.common.items.genetics;
 
 import net.gamma02.jurassicworldreborn.common.genetics.GeneticsHelper;
+import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class DNAContainerItem extends Item {
     public DNAContainerItem(Properties pProperties) {
@@ -15,14 +22,12 @@ public class DNAContainerItem extends Item {
         return 0;
     }
 
-    public static int getDNAQuality(Player player, ItemStack stack) {
-        int quality = player.isCreative() ? 100 : 0;
 
-        CompoundTag nbt = stack.getTag();
+    public static int getDNAQuality(boolean creative, ItemStack stack) {
+        int quality = creative ? 100 : 0;
 
-        if (nbt == null) {
-            nbt = new CompoundTag();
-        }
+        CompoundTag nbt = stack.getOrCreateTag();
+
 
         if (nbt.contains("DNAQuality")) {
             quality = nbt.getInt("DNAQuality");
@@ -35,14 +40,10 @@ public class DNAContainerItem extends Item {
         return quality;
     }
 
-    public static String getGeneticCode(Player player, ItemStack stack) {
-        CompoundTag nbt = stack.getTag();
+    public static String getGeneticCode(RandomSource player, ItemStack stack) {
+        CompoundTag nbt = stack.getOrCreateTag();
 
-        String genetics = GeneticsHelper.randomGenetics(player.level.random);
-
-        if (nbt == null) {
-            nbt = new CompoundTag();
-        }
+        String genetics = GeneticsHelper.randomGenetics(player);
 
         if (nbt.contains("Genetics")) {
             genetics = nbt.getString("Genetics");
@@ -55,21 +56,37 @@ public class DNAContainerItem extends Item {
         return genetics;
     }
 
-//    @Override
-//    public void addInformation(ItemStack stack, World worldIn, List<String> lore, ITooltipFlag flagIn) {
-//      /* TODO: this.getDNAQuality(stack., stack); */  int quality = 100;
-//        TextFormatting colour;
-//
-//        if (quality > 75) {
-//            colour = TextFormatting.GREEN;
-//        } else if (quality > 50) {
-//            colour = TextFormatting.YELLOW;
-//        } else if (quality > 25) {
-//            colour = TextFormatting.GOLD;
-//        } else {
-//            colour = TextFormatting.RED;
-//        }
-//        lore.add(colour + new LangHelper("lore.dna_quality.name").withProperty("quality", quality + "").build());
-//        lore.add(TextFormatting.BLUE + new LangHelper("lore.genetic_code.name").withProperty("code", this.getGeneticCode(player, stack)).build());
-//    }
+    public static boolean hasGeneticCode(ItemStack stack){
+        return stack.getOrCreateTag().contains("Genetics");
+    }
+
+    @Override
+    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> lore, TooltipFlag pIsAdvanced) {
+        ChatFormatting colour;
+
+        boolean fromCreativeMenu = false;
+
+        if(pStack.getOrCreateTag().contains("isCreative"))
+            fromCreativeMenu = pStack.getOrCreateTag().getBoolean("isCreative");
+
+        int quality = getDNAQuality(fromCreativeMenu, pStack);
+
+        RandomSource rand = RandomSource.create();
+        if(pLevel != null)
+            rand = pLevel.getRandom();
+
+        if (quality > 75) {
+            colour = ChatFormatting.GREEN;
+        } else if (quality > 50) {
+            colour = ChatFormatting.YELLOW;
+        } else if (quality > 25) {
+            colour = ChatFormatting.GOLD;
+        } else {
+            colour = ChatFormatting.RED;
+        }
+        lore.add(Component.literal(Component.translatable("lore.dna_quality").getString().formatted( Integer.toString(quality), "%")).withStyle(colour));
+        if(hasGeneticCode(pStack))
+            lore.add(Component.literal(Component.translatable("lore.genetic_code").getString().formatted(getGeneticCode(rand, pStack))).withStyle(ChatFormatting.BLUE));
+    }
+
 }

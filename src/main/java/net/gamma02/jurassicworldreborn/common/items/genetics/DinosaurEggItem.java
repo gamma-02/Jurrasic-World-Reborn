@@ -6,32 +6,23 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public class DinosaurEggItem extends DNAContainerItem {
-    public DinosaurEggItem(Properties pProperties) {
+    private final Dinosaur dino;
+    public DinosaurEggItem(Properties pProperties, Dinosaur dino) {
         super(pProperties);
+        this.dino = dino;
     }
 
     @Override
     public Component getName(ItemStack pStack) {
-        return Component.literal(Component.translatable(ForgeRegistries.ITEMS.getKey(this).getPath() + ".name").getString().replace("{dino}", LangUtil.getDinoName(this.getDinosaur(pStack)).getString()));
-    }
-
-    public Dinosaur getDinosaur(ItemStack stack) {
-        Dinosaur dinosaur = Dinosaur.getDinosaurByName(stack.getTag() != null ? stack.getTag().getString("DinosaurName") : null);
-
-        if (dinosaur == null) {
-            dinosaur = Dinosaur.EMPTY;
-        }
-
-        return dinosaur;
+        return Component.literal(Component.translatable("item.jurassicworldreborn.dino_egg").getString().replace("{dino}", LangUtil.getDinoName(this.dino).getString()));
     }
 
     //legacy, use with care
     @Override
     public int getContainerId(ItemStack stack) {
-        return Dinosaur.DINOS.indexOf(this.getDinosaur(stack));
+        return Dinosaur.DINOS.indexOf(this.dino);
     }
 
 //    @Override

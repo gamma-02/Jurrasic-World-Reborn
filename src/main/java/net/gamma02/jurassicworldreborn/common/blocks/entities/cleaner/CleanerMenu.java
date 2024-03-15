@@ -1,6 +1,8 @@
 package net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner;
 
 import net.gamma02.jurassicworldreborn.common.blocks.entities.ModBlockEntities;
+import net.gamma02.jurassicworldreborn.common.util.api.CleanableItem;
+import net.gamma02.jurassicworldreborn.common.util.slot.CustomSlot;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -11,8 +13,6 @@ import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import org.jetbrains.annotations.NotNull;
 
 public class CleanerMenu extends AbstractContainerMenu {
 
@@ -41,6 +41,19 @@ public class CleanerMenu extends AbstractContainerMenu {
         this.cleaningStation = cleaningStation;
         this.cleaningStationData = stationData;
 
+        this.addSlot(new CustomSlot(cleaningStation, 0, 56, 17, (stack) -> stack.getItem() instanceof CleanableItem));
+        this.addSlot(new FluidSlot(cleaningStation, 1, 56, 53));
+
+        int slotIncrement = 18;
+
+        this.addSlot(new Slot(cleaningStation, 2, 108, 26));
+        this.addSlot(new Slot(cleaningStation, 3, 108+slotIncrement, 26));
+        this.addSlot(new Slot(cleaningStation, 4, 108+slotIncrement*2, 26));
+        this.addSlot(new Slot(cleaningStation, 5, 108, 26+slotIncrement));
+        this.addSlot(new Slot(cleaningStation, 6, 108+slotIncrement, 26+slotIncrement));
+        this.addSlot(new Slot(cleaningStation, 7, 108+slotIncrement*2, 26+slotIncrement));
+
+
 
         for(int i = 0; i < 3; ++i) {
             for(int j = 0; j < 9; ++j) {
@@ -52,17 +65,6 @@ public class CleanerMenu extends AbstractContainerMenu {
             this.addSlot(new Slot(inventory, k, 8 + k * 18, 142));
         }
 
-        this.addSlot(new Slot(cleaningStation, 0, 56, 17));
-        this.addSlot(new FluidSlot(cleaningStation, 1, 56, 53));
-
-        int slotIncrement = 18;
-
-        this.addSlot(new Slot(cleaningStation, 2, 108, 26));
-        this.addSlot(new Slot(cleaningStation, 3, 108+slotIncrement, 26));
-        this.addSlot(new Slot(cleaningStation, 4, 108+slotIncrement*2, 26));
-        this.addSlot(new Slot(cleaningStation, 5, 108, 26+slotIncrement));
-        this.addSlot(new Slot(cleaningStation, 6, 108+slotIncrement, 26+slotIncrement));
-        this.addSlot(new Slot(cleaningStation, 7, 108+slotIncrement*2, 26+slotIncrement));
 
         this.addDataSlots(this.cleaningStationData);
 
@@ -86,9 +88,9 @@ public class CleanerMenu extends AbstractContainerMenu {
 
     public int getProgress(){
         if(this.instance != null)
-            return this.instance.getProgress()/22/*or 24 idk which but if it doesn't work that's why lol*/;
+            return (int) Math.ceil((this.instance.getProgress() * ( 22.0 / 200 ) ));/*or 24 idk which but if it doesn't work that's why lol*/
         else{
-            return this.cleaningStationData.get(1)/22;
+            return (int) Math.ceil((this.cleaningStationData.get(1) * ( 22.0 / 200 ) ));
         }
     }
 
@@ -97,25 +99,17 @@ public class CleanerMenu extends AbstractContainerMenu {
     }
 
 
-    @Override
-    public @NotNull ItemStack quickMoveStack(Player pPlayer, int pIndex) {
+    public ItemStack quickMoveStack(Player pPlayer, int pIndex) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.slots.get(pIndex);
         if (slot != null && slot.hasItem()) {
-
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
-            if(itemstack1.is(Items.WATER_BUCKET)){
-                if(!this.moveItemStackTo(itemstack1, 1, 2, true)){
+            if (pIndex < this.cleaningStation.getContainerSize()) {
+                if (!this.moveItemStackTo(itemstack1, this.cleaningStation.getContainerSize(), this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            }
-
-            if (pIndex > 1) {
-                if (!this.moveItemStackTo(itemstack1, 2, 7, true)) {//move item to main container
-                    return ItemStack.EMPTY;
-                }
-            } else if (!this.moveItemStackTo(itemstack1, 0, 1, false)) {//move item to bucket slot
+            } else if (!this.moveItemStackTo(itemstack1, 0, this.cleaningStation.getContainerSize(), false)) {
                 return ItemStack.EMPTY;
             }
 
@@ -152,6 +146,8 @@ public class CleanerMenu extends AbstractContainerMenu {
 
 
     }
+
+
     public static class EmptyFluidSlot extends Slot{
 
         public EmptyFluidSlot(Container pContainer, int pSlot, int pX, int pY) {

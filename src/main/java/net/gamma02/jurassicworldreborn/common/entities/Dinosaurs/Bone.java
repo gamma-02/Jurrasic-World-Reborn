@@ -1,14 +1,8 @@
 package net.gamma02.jurassicworldreborn.common.entities.Dinosaurs;
 
 
-import net.gamma02.jurassicworldreborn.common.items.Bones.BoneItem;
-import net.minecraft.world.item.Item;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 
 public enum Bone{
     ARM_BONES("arm_bones"),
@@ -63,13 +57,13 @@ public enum Bone{
             return this;
         }
 
-        public void registerToHashMap(HashMap<BoneGroup, ArrayList<RegistryObject<BoneItem>>> toRegister, DeferredRegister<Item> registerer){
-            ArrayList<RegistryObject<BoneItem>> temp = new ArrayList<>();
-            for(Bone b : this.bones){
-                temp.add(registerer.register(b.name + this.owner.getName(), () -> new BoneItem(new Item.Properties(), b, this)));
-            }
-            toRegister.put(this, temp);
-        }
+//        public void registerToHashMap(HashMap<BoneGroup, ArrayList<RegistryObject<BoneItem>>> toRegister, DeferredRegister<Item> registerer){
+//            ArrayList<RegistryObject<BoneItem>> temp = new ArrayList<>();
+//            for(Bone b : this.bones){
+//                temp.add(registerer.register(b.name + this.owner.getName(), () -> new BoneItem(new Item.Properties(), b, this)));
+//            }
+//            toRegister.put(this, temp);
+//        }
 
 
     }

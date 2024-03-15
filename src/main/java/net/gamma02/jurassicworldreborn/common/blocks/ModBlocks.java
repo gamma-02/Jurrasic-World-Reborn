@@ -7,7 +7,7 @@ import net.gamma02.jurassicworldreborn.common.blocks.ancientplants.moss.PeatBloc
 import net.gamma02.jurassicworldreborn.common.blocks.entities.ActionFigureBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNACombinatorHybridizer.DNACombinatorHybridizerBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNAExtractor.DNAExtractorBlock;
-import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNASequencerBlock;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNASequencer.DNASequencerBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNASynthesizerBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.EmbryonicThing.EmbryoCalcificationMachineBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.EmbryonicThing.EmbryonicMachineBlock;
@@ -60,7 +60,7 @@ public class ModBlocks {
 
     public static RegistryObject<FaunaFossil> DEEPSLATE_FAUNA_FOSSIL = modBlocks.register("deepslate_fauna_fossil", () -> new FaunaFossil(BlockBehaviour.Properties.of(Material.STONE)));
 
-    public static RegistryObject<Block> ENCASED_FAUNA_FOSSIL = modBlocks.register("encased_fauna_fossil", () -> new Block(BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(5.0F, 0.0F)));//creeper go boom
+    public static RegistryObject<Block> ENCASED_FAUNA_FOSSIL = modBlocks.register("encased_fauna_fossil", () -> new EncasedFaunaFossilBlock(BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(5.0F, 0.0F)));//creeper go boom
 
     public static RegistryObject<Block> AMBER_ORE = modBlocks.register("amber_ore", () -> new Block(BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops()));
 

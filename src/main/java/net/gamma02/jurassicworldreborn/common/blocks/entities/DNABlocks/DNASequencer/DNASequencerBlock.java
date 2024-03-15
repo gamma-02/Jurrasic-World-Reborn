@@ -1,14 +1,23 @@
-package net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks;
+package net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNASequencer;
 
 import net.gamma02.jurassicworldreborn.common.blocks.base.BaseMachineBlock;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.stream.Stream;
 
@@ -167,5 +176,36 @@ public class DNASequencerBlock extends BaseMachineBlock {
             default:
                 return Block.box(1, 0, 1, 15, 14, 15);
         }
+    }
+
+    @Override
+    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+
+        if (pLevel.isClientSide) {
+            return InteractionResult.SUCCESS;
+        } else {
+//            MenuProvider menuprovider = this.getMenuProvider(pState, pLevel, pPos);
+            if (pLevel.getBlockEntity(pPos) instanceof DNASequencerBlockEntity e ) {
+                pPlayer.openMenu(e);
+            }
+
+            return InteractionResult.CONSUME;
+        }
+    }
+
+    @Override
+    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
+        return (pLevel1, pPos, pState1, pBlockEntity) -> {
+            if(pLevel1.getBlockEntity(pPos) instanceof DNASequencerBlockEntity dnaSequencer){
+                dnaSequencer.tick(pLevel1, pPos, pState1, dnaSequencer);
+            }else{
+                DNASequencerBlock.super.getTicker(pLevel, pState, pBlockEntityType);
+            }
+        };
+    }
+
+    @Override
+    public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
+        return new DNASequencerBlockEntity(pPos, pState);
     }
 }

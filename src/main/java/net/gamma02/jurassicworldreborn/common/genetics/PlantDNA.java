@@ -23,17 +23,25 @@ public class PlantDNA {
         return readFromNBT(stack.getTag());
     }
 
-    public static PlantDNA readFromNBT(CompoundTag nbt) {
+    public static PlantDNA readFromNBT(CompoundTag tag) {
+        if(tag == null)
+            return null;
+        if(!tag.contains("DNA"))
+            return null;
+        CompoundTag nbt = tag.getCompound("DNA");
+
         return new PlantDNA(new ResourceLocation(nbt.getString("Plant")), nbt.getInt("DNAQuality"));
     }
 
-    public void writeToNBT(CompoundTag nbt) {
+    public void writeToNBT(CompoundTag tag) {
+        CompoundTag nbt = new CompoundTag();
         nbt.putInt("DNAQuality", this.quality);
 
 //        CompoundTag plant = new CompoundTag();
 //        plant.putString("id", );
         nbt.putString("Plant", this.plant.toString());
         nbt.putString("StorageId", "PlantDNA");
+        tag.put("DNA", tag);
     }
 
     public int getDNAQuality() {

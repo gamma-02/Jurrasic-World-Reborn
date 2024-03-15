@@ -13,10 +13,13 @@ public class StorageTypeRegistry {
     }
 
     private static void register(String id, Supplier<? extends StorageType> storageType) {
+        if(STORAGE_TYPES.containsKey(id))
+            return;
         STORAGE_TYPES.put(id, Objects.requireNonNull(storageType));
     }
 
     public static StorageType getStorageType(String id) {
+        init();
         if (id == null || id.isEmpty()) {
             id = "DinoDNA";
         }

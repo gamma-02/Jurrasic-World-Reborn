@@ -1,6 +1,7 @@
 package net.gamma02.jurassicworldreborn.common.items;
 
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
 import net.gamma02.jurassicworldreborn.common.items.misc.ActionFigureItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -33,7 +34,7 @@ public class TabHandler {
 
     public static final CreativeModeTab DECORATIONS = makeTab("jurassicworldreborn.decorations", () -> ModItems.DISPLAY_BLOCK.get());
 
-    public static final CreativeModeTab DNA = makeTab("jurassicworldreborn.dna", () -> ModItems.DNA.get());
+    public static final CreativeModeTab DNA = makeTab("jurassicworldreborn.dna", () -> ModItems.DINOSAUR_DNA.get(DinosaurHandler.VELOCIRAPTOR).get());
 
     public static final CreativeModeTab FOSSILS = makeTab("jurassicworldreborn.fossils", () -> ModItems.FAUNA_FOSSIL_BLOCK.get());
 

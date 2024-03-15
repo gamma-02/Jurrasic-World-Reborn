@@ -4,6 +4,8 @@ import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNACombinatorHybridizer.DNACombinatorHybridizerBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNACombinatorHybridizer.DNACombinatorHybridizerMenu;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNAExtractor.DNAExtractorBlockEntity;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNASequencer.DNASequencerBlockEntity;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNASequencer.DNASequencerMenu;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerMenu;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.fence.ElectricFenceBaseBlockEntity;
@@ -56,6 +58,8 @@ public class ModBlockEntities<T extends BlockEntity> {
 
     public static RegistryObject<BlockEntityType<FossilGrinderBlockEntity>> FOSSIL_GRINDER_BLOCK_ENTITY = modBlockEntities.register("fossil_grinder_block_entity", () -> BlockEntityType.Builder.of(FossilGrinderBlockEntity::new, ModBlocks.FOSSIL_GRINDER.get()).build(null));
 
+    public static RegistryObject<BlockEntityType<DNASequencerBlockEntity>> DNA_SEQUENCER_BLOCK_ENTITY = modBlockEntities.register("dna_sequencer_block_entity", () -> BlockEntityType.Builder.of(DNASequencerBlockEntity::new, ModBlocks.DNA_SEQUENCER.get()).build(null));
+
     public static class modScreenTypes{
 
         public static HashMap<ResourceLocation, ModMenuSupplier<?>> modMenuSupplier = new HashMap<>();
@@ -66,6 +70,10 @@ public class ModBlockEntities<T extends BlockEntity> {
         public static RegistryObject<MenuType<DNACombinatorHybridizerMenu>> COMBINATOR_MENU_TYPE = modScreenTypes.register("combinator_menu_type", () -> new MenuType<>(DNACombinatorHybridizerMenu::new));
 
         public static RegistryObject<MenuType<FossilGrinderMenu>> FOSSIL_GRINDER_MENU_TYPE = modScreenTypes.register("fossil_grinder_menu_type", () -> new MenuType<>(FossilGrinderMenu::new));
+
+        public static RegistryObject<MenuType<DNASequencerMenu>> DNA_SEQUENCER_MENU_TYPE = modScreenTypes.register("dna_sequencer_menu_type", () -> new MenuType<>(DNASequencerMenu::new));
+
+
 
         public interface ModMenuSupplier< T extends AbstractContainerMenu>{
 

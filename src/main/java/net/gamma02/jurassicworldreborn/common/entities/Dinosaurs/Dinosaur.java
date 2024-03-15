@@ -12,7 +12,7 @@ import net.gamma02.jurassicworldreborn.common.legacy.tabula.TabulaModelHelper;
 import net.gamma02.jurassicworldreborn.common.util.TimePeriod;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.level.biome.Biome;
 
 import javax.vecmath.Matrix4d;
@@ -151,7 +151,10 @@ public abstract class Dinosaur implements Comparable<Dinosaur> {
         public EmptyDinosaur(){
             super();
             this.setName("None");
+
         }
+
+
     }
 
     public static Matrix4d getParentRotationMatrix(TabulaModelContainer model, TabulaCubeContainer cube, boolean includeParents, boolean ignoreSelf, float rot) {
@@ -872,8 +875,8 @@ public abstract class Dinosaur implements Comparable<Dinosaur> {
         return this.recipe;
     }
 
-    public void applyMeatEffect(Player player, boolean cooked){
-
+    public List<MobEffectInstance> applyMeatEffect(List<MobEffectInstance> player, boolean cooked){
+        return player;
     }
     public enum DinosaurType {
         AGGRESSIVE,

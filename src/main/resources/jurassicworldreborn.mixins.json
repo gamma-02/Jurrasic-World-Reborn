@@ -12,6 +12,8 @@
     "accessors.NonNullListAccessor"
   ],
   "client": [
+    "ClientPacketListenerMixin",
+    "CreativeModeInventoryScreenMixin",
     "DisplayBlockMixin",
     "LivingEntityRendererMixin",
     "MinecraftMixin"

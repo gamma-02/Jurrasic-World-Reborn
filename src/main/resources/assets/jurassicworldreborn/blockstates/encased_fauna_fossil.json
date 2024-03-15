@@ -1,5 +1,10 @@
 {
   "variants": {
+    "": {
+      "model": "jurassicworldreborn:block/encased_fossil_0"
+    }
+  },
+  "____comment": {
     "variant=0": {
       "model": "jurassicworldreborn:block/encased_fossil_0"
     },

@@ -6,15 +6,25 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
 import net.gamma02.jurassicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
+import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
+import net.gamma02.jurassicworldreborn.common.items.Fossils.EncasedFaunaFossilBlockItem;
+import net.gamma02.jurassicworldreborn.common.items.Fossils.FaunaFossilBlockItem;
+import net.gamma02.jurassicworldreborn.common.items.ModItems;
+import net.gamma02.jurassicworldreborn.common.items.TabHandler;
+import net.gamma02.jurassicworldreborn.common.util.ItemStackCreativeModeTabSystem;
+import net.gamma02.jurassicworldreborn.common.util.api.DinosaurItem;
 import net.gamma02.jurassicworldreborn.common.worldgen.BiomeModification;
 import net.gamma02.jurassicworldreborn.common.worldgen.OreVeinFeature;
 import net.gamma02.jurassicworldreborn.common.worldgen.tree.*;
 import net.gamma02.jurassicworldreborn.common.worldgen.tree.petrified.PetrifiedTreeConfig;
 import net.gamma02.jurassicworldreborn.common.worldgen.tree.petrified.PetrifiedTreeGenerator;
 import net.minecraft.core.Holder;
+import net.minecraft.core.NonNullList;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -37,8 +47,10 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+import java.util.function.Supplier;
 
 import static net.gamma02.jurassicworldreborn.Jurassicworldreborn.modid;
 import static net.gamma02.jurassicworldreborn.Jurassicworldreborn.resource;
@@ -162,26 +174,71 @@ public class CommonRegistries {
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void clientSetupEvent(final FMLClientSetupEvent evt){
-//        NonNullList<ItemStack> FOSSILS = NonNullList.withSize(Dinosaur.DINOSAURS.size(), FaunaFossilBlockItem.setDino(ModItems.FAUNA_FOSSIL_BLOCK.get().getDefaultInstance(), Dinosaur.EMPTY) );
-//
-//        Dinosaur.DINOSAURS.forEach((id, dino) -> {
-//            FOSSILS.set(id, FaunaFossilBlockItem.setDino(ModItems.FAUNA_FOSSIL_BLOCK.get().getDefaultInstance(), dino) );
-//
-//        });
+        NonNullList<Supplier<ItemStack>> FOSSILS = NonNullList.withSize(Dinosaur.DINOSAURS.size() + 1, () ->FaunaFossilBlockItem.setDino(ModItems.FAUNA_FOSSIL_BLOCK.get().getDefaultInstance(), Dinosaur.EMPTY) );
+        NonNullList<Supplier<ItemStack>> SOFT_TISSUES = NonNullList.withSize(Dinosaur.DINOSAURS.size() + 1, () -> DinosaurItem.setDino(ModItems.SOFT_TISSUE.get(DinosaurHandler.VELOCIRAPTOR).get().getDefaultInstance(), DinosaurHandler.VELOCIRAPTOR));
+        NonNullList<Supplier<ItemStack>> ENCASED_FOSSILS = NonNullList.withSize(Dinosaur.DINOSAURS.size() + 1, () -> EncasedFaunaFossilBlockItem.setDino(ModItems.ENCASED_FAUNA_FOSSIL.get().getDefaultInstance(), Dinosaur.EMPTY));
+        NonNullList<Supplier<ItemStack>> DNA = getDefaultedDNA(() -> ModItems.DINOSAUR_DNA.get(DinosaurHandler.VELOCIRAPTOR).get().getDefaultInstance());
+        NonNullList<Supplier<ItemStack>> HATCHED_EGGS = getDefaultedDNA(() -> ModItems.hatchedDinoEggs.get(DinosaurHandler.VELOCIRAPTOR).get().getDefaultInstance());
+        NonNullList<Supplier<ItemStack>> EGGS = NonNullList.create();
+
+//        NonNullList<ItemStack> BONES = NonNullList.withSize(ModItems.ALL_BONES.size(), ItemStack.EMPTY);
+//        NonNullList<ItemStack> FOSSIL_BONES = NonNullList.withSize(ModItems.BONES.)
+
+        Dinosaur.DINOSAURS.forEach((id, dino) -> {
+            FOSSILS.set(id, () -> FaunaFossilBlockItem.setDino(ModItems.FAUNA_FOSSIL_BLOCK.get().getDefaultInstance(), dino) );
+            SOFT_TISSUES.set(id, () -> DinosaurItem.setDino(ModItems.SOFT_TISSUE.get(dino).get().getDefaultInstance(), dino) );
+            ENCASED_FOSSILS.set(id, () -> EncasedFaunaFossilBlockItem.setDino(ModItems.ENCASED_FAUNA_FOSSIL.get().getDefaultInstance(), dino) );
+            DNA.set(id, () -> {
+                ItemStack defaultDNAItem = ModItems.DINOSAUR_DNA.get(dino).get().getDefaultInstance();
+
+                defaultDNAItem.getOrCreateTag().putBoolean("isCreative", true);
+
+                return defaultDNAItem;
+            });
+            HATCHED_EGGS.set(id, () -> {
+                ItemStack defaultDNAItem = ModItems.hatchedDinoEggs.get(dino).get().getDefaultInstance();
+
+                defaultDNAItem.getOrCreateTag().putBoolean("isCreative", true);
+
+                return defaultDNAItem;
+            });
+            var eggItem = ModItems.dinoEggs.get(dino);
+            if(eggItem != null) {
+
+                EGGS.add(() -> {
+
+
+                    ItemStack defaultDNAItem = eggItem.get().getDefaultInstance();
+
+                    defaultDNAItem.getOrCreateTag().putBoolean("isCreative", true);
+
+                    return defaultDNAItem;
+                });
+            }
+        });
+//        for (int i = 0; i < ModItems.ALL_BONES.size(); i++) {
+//            BONES.set(i, ModItems.ALL_BONES.get(i).get().getDefaultInstance());
+//        }
+
+        ItemStackCreativeModeTabSystem.addItemStacksToTab(TabHandler.FOSSILS, FOSSILS, ENCASED_FOSSILS);
+        ItemStackCreativeModeTabSystem.addItemStacksToTab(TabHandler.DNA, SOFT_TISSUES, DNA, HATCHED_EGGS, EGGS);
+//        ItemStackCreativeModeTabSystem.addItemStacksToTab(TabHandler.FOSSILS, ENCASED_FOSSILS);
 
 
 
 
     }
 
+    @NotNull
+    private static NonNullList<Supplier<ItemStack>> getDefaultedDNA(Supplier<ItemStack> DNAGetter) {
+        return NonNullList.withSize(Dinosaur.DINOSAURS.size() + 1, () -> {
+            ItemStack defaultDNAItem = DNAGetter.get();
 
+            defaultDNAItem.getOrCreateTag().putBoolean("isCreative", true);
 
-
-
-
-
-
-
+            return defaultDNAItem;
+        });
+    }
 
 
     static {

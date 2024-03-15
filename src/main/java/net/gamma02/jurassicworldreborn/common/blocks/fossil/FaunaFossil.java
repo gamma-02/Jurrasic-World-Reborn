@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
  * When this block is changed in any way, it should update to store the Dinosaur
  *      in it's associated BlockEntity from it's y-level
  */
-public class FaunaFossil extends Block implements EncasedFossil, EntityBlock {
+public class FaunaFossil extends Block implements FossilBlock, EntityBlock {
 
 
 
@@ -53,7 +54,15 @@ public class FaunaFossil extends Block implements EncasedFossil, EntityBlock {
             return;
         }
 
+        if(faunaFossilEntity.getDinosaur() != null){
+            return;
+        }
+
         List<Dinosaur> dinoList = Dinosaur.DINOSAURS_BY_PERIOD_MAP.get(posPeriod);
+
+        if(dinoList == null){
+            return;
+        }
 
         int randomDino = pRandom.nextIntBetweenInclusive(0, dinoList.size()-1);
 
@@ -66,7 +75,7 @@ public class FaunaFossil extends Block implements EncasedFossil, EntityBlock {
 
     @Nullable
     @Override
-    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
+    public BlockEntity newBlockEntity(@NotNull BlockPos pPos, @NotNull BlockState pState) {
         return new FaunaFossilBlockEntity(pPos, pState);
     }
 }

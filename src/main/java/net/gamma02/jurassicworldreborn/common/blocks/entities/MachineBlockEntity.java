@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class MachineBlockEntity<T extends MachineBlockEntity<T>> extends RandomizableContainerBlockEntity implements WorldlyContainer, BlockEntityTicker<T> {
     protected MachineBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
@@ -42,10 +43,14 @@ public abstract class MachineBlockEntity<T extends MachineBlockEntity<T>> extend
     protected void saveAdditional(CompoundTag pTag) {
         super.saveAdditional(pTag);
 
-        ContainerHelper.saveAllItems(pTag, this.getItems());
+
+        CompoundTag machineData = new CompoundTag();
+        machineData.put("Data", this.getMachineData());
+
+        ContainerHelper.saveAllItems(machineData, this.getItems());
 
 
-        pTag.put("MachineData", this.getMachineData());
+        pTag.put("MachineData", machineData);
 
     }
 
@@ -58,15 +63,18 @@ public abstract class MachineBlockEntity<T extends MachineBlockEntity<T>> extend
     public void load(CompoundTag pTag) {
         super.load(pTag);
 
+        CompoundTag data = pTag.getCompound("MachineData");
 
-        if (pTag.contains("Items")){
-            ListTag itemTag = pTag.getList("Items", 10);
-            NonNullList<ItemStack> containerInventory = NonNullList.withSize(itemTag.size(), ItemStack.EMPTY);
-            ContainerHelper.loadAllItems(pTag, containerInventory);
+        if (data.contains("Items")){
+//            ListTag itemTag = pTag.getList("Items", 10);
+            NonNullList<ItemStack> containerInventory = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
+            ContainerHelper.loadAllItems(data, containerInventory);
+            this.setItems(containerInventory);
+
         }
 
-        Tag data = pTag.get("MachineData");
-        this.readMachineData(data);
+
+        this.readMachineData(data.get("Data"));
 
 
 
@@ -74,7 +82,7 @@ public abstract class MachineBlockEntity<T extends MachineBlockEntity<T>> extend
     }
 
     @Override
-    public void tick(Level pLevel, BlockPos pPos, BlockState pState, T pBlockEntity) {
+    public void tick(@NotNull Level pLevel, @NotNull BlockPos pPos, @NotNull BlockState pState, @NotNull MachineBlockEntity pBlockEntity) {
 
     }
 

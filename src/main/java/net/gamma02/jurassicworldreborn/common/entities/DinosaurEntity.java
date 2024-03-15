@@ -10,12 +10,13 @@ import net.gamma02.jurassicworldreborn.client.render.entity.animation.FixedChain
 import net.gamma02.jurassicworldreborn.client.render.entity.animation.PoseHandler;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.feeder.FeederBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.feeder.FeederBlockEntity;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.*;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.InventoryDinosaur;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.*;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.ai.*;
 import net.gamma02.jurassicworldreborn.common.genetics.GeneticsHelper;
-import net.gamma02.jurassicworldreborn.common.items.ModItems;
+import net.gamma02.jurassicworldreborn.common.util.ItemsUtil;
 import net.gamma02.jurassicworldreborn.common.util.ai.OnionTraverser;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
@@ -60,6 +61,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
+import net.minecraftforge.registries.RegistryObject;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -164,11 +166,107 @@ public abstract class DinosaurEntity extends PathfinderMob implements IEntityAdd
 
     private int messageTick = 0;
 
-    public static final HashMap<Class<? extends DinosaurEntity>, EntityType<? extends DinosaurEntity>> CLASS_TYPE_LIST = new HashMap<>();
+    public static final HashMap<Class<? extends DinosaurEntity>, RegistryObject<? extends EntityType<? extends DinosaurEntity>>> CLASS_TYPE_LIST = new HashMap<>();
+
+    static{
+        CLASS_TYPE_LIST.put(AchillobatorEntity.class, ModEntities.ACHILLOBATOR_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(AlligatorGarEntity.class, ModEntities.ALLIGATORGAR_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(AllosaurusEntity.class, ModEntities.ALLOSAURUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(AlvarezsaurusEntity.class, ModEntities.ALVAREZSAURUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(AnkylodocusEntity.class, ModEntities.ANKYLODOCUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(AnkylosaurusEntity.class, ModEntities.ANKYLOSAURUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(ApatosaurusEntity.class, ModEntities.APATOSAURUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(ArsinoitheriumEntity.class, ModEntities.ARSINOITHERIUM_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(BaryonyxEntity.class, ModEntities.BARYONYX_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(BeelzebufoEntity.class, ModEntities.BEELZEBUFO_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(BrachiosaurusEntity.class, ModEntities.BRACHIOSAURUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(CamarasaurusEntity.class, ModEntities.CAMARASAURUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(CarcharodontosaurusEntity.class, ModEntities.CARCHARODONTOSAURUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(CarnotaurusEntity.class, ModEntities.CARNOTAURUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(CearadactylusEntity.class, ModEntities.CEARADACTYLUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(CeratosaurusEntity.class, ModEntities.CERATOSAURUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(ChasmosaurusEntity.class, ModEntities.CHASMOSAURUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(ChilesaurusEntity.class, ModEntities.CHILESAURUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(CoelacanthEntity.class, ModEntities.COELACANTH_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(CoelurusEntity.class, ModEntities.COELURUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(CompsognathusEntity.class, ModEntities.COMPSOGNATHUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(CorythosaurusEntity.class, ModEntities.CORYTHOSAURUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(CrassigyrinusEntity.class, ModEntities.CRASSIGYRINUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(DeinotheriumEntity.class, ModEntities.DEINOTHERIUM_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(DilophosaurusEntity.class, ModEntities.DILOPHOSAURUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(DimorphodonEntity.class, ModEntities.DIMORPHODON_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(DiplocaulusEntity.class, ModEntities.DIPLOCAULUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(DiplodocusEntity.class, ModEntities.DIPLODOCUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(DodoEntity.class, ModEntities.DODO_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(DreadnoughtusEntity.class, ModEntities.DREADNOUGHTUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(DunkleosteusEntity.class, ModEntities.DUNKLEOSTEUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(EdmontosaurusEntity.class, ModEntities.EDMONTOSAURUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(ElasmotheriumEntity.class, ModEntities.ELASMOTHERIUM_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(GallimimusEntity.class, ModEntities.GALLIMIMUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(GiganotosaurusEntity.class, ModEntities.GIGANOTOSAURUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(GuanlongEntity.class, ModEntities.GUANLONG_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(HerrerasaurusEntity.class, ModEntities.HERRERASAURUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(HyaenodonEntity.class, ModEntities.HYAENODON_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(HypsilophodonEntity.class, ModEntities.HYPSILOPHODON_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(IndominusEntity.class, ModEntities.INDOMINUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(IndoraptorEntity.class, ModEntities.INDORAPTOR_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(LambeosaurusEntity.class, ModEntities.LAMBEOSAURUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(LeaellynasauraEntity.class, ModEntities.LEAELLYNASAURA_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(LeptictidiumEntity.class, ModEntities.LEPTICTIDIUM_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(LudodactylusEntity.class, ModEntities.LUDODACTYLUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(MajungasaurusEntity.class, ModEntities.MAJUNGASAURUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(MamenchisaurusEntity.class, ModEntities.MAMENCHISAURUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(MammothEntity.class, ModEntities.MAMMOTH_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(MawsoniaEntity.class, ModEntities.MAWSONIA_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(MegapiranhaEntity.class, ModEntities.MEGAPIRANHA_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(MegatheriumEntity.class, ModEntities.MEGATHERIUM_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(MetriacanthosaurusEntity.class, ModEntities.METRIACANTHOSAURUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(MicroceratusEntity.class, ModEntities.MICROCERATUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(MicroraptorEntity.class, ModEntities.MICRORAPTOR_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(MoganopterusEntity.class, ModEntities.MOGANOPTERUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(MosasaurusEntity.class, ModEntities.MOSASAURUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(MussaurusEntity.class, ModEntities.MUSSAURUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(OrnithomimusEntity.class, ModEntities.ORNITHOMIMUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(OthnieliaEntity.class, ModEntities.OTHNIELIA_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(OviraptorEntity.class, ModEntities.OVIRAPTOR_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(PachycephalosaurusEntity.class, ModEntities.PACHYCEPHALOSAURUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(ParasaurolophusEntity.class, ModEntities.PARASAUROLOPHUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(PostosuchusEntity.class, ModEntities.POSTOSUCHUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(ProceratosaurusEntity.class, ModEntities.PROCERATOSAURUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(ProtoceratopsEntity.class, ModEntities.PROTOCERATOPS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(PteranodonEntity.class, ModEntities.PTERANODON_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(QuetzalEntity.class, ModEntities.QUETZAL_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(RaphusrexEntity.class, ModEntities.RAPHUSREX_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(RugopsEntity.class, ModEntities.RUGOPS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(SegisaurusEntity.class, ModEntities.SEGISAURUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(SinoceratopsEntity.class, ModEntities.SINOCERATOPS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(SmilodonEntity.class, ModEntities.SMILODON_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(SpinoraptorEntity.class, ModEntities.SPINORAPTOR_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(SpinosaurusEntity.class, ModEntities.SPINOSAURUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(StegosaurusEntity.class, ModEntities.STEGOSAURUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(StyracosaurusEntity.class, ModEntities.STYRACOSAURUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(SuchomimusEntity.class, ModEntities.SUCHOMIMUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(TherizinosaurusEntity.class, ModEntities.THERIZINOSAURUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(TitanisEntity.class, ModEntities.TITANIS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(TriceratopsEntity.class, ModEntities.TRICERATOPS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(TroodonEntity.class, ModEntities.TROODON_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(TropeognathusEntity.class, ModEntities.TROPEOGNATHUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(TylosaurusEntity.class, ModEntities.TYLOSAURUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(TyrannosaurusEntity.class, ModEntities.TYRANNOSAURUS_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(VelociraptorBlueEntity.class, ModEntities.VELOCIRAPTORBLUE_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(VelociraptorCharlieEntity.class, ModEntities.VELOCIRAPTORCHARLIE_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(VelociraptorDeltaEntity.class, ModEntities.VELOCIRAPTORDELTA_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(VelociraptorEchoEntity.class, ModEntities.VELOCIRAPTORECHO_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(VelociraptorEntity.class, ModEntities.VELOCIRAPTOR_ENTITY_TYPE);
+        CLASS_TYPE_LIST.put(ZhenyuanopterusEntity.class, ModEntities.ZHENYUANOPTERUS_ENTITY_TYPE);
+
+
+
+    }
 
     public DinosaurEntity(Level world, EntityType<? extends DinosaurEntity> type, Dinosaur dino) {
         super(type, world);// todo
-        CLASS_TYPE_LIST.put(dino.getDinosaurClass(), type);
+//        CLASS_TYPE_LIST.put(dino.getDinosaurClass(), type);
 
 
         this.dinosaur = dino;
@@ -550,7 +648,9 @@ public abstract class DinosaurEntity extends PathfinderMob implements IEntityAdd
 
         for (int i = 0; i < count; ++i) {
 //            int meta = EntityHandler.getDinosaurId(this.dinosaur);
-            Item dinoMeat = ModItems.getMeatForDinosaur((EntityType<DinosaurEntity>) this.getType());//if this isn't true something *really* wrong is happening...
+            Item dinoMeat = ItemsUtil.getMeatForDinosaur(this.dinosaur);
+            if(burning)
+                dinoMeat = ItemsUtil.getSteakForDinosaur(this.dinosaur);
 
 
             if (burning) {
@@ -1318,7 +1418,7 @@ public abstract class DinosaurEntity extends PathfinderMob implements IEntityAdd
 
         for (String bone : this.dinosaur.getBones()) {
             if (this.random.nextInt(10) != 0) {
-                this.dropStackWithGenetics(new ItemStack(ModItems.getBoneForDinosaur((EntityType<DinosaurEntity>) this.getType()), 1));
+                this.dropStackWithGenetics(new ItemStack(ItemsUtil.getFreshDinosaurBone(this.dinosaur, bone)));
             }
         }
     }

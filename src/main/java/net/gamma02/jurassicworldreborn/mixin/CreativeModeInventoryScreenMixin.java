@@ -38,10 +38,10 @@ public abstract class CreativeModeInventoryScreenMixin extends EffectRenderingIn
         jurassicworldreborn$fillItemStacks(instance, itemStacks);
     }
 
-    @Redirect(method = "refreshSearchResults", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/CreativeModeTab;fillItemList(Lnet/minecraft/core/NonNullList;)V"))
-    public void redirectFillRefreshResults(CreativeModeTab instance, NonNullList<ItemStack> itemStacks){
-        jurassicworldreborn$fillItemStacks(instance, itemStacks);
-    }
+//    @Redirect(method = "refreshSearchResults", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/CreativeModeTab;fillItemList(Lnet/minecraft/core/NonNullList;)V"))
+//    public void redirectFillRefreshResults(CreativeModeTab instance, NonNullList<ItemStack> itemStacks){
+//        jurassicworldreborn$fillItemStacks(instance, itemStacks);
+//    }
 
 
 //    @Redirect(method = "refreshSearchResults", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Item;fillItemCategory(Lnet/minecraft/world/item/CreativeModeTab;Lnet/minecraft/core/NonNullList;)V"))

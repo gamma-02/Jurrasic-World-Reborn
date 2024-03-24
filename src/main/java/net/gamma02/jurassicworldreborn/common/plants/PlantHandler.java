@@ -1,9 +1,12 @@
 package net.gamma02.jurassicworldreborn.common.plants;
 
+import it.unimi.dsi.fastutil.objects.Object2IntLinkedOpenHashMap;
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
 
 public class PlantHandler {
     public static final Plant AJUGINUCULA_SMITHII = new AjuginuculaSmithiiPlant();
@@ -49,8 +52,12 @@ public class PlantHandler {
     public static final Plant HELICONIA = new HeliconiaPlant();
     public static final Plant RHAMNUS_SALIFOCIFUS = new RhamnusSalifocifusPlant();
 
+    public static final Plant EMPTY = new Plant.EmptyPlant();
+
 //    private static final List<Plant> PLANTS = new LinkedList<>();
-    private static final LinkedHashMap<ResourceLocation, Plant> PLANTS = new LinkedHashMap<>();
+    private static final LinkedList<Plant> PLANTS = new LinkedList<>();
+
+    public static final Object2IntLinkedOpenHashMap<ResourceLocation> RESOURCE_LOCATION_MAP = new Object2IntLinkedOpenHashMap<>();
     public static void init() {
         registerPlant(AJUGINUCULA_SMITHII);
         registerPlant(SMALL_ROYAL_FERN);
@@ -93,37 +100,53 @@ public class PlantHandler {
         registerPlant(HIPPURITES_RADIOSUS);
         registerPlant(HELICONIA);
         registerPlant(RHAMNUS_SALIFOCIFUS);
+        registerPlant(EMPTY);
     }
 
     public static Plant getPlantById(int id) {
         if (id >= PLANTS.size() || id < 0) {
             return null;
         }
+        Plant plant = PLANTS.get(id);
+        if(plant == null){
+            return EMPTY;
+        }
 
-        return PLANTS.get(id);
+
+        return plant;
     }
 
+
+
     public static Plant getPlantById(ResourceLocation plant){
-        return PLANTS.get(plant);
+        if(RESOURCE_LOCATION_MAP.containsKey(plant)){
+            int id = RESOURCE_LOCATION_MAP.getInt(plant);
+            return getPlantById(id);//hand the return to the function that is meant for int ids
+        }
+
+        return EMPTY;
     }
 
     public static ResourceLocation getPlantId(Plant plant) {
         return new ResourceLocation(Jurassicworldreborn.modid, plant.getName().toLowerCase(Locale.ROOT).replace(' ', '_'));
     }
 
-    public static HashMap<ResourceLocation, Plant> getPlants() {
+    public static List<Plant> getPlants() {
         return PLANTS;
     }
 
     public static void registerPlant(Plant plant) {
-        if (!PLANTS.containsValue(plant)) {
-            PLANTS.put(new ResourceLocation(Jurassicworldreborn.modid, plant.getName().toLowerCase(Locale.ROOT).replace(' ', '_')), plant);
+        if (!PLANTS.contains(plant)) {
+            PLANTS.add(plant);
+            int id = PLANTS.indexOf(plant);
+            RESOURCE_LOCATION_MAP.put(new ResourceLocation(Jurassicworldreborn.modid, plant.getName().toLowerCase(Locale.ROOT).replace(' ', '_')), id);
         }
+
     }
 
     public static List<Plant> getPrehistoricPlantsAndTrees() {
         List<Plant> prehistoricPlants = new LinkedList<>();
-        for (Plant plant : PLANTS.values()) {
+        for (Plant plant : PLANTS) {
             if (plant.shouldRegister() && plant.isPrehistoric()) {
                 prehistoricPlants.add(plant);
             }
@@ -133,7 +156,7 @@ public class PlantHandler {
 
     public static List<Plant> getPrehistoricPlants() {
         List<Plant> prehistoricPlants = new LinkedList<>();
-        for (Plant plant : PLANTS.values()) {
+        for (Plant plant : PLANTS) {
             if (plant.shouldRegister() && plant.isPrehistoric() && !plant.isTree()) {
                 prehistoricPlants.add(plant);
             }

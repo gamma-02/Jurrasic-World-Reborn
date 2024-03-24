@@ -1,23 +1,11 @@
 package net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurList;
 
-import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.*;
+import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntities.IndoraptorEntity;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.Diet;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.Hybrid;
 import net.gamma02.jurassicworldreborn.common.util.TimePeriod;
-import java.util.ArrayList;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.biome.Biome;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.stream.Stream;
-
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.tags.BiomeTags;
-import net.minecraft.tags.TagKey;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.registries.ForgeRegistries;
 
 
 public class IndoraptorDinosaur extends Dinosaur implements Hybrid

@@ -1,10 +1,7 @@
 package net.gamma02.jurassicworldreborn.client.render;
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.client.model.AnimatableModel;
-import net.gamma02.jurassicworldreborn.client.render.block.CleaningStationRenderer;
-import net.gamma02.jurassicworldreborn.client.render.block.DNAExtractorRenderer;
-import net.gamma02.jurassicworldreborn.client.render.block.DisplayBlockEntityRender;
-import net.gamma02.jurassicworldreborn.client.render.block.IncubatorRenderer;
+import net.gamma02.jurassicworldreborn.client.render.block.*;
 import net.gamma02.jurassicworldreborn.client.render.entity.DinosaurRenderInfo;
 import net.gamma02.jurassicworldreborn.client.render.entity.DinosaurRenderer;
 import net.gamma02.jurassicworldreborn.client.render.entity.SharkEntityRenderer;
@@ -58,6 +55,7 @@ public class RenderingHandler{
         event.registerBlockEntityRenderer(ModBlockEntities.CLEANING_STATION.get(), helper.makeProvider(CleaningStationRenderer::new));
         event.registerBlockEntityRenderer(ModBlockEntities.DNA_EXTRACTOR_BLOCK_ENTITY.get(), helper.makeProvider(DNAExtractorRenderer::new));
         event.registerBlockEntityRenderer(ModBlockEntities.INCUBATOR_BLOCK_ENTITY.get(), helper.makeProvider(IncubatorRenderer::new));
+        event.registerBlockEntityRenderer(ModBlockEntities.DNA_SEQUENCER_BLOCK_ENTITY.get(), helper.makeProvider(DNASequencerRenderer::new));
 
     }
 

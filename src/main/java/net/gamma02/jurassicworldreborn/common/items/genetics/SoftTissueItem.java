@@ -3,7 +3,6 @@ package net.gamma02.jurassicworldreborn.common.items.genetics;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
-import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
 import net.gamma02.jurassicworldreborn.common.genetics.DinoDNA;
 import net.gamma02.jurassicworldreborn.common.genetics.GeneticsHelper;
 import net.gamma02.jurassicworldreborn.common.items.ModItems;
@@ -19,23 +18,30 @@ import net.minecraft.world.item.ItemStack;
 import java.util.List;
 
 public class SoftTissueItem extends Item implements SequencableItem, DinosaurItem {
-    public SoftTissueItem(Properties pProperties) {
+    protected final Dinosaur dino;
+    public SoftTissueItem(Properties pProperties, Dinosaur dino) {
         super(pProperties);
+        this.dino = dino;
     }
 
     @Override
     public Component getName(ItemStack pStack) {
-        return LangUtil.replaceWithDinoName(getDinosaur(pStack), Component.translatable("item.jurassicworldreborn.soft_tissue").getString());
+        return LangUtil.replaceWithDinoName(this.dino, "item.jurassicworldreborn.soft_tissue");
     }
 
     @Override
     public Dinosaur getDinosaur(ItemStack stack) {
-        Dinosaur dino = DinosaurItem.super.getDinosaur(stack);
+        if(stack.getItem() == this) {
+            return this.dino;
+        }
+        if(stack.getItem() instanceof SoftTissueItem i) {
+            return i.getDinosaur(stack);
+        }
+        if(stack.getItem() instanceof DinosaurItem i){
+            return i.getDinosaur(stack);
+        }
 
-        if(dino == null)
-            return DinosaurHandler.VELOCIRAPTOR;
-
-        return dino;
+        return Dinosaur.EMPTY;
     }
 
 
@@ -79,6 +85,12 @@ public class SoftTissueItem extends Item implements SequencableItem, DinosaurIte
 
         return output;
     }
+
+//    @Override
+//    public void fillItemCategory(CreativeModeTab pCategory, NonNullList<ItemStack> pItems) {
+//        DinosaurItem.setDino(ModItems.SOFT_TISSUE.get(dino).get().getDefaultInstance(), dino);
+//        super.fillItemCategory(pCategory, pItems);
+//    }
 
     private void initDnaCompound(ItemStack stack, RandomSource random, CompoundTag nbt) {
         int quality = Math.abs((SequencableItem.randomQuality(random))/2);

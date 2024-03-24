@@ -1,22 +1,21 @@
 package net.gamma02.jurassicworldreborn.common.genetics;
 
+import net.gamma02.jurassicworldreborn.common.plants.PlantHandler;
 import net.gamma02.jurassicworldreborn.common.util.LangUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
 
-public class PlantDNA {
+public class PlantDNA extends DNA{
     private ResourceLocation plant;
-    private int quality;
 
     public PlantDNA(ResourceLocation plant, int quality) {
+        super(plant.toString(), quality);
         this.plant = plant;
-        this.quality = quality;
     }
 
     public static PlantDNA fromStack(ItemStack stack) {
@@ -41,19 +40,16 @@ public class PlantDNA {
 //        plant.putString("id", );
         nbt.putString("Plant", this.plant.toString());
         nbt.putString("StorageId", "PlantDNA");
-        tag.put("DNA", tag);
+        tag.put("DNA", nbt);
     }
 
-    public int getDNAQuality() {
-        return this.quality;
-    }
 
     public ResourceLocation getPlant() {
         return this.plant;
     }
 
     public void addInformation(ItemStack stack, List<Component> tooltip) {
-        tooltip.add( Component.literal(Component.translatable("lore.plant.name").getString().replace("{plant}", ForgeRegistries.BLOCKS.getDelegateOrThrow(this.plant).get().getName().getString())).withStyle(ChatFormatting.DARK_AQUA));
+        tooltip.add( Component.literal(Component.translatable("lore.plant").getString().replace("{plant}", PlantHandler.getPlantById(this.plant).getName())).withStyle(ChatFormatting.DARK_AQUA));
 
         ChatFormatting formatting;
 
@@ -69,10 +65,9 @@ public class PlantDNA {
             formatting = ChatFormatting.RED;
         }
 
-        String qualityString = Component.translatable("lore.dna_quality.name").getString();
-        String[] splitQuality = qualityString.split("\\{[a-z]*\\}");//regex go bRRRRRRRRRRRRRR
+        String qualityString = Component.translatable("lore.dna_quality").getString();
         Component quality = LangUtil.getFormattedQuality(this.quality);
-        tooltip.add(Component.literal(splitQuality[0]).append(quality).append(splitQuality[1]).withStyle(formatting));
+        tooltip.add(Component.literal(qualityString.formatted(quality.getString(), "%")).withStyle(formatting));
     }
 
 //    public int getMetadata() {

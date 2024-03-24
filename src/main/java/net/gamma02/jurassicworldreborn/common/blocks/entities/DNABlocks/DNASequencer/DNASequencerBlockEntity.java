@@ -2,6 +2,7 @@ package net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNASequ
 
 import net.gamma02.jurassicworldreborn.common.blocks.entities.MachineBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.ModBlockEntities;
+import net.gamma02.jurassicworldreborn.common.network.Network;
 import net.gamma02.jurassicworldreborn.common.util.api.SequencableItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -30,11 +31,13 @@ public class DNASequencerBlockEntity extends MachineBlockEntity<DNASequencerBloc
     private static final int[] INPUTS_PROCESS_3 = new int[] { 4, 5 };
 
     private static final int[] DISCS_INPUT = new int[]{1, 3, 5};
-    private static final int[] DNA_INPUT = new int[]{0, 2, 4};
+    public static final int[] DNA_INPUT = new int[]{0, 2, 4};
 
     private static final int[] OUTPUTS = new int[] { 6, 7, 8 };
 
     private int[] sequencingTime = new int[3];
+
+
 
     private ContainerData sequencerData = new ContainerData() {
         @Override
@@ -57,6 +60,9 @@ public class DNASequencerBlockEntity extends MachineBlockEntity<DNASequencerBloc
 
     public DNASequencerBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(ModBlockEntities.DNA_SEQUENCER_BLOCK_ENTITY.get(), pPos, pBlockState);
+
+        Network.ENTITIES.add(this);
+
     }
 
     @Override

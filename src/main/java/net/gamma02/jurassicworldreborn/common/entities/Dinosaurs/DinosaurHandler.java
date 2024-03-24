@@ -6,9 +6,9 @@ import net.gamma02.jurassicworldreborn.common.util.TimePeriod;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import static net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur.DINOSAURS_BY_PERIOD_MAP;
-import static net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur.registerDinosaur;
+import static net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur.*;
 
 public class DinosaurHandler {
     public static boolean inited = false;
@@ -221,5 +221,16 @@ public class DinosaurHandler {
         });
 
 
+    }
+    public static List<Dinosaur> getDinosaursFromAmber() {
+
+        return DINOS.stream().filter((dino) -> !dino.isMarineCreature() && !dino.isHybrid).collect(Collectors.toList());
+    }
+    public static List<Dinosaur> getMarineCreatures() {
+
+        return DINOS.stream().filter((dino) -> dino.isMarineCreature() && !dino.isHybrid()).collect(Collectors.toList());
+    }
+    public static List<Dinosaur> getMammalCreatures() {
+        return DINOS.stream().filter((dino) -> dino.isMammal() && !dino.isHybrid()).collect(Collectors.toList());
     }
 }

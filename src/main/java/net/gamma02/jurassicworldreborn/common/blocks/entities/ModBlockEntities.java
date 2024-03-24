@@ -4,8 +4,11 @@ import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNACombinatorHybridizer.DNACombinatorHybridizerBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNACombinatorHybridizer.DNACombinatorHybridizerMenu;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNAExtractor.DNAExtractorBlockEntity;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNAExtractor.DNAExtractorMenu;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNASequencer.DNASequencerBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNASequencer.DNASequencerMenu;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNASynthesizer.DNASynthesizerBlockEntity;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNASynthesizer.DNASynthesizerMenu;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerMenu;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.fence.ElectricFenceBaseBlockEntity;
@@ -14,6 +17,7 @@ import net.gamma02.jurassicworldreborn.common.blocks.entities.fence.ElectricFenc
 import net.gamma02.jurassicworldreborn.common.blocks.entities.grinder.FossilGrinderBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.grinder.FossilGrinderMenu;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.incubator.IncubatorBlockEntity;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.incubator.IncubatorMenu;
 import net.gamma02.jurassicworldreborn.common.blocks.fossil.FaunaFossilBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.parkBlocks.TourRailBlockEntity;
 import net.minecraft.resources.ResourceLocation;
@@ -60,6 +64,8 @@ public class ModBlockEntities<T extends BlockEntity> {
 
     public static RegistryObject<BlockEntityType<DNASequencerBlockEntity>> DNA_SEQUENCER_BLOCK_ENTITY = modBlockEntities.register("dna_sequencer_block_entity", () -> BlockEntityType.Builder.of(DNASequencerBlockEntity::new, ModBlocks.DNA_SEQUENCER.get()).build(null));
 
+    public static RegistryObject<BlockEntityType<DNASynthesizerBlockEntity>> DNA_SYNTHESIZER_BLOCK_ENTITY = modBlockEntities.register("dna_synthesizer_block_entity", () -> BlockEntityType.Builder.of(DNASynthesizerBlockEntity::new, ModBlocks.DNA_SYNTHESIZER.get()).build(null));
+
     public static class modScreenTypes{
 
         public static HashMap<ResourceLocation, ModMenuSupplier<?>> modMenuSupplier = new HashMap<>();
@@ -72,6 +78,12 @@ public class ModBlockEntities<T extends BlockEntity> {
         public static RegistryObject<MenuType<FossilGrinderMenu>> FOSSIL_GRINDER_MENU_TYPE = modScreenTypes.register("fossil_grinder_menu_type", () -> new MenuType<>(FossilGrinderMenu::new));
 
         public static RegistryObject<MenuType<DNASequencerMenu>> DNA_SEQUENCER_MENU_TYPE = modScreenTypes.register("dna_sequencer_menu_type", () -> new MenuType<>(DNASequencerMenu::new));
+
+        public static RegistryObject<MenuType<DNAExtractorMenu>> DNA_EXTRACTOR_MENU_TYPE = modScreenTypes.register("dna_extractor_menu_type", () -> new MenuType<>(DNAExtractorMenu::new));
+
+        public static RegistryObject<MenuType<DNASynthesizerMenu>> DNA_SYNTHESIZER_MENU_TYPE = modScreenTypes.register("dna_synthesizer_menu_type", () -> new MenuType<>(DNASynthesizerMenu::new));
+
+        public static RegistryObject<MenuType<IncubatorMenu>> INCUBATOR_MENU_TYPE = modScreenTypes.register("incubator_menu_type", () -> new MenuType<>(IncubatorMenu::new));
 
 
 

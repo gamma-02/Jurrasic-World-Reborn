@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class DisplayBlockMixin {
     private static boolean executed = false;
     @Inject(method = "<init>", at = @At("RETURN"))
-    private static void initDisplayBlockRendererMixin(BlockEntityRenderDispatcher pBlockEntityRenderDispatcher, EntityModelSet pEntityModelSet, CallbackInfo ci){
+    private void initDisplayBlockRendererMixin(BlockEntityRenderDispatcher pBlockEntityRenderDispatcher, EntityModelSet pEntityModelSet, CallbackInfo ci){
         if(!executed) {
             JurassicClient.displayBlockRendererWithoutLevel = new DisplayBlockRendererWithoutLevel(pBlockEntityRenderDispatcher, pEntityModelSet);
             executed = true;

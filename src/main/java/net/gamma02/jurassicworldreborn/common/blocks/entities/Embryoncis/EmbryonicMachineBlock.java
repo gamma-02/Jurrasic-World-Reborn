@@ -1,4 +1,4 @@
-package net.gamma02.jurassicworldreborn.common.blocks.entities.EmbryonicThing;
+package net.gamma02.jurassicworldreborn.common.blocks.entities.Embryoncis;
 
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.common.blocks.base.BaseMachineBlock;

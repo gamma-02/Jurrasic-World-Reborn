@@ -7,13 +7,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
 import net.gamma02.jurassicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
-import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
-import net.gamma02.jurassicworldreborn.common.items.Fossils.EncasedFaunaFossilBlockItem;
-import net.gamma02.jurassicworldreborn.common.items.Fossils.FaunaFossilBlockItem;
-import net.gamma02.jurassicworldreborn.common.items.ModItems;
-import net.gamma02.jurassicworldreborn.common.items.TabHandler;
-import net.gamma02.jurassicworldreborn.common.util.ItemStackCreativeModeTabSystem;
-import net.gamma02.jurassicworldreborn.common.util.api.DinosaurItem;
 import net.gamma02.jurassicworldreborn.common.worldgen.BiomeModification;
 import net.gamma02.jurassicworldreborn.common.worldgen.OreVeinFeature;
 import net.gamma02.jurassicworldreborn.common.worldgen.tree.*;
@@ -174,55 +167,66 @@ public class CommonRegistries {
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void clientSetupEvent(final FMLClientSetupEvent evt){
-        NonNullList<Supplier<ItemStack>> FOSSILS = NonNullList.withSize(Dinosaur.DINOSAURS.size() + 1, () ->FaunaFossilBlockItem.setDino(ModItems.FAUNA_FOSSIL_BLOCK.get().getDefaultInstance(), Dinosaur.EMPTY) );
-        NonNullList<Supplier<ItemStack>> SOFT_TISSUES = NonNullList.withSize(Dinosaur.DINOSAURS.size() + 1, () -> DinosaurItem.setDino(ModItems.SOFT_TISSUE.get(DinosaurHandler.VELOCIRAPTOR).get().getDefaultInstance(), DinosaurHandler.VELOCIRAPTOR));
-        NonNullList<Supplier<ItemStack>> ENCASED_FOSSILS = NonNullList.withSize(Dinosaur.DINOSAURS.size() + 1, () -> EncasedFaunaFossilBlockItem.setDino(ModItems.ENCASED_FAUNA_FOSSIL.get().getDefaultInstance(), Dinosaur.EMPTY));
-        NonNullList<Supplier<ItemStack>> DNA = getDefaultedDNA(() -> ModItems.DINOSAUR_DNA.get(DinosaurHandler.VELOCIRAPTOR).get().getDefaultInstance());
-        NonNullList<Supplier<ItemStack>> HATCHED_EGGS = getDefaultedDNA(() -> ModItems.hatchedDinoEggs.get(DinosaurHandler.VELOCIRAPTOR).get().getDefaultInstance());
-        NonNullList<Supplier<ItemStack>> EGGS = NonNullList.create();
+//        NonNullList<Supplier<ItemStack>> FOSSILS = NonNullList.create();
+//        NonNullList<Supplier<ItemStack>> ENCASED_FOSSILS = NonNullList.create();
+//        NonNullList<Supplier<ItemStack>> SOFT_TISSUES = NonNullList.create();
+//        NonNullList<Supplier<ItemStack>> DNA = NonNullList.create();
+//        NonNullList<Supplier<ItemStack>> HATCHED_EGGS = NonNullList.create();
+//        NonNullList<Supplier<ItemStack>> EGGS = NonNullList.create();
+//        NonNullList<Supplier<ItemStack>> STEAKS = NonNullList.create();
+//        NonNullList<Supplier<ItemStack>> MEATS = NonNullList.create();
 
 //        NonNullList<ItemStack> BONES = NonNullList.withSize(ModItems.ALL_BONES.size(), ItemStack.EMPTY);
 //        NonNullList<ItemStack> FOSSIL_BONES = NonNullList.withSize(ModItems.BONES.)
 
-        Dinosaur.DINOSAURS.forEach((id, dino) -> {
-            FOSSILS.set(id, () -> FaunaFossilBlockItem.setDino(ModItems.FAUNA_FOSSIL_BLOCK.get().getDefaultInstance(), dino) );
-            SOFT_TISSUES.set(id, () -> DinosaurItem.setDino(ModItems.SOFT_TISSUE.get(dino).get().getDefaultInstance(), dino) );
-            ENCASED_FOSSILS.set(id, () -> EncasedFaunaFossilBlockItem.setDino(ModItems.ENCASED_FAUNA_FOSSIL.get().getDefaultInstance(), dino) );
-            DNA.set(id, () -> {
-                ItemStack defaultDNAItem = ModItems.DINOSAUR_DNA.get(dino).get().getDefaultInstance();
-
-                defaultDNAItem.getOrCreateTag().putBoolean("isCreative", true);
-
-                return defaultDNAItem;
-            });
-            HATCHED_EGGS.set(id, () -> {
-                ItemStack defaultDNAItem = ModItems.hatchedDinoEggs.get(dino).get().getDefaultInstance();
-
-                defaultDNAItem.getOrCreateTag().putBoolean("isCreative", true);
-
-                return defaultDNAItem;
-            });
-            var eggItem = ModItems.dinoEggs.get(dino);
-            if(eggItem != null) {
-
-                EGGS.add(() -> {
-
-
-                    ItemStack defaultDNAItem = eggItem.get().getDefaultInstance();
-
-                    defaultDNAItem.getOrCreateTag().putBoolean("isCreative", true);
-
-                    return defaultDNAItem;
-                });
-            }
-        });
+//        Dinosaur.DINOSAURS.forEach((id, dino) -> {
+//            FOSSILS.add(() -> FaunaFossilBlockItem.setDino(ModItems.FAUNA_FOSSIL_BLOCK.get().getDefaultInstance(), dino) );
+//            ENCASED_FOSSILS.add(() -> EncasedFaunaFossilBlockItem.setDino(ModItems.ENCASED_FAUNA_FOSSIL.get().getDefaultInstance(), dino) );
+//            SOFT_TISSUES.add(() -> DinosaurItem.setDino(ModItems.SOFT_TISSUE.get(dino).get().getDefaultInstance(), dino) );
+//
+//            DNA.add(() -> {
+//                ItemStack defaultDNAItem = ModItems.DINOSAUR_DNA.get(dino).get().getDefaultInstance();
+//
+//                defaultDNAItem.getOrCreateTag().putBoolean("isCreative", true);
+//
+//                return defaultDNAItem;
+//            });
+//
+//            HATCHED_EGGS.add(() -> {
+//                ItemStack defaultDNAItem = ModItems.hatchedDinoEggs.get(dino).get().getDefaultInstance();
+//
+//                defaultDNAItem.getOrCreateTag().putBoolean("isCreative", true);
+//
+//                return defaultDNAItem;
+//            });
+//            var eggItem = ModItems.dinoEggs.get(dino);
+//            if(eggItem != null) {
+//
+//                EGGS.add(() -> {
+//
+//
+//                    ItemStack defaultDNAItem = eggItem.get().getDefaultInstance();
+//
+//                    defaultDNAItem.getOrCreateTag().putBoolean("isCreative", true);
+//
+//                    return defaultDNAItem;
+//                });
+//            }
+//
+//            STEAKS.add(() -> ModItems.STEAKS.get(dino).get().getDefaultInstance());
+//            MEATS.add(() -> ModItems.MEATS.get(dino).get().getDefaultInstance());
+//        });
 //        for (int i = 0; i < ModItems.ALL_BONES.size(); i++) {
 //            BONES.set(i, ModItems.ALL_BONES.get(i).get().getDefaultInstance());
 //        }
 
-        ItemStackCreativeModeTabSystem.addItemStacksToTab(TabHandler.FOSSILS, FOSSILS, ENCASED_FOSSILS);
-        ItemStackCreativeModeTabSystem.addItemStacksToTab(TabHandler.DNA, SOFT_TISSUES, DNA, HATCHED_EGGS, EGGS);
+//        var filteredDNA = DNA.stream().filter((dnaSup) -> DNA.stream().filter(dnaSup::equals).count() == 1).collect(Collectors.toCollection(NonNullList::create));
+
+//        ItemStackCreativeModeTabSystem.addItemStacksToTab(TabHandler.FOSSILS, FOSSILS, ENCASED_FOSSILS)
+//        ItemStackCreativeModeTabSystem.addItemStacksToTab(TabHandler.DNA, SOFT_TISSUES, filteredDNA, HATCHED_EGGS, EGGS);
+//        ItemStackCreativeModeTabSystem.addItemStacksToTab(TabHandler.FOODS, STEAKS, MEATS);
 //        ItemStackCreativeModeTabSystem.addItemStacksToTab(TabHandler.FOSSILS, ENCASED_FOSSILS);
+
 
 
 

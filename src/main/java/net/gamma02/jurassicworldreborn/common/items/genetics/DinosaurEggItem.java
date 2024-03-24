@@ -1,9 +1,13 @@
 package net.gamma02.jurassicworldreborn.common.items.genetics;
 
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
+import net.gamma02.jurassicworldreborn.common.items.ModItems;
+import net.gamma02.jurassicworldreborn.common.items.TabHandler;
 import net.gamma02.jurassicworldreborn.common.util.LangUtil;
+import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 
@@ -17,6 +21,10 @@ public class DinosaurEggItem extends DNAContainerItem {
     @Override
     public Component getName(ItemStack pStack) {
         return Component.literal(Component.translatable("item.jurassicworldreborn.dino_egg").getString().replace("{dino}", LangUtil.getDinoName(this.dino).getString()));
+    }
+
+    public Dinosaur getDino() {
+        return dino;
     }
 
     //legacy, use with care
@@ -42,7 +50,27 @@ public class DinosaurEggItem extends DNAContainerItem {
 //    }
 
 
+    @Override
+    public void fillItemCategory(CreativeModeTab pCategory, NonNullList<ItemStack> pItems) {
+        if((pCategory == TabHandler.DNA || pCategory == CreativeModeTab.TAB_SEARCH)) {
+            if(pItems.stream().anyMatch((stack) -> stack.is(this)))
+                return;
 
+            var eggItem = ModItems.dinoEggs.get(dino);
+            if (eggItem != null) {
+                ItemStack defaultDNAItem = eggItem.get().getDefaultInstance();
+
+                defaultDNAItem.getOrCreateTag().putBoolean("isCreative", true);
+
+
+                pItems.add(defaultDNAItem);
+            }
+
+        }else {
+
+            super.fillItemCategory(pCategory, pItems);
+        }
+    }
 
     @Override
     public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {

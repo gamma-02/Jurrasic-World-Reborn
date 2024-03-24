@@ -1,11 +1,10 @@
 package net.gamma02.jurassicworldreborn.common.util.api;
 
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
-
-import java.util.Random;
 
 public interface SynthesizableItem extends RebornIngredientItem {
     static SynthesizableItem getSynthesizableItem(ItemStack stack) {
@@ -32,5 +31,5 @@ public interface SynthesizableItem extends RebornIngredientItem {
 
     boolean isSynthesizable(ItemStack stack);
 
-    ItemStack getSynthesizedItem(ItemStack stack, Random/*RandomSource*/ random);
+    ItemStack getSynthesizedItem(ItemStack stack, RandomSource random);
 }

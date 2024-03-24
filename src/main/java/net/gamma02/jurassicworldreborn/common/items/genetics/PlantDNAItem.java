@@ -1,19 +1,28 @@
 package net.gamma02.jurassicworldreborn.common.items.genetics;
 
+import net.gamma02.jurassicworldreborn.common.items.ModItems;
+import net.gamma02.jurassicworldreborn.common.items.TabHandler;
 import net.gamma02.jurassicworldreborn.common.plants.Plant;
-import net.gamma02.jurassicworldreborn.common.plants.PlantHandler;
+import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Locale;
 
 public class PlantDNAItem extends Item {
 
-    public PlantDNAItem(Properties pProperties) {
+    public final Plant plant;
+
+    public PlantDNAItem(Plant plant, Properties pProperties) {
         super(pProperties);
+        this.plant = plant;
     }
 
     @Override
@@ -22,13 +31,31 @@ public class PlantDNAItem extends Item {
     }
 
     public Plant getPlant(ItemStack stack) {
-        Plant plant = PlantHandler.getPlantById(ResourceLocation.of(stack.getTag() != null ? stack.getTag().getString("Plant") : PlantHandler.SMALL_ROYAL_FERN.getId().toString(), ':'));
-
-        if (plant == null) {
-            plant = PlantHandler.SMALL_ROYAL_FERN;
-        }
 
         return plant;
+    }
+
+    @Override
+    public void fillItemCategory(CreativeModeTab pCategory, NonNullList<ItemStack> pItems) {
+        if((pCategory == TabHandler.DNA || pCategory == CreativeModeTab.TAB_SEARCH)) {
+            if(pItems.stream().anyMatch((stack) -> stack.is(this)))
+                return;
+
+
+            var plantDNA = ModItems.PLANT_DNAS.get(plant);
+            if (plantDNA != null) {
+                ItemStack defaultDNAItem = plantDNA.get().getDefaultInstance();
+
+                defaultDNAItem.getOrCreateTag().putBoolean("isCreative", true);
+
+
+                pItems.add(defaultDNAItem);
+            }
+
+        }else {
+
+            super.fillItemCategory(pCategory, pItems);
+        }
     }
 
 
@@ -54,22 +81,9 @@ public class PlantDNAItem extends Item {
 //        return quality;
 //    }
 
-//    @Override
-//    public void addInformation(ItemStack stack, World worldIn, List<String> lore, ITooltipFlag flagIn) {
-//        int quality = this.getDNAQuality(player, stack);
-//
-//        TextFormatting formatting;
-//
-//        if (quality > 75) {
-//            formatting = TextFormatting.GREEN;
-//        } else if (quality > 50) {
-//            formatting = TextFormatting.YELLOW;
-//        } else if (quality > 25) {
-//            formatting = TextFormatting.GOLD;
-//        } else {
-//            formatting = TextFormatting.RED;
-//        }
-//
-//        lore.add(formatting + new LangHelper("lore.dna_quality.name").withProperty("quality", quality + "").build());
-//    }
+
+    @Override
+    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+    }
 }

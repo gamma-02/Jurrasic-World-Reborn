@@ -2,13 +2,17 @@ package net.gamma02.jurassicworldreborn.common.items.genetics;
 
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
+import net.gamma02.jurassicworldreborn.common.items.ModItems;
+import net.gamma02.jurassicworldreborn.common.items.TabHandler;
 import net.gamma02.jurassicworldreborn.common.util.LangUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
@@ -67,9 +71,30 @@ public class HatchedEggItem extends DNAContainerItem {
         return gender;
     }
 
+    @Override
+    public void fillItemCategory(CreativeModeTab pCategory, NonNullList<ItemStack> pItems) {
+        if((pCategory == TabHandler.DNA || pCategory == CreativeModeTab.TAB_SEARCH)) {
+            if(pItems.stream().anyMatch((stack) -> stack.is(this)))
+                return;
 
 
-//    @Override
+            var eggItem = ModItems.hatchedDinoEggs.get(dino);
+            if (eggItem != null) {
+                ItemStack defaultDNAItem = eggItem.get().getDefaultInstance();
+
+                defaultDNAItem.getOrCreateTag().putBoolean("isCreative", true);
+
+
+                pItems.add(defaultDNAItem);
+            }
+
+        }else {
+
+            super.fillItemCategory(pCategory, pItems);
+        }
+    }
+
+    //    @Override
 //    @SideOnly(Side.CLIENT)
 //    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subtypes) {
 //        List<Dinosaur> dinosaurs = new LinkedList<>(EntityHandler.getDinosaurs().values());

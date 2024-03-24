@@ -7,6 +7,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.function.Supplier;
@@ -38,8 +39,12 @@ public class TabHandler {
 
     public static final CreativeModeTab FOSSILS = makeTab("jurassicworldreborn.fossils", () -> ModItems.FAUNA_FOSSIL_BLOCK.get());
 
+    public static final CreativeModeTab FOODS = makeTab("jurassicworldreborn.foods", () -> ModItems.ALL_MEATS);
+
     public static CreativeModeTab makeTab(String name, Supplier<Item>... icon){
         CreativeModeTab tab = new CreativeModeTab(name){
+
+            private long prev = System.currentTimeMillis();
 
             @Override
             public ItemStack getIconItem() {//this bit in particular makes the icon scroll/change between the specified items, or registered dinosaur display cases
@@ -47,33 +52,89 @@ public class TabHandler {
                     return super.getIconItem();
                 } else if(name.equals("jurassicworldreborn.decorations")) {
                     Calendar c = Calendar.getInstance();
-                    if(c.get(Calendar.SECOND) % 3 == 0){
+                    if(System.currentTimeMillis() >= prev + 5000){
                         int i = Dinosaur.DINOS.indexOf(Dinosaur.getDinosaurByName(ActionFigureItem.getDinosaurID(currentDisplayFigure.get())));
                         ActionFigureItem.setDinosaurID(currentDisplayFigure.get(), Dinosaur.DINOS.get(i).getName());
+                        prev = System.currentTimeMillis();
                     }
                     return currentDisplayFigure.get();
                 } else{
-                    Calendar c = Calendar.getInstance();
-                    Item i = SCROLLING_TAB_ITEMS.get(name).getFirst();
-                    if(c.get(Calendar.SECOND) % 3 == 0){
-                        i = SCROLLING_TAB_ITEMS.get(name).poll();
+
+                    if(System.currentTimeMillis() >= prev + 5000){
+                        Item i = SCROLLING_TAB_ITEMS.get(name).poll();
                         SCROLLING_TAB_ITEMS.get(name).addLast(i);
+                        prev = System.currentTimeMillis();
                     }
 //                    SCROLLING_TAB_ITEMS.get(name).addLast(i);
-                    return i.getDefaultInstance();
+                    return SCROLLING_TAB_ITEMS.get(name).peek().getDefaultInstance();
                 }
 
 
             }
 
             @Override
-            public ItemStack makeIcon() {
+            public @NotNull ItemStack makeIcon() {
                 if(icon.length == 1) {
                     return icon[0].get().getDefaultInstance();
                 }else{
                     SCROLLING_TAB_ITEMS.put(name, Arrays.stream(icon).map(Supplier::get).collect(Collectors.toCollection(ArrayDeque::new)));
                     return icon[0].get().getDefaultInstance();
                 }
+            }
+        };
+        tabs.add(tab);
+        return tab;
+    }
+    public static CreativeModeTab makeTab(String name, Supplier<List<Supplier<Item>>> icon){
+        CreativeModeTab tab = new CreativeModeTab(name){
+
+            private long prev = System.currentTimeMillis();
+
+            @Override
+            public ItemStack getIconItem() {//this bit in particular makes the icon scroll/change between the specified items, or registered dinosaur display cases
+                if(!SCROLLING_TAB_ITEMS.containsKey(name) && !name.equals("jurassicworldreborn.decorations")) {
+                    return super.getIconItem();
+                } else if(name.equals("jurassicworldreborn.decorations")) {
+                    Calendar c = Calendar.getInstance();
+                    if(System.currentTimeMillis() >= prev + 5000){
+                        int i = Dinosaur.DINOS.indexOf(Dinosaur.getDinosaurByName(ActionFigureItem.getDinosaurID(currentDisplayFigure.get())));
+                        ActionFigureItem.setDinosaurID(currentDisplayFigure.get(), Dinosaur.DINOS.get(i).getName());
+                        prev = System.currentTimeMillis();
+                    }
+                    return currentDisplayFigure.get();
+                } else{
+
+                    if(System.currentTimeMillis() >= prev + 5000){
+                        Item i = SCROLLING_TAB_ITEMS.get(name).poll();
+                        SCROLLING_TAB_ITEMS.get(name).addLast(i);
+                        prev = System.currentTimeMillis();
+                    }
+//                    SCROLLING_TAB_ITEMS.get(name).addLast(i);
+                    return SCROLLING_TAB_ITEMS.get(name).peek().getDefaultInstance();
+                }
+
+
+            }
+
+            @Override
+            public @NotNull ItemStack makeIcon() {
+                if(icon == null){
+                    return ItemStack.EMPTY;
+                }
+                
+                List<Supplier<Item>> suppliers = icon.get();
+
+                if(suppliers == null)
+                    return ItemStack.EMPTY;
+
+                if (suppliers.size() != 1) {
+                    ArrayDeque<Item> itemsQueue = new ArrayDeque<>();
+                    for (Supplier<Item> itemSup : suppliers) {
+                        itemsQueue.push(itemSup.get());
+                    }
+                    SCROLLING_TAB_ITEMS.put(name, itemsQueue);
+                }
+                return suppliers.get(0).get().getDefaultInstance();
             }
         };
         tabs.add(tab);

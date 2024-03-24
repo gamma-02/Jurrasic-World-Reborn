@@ -68,6 +68,7 @@ public class PoseHandler<ENTITY extends LivingEntity & Animatable> {
         }
     }
 
+    //TODO: Speed up loading, multithread this! This takes like 5 miniutes to do lmao
     private ModelData loadModelData(URI resourceURI, String name, GrowthStage growth) {
         String growthName = growth.name().toLowerCase(Locale.ROOT);
         URI growthSensitiveDir = resourceURI.resolve(growthName + "/");

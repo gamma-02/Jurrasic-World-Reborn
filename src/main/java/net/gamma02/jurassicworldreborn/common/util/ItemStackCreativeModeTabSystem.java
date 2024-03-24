@@ -23,15 +23,13 @@ public class ItemStackCreativeModeTabSystem {
 
         for(NonNullList<Supplier<ItemStack>> stack : stacks){
             if(TAB_ITEM_SUPPLIER_HASH_MAP.containsKey(tab)){
-                NonNullList<Supplier<ItemStack>> tabMap = TAB_ITEM_SUPPLIER_HASH_MAP.get(tab);
-                int newLength = stack.size() + tabMap.size();
-                NonNullList<Supplier<ItemStack>> newTabMap = NonNullList.withSize(newLength, () -> ItemStack.EMPTY);
-                for(int i = 0; i < newLength; i++){
-                    Supplier<ItemStack> newStack = i < tabMap.size() ? tabMap.get(i) : stack.get(i - tabMap.size());
-                    newTabMap.set(i, newStack);
-                }
+                NonNullList<Supplier<ItemStack>> tabMap = TAB_ITEM_SUPPLIER_HASH_MAP.remove(tab);
+                NonNullList<Supplier<ItemStack>> newTabMap = NonNullList.create();//wheee smart
 
-                TAB_ITEM_SUPPLIER_HASH_MAP.remove(tab);
+                newTabMap.addAll(tabMap);
+
+                newTabMap.addAll(stack);
+
                 TAB_ITEM_SUPPLIER_HASH_MAP.put(tab, newTabMap);
 
             }else {
@@ -67,7 +65,7 @@ public class ItemStackCreativeModeTabSystem {
 
     public static NonNullList<ItemStack> getItemStacksForTab(CreativeModeTab tab){
 
-        //if the hash map hasn't been built yet, build it-- and the recursivly ensure it's actually completed. 't
+        //if the hash map hasn't been built yet, build it-- and the recursivly ensure it's actually completed.
         //Shouldn't mess up, but I will Eat My Words later.
         //this is to prevent unregistered items getting called.
         if(!getApplied()){
@@ -85,6 +83,9 @@ public class ItemStackCreativeModeTabSystem {
 
 
     public static void jurassicworldreborn$fillItemStacks(CreativeModeTab instance, NonNullList<ItemStack> itemStacks) {
+        if(instance == CreativeModeTab.TAB_SEARCH)
+            return;
+
         NonNullList<ItemStack> stacks = ItemStackCreativeModeTabSystem.getItemStacksForTab(instance);
 
         instance.fillItemList(stacks);

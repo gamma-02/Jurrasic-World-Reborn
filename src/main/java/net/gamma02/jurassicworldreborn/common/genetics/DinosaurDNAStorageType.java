@@ -12,9 +12,10 @@ public class DinosaurDNAStorageType implements StorageType {
 
     @Override
     public ItemStack createItem() {
-        ItemStack output = new ItemStack(ModItems.DINOSAUR_DNA.get(dna.getDinosaur()).get(), 1);
         CompoundTag compound = new CompoundTag();
         this.dna.writeToNBT(compound);
+
+        ItemStack output = new ItemStack(ModItems.DINOSAUR_DNA.get(dna.getDinosaur()).get(), 1);
         output.setTag(compound);
         return output;
     }
@@ -25,18 +26,14 @@ public class DinosaurDNAStorageType implements StorageType {
     }
 
     @Override
-    public void load(CompoundTag nbt) {
+    public DNA load(CompoundTag nbt) {
         this.dna = DinoDNA.readFromNBT(nbt);
+        return this.dna;
     }
 
     @Override
     public void addInformation(ItemStack stack, List<Component> tooltip) {
         this.dna.addInformation(stack, tooltip);
-    }
-
-    @Override
-    public int getMetadata() {
-        return this.dna.getMetadata();
     }
 
     public String getDinoName(){

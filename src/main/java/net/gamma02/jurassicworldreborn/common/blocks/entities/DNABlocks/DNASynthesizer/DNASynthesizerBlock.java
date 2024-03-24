@@ -1,23 +1,30 @@
-package net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks;
+package net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNASynthesizer;
 
+import net.gamma02.jurassicworldreborn.common.blocks.base.BaseMachineBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.stream.Stream;
 
-public class DNASynthesizerBlock extends HorizontalDirectionalBlock {
+public class DNASynthesizerBlock extends BaseMachineBlock {
 
-    public static DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
+//    public static DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
     public static final VoxelShape MODEL_SHAPE_NORTH = Stream.of(
             Block.box(0.5, 0, 0, 12.5, 8, 13),
@@ -61,7 +68,7 @@ public class DNASynthesizerBlock extends HorizontalDirectionalBlock {
 
     public DNASynthesizerBlock(Properties p_52591_) {
         super(p_52591_);
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, false));
     }
 
     @Override
@@ -80,9 +87,39 @@ public class DNASynthesizerBlock extends HorizontalDirectionalBlock {
         }
     }
 
+//    @Override
+//    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
+//        pBuilder.add(FACING);
+//        super.createBlockStateDefinition(pBuilder);
+//    }
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(FACING);
-        super.createBlockStateDefinition(pBuilder);
+    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+
+        if (pLevel.isClientSide) {
+            return InteractionResult.SUCCESS;
+        } else {
+//                MenuProvider menuprovider = this.getMenuProvider(pState, pLevel, pPos);
+            if (pLevel.getBlockEntity(pPos) instanceof DNASynthesizerBlockEntity e ) {
+                pPlayer.openMenu(e);
+            }
+
+            return InteractionResult.CONSUME;
+        }
+    }
+
+    @Override
+    public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
+        return new DNASynthesizerBlockEntity(pPos, pState);
+    }
+
+    @Override
+    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
+        return (pLevel1, pPos, pState1, pBlockEntity) -> {
+            if(pLevel1.getBlockEntity(pPos) instanceof DNASynthesizerBlockEntity dnaSequencer){
+                dnaSequencer.tick(pLevel1, pPos, pState1, dnaSequencer);
+            }else{
+                DNASynthesizerBlock.super.getTicker(pLevel, pState, pBlockEntityType);
+            }
+        };
     }
 }

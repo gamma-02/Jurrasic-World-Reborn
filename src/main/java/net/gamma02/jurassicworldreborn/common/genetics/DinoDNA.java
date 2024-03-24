@@ -10,26 +10,27 @@ import net.minecraft.world.item.ItemStack;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class/* Bingo! */ DinoDNA {
-    private int quality;
+public class/* Bingo! */ DinoDNA extends DNA{
     private String genetics;
     private Dinosaur dinosaur;
 
     public DinoDNA(Dinosaur dinosaur, int quality, String genetics) {
-        this.quality = quality;
+        super(dinosaur.getFormattedName(), quality);
         this.genetics = genetics;
-        this.dinosaur = dinosaur;
+        this.dinosaur = dinosaur == null ? Dinosaur.EMPTY : dinosaur;
     }
 
     public static DinoDNA fromStack(ItemStack stack) {
         return readFromNBT(stack.getTag());
     }
 
-    public static DinoDNA readFromNBT(@Nullable CompoundTag tag) {
+    public static @Nullable DinoDNA readFromNBT(@Nullable CompoundTag tag) {
+
         if(tag == null)
             return null;
         if(!tag.contains("DNA"))
             return null;
+
         CompoundTag nbt = tag.getCompound("DNA");
 
         return new DinoDNA(Dinosaur.getDinosaurByName(nbt.getString("Dinosaur")), nbt.getInt("DNAQuality"), nbt.getString("Genetics"));
@@ -44,9 +45,6 @@ public class/* Bingo! */ DinoDNA {
         tag.put("DNA", nbt);
     }
 
-    public int getDNAQuality() {
-        return this.quality;
-    }
 
     public String getGenetics() {
         return this.genetics;
@@ -80,7 +78,7 @@ public class/* Bingo! */ DinoDNA {
         String geneticString = Component.translatable("lore.genetic_code").getString();
 //        String[] splitGenetics = geneticString.split("\\{[a-z]*\\}");
         Component genetics = LangUtil.getFormattedGenetics(this.genetics);
-        geneticString = geneticString.formatted(genetics.getString()).concat("%");
+        geneticString = geneticString.formatted(genetics.getString());
         Component formattedQuality = Component.literal(geneticString).withStyle(ChatFormatting.BLUE);
 //        if(splitGenetics.length > 1){
 //            formattedQuality = Component.literal(splitQuality[0]).append(genetics).append(splitGenetics[1]).withStyle(ChatFormatting.BLUE);

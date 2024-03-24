@@ -14,6 +14,9 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class BaseMachineBlock extends BaseEntityBlock implements EntityBlock, SimpleWaterloggedBlock {
@@ -56,5 +59,9 @@ public abstract class BaseMachineBlock extends BaseEntityBlock implements Entity
 //            }
 //        };
         return super.getTicker(pLevel, pState, pBlockEntityType);
+    }
+
+    public @NotNull FluidState getFluidState(BlockState pState) {
+        return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(pState);
     }
 }

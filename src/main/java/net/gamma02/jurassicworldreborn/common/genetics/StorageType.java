@@ -11,11 +11,8 @@ public interface StorageType {
 
     void saveAdditional(CompoundTag nbt);
 
-    void load(CompoundTag nbt);
+    DNA load(CompoundTag nbt);
 
     void addInformation(ItemStack stack, List<Component> tooltip);
 
-    default int getMetadata(){
-        return 0;
-    }
 }

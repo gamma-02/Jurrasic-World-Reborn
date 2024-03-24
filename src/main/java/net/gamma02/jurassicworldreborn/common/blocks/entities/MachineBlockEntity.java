@@ -56,7 +56,7 @@ public abstract class MachineBlockEntity<T extends MachineBlockEntity<T>> extend
 
     /**
      * This handles loading machine data.
-     * @param pTag Input tag provided my Minecraft.
+     * @param pTag Input tag provided by Minecraft.
      */
 
     @Override
@@ -86,4 +86,13 @@ public abstract class MachineBlockEntity<T extends MachineBlockEntity<T>> extend
 
     }
 
+    protected void decreaseStackSize(int index, int amount) {
+        var stack = this.getItem(index);
+        stack.shrink(amount);
+        this.setItem(index, stack);
+    }
+
+    protected void decreaseStackSize(int index){
+        this.decreaseStackSize(index, 1);
+    }
 }

@@ -22,9 +22,9 @@ public class StorageSlot extends ToggleableSlot {
     @Override
     public boolean mayPlace(ItemStack stack) {
         if (this.stored) {
-            return stack.getItem() == ModItems.STORAGE_DISC.get() && (stack.getTag() != null && stack.getTag().contains("DNAQuality"));
+            return stack.getItem() == ModItems.STORAGE_DISC.get() && (stack.getTag() != null && stack.getTag().contains("DNA"));
         } else {
-            return stack.getItem() == ModItems.STORAGE_DISC.get() && (stack.getTag() == null || !stack.getTag().contains("DNAQuality"));
+            return stack.getItem() == ModItems.STORAGE_DISC.get() && (stack.getTag() == null || !stack.getTag().contains("DNA"));
         }
     }
 

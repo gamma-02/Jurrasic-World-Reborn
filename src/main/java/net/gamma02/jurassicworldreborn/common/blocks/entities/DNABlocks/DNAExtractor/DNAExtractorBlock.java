@@ -4,16 +4,23 @@ import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
@@ -34,17 +41,16 @@ public class DNAExtractorBlock extends BaseEntityBlock {
         Jurassicworldreborn.setRenderType(this, RenderType.cutoutMipped());
     }
 
-//    @Nullable
-//    @Override
-//    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type) {
-//        return (world1, pos, state1, instance) -> {
-//            if (instance instanceof DNACombinatorHybridizerBlockEntity) {
-//                ((DNACombinatorHybridizerBlockEntity) instance).tick(world1, pos, state1, (DNACombinatorHybridizerBlockEntity) instance);
-//            } else {
-//                super.getTicker(world, state, type).tick(world1, pos, state1, instance);
-//            }
-//        };
-//    }
+    @Override
+    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
+        return (pLevel1, pPos, pState1, pBlockEntity) -> {
+            if(pLevel1.getBlockEntity(pPos) instanceof DNAExtractorBlockEntity dnaSequencer){
+                dnaSequencer.tick(pLevel1, pPos, pState1, dnaSequencer);
+            }else{
+                DNAExtractorBlock.super.getTicker(pLevel, pState, pBlockEntityType);
+            }
+        };
+    }
 
     @Nullable
     @Override
@@ -79,4 +85,22 @@ public class DNAExtractorBlock extends BaseEntityBlock {
     public BlockState getStateForPlacement(BlockPlaceContext pContext) {
         return this.defaultBlockState().setValue(FACING, pContext.getHorizontalDirection().getOpposite());
     }
+
+    @Override
+    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+
+        if (pLevel.isClientSide) {
+            return InteractionResult.SUCCESS;
+        } else {
+//            MenuProvider menuprovider = this.getMenuProvider(pState, pLevel, pPos);
+            if (pLevel.getBlockEntity(pPos) instanceof DNAExtractorBlockEntity e ) {
+                pPlayer.openMenu(e);
+            }
+
+            return InteractionResult.CONSUME;
+        }
+    }
+
+
+
 }

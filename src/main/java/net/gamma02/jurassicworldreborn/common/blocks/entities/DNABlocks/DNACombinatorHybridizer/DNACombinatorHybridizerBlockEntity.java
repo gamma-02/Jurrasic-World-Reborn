@@ -1,7 +1,7 @@
 package net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNACombinatorHybridizer;
 
 import com.google.common.primitives.Ints;
-import io.netty.buffer.ByteBuf;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.MachineBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.ModBlockEntities;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.Hybrid;
@@ -10,11 +10,11 @@ import net.gamma02.jurassicworldreborn.common.genetics.GeneticsHelper;
 import net.gamma02.jurassicworldreborn.common.genetics.PlantDNA;
 import net.gamma02.jurassicworldreborn.common.items.ModItems;
 import net.gamma02.jurassicworldreborn.common.network.Network;
-import net.gamma02.jurassicworldreborn.common.util.networking.Syncable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -23,43 +23,41 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DNACombinatorHybridizerBlockEntity extends RandomizableContainerBlockEntity implements Syncable, BlockEntityTicker<DNACombinatorHybridizerBlockEntity>, WorldlyContainer {
-    public static final int[] HYBRIDIZER_INPUTS = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 };
-    public static final int[] COMBINATOR_INPUTS = new int[] { 8, 9 };
-    public static final int[] HYBRIDIZER_OUTPUTS = new int[] { 10 };
-    public static final int[] COMBINATOR_OUTPUTS = new int[] { 11 };
+public class DNACombinatorHybridizerBlockEntity extends MachineBlockEntity<DNACombinatorHybridizerBlockEntity> implements BlockEntityTicker<DNACombinatorHybridizerBlockEntity>, WorldlyContainer {
+    public static final int[] HYBRIDIZER_INPUTS = new int[]{0, 1, 2, 3, 4, 5, 6, 7};
+    public static final int[] COMBINATOR_INPUTS = new int[]{8, 9};
+    public static final int[] HYBRIDIZER_OUTPUTS = new int[]{10};
+    public static final int[] COMBINATOR_OUTPUTS = new int[]{11};
 
     public int processTime;
 
     private NonNullList<ItemStack> inventory = NonNullList.of(ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY);
 
-//    private boolean getMode();
 
     private ContainerData data = new ContainerData() {
-        BlockPos pos = DNACombinatorHybridizerBlockEntity.this.getBlockPos();
         @Override
         public int get(int pIndex) {
-            if(pIndex >= 2){
-                if(pIndex == 2) {
+            if (pIndex >= 2) {
+                if (pIndex == 2) {
                     return DNACombinatorHybridizerBlockEntity.this.getMode() ? 1 : 0;
-                }else if(pIndex == 3){
+                } else if (pIndex == 3) {
                     return DNACombinatorHybridizerBlockEntity.this.getBlockPos().getX();
-                }else if(pIndex == 4){
+                } else if (pIndex == 4) {
                     return DNACombinatorHybridizerBlockEntity.this.getBlockPos().getY();
-                }else if(pIndex == 5){
+                } else if (pIndex == 5) {
                     return DNACombinatorHybridizerBlockEntity.this.getBlockPos().getZ();
                 }
                 return 0;
-            }else if(pIndex == 0){
+            } else if (pIndex == 0) {
                 return DNACombinatorHybridizerBlockEntity.this.processTime;
-            }else if(pIndex == 1){
+            } else if (pIndex == 1) {
                 return DNACombinatorHybridizerBlockEntity.this.getTotalProcessTime();
             }
             return 0;
@@ -67,8 +65,8 @@ public class DNACombinatorHybridizerBlockEntity extends RandomizableContainerBlo
 
         @Override
         public void set(int pIndex, int pValue) {
-            if(pIndex >= 2){
-                if(pIndex == 2 && pValue < 2 && pValue > -1){
+            if (pIndex >= 2) {
+                if (pIndex == 2 && pValue < 2 && pValue > -1) {
                     DNACombinatorHybridizerBlockEntity.this.setMode(pValue == 1);
                 }
             }
@@ -81,8 +79,7 @@ public class DNACombinatorHybridizerBlockEntity extends RandomizableContainerBlo
     };
 
 
-
-    public DNACombinatorHybridizerBlockEntity( BlockPos pPos, BlockState pBlockState) {
+    public DNACombinatorHybridizerBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(ModBlockEntities.DNA_COMBINATOR_HYBRIDIZER.get(), pPos, pBlockState);
 //        this.getMode() = pBlockState.getValue(DNACombinatorHybridizerBlock.MODE);
     }
@@ -90,6 +87,7 @@ public class DNACombinatorHybridizerBlockEntity extends RandomizableContainerBlo
     protected int getProcess(int slot) {
         return 0;
     }
+
     public boolean isProcessing() {
         return this.processTime > 0;
     }
@@ -126,6 +124,7 @@ public class DNACombinatorHybridizerBlockEntity extends RandomizableContainerBlo
                     }
 
                     if (match != null && match.isInstance(discDinosaur)) {
+
                         usedGenes.add(match);
                         count++;
                     } else if (discDinosaur != null) {
@@ -147,33 +146,44 @@ public class DNACombinatorHybridizerBlockEntity extends RandomizableContainerBlo
         if (!disc.isEmpty() && disc.hasTag()) {
             DinoDNA data = DinoDNA.readFromNBT(disc.getTag());
 
+            if (data == null) {
+                return Dinosaur.EMPTY;
+            }
+
             return data.getDNAQuality() == 100 ? data.getDinosaur() : null;
         } else {
             return null;
         }
     }
 
-    protected boolean canProcess(int process) {
-        if (this.getMode()) {
+    protected boolean canProcess() {
+        if (!this.getMode()) {
             return this.inventory.get(10).isEmpty() && this.getHybrid() != null;
         } else {
             final ItemStack left = this.inventory.get(8);
             final ItemStack right = this.inventory.get(9);
+
             if (!left.isEmpty() && left.getItem() == ModItems.STORAGE_DISC.get() && !right.isEmpty() && right.getItem() == ModItems.STORAGE_DISC.get()) {
-                final String leftID = left.getTag().getString("StorageId");
-                final String rightID = right.getTag().getString("StorageId");
-                if (left.getTag() != null && right.getTag() != null && this.inventory.get(11).isEmpty() && left.getDamageValue() == right.getDamageValue() && leftID.equals(rightID)) {
-                    if(leftID.equals("DinoDNA")) {
+                if (left.getTag() != null && right.getTag() != null && this.inventory.get(11).isEmpty()) {
+                    //this is causing issues! I changed how DNA storage works so that it's in it's own DNA tag!
+                    final String leftID = left.getTag().getCompound("DNA").getString("StorageId");
+                    final String rightID = right.getTag().getCompound("DNA").getString("StorageId");
+                    if(!leftID.equals(rightID))
+                        return false;
+
+                    if (leftID.equals("DinoDNA")) {
                         DinoDNA dna1 = DinoDNA.readFromNBT(left.getTag());
                         DinoDNA dna2 = DinoDNA.readFromNBT(right.getTag());
-                        if(dna1.getDinosaur() == dna2.getDinosaur())
-                            return true;
+                        if (dna1 == null || dna2 == null) {
+                            return false;
+                        }
 
-                    }else if(leftID.equals("PlantDNA")) {
+                        return dna1.getDinosaur() == dna2.getDinosaur();
+
+                    } else if (leftID.equals("PlantDNA")) {
                         PlantDNA dna1 = PlantDNA.readFromNBT(left.getTag());
                         PlantDNA dna2 = PlantDNA.readFromNBT(right.getTag());
-                        if(dna1.getPlant() == dna2.getPlant())
-                            return true;
+                        return dna1.getPlant().equals(dna2.getPlant());
                     }
                     return false;
                 }
@@ -184,18 +194,22 @@ public class DNACombinatorHybridizerBlockEntity extends RandomizableContainerBlo
     }
 
 
-    protected void processItem(int process) {
-        if (this.canProcess(process)) {
-            if (this.getMode()) {
+    protected void processItem() {
+        if(this.level == null)
+            return;
+
+        if (this.canProcess()) {
+            if (!this.getMode()) {
                 Dinosaur hybrid = this.getHybrid();
 
                 CompoundTag nbt = new CompoundTag();
                 DinoDNA dna = new DinoDNA(getHybrid(), 100, GeneticsHelper.randomGenetics(level.random));
-                try {
-                    dna = new DinoDNA(hybrid, 100, this.inventory.get(0).getTag().getString("Genetics"));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+
+                DinoDNA firstDNA = DinoDNA.readFromNBT(this.inventory.get(0).getTag());
+
+                if(firstDNA != null)
+                    dna = new DinoDNA(hybrid, 100, firstDNA.getGenetics());
+
                 dna.writeToNBT(nbt);
 
                 ItemStack output = new ItemStack(ModItems.STORAGE_DISC.get());
@@ -205,11 +219,15 @@ public class DNACombinatorHybridizerBlockEntity extends RandomizableContainerBlo
             } else {
                 ItemStack output = new ItemStack(ModItems.STORAGE_DISC.get());
 
-                String storageId = this.inventory.get(8).getTag().getString("StorageId");
+                String storageId = this.inventory.get(8).getOrCreateTag().getCompound("DNA").getString("StorageId");
 
                 if (storageId.equals("DinoDNA")) {
                     DinoDNA dna1 = DinoDNA.readFromNBT(this.inventory.get(8).getTag());
                     DinoDNA dna2 = DinoDNA.readFromNBT(this.inventory.get(9).getTag());
+
+                    if(dna1 == null || dna2 == null)//this shouldn't happen but the game shouldn't crash if it does
+                        return;
+
                     int newQuality = dna1.getDNAQuality() + dna2.getDNAQuality();
 
                     if (newQuality > 100) {
@@ -225,6 +243,10 @@ public class DNACombinatorHybridizerBlockEntity extends RandomizableContainerBlo
                 } else if (storageId.equals("PlantDNA")) {
                     PlantDNA dna1 = PlantDNA.readFromNBT(this.inventory.get(8).getTag());
                     PlantDNA dna2 = PlantDNA.readFromNBT(this.inventory.get(9).getTag());
+
+                    if(dna1 == null || dna2 == null)//this shouldn't happen but the game shouldn't crash if it does
+                        return;
+
                     int newQuality = dna1.getDNAQuality() + dna2.getDNAQuality();
 
                     if (newQuality > 100) {
@@ -259,56 +281,37 @@ public class DNACombinatorHybridizerBlockEntity extends RandomizableContainerBlo
 
 
     protected void decreaseStackSize(int slot) {
-        NonNullList<ItemStack> slots = this.getInventory();
-
-        slots.get(slot).shrink(1);
-
-        if (slots.get(slot).getCount() <= 0) {
-            slots.set(slot, ItemStack.EMPTY);
-        }
+        var stack = this.inventory.get(slot);
+        stack.shrink(1);
+        this.setItem(slot, stack);
     }
 
-    protected int getMainOutput() {
-        return this.getMode() ? 10 : 11;
-    }
-
-    protected int getStackProcessTime(ItemStack stack) {
-        return 1000;
-    }
 
     public int getTotalProcessTime() {
         return 1000;
     }
 
-    protected int getProcessCount() {
-        return 1;
-    }
+
 
     protected int[] getInputs() {
-        return this.getMode() ? HYBRIDIZER_INPUTS : COMBINATOR_INPUTS;
-    }
-
-    protected int[] getInputs(int process) {
-        return this.getInputs();
+        return this.getMode() ? COMBINATOR_INPUTS : HYBRIDIZER_INPUTS;
     }
 
     protected int[] getOutputs() {
-        return this.getMode() ? HYBRIDIZER_OUTPUTS : COMBINATOR_OUTPUTS;
+        return this.getMode() ? COMBINATOR_OUTPUTS : HYBRIDIZER_OUTPUTS;
     }
 
     protected NonNullList<ItemStack> getInventory() {
         return this.inventory;
     }
 
-    protected void setInventory(NonNullList<ItemStack> inventory) {
-        this.inventory = inventory;
-    }
+//    protected void setInventory(NonNullList<ItemStack> inventory) {
+//        this.inventory = inventory;
+//    }
 
 //    public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
 //        return new DNACombinatorHybridizerContainer(playerInventory, this);
 //    }
-
-
 
 
 //    public String getGuiID() {
@@ -316,58 +319,49 @@ public class DNACombinatorHybridizerBlockEntity extends RandomizableContainerBlo
 //    }
 
     @Override
-    public Component getName() {
-        return this.hasCustomName() ? (this.getCustomName()) : Component.translatable("container.dna_combinator_hybridizer");
+    public @NotNull Component getName() {
+        Component name = this.getCustomName();
+
+        return (this.hasCustomName() && name != null) ? (name) : Component.translatable("container.dna_combinator_hybridizer");
     }
 
-    public void readFromNBT(CompoundTag nbt) {
-//        super.readFromNBT(nbt);
 
-//        this.getMode() = nbt.getBoolean("HybridizerMode");
+
+    @Override
+    public Tag getMachineData() {
+
+        CompoundTag data = new CompoundTag();
+
+        data.putInt("ProcessTime", this.processTime);
+        return data;
     }
 
     @Override
-    public void load(CompoundTag compound) {
-        super.load(compound);
-
-        readFromNBT(compound);
+    public void readMachineData(Tag data) {
+        CompoundTag machineData = (CompoundTag) data;
+        this.processTime = machineData.getInt("ProcessTime");
     }
 
-    public CompoundTag writeToNBT(CompoundTag nbt) {
-//        nbt = super.writeToNBT(nbt);
-
-//        nbt.putBoolean("HybridizerMode", this.getMode());
-
-        return nbt;
-    }
 
     @Override
-    public void saveAdditional(CompoundTag compound) {
-        super.saveAdditional(compound);
-        this.writeToNBT(compound);
-    }
-
-    @Override
-    public int[] getSlotsForFace(Direction pSide) {
+    public int @NotNull [] getSlotsForFace(@NotNull Direction pSide) {
         return new int[0];
     }
 
     @Override
-    public boolean canPlaceItemThroughFace(int pIndex, ItemStack pItemStack, @Nullable Direction pDirection) {
+    public boolean canPlaceItemThroughFace(int pIndex, @NotNull ItemStack pItemStack, @Nullable Direction pDirection) {
         return false;
     }
 
     @Override
-    public boolean canTakeItemThroughFace(int slotID, ItemStack itemstack, Direction side) {
+    public boolean canTakeItemThroughFace(int slotID, @NotNull ItemStack itemstack, @NotNull Direction side) {
         return Ints.asList(this.getMode() ? HYBRIDIZER_OUTPUTS : COMBINATOR_OUTPUTS).contains(slotID);
     }
 
     @Override
-    public boolean canPlaceItem(int slotID, ItemStack itemstack) {
+    public boolean canPlaceItem(int slotID, @NotNull ItemStack itemstack) {
         if (Ints.asList(this.getMode() ? HYBRIDIZER_INPUTS : COMBINATOR_INPUTS).contains(slotID)) {
-            if (itemstack != null && itemstack.getItem() == ModItems.STORAGE_DISC.get() && this.getItem(slotID).getCount() == 0 && (itemstack.getTag() != null && itemstack.getTag().contains("DNAQuality"))) {
-                return true;
-            }
+            return itemstack.getItem() == ModItems.STORAGE_DISC.get() && this.getItem(slotID).getCount() == 0 && (itemstack.getTag() != null && itemstack.getTag().contains("DNA"));
         }
 
         return false;
@@ -375,72 +369,88 @@ public class DNACombinatorHybridizerBlockEntity extends RandomizableContainerBlo
 
 
     public boolean getMode() {
+        if(this.getLevel() == null){
+            return false;
+        }
+
         return this.getLevel().getBlockState(this.getBlockPos()).getValue(DNACombinatorHybridizerBlock.MODE);
     }
 
     public void setMode(boolean mode) {
+
+        if(this.getLevel() == null)
+            return;
+
         Network.switchHybridizerCombinerMode(mode, this.getBlockPos(), this.getLevel().dimension());
         this.processTime = 0;
-        this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState().setValue(DNACombinatorHybridizerBlock.MODE, mode), 0);
+
+        this.getLevel().sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState().setValue(DNACombinatorHybridizerBlock.MODE, mode), 0);
     }
 
     @Override
-    public Component getDisplayName() {
-        return this.hasCustomName() ? this.getName() : Component.translatable(this.getMode() ? "container.dna_hybridizer" : "container.dna_combinator");
+    public @NotNull Component getDisplayName() {
+        return this.hasCustomName() ? this.getName() : Component.translatable((!this.getMode()) ? "container.dna_hybridizer" : "container.dna_combinator");
     }
 
     @Override
-    protected Component getDefaultName() {
-        return null;
+    protected @NotNull Component getDefaultName() {
+        return Component.translatable((!this.getMode()) ? "container.dna_hybridizer" : "container.dna_combinator");
     }
 
     @Override
-    public AbstractContainerMenu createMenu(int pContainerId, Inventory pInventory) {
+    public @NotNull AbstractContainerMenu createMenu(int pContainerId, @NotNull Inventory pInventory) {
         return new DNACombinatorHybridizerMenu(pContainerId, pInventory, this, this.data);
     }
 
     @Override
     public int getContainerSize() {
-        return 0;
+        return this.inventory.size();
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        for(ItemStack stack : this.inventory) {
+            if (!stack.isEmpty()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     @Override
-    protected NonNullList<ItemStack> getItems() {
+    protected @NotNull NonNullList<ItemStack> getItems() {
         return this.inventory;
     }
 
     @Override
-    protected void setItems(NonNullList<ItemStack> pItemStacks) {
+    protected void setItems(@NotNull NonNullList<ItemStack> pItemStacks) {
         this.inventory = pItemStacks;
     }
 
     @Override
-    public void setItem(int index, ItemStack stack) {
-        NonNullList<ItemStack> slots = this.getInventory();
-
-        boolean stacksEqual = !stack.isEmpty() && stack.is(slots.get(index).getItem()) && ItemStack.isSame(stack, slots.get(index));
-        slots.set(index, stack);
-
-        if (!stack.isEmpty() && stack.getCount() > this.getMaxStackSize()) {
-            stack.setCount(this.getMaxStackSize());
-        }
-
-        if (!stacksEqual) {
-            int process = this.getProcess(index);
-            if (process >= 0 && process < this.getProcessCount()) {
-//                this.getTotalProcessTime() = this.getStackProcessTime(stack);
-                if (!this.canProcess(process)) {
-                    this.processTime = 0;
-                }
-                this.setChanged();
-            }
-//            this.onSlotUpdate();
-        }
+    public void setItem(int index, @NotNull ItemStack stack) {
+        this.inventory.set(index, stack);//girl help what the HECK is below
+//        NonNullList<ItemStack> slots = this.getInventory();
+//
+//        boolean stacksEqual = !stack.isEmpty() && stack.is(slots.get(index).getItem()) && ItemStack.isSame(stack, slots.get(index));
+//        slots.set(index, stack);
+//
+//        if (!stack.isEmpty() && stack.getCount() > this.getMaxStackSize()) {
+//            stack.setCount(this.getMaxStackSize());
+//        }
+//
+//        if (!stacksEqual) { //yeah what on earth is this......
+//            int process = this.getProcess(index);
+//            if (process >= 0 && process < this.getProcessCount()) {
+////                this.getTotalProcessTime() = this.getStackProcessTime(stack);
+//                if (!this.canProcess()) {
+//                    this.processTime = 0;
+//                }
+//                this.setChanged();
+//            }
+////            this.onSlotUpdate();
+//        }
     }
 
     public int getOutputSlot(ItemStack output) {
@@ -448,93 +458,83 @@ public class DNACombinatorHybridizerBlockEntity extends RandomizableContainerBlo
         int[] outputs = this.getOutputs();
         for (int slot : outputs) {
             ItemStack stack = slots.get(slot);
-            if (stack.isEmpty() || ((ItemStack.isSame(stack, output) && stack.getCount() + output.getCount() <= stack.getMaxStackSize()) && stack.getItem() == output.getItem() && stack.getDamageValue() == output.getDamageValue())) {
+            //if the slot is empty or contains a stack that can combine with ours, return the slot
+            if (stack.isEmpty() || ((ItemStack.isSame(stack, output) && stack.getCount() + output.getCount() <= stack.getMaxStackSize()))) {
                 return slot;
             }
         }
         return -1;
     }
 
-    @Override
-    public NonNullList<Integer> getSyncFields(NonNullList fields) {
-        NonNullList<Integer> actualList;
-        if(!fields.isEmpty() && !(fields.get(0) instanceof Integer) || fields.isEmpty()){
-            actualList = NonNullList.of(0);
-        }else{
-            actualList = fields;
-        }
-        actualList.add(processTime);
-        actualList.add(this.getMode() ? 1 : 0);
-        return null;
-    }
+//    @Override
+//    public NonNullList<Integer> getSyncFields(NonNullList fields) {
+//        NonNullList<Integer> actualList;
+//        if (!fields.isEmpty() && !(fields.get(0) instanceof Integer) || fields.isEmpty()) {
+//            actualList = NonNullList.of(0);
+//        } else {
+//            actualList = fields;
+//        }
+//        actualList.add(processTime);
+//        actualList.add(this.getMode() ? 1 : 0);
+//        return null;
+//    }
+//
+//    @Override
+//    public void packetDataHandler(ByteBuf fields) {
+//
+//    }
 
     @Override
-    public void packetDataHandler(ByteBuf fields) {
-
-    }
-
-    @Override
-    public void tick(Level level, BlockPos pPos, BlockState pState, DNACombinatorHybridizerBlockEntity pBlockEntity) {
+    public void tick(Level level, @NotNull BlockPos pPos, @NotNull BlockState pState, @NotNull DNACombinatorHybridizerBlockEntity pBlockEntity) {
         NonNullList<ItemStack> slots = this.getInventory();
+        if (level.isClientSide)
+            return;
 
-        if(!level.isClientSide) {
-            for (int process = 0; process < this.getProcessCount(); process++) {
-                boolean flag = this.isProcessing();
-                boolean dirty = false;
+        boolean flag = this.isProcessing();
+        boolean dirty = false;
 
-                boolean hasInput = false;
+        boolean hasInput = false;
 
-                for (int input : this.getInputs(process)) {
-                    if (slots.size() > input && !slots.get(input).isEmpty()) {//added catch for index out of bounds
-                        hasInput = true;
-                        break;
-                    }
-                }
-
-                if (hasInput && this.canProcess(process)) {
-                    this.processTime++;
-
-                    if (this.processTime >= this.getTotalProcessTime()) {
-                        this.processTime = 0;
-                        //this updates total process time; however; total process time is a constant for this machine so this is unnessacary. removing.
-//                        int total = 0;
-//                        for (int input : this.getInputs()) {
-//                            ItemStack stack = slots.get(input);
-//                            if (!stack.isEmpty()) {
-//                                total = this.getStackProcessTime(stack);
-//                                break;
-//                            }
-                        //}
-//                        this.totalProcessTime[process] = total;
-                        if (!level.isClientSide)
-                        {
-                            this.processItem(process);
-//                            this.onSlotUpdate();
-                        }
-
-                    }
-
-                    dirty = true;
-                } else if (this.isProcessing()) {
-                    if (this.shouldResetProgress()) {
-                        this.processTime = 0;
-                    } else if (this.processTime > 0) {
-                        this.processTime--;
-                    }
-
-                    dirty = true;
-                }
-
-                if (flag != this.isProcessing()) {
-                    dirty = true;
-                }
-
-                if (dirty && !level.isClientSide) {
-                    this.setChanged();
-                }
+        for (int input : this.getInputs()) {
+            if (slots.size() > input && !slots.get(input).isEmpty()) {//added catch for index out of bounds
+                hasInput = true;
+                break;
             }
         }
+
+        if (hasInput && this.canProcess()) {
+                this.processTime++;
+
+            if (this.processTime >= this.getTotalProcessTime()) {
+                this.processItem();
+
+                this.processTime = 0;
+
+
+            }
+
+            dirty = true;
+        } else if (this.isProcessing()) {
+            if (this.shouldResetProgress()) {
+                this.processTime = 0;
+            } else if (this.processTime > 0) {
+                this.processTime--;
+            }
+
+            dirty = true;
+        }
+
+        if (flag != this.isProcessing()) {
+            dirty = true;
+        }
+
+        if (dirty)
+            this.setChanged();
+
+
+
     }
+
     protected boolean shouldResetProgress() {
         return true;
     }

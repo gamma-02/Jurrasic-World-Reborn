@@ -54,7 +54,7 @@ public class FetchSlotContentsClientboundPacket implements ModPacket<FetchSlotCo
             entity = world.getServer().getLevel(Level.OVERWORLD).getBlockEntity(this.blockEntityPos);
         }
 
-        if(entity == null){
+        if(entity == null) {
             itemInSlot = (Network.getMyContainerAtPos(blockEntityPos)).getItem(slotIndex);
         }
 

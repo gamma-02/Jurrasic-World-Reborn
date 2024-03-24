@@ -3,10 +3,13 @@ package net.gamma02.jurassicworldreborn.common.items.Fossils;
 import com.mojang.datafixers.util.Pair;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
 import net.gamma02.jurassicworldreborn.common.items.ModItems;
+import net.gamma02.jurassicworldreborn.common.items.TabHandler;
 import net.gamma02.jurassicworldreborn.common.util.ItemsUtil;
 import net.gamma02.jurassicworldreborn.common.util.api.CleanableItem;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -93,5 +96,25 @@ public class EncasedFaunaFossilBlockItem extends FossilBlockItem implements Clea
             list.add(Pair.of(single, boneItem.getDefaultInstance()));
         }
         return list;
+    }
+
+    @Override
+    public void fillItemCategory(CreativeModeTab pGroup, NonNullList<ItemStack> pItems) {
+        if(pGroup != TabHandler.FOSSILS && pGroup != CreativeModeTab.TAB_SEARCH)
+            return;
+
+        NonNullList<ItemStack> FOSSILS = NonNullList.create();
+        NonNullList<ItemStack> ENCASED_FOSSILS = NonNullList.create();
+
+        for (Dinosaur dino : Dinosaur.DINOS) {
+
+
+            FOSSILS.add(FaunaFossilBlockItem.setDino(ModItems.FAUNA_FOSSIL_BLOCK.get().getDefaultInstance(), dino));
+            ENCASED_FOSSILS.add( EncasedFaunaFossilBlockItem.setDino(ModItems.ENCASED_FAUNA_FOSSIL.get().getDefaultInstance(), dino));
+        }
+
+        pItems.addAll(FOSSILS);
+        pItems.addAll(ENCASED_FOSSILS);
+
     }
 }

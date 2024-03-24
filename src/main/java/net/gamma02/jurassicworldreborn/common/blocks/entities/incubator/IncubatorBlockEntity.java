@@ -1,9 +1,10 @@
 package net.gamma02.jurassicworldreborn.common.blocks.entities.incubator;
 
 import com.google.common.primitives.Ints;
-import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNACombinatorHybridizer.DNACombinatorHybridizerBlockEntity;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.MachineBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.ModBlockEntities;
 import net.gamma02.jurassicworldreborn.common.items.IncubatorEnvironmentItem;
+import net.gamma02.jurassicworldreborn.common.items.ModItems;
 import net.gamma02.jurassicworldreborn.common.items.genetics.DinosaurEggItem;
 import net.gamma02.jurassicworldreborn.common.util.block.TemperatureControl;
 import net.minecraft.core.BlockPos;
@@ -11,8 +12,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -21,9 +22,8 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -37,7 +37,7 @@ import software.bernie.geckolib3.util.GeckoLibUtil;
 
 import java.util.Arrays;
 
-public class IncubatorBlockEntity extends RandomizableContainerBlockEntity implements BlockEntityTicker<DNACombinatorHybridizerBlockEntity>, WorldlyContainer, TemperatureControl, IAnimatable {
+public class IncubatorBlockEntity extends MachineBlockEntity<IncubatorBlockEntity> implements WorldlyContainer, TemperatureControl, IAnimatable {
 
 
     public static final int[] INPUTS = new int[] { 0, 1, 2, 3, 4 };
@@ -83,6 +83,32 @@ public class IncubatorBlockEntity extends RandomizableContainerBlockEntity imple
         super(ModBlockEntities.INCUBATOR_BLOCK_ENTITY.get(), pPos, pBlockState);
     }
 
+    @Override
+    public Tag getMachineData() {
+        ListTag dataList = new ListTag();
+
+        for (int i = 0; i < 5; i++) {
+            CompoundTag dataEntry = new CompoundTag();
+            dataEntry.putInt("temperature", this.temperature[i]);
+            dataEntry.putInt("incubationTime", this.eggIncubationTime[i]);
+
+
+            dataList.add(dataEntry);
+        }
+
+        return dataList;
+    }
+
+    @Override
+    public void readMachineData(Tag machineData) {
+        ListTag dataList = (ListTag) machineData;
+        for (int i = 0; i < 5; i++) {
+            CompoundTag dataEntry = dataList.getCompound(i);
+            this.temperature[i] = dataEntry.getInt("temperature");
+            this.eggIncubationTime[i] = dataEntry.getInt("incubationTime");
+        }
+    }
+
 
     @Override
     public boolean canPlaceItem(int slotID, ItemStack itemstack) {
@@ -97,7 +123,7 @@ public class IncubatorBlockEntity extends RandomizableContainerBlockEntity imple
 
     private static boolean isEnvironment(int slotID, Item item) {
         if(Ints.asList(ENVIRONMENT).contains(slotID)) {
-            if (item != null && item instanceof IncubatorEnvironmentItem || (item instanceof BlockItem && ((BlockItem) item).getBlock() instanceof IncubatorEnvironmentItem)) {
+            if ( item instanceof IncubatorEnvironmentItem || (item instanceof BlockItem && ((BlockItem) item).getBlock() instanceof IncubatorEnvironmentItem)) {
                 return true;
             }
         }
@@ -138,24 +164,47 @@ public class IncubatorBlockEntity extends RandomizableContainerBlockEntity imple
     public boolean canTakeItemThroughFace(int pIndex, ItemStack pStack, Direction pDirection) {
         return true;
     }
+    @Override
+    protected NonNullList<ItemStack> getItems() {
+        return this.inventory;
+    }
 
+    @Override
+    protected void setItems(NonNullList<ItemStack> pItemStacks) {
+        this.inventory = pItemStacks;
+    }
+
+    @Override
+    protected Component getDefaultName() {
+        return Component.translatable("tile.incubator.name");
+    }
+
+    @Override
+    protected AbstractContainerMenu createMenu(int pContainerId, Inventory pInventory) {
+        return new IncubatorMenu(pContainerId, pInventory, this, this.data);
+    }
+
+    @Override
+    public int getContainerSize() {
+        return 5;
+    }
     protected void hatchItem(int process) {
         if (this.canHatchEgg(process) && !this.level.isClientSide) {
             ItemStack egg = this.inventory.get(process);
-            //TODO: INCUBATED EGGS
-//            ItemStack incubatedEgg = new ItemStack(ItemHandler.HATCHED_EGG, 1);
-//            NBTTagCompound compound = new NBTTagCompound();
-//            compound.setBoolean("Gender", this.temperature[process] > 50);
-//
-//            if (egg.getTagCompound() != null) {
-//                compound.setString("Genetics", egg.getTagCompound().getString("Genetics"));
-//                compound.setInteger("DNAQuality", egg.getTagCompound().getInteger("DNAQuality"));
-//            }
-//
-//            incubatedEgg.setTagCompound(compound);
-//
-//            this.decreaseStackSize(5);
-//            this.setInventorySlotContents(process, incubatedEgg);
+            DinosaurEggItem dinoEgg = (DinosaurEggItem)(egg.getItem());
+            ItemStack incubatedEgg = new ItemStack(ModItems.hatchedDinoEggs.get(dinoEgg.getDino()).get(), 1);
+            CompoundTag compound = new CompoundTag();
+            compound.putBoolean("Gender", this.temperature[process] > 50);
+
+            if (egg.getTag() != null) {
+                compound.putString("Genetics", egg.getTag().getCompound("DNA").getString("Genetics"));
+                compound.putInt("DNAQuality", egg.getTag().getCompound("DNA").getInt("DNAQuality"));
+            }
+
+            incubatedEgg.setTag(compound);
+
+            this.decreaseStackSize(5);
+            this.setItem(process, incubatedEgg);
         }
     }
 
@@ -175,73 +224,9 @@ public class IncubatorBlockEntity extends RandomizableContainerBlockEntity imple
     }
 
     @Override
-    protected NonNullList<ItemStack> getItems() {
-        return this.inventory;
+    public void tick(@NotNull Level pLevel, @NotNull BlockPos pPos, @NotNull BlockState pState, @NotNull MachineBlockEntity pBlockEntity) {
+        super.tick(pLevel, pPos, pState, pBlockEntity);
     }
-
-    @Override
-    protected void setItems(NonNullList<ItemStack> pItemStacks) {
-        this.inventory = pItemStacks;
-    }
-
-    @Override
-    protected Component getDefaultName() {
-        return Component.translatable("tile.incubator.name");
-    }
-
-    @Override
-    protected AbstractContainerMenu createMenu(int pContainerId, Inventory pInventory) {
-        return null;
-    }
-
-    @Override
-    public int getContainerSize() {
-        return 5;
-    }
-
-    @Override
-    public void tick(Level pLevel, BlockPos pPos, BlockState pState, DNACombinatorHybridizerBlockEntity pBlockEntity) {
-
-    }
-
-    @Override
-    protected void saveAdditional(CompoundTag pTag) {
-        super.saveAdditional(pTag);
-
-        ContainerHelper.saveAllItems(pTag, inventory);
-
-        ListTag dataList = new ListTag();
-
-        for (int i = 0; i < 5; i++) {
-            CompoundTag dataEntry = new CompoundTag();
-            dataEntry.putInt("temperature", this.temperature[i]);
-            dataEntry.putInt("incubationTime", this.eggIncubationTime[i]);
-
-
-            dataList.add(dataEntry);
-        }
-        pTag.put("ExtraData", dataList);
-
-    }
-
-    @Override
-    public void load(CompoundTag pTag) {
-        super.load(pTag);
-
-        if(pTag.contains("Items"))
-            ContainerHelper.loadAllItems(pTag.getCompound("Items"), inventory);
-
-        ListTag dataList = pTag.getList("ExtraData", 10);
-
-        for (int i = 0; i < 5; i++) {
-            CompoundTag dataEntry = dataList.getCompound(i);
-            this.temperature[i] = dataEntry.getInt("temperature");
-            this.eggIncubationTime[i] = dataEntry.getInt("incubationTime");
-        }
-
-    }
-
-
 
     //model stuff
     protected static final AnimationBuilder INACTIVE = new AnimationBuilder().addAnimation("animation.incubator.inactive");
@@ -294,5 +279,6 @@ public class IncubatorBlockEntity extends RandomizableContainerBlockEntity imple
     public AnimationFactory getFactory() {
         return this.factory;
     }
+
 
 }

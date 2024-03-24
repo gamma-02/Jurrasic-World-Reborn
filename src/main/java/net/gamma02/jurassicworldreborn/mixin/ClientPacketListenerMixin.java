@@ -25,8 +25,9 @@ public class ClientPacketListenerMixin {
 //
 //    }
 
-    @Redirect(method = "handleUpdateTags", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;populateSearchTree(Lnet/minecraft/client/searchtree/SearchRegistry$Key;Ljava/util/List;)V"))
+    @Redirect(method = "handleUpdateTags", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;populateSearchTree(Lnet/minecraft/client/searchtree/SearchRegistry$Key;Ljava/util/List;)V", ordinal = 0 ))
     void redirectPopulateTags(Minecraft instance, SearchRegistry.Key<ItemStack> searchTreeKey, List<ItemStack> stacks){
+
         jurassicworldreborn$fillItemStacks(CreativeModeTab.TAB_SEARCH, (NonNullList<ItemStack>) stacks);
 
         instance.populateSearchTree(searchTreeKey, stacks);

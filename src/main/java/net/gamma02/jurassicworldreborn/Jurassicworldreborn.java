@@ -16,23 +16,17 @@ import net.gamma02.jurassicworldreborn.common.entities.EventListener;
 import net.gamma02.jurassicworldreborn.common.entities.ModEntities;
 import net.gamma02.jurassicworldreborn.common.items.ModItems;
 import net.gamma02.jurassicworldreborn.common.network.Network;
+import net.gamma02.jurassicworldreborn.common.plants.PlantHandler;
 import net.gamma02.jurassicworldreborn.common.recipies.cleaner.CleaningRecipie;
-import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
-import net.minecraft.client.searchtree.FullTextSearchTree;
-import net.minecraft.client.searchtree.SearchRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
@@ -57,7 +51,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.stream.Stream;
 
 import static net.gamma02.jurassicworldreborn.common.CommonRegistries.modFeatures;
 import static net.gamma02.jurassicworldreborn.common.blocks.entities.ModBlockEntities.modScreenTypes.modScreenTypes;
@@ -111,6 +104,7 @@ public class Jurassicworldreborn {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(EventListener::finalizeSetup);
 
         MinecraftForge.EVENT_BUS.addListener(this::postClientTickEvent);
+        MinecraftForge.EVENT_BUS.addListener(this::serverTickEvent);
 
         MinecraftForge.EVENT_BUS.addListener(this::onLevelLoadEvent);
 
@@ -128,19 +122,22 @@ public class Jurassicworldreborn {
 
         DinosaurHandler.doDinosInit();
 
+        PlantHandler.init();//I am SO BAD with remembering to REGISTER STUFF oh my GOD
+
         //that would be the reason for having no crab entities-
         ModEntities.MOD_ENTITY_TYPES.register(modEventBus);
-        Minecraft.getInstance().getSearchTreeManager().register(SearchRegistry.CREATIVE_NAMES, (itemStacks) -> {
-            return new FullTextSearchTree<>((itemStack) -> {
-                return itemStack.getTooltipLines((Player)null, TooltipFlag.Default.NORMAL).stream().map((name) -> {
-                    return ChatFormatting.stripFormatting(name.getString()).trim();
-                }).filter((nameString) -> {
-                    return !nameString.isEmpty();
-                });
-            }, (p_91317_) -> {
-                return Stream.of(Registry.ITEM.getKey(p_91317_.getItem()));
-            }, itemStacks);
-        });
+
+//        Minecraft.getInstance().getSearchTreeManager().register(SearchRegistry.CREATIVE_NAMES, (itemStacks) -> {
+//            return new FullTextSearchTree<>((itemStack) -> {
+//                return itemStack.getTooltipLines((Player)null, TooltipFlag.Default.NORMAL).stream().map((name) -> {
+//                    return ChatFormatting.stripFormatting(name.getString()).trim();
+//                }).filter((nameString) -> {
+//                    return !nameString.isEmpty();
+//                });
+//            }, (p_91317_) -> {
+//                return Stream.of(Registry.ITEM.getKey(p_91317_.getItem()));
+//            }, itemStacks);
+//        });
 
 //        FMLJavaModLoadingContext.get()
 
@@ -235,6 +232,9 @@ public class Jurassicworldreborn {
         MenuScreens.<DNACombinatorHybridizerMenu, DNACombinatorHybridizerScreen>register(ModBlockEntities.modScreenTypes.COMBINATOR_MENU_TYPE.get(), DNACombinatorHybridizerScreen::new);
         MenuScreens.register(ModBlockEntities.modScreenTypes.FOSSIL_GRINDER_MENU_TYPE.get(), FossilGrinderScreen::new);
         MenuScreens.register(ModBlockEntities.modScreenTypes.DNA_SEQUENCER_MENU_TYPE.get(), DNASequencerScreen::new);
+        MenuScreens.register(ModBlockEntities.modScreenTypes.DNA_EXTRACTOR_MENU_TYPE.get(), DNAExtractorScreen::new);
+        MenuScreens.register(ModBlockEntities.modScreenTypes.DNA_SYNTHESIZER_MENU_TYPE.get(), DNASynthesizerScreen::new);
+        MenuScreens.register(ModBlockEntities.modScreenTypes.INCUBATOR_MENU_TYPE.get(), IncubatorScreen::new);
 
         ModScreens.<CleanerBlockEntity, CleanerMenu, CleanerScreen>register(ModBlockEntities.CLEANING_STATION.get(), CleanerScreen::new);
         ModScreens.<DNACombinatorHybridizerBlockEntity, DNACombinatorHybridizerMenu, DNACombinatorHybridizerScreen>register(ModBlockEntities.DNA_COMBINATOR_HYBRIDIZER.get(), DNACombinatorHybridizerScreen::new);
@@ -318,6 +318,10 @@ public class Jurassicworldreborn {
 //            Jurassicworldreborn.getLogger().error("Animating errored cube ID! ID: " + id);
 //        }
 
+    }
+
+    public void serverTickEvent(TickEvent.ServerTickEvent evt){
+        Network.removeRemovedEntities();
     }
 
 

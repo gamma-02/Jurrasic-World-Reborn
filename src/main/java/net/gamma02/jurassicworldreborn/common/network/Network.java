@@ -29,6 +29,7 @@ import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static net.gamma02.jurassicworldreborn.Jurassicworldreborn.resource;
 
@@ -203,7 +204,7 @@ public class Network {
     }
     public static ItemStack getSlotContents(BlockPos pos, int slotIndex){
         if(slotMap.containsKey(pos)){
-            return slotMap.get(pos).get(slotIndex);
+            return slotMap.get(pos).get(slotIndex) != null ? slotMap.get(pos).get(slotIndex) : ItemStack.EMPTY;
         }else{
 
             return ItemStack.EMPTY;
@@ -213,6 +214,10 @@ public class Network {
     @OnlyIn(Dist.CLIENT)
     public static void switchHybridizerCombinerMode(boolean mode, BlockPos pos, ResourceKey<Level> dimension){
         INSTANCE.channel.sendToServer(new SwitchHybridizerCombinatorMode(mode, pos, dimension));
+    }
+
+    public static void removeRemovedEntities(){
+        ENTITIES = ENTITIES.stream().filter(blockEntity -> !blockEntity.isRemoved()).collect(Collectors.toCollection(ArrayList::new));
     }
 
 

@@ -22,12 +22,13 @@ public class PlantDNAStorageType implements StorageType {
     @Override
     public void saveAdditional(CompoundTag nbt) {
         this.dna.writeToNBT(nbt);
-        nbt.putString("DNA", dna.getPlant().toString());
+//        nbt.putString("DNA", dna.getPlant().toString()); what????
     }
 
     @Override
-    public void load(CompoundTag nbt) {
+    public DNA load(CompoundTag nbt) {
         this.dna = PlantDNA.readFromNBT(nbt);
+        return this.dna;
     }
 
     @Override

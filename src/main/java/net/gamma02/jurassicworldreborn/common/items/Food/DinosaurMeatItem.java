@@ -9,9 +9,11 @@ import org.jetbrains.annotations.NotNull;
 
 public class DinosaurMeatItem extends Item {
     boolean cooked;
-    public DinosaurMeatItem(Properties properties, boolean cooked) {
+    Dinosaur dino;
+    public DinosaurMeatItem(Properties properties, boolean cooked, Dinosaur dino) {
         super(properties);
         this.cooked = cooked;
+        this.dino = dino;
     }
 
     @Override
@@ -23,7 +25,7 @@ public class DinosaurMeatItem extends Item {
             key = Component.translatable("item.jurassicworldreborn.dinosaur_steak").getString();
         }
 
-        return LangUtil.replaceWithDinoName(Dinosaur.getDinosaurByName((stack.getTag() == null) ? stack.getTag().getString("Dinosaur") : Dinosaur.EMPTY.getName()), key);
+        return LangUtil.replaceWithDinoName(dino, key);
     }
 
 
@@ -35,11 +37,8 @@ public class DinosaurMeatItem extends Item {
 //    }
 //
 
-
-
-
-    public Dinosaur getDinosaur(ItemStack stack) {
-        return Dinosaur.getDinosaurByName(stack.getTag().getString("Dinosaur"));
+    public Dinosaur getDinosaur() {
+        return this.dino;
     }
 
 //    @Override

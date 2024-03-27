@@ -26,7 +26,7 @@ public class FossilGrinderMenu extends AbstractContainerMenu {
 
 
     public FossilGrinderMenu(int pContainerId, Inventory playerInventory, Container fossilGrinder, ContainerData grinderData) {
-        super(ModBlockEntities.modScreenTypes.FOSSIL_GRINDER_MENU_TYPE.get(), pContainerId);
+        super(ModBlockEntities.ModScreenTypes.FOSSIL_GRINDER_MENU_TYPE.get(), pContainerId);
 
         this.fossilGrinder = fossilGrinder;
         this.fossilGrinderData = grinderData;

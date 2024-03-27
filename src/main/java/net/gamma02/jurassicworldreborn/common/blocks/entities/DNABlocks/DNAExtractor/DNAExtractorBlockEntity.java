@@ -153,7 +153,10 @@ public class DNAExtractorBlockEntity extends MachineBlockEntity<DNAExtractorBloc
         return 6;
     }
 
-    public boolean canProcess(){
+
+    //this should be made to be complient with the docs listed in the superclass at another time but not rn
+
+    public boolean canProcess(ItemStack... inputs){
         return !this.getItem(0).isEmpty() && !this.getItem(1).isEmpty() && this.hasSpace();
     }
 
@@ -176,7 +179,7 @@ public class DNAExtractorBlockEntity extends MachineBlockEntity<DNAExtractorBloc
 //        for (int input = 0; input < INPUTS.length; input++) {
 
 
-        if(!canProcess()){
+        if(!canProcess(this.getItem(0))){
             this.extractionTime = 0;
             return;
         }else{
@@ -184,7 +187,7 @@ public class DNAExtractorBlockEntity extends MachineBlockEntity<DNAExtractorBloc
         }
 
         if(this.extractionTime >= 2000){
-            this.extractDna(this.getItem(0), 0);
+            this.processItem(this.getItem(0));
             this.extractionTime = 0;
 
         }
@@ -193,10 +196,11 @@ public class DNAExtractorBlockEntity extends MachineBlockEntity<DNAExtractorBloc
 
 
     }
+    //this should be made to be complient with the docs listed in the superclass at SOME POINT:tm: but im not doing that rn
 
-    private void extractDna(ItemStack input, int index) {
+    public @NotNull List<ItemStack> processItem(ItemStack... input) {
         RandomSource rand = Objects.requireNonNull(this.level).getRandom();
-        Item item = input.getItem();
+        Item item = input[0].getItem();
 
 //        this.mergeStack(process + 6, SequencableItem.getSequencableItem(sequencableStack).getSequenceOutput(sequencableStack, rand));
 //        ItemStack output = SequencableItem.getSequencableItem(item).getSequenceOutput( tissue, rand );
@@ -271,15 +275,16 @@ public class DNAExtractorBlockEntity extends MachineBlockEntity<DNAExtractorBloc
 
         }
         if(!disc.isEmpty()) {
-            input.shrink(1);
-            this.setItem(index, input);
-            ItemStack input_disc = this.getItem(index+1);
+            input[0].shrink(1);
+            this.setItem(0, input[0]);
+            ItemStack input_disc = this.getItem(1);
             input_disc.shrink(1);
-            this.setItem(index + 1, input_disc);
+            this.setItem(1, input_disc);
 
             this.setItem(getOpenSlot(), disc);
 
         }
+        return List.of(ItemStack.EMPTY);
     }
 
     public int getOpenSlot(){

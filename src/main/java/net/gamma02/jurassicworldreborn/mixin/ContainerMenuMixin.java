@@ -51,10 +51,12 @@ public abstract class ContainerMenuMixin {
 //                pro.push("syncLoop(size " + this.slots.size() + ")");
                     int i = 0;
 //                    pro.push("getList");
-            LinkedList<ItemStack> slotList = new LinkedList<>(this.getItems());//cursednes - a LinkedList is faster than an ArrayList
+            LinkedList<ItemStack> slotList = new LinkedList<>(this.getItems());//cursednes - a LinkedList is faster* than an ArrayList
 //                    pro.popPush("realLoop");
 //                    pro.push("loopInit");
                     for(ItemStack itemstack : slotList) {
+                        if(i >= slotList.size())
+                            continue;
 //                        if( i == 0)
 //                            pro.pop();
 //                        pro.push("syncLoop:" + i);
@@ -73,7 +75,7 @@ public abstract class ContainerMenuMixin {
 //                            pro.pop();
 //                        pro.pop();
 
-                        i += 1;
+                        i++;
                     }
 //                    pro.pop();
 //                pro.pop();
@@ -110,7 +112,7 @@ public abstract class ContainerMenuMixin {
 //                pro.pop();
 //            pro.pop();
         }else{
-            for (int i = 0; i < this.slots.size(); ++i) {
+            for (int i = 0; i < this.slots.size(); i++) {
                 ItemStack itemstack = this.slots.get(i).getItem();
                 Supplier<ItemStack> supplier = Suppliers.memoize(itemstack::copy);
                 this.triggerSlotListeners(i, itemstack, supplier);
@@ -119,7 +121,7 @@ public abstract class ContainerMenuMixin {
 
             this.synchronizeCarriedToRemote();
 
-            for (int j = 0; j < this.dataSlots.size(); ++j) {
+            for (int j = 0; j < this.dataSlots.size(); j++) {
                 DataSlot dataslot = this.dataSlots.get(j);
                 int k = dataslot.get();
                 if (dataslot.checkAndClearUpdateFlag()) {

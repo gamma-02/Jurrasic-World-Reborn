@@ -41,7 +41,7 @@ public class DNACombinatorHybridizerMenu extends AbstractContainerMenu {
     }
 
     public DNACombinatorHybridizerMenu(int pContainerId, Inventory playerInv, Container hybridizer, ContainerData hybridizerData){
-        super(ModBlockEntities.modScreenTypes.COMBINATOR_MENU_TYPE.get(), pContainerId);
+        super(ModBlockEntities.ModScreenTypes.COMBINATOR_MENU_TYPE.get(), pContainerId);
 
         this.owner = hybridizer;
         this.ownerData = hybridizerData;

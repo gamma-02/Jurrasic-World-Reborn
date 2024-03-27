@@ -85,10 +85,10 @@ public class OpenContainerScreenGuiS2CPacket<B extends BlockEntity> implements M
         if(entity != null){
             if(ForgeRegistries.BLOCK_ENTITY_TYPES.getKey(entity.getType()).equals(packet.intendedTypeLocation) &&
                     ModScreens.has(ForgeRegistries.BLOCK_ENTITY_TYPES.getValue(packet.intendedTypeLocation)) &&
-                    ModBlockEntities.modScreenTypes.modMenuSupplier.containsKey(packet.menuId)){
+                    ModBlockEntities.ModScreenTypes.modMenuSupplier.containsKey(packet.menuId)){
                 if(RenderSystem.isOnRenderThread()) {
                     AbstractContainerScreen<?> screen = ModScreens.get(ForgeRegistries.BLOCK_ENTITY_TYPES.getValue(packet.intendedTypeLocation)).create(
-                            ModBlockEntities.modScreenTypes.modMenuSupplier.get(packet.menuId)
+                            ModBlockEntities.ModScreenTypes.modMenuSupplier.get(packet.menuId)
                                     .create(packet.containerID, player.getInventory(), entity), player.getInventory(), packet.title, entity);
                     player.containerMenu = screen.getMenu();
                     Minecraft.getInstance().setScreen(screen);

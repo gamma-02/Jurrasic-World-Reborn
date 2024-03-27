@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class DNASynthesizerBlockEntity extends MachineBlockEntity<DNASynthesizerBlockEntity> {
 
@@ -138,7 +139,9 @@ public class DNASynthesizerBlockEntity extends MachineBlockEntity<DNASynthesizer
         return false;
     }
 
-    private void syntheizeDNA(){
+
+    //should be made complient with superclass docs but not rn - gamma
+    public @NotNull List<ItemStack> processItem(ItemStack... inputs){
         ItemStack storageDisc = this.inventory.get(0);
 
         ItemStack output = SynthesizableItem.getSynthesizableItem(storageDisc).getSynthesizedItem(storageDisc, this.level.getRandom());
@@ -157,6 +160,7 @@ public class DNASynthesizerBlockEntity extends MachineBlockEntity<DNASynthesizer
             this.setItem(2, dnaBaseMaterial);
 
         }
+        return List.of(ItemStack.EMPTY);
     }
 
     @Override
@@ -172,26 +176,16 @@ public class DNASynthesizerBlockEntity extends MachineBlockEntity<DNASynthesizer
         }
 
         if(this.synthesizeTime >= 2000){
-            this.syntheizeDNA();
+            this.processItem();
             this.synthesizeTime = 0;
 
         }
     }
 
-    public boolean canProcess() {
+    //SHOuld be made compliant with superclass docs but not rn
+    public boolean canProcess(ItemStack... inputs) {
         return this.getItem(0).getItem() == ModItems.STORAGE_DISC.get() && this.getItem(1).getItem() == ModItems.EMPTY_TEST_TUBE.get()
                 && this.getItem(2).getItem() == ModItems.DNA_NUCLEOTIDES.get();
 
-    }
-
-    protected void mergeStack(int slot, ItemStack stack) {
-        NonNullList<ItemStack> slots = this.inventory;
-
-        ItemStack previous = slots.get(slot);
-        if (previous.isEmpty()) {
-            slots.set(slot, stack);
-        } else if (ItemStack.isSameItemSameTags(previous, stack) && ItemStack.isSameItemSameTags(previous, stack)) {
-            previous.setCount(previous.getCount() + stack.getCount());
-        }
     }
 }

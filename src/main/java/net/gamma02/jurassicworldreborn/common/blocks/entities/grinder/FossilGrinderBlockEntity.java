@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Random;
 
 public class FossilGrinderBlockEntity extends MachineBlockEntity<FossilGrinderBlockEntity> implements WorldlyContainer {
@@ -73,7 +74,9 @@ public class FossilGrinderBlockEntity extends MachineBlockEntity<FossilGrinderBl
     }
 
 
-    protected boolean shouldGrind() {
+    //should be complient with superclass docs but can't do it rn -gamma
+
+    public boolean canProcess(ItemStack... inputs) {
         for (int inputIndex = 0; inputIndex < 6; inputIndex++) {
             ItemStack input = this.inventory.get(inputIndex);
 
@@ -92,7 +95,8 @@ public class FossilGrinderBlockEntity extends MachineBlockEntity<FossilGrinderBl
     }
 
 
-    protected void doGrindStep() {
+    @NotNull
+    public List<ItemStack> processItem(ItemStack... inputs) {
         Random rand = new Random();
 
         ItemStack input = ItemStack.EMPTY;
@@ -119,6 +123,8 @@ public class FossilGrinderBlockEntity extends MachineBlockEntity<FossilGrinderBl
                 this.decreaseStackSize(index);
             }
         }
+
+        return List.of(ItemStack.EMPTY);
     }
 
 
@@ -199,7 +205,7 @@ public class FossilGrinderBlockEntity extends MachineBlockEntity<FossilGrinderBl
             return;
         }
 
-        if(hasInputs && this.shouldGrind()){
+        if(hasInputs && this.canProcess()){
             this.grindTime++;
 
             if(this.grindTime >= PROCESS_TIME){
@@ -213,7 +219,7 @@ public class FossilGrinderBlockEntity extends MachineBlockEntity<FossilGrinderBl
 //                    }
 //
 //                }
-                this.doGrindStep();
+                this.processItem();
             }
 
         }

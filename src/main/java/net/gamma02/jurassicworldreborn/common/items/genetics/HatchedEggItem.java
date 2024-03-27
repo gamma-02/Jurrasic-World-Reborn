@@ -14,8 +14,12 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 
 public class HatchedEggItem extends DNAContainerItem {
@@ -52,7 +56,7 @@ public class HatchedEggItem extends DNAContainerItem {
 
 
     public boolean getGender(Player player, ItemStack stack) {
-        CompoundTag nbt = stack.getTag();
+        CompoundTag nbt = stack.getOrCreateTag();
 
         boolean gender = player.level.random.nextBoolean();
 
@@ -174,5 +178,10 @@ public class HatchedEggItem extends DNAContainerItem {
         return InteractionResult.SUCCESS;
 
 
+    }
+
+    @Override
+    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> lore, TooltipFlag pIsAdvanced) {
+        
     }
 }

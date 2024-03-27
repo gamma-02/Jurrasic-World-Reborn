@@ -1,5 +1,6 @@
 package net.gamma02.jurassicworldreborn.common.genetics;
 
+import net.gamma02.jurassicworldreborn.common.plants.Plant;
 import net.gamma02.jurassicworldreborn.common.plants.PlantHandler;
 import net.gamma02.jurassicworldreborn.common.util.LangUtil;
 import net.minecraft.ChatFormatting;
@@ -68,6 +69,10 @@ public class PlantDNA extends DNA{
         String qualityString = Component.translatable("lore.dna_quality").getString();
         Component quality = LangUtil.getFormattedQuality(this.quality);
         tooltip.add(Component.literal(qualityString.formatted(quality.getString(), "%")).withStyle(formatting));
+    }
+
+    public Plant getRealPlant(){
+        return PlantHandler.getPlantById(this.plant);
     }
 
 //    public int getMetadata() {

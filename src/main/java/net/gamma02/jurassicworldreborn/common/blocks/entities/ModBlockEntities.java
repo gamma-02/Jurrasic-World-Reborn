@@ -9,6 +9,10 @@ import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNASeque
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNASequencer.DNASequencerMenu;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNASynthesizer.DNASynthesizerBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNASynthesizer.DNASynthesizerMenu;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.Embryoncis.EmbryoCalcificationMachine.EmbryoCalcificationMachineBlockEntity;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.Embryoncis.EmbryoCalcificationMachine.EmbryoCalcificationMachineMenu;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.Embryoncis.EmbryonicMachine.EmbryonicMachineBlockEntity;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.Embryoncis.EmbryonicMachine.EmbryonicMachineMenu;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerMenu;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.fence.ElectricFenceBaseBlockEntity;
@@ -66,7 +70,11 @@ public class ModBlockEntities<T extends BlockEntity> {
 
     public static RegistryObject<BlockEntityType<DNASynthesizerBlockEntity>> DNA_SYNTHESIZER_BLOCK_ENTITY = modBlockEntities.register("dna_synthesizer_block_entity", () -> BlockEntityType.Builder.of(DNASynthesizerBlockEntity::new, ModBlocks.DNA_SYNTHESIZER.get()).build(null));
 
-    public static class modScreenTypes{
+    public static RegistryObject<BlockEntityType<EmbryonicMachineBlockEntity>> EMBRYONIC_MACHINE_BLOCK_ENTITY = modBlockEntities.register("embryonic_machine_block_entity", () -> BlockEntityType.Builder.of(EmbryonicMachineBlockEntity::new, ModBlocks.EMBRYONIC_MACHINE.get()).build(null));
+
+    public static RegistryObject<BlockEntityType<EmbryoCalcificationMachineBlockEntity>> EMBRYO_CALCIFICATION_MACHINE_BLOCK_ENTITY_TYPE = modBlockEntities.register("embryo_calcification_machine_block_entity", () -> BlockEntityType.Builder.of(EmbryoCalcificationMachineBlockEntity::new, ModBlocks.CALCIFICATION_MACHINE.get()).build(null));
+
+    public static class ModScreenTypes {
 
         public static HashMap<ResourceLocation, ModMenuSupplier<?>> modMenuSupplier = new HashMap<>();
         public static DeferredRegister<MenuType<?>> modScreenTypes = DeferredRegister.create(ForgeRegistries.MENU_TYPES, modid);
@@ -84,6 +92,9 @@ public class ModBlockEntities<T extends BlockEntity> {
         public static RegistryObject<MenuType<DNASynthesizerMenu>> DNA_SYNTHESIZER_MENU_TYPE = modScreenTypes.register("dna_synthesizer_menu_type", () -> new MenuType<>(DNASynthesizerMenu::new));
 
         public static RegistryObject<MenuType<IncubatorMenu>> INCUBATOR_MENU_TYPE = modScreenTypes.register("incubator_menu_type", () -> new MenuType<>(IncubatorMenu::new));
+
+        public static RegistryObject<MenuType<EmbryonicMachineMenu>> EMBRYONIC_MACHINE_MENU_TYPE = modScreenTypes.register("embryonic_machine_menu_type", () -> new MenuType<>(EmbryonicMachineMenu::new));
+        public static RegistryObject<MenuType<EmbryoCalcificationMachineMenu>> EMBRYO_CALCIFICATION_MACHINE_MENU_TYPE = modScreenTypes.register("embryo_calcification_machine_menu_type", () -> new MenuType<>(EmbryoCalcificationMachineMenu::new));
 
 
 

@@ -15,6 +15,13 @@ import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
+
+/**
+ * Base class for all(read: most) of our block entities.
+ * @param <T> our block entity, can't remember why I did this but whatever it works
+ */
 public abstract class MachineBlockEntity<T extends MachineBlockEntity<T>> extends RandomizableContainerBlockEntity implements WorldlyContainer, BlockEntityTicker<T> {
     protected MachineBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
@@ -81,9 +88,51 @@ public abstract class MachineBlockEntity<T extends MachineBlockEntity<T>> extend
 
     }
 
-    @Override
-    public void tick(@NotNull Level pLevel, @NotNull BlockPos pPos, @NotNull BlockState pState, @NotNull MachineBlockEntity pBlockEntity) {
 
+    //that javadoc took a hot second... care about you future devs :DDDDDD - gamma_02
+    /**
+     * This method should return weather or not the machine block entity should process the inputs given in the {@code ItemStack... inputs} param.
+     * The way I've thought about this is that this method should be given an ordered list of item stacks with all inputs in an order
+     * the coder devises. <br><br>
+     * For example input #1 is a DNA syringe, input #2 is an egg, this method should return {@code true} if the machine is
+     * an embryo calcification machine, the dino referenced from the DNA syringe lays an egg, AND input #2 is an egg.
+     * @param inputs A given list of inputs from a machine. This should be for an individual input/alt. input set in a multi-processed machine.
+     * @return true IF AND ONLY IF the machine is supposed to produce an output for the given list of inputs.
+     */
+    public abstract boolean canProcess(ItemStack... inputs);
+
+
+    /**
+     * This method should return the result of processing the given inputs, in itemstack form. However, handling placing these
+     * items should be handled by the tick function. I also suggest handing off decreasing the item counts in the container
+     * to the tick function, but that's less important: Do What Works.
+     * @param inputs A given list of inputs from a machine. This should be for an individual input/alt. input set in a multi-processed machine.
+     * @return Unordered list of output items to be handled by the tick function.
+     */
+    @NotNull
+    public abstract List<ItemStack> processItem(ItemStack... inputs);
+
+    /**
+     * Template method so you don't have to get all the inputs again and again. Use this please please please please im begging you
+     * @return the ordered list of inputs that you use in the {@link MachineBlockEntity#canProcess(ItemStack...)} and {@link MachineBlockEntity#processItem(ItemStack...)}
+     * @see MachineBlockEntity#canProcess(ItemStack...)
+     * @see MachineBlockEntity#processItem(ItemStack...)
+     */
+    public ItemStack[] collectInputs(int... flags){
+        return null;
+    }
+
+
+
+    protected void mergeStack(int slot, ItemStack stack) {
+        NonNullList<ItemStack> slots = this.getItems();
+
+        ItemStack previous = slots.get(slot);
+        if (previous.isEmpty()) {
+            slots.set(slot, stack);
+        } else if ( ItemStack.isSameItemSameTags(previous, stack) ) {
+            previous.setCount(previous.getCount() + stack.getCount());
+        }
     }
 
     protected void decreaseStackSize(int index, int amount) {

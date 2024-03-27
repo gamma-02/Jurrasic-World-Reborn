@@ -17,6 +17,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class DNAContainerItem extends Item {
+
+    protected boolean appendTooltip = true;
+
     public DNAContainerItem(Properties pProperties) {
         super(pProperties);
     }
@@ -88,6 +91,8 @@ public class DNAContainerItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> lore, TooltipFlag pIsAdvanced) {
+        if(!appendTooltip)
+            return;
         var tag = pStack.getOrCreateTag();
         if(!tag.contains("isCreative")) {
             if (tag.contains("DNA"))

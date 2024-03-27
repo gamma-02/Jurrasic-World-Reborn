@@ -4,8 +4,11 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.incubator.IncubatorBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.incubator.IncubatorMenu;
+import net.gamma02.jurassicworldreborn.common.network.Network;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -76,8 +79,10 @@ public class IncubatorScreen extends AbstractContainerScreen<IncubatorMenu> {
             if (mouseX > x && mouseY > y && mouseX < x + 21 && mouseY < y + 5) {
                 int temp = (((int) mouseX) - x + 1) * 4;
 
-                if (temp != this.menu.getField(i + 5)) {
-                    this.menu.setField(i + 5, temp);
+                if (temp != this.menu.getField(i)) {
+                    this.menu.setField(i, temp);
+                    assert Minecraft.getInstance().level != null;
+                    Network.setIncubatorTemperature(this.menu.getBlockPos(), i, temp, Minecraft.getInstance().level.dimension());
 //                    RebornMod.NETWORK_WRAPPER.sendToServer(new ChangeTemperatureMessage(((TileEntity) this.incubator).getPos(), i, temp, ((TileEntity) this.incubator).getWorld().provider.getDimension()));
                 }
 
@@ -143,13 +148,13 @@ public class IncubatorScreen extends AbstractContainerScreen<IncubatorMenu> {
     }
 
     private int getProgress(int slot, int scale) {
-        int j = this.menu.getField(slot);
+        int j = this.menu.getField(slot + 5);
         int k = IncubatorBlockEntity.PROCESS_TIME;
         return j != 0 ? j * scale / k : 0;
     }
 
     private int getTemperature(int slot, int scale) {
-        int j = this.menu.getField(slot + 5);
+        int j = this.menu.getField(slot);
         int k = 100;
         return j != 0 ? j * scale / k : 0;
     }

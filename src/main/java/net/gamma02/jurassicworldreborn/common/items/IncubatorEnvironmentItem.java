@@ -1,4 +1,12 @@
 package net.gamma02.jurassicworldreborn.common.items;
 
-public interface IncubatorEnvironmentItem {
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+
+public class IncubatorEnvironmentItem extends BlockItem {
+
+    public IncubatorEnvironmentItem(Block pBlock, Properties pProperties) {
+        super(pBlock, pProperties);
+    }
 }

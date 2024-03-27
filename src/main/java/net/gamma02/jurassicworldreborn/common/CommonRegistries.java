@@ -160,7 +160,7 @@ public class CommonRegistries {
 //        JsonOutputGenerator.doJsonProcessing(DynamicWoodTypeRegistry.getJsonBlockStateModelDefinitions());
 
 
-//        ModBlockEntities.modScreenTypes.modMenuSupplier.put(ModBlockEntities.modScreenTypes.CleanerScreenType.getId(), CleanerMenu::new);
+//        ModBlockEntities.ModScreenTypes.modMenuSupplier.put(ModBlockEntities.ModScreenTypes.CleanerScreenType.getId(), CleanerMenu::new);
 
     }
 

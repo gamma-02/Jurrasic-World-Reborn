@@ -1,5 +1,6 @@
 package net.gamma02.jurassicworldreborn;
 
+import net.gamma02.jurassicworldreborn.client.JurassicClient;
 import net.gamma02.jurassicworldreborn.client.render.RenderingHandler;
 import net.gamma02.jurassicworldreborn.client.screens.*;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
@@ -38,6 +39,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -53,7 +55,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import static net.gamma02.jurassicworldreborn.common.CommonRegistries.modFeatures;
-import static net.gamma02.jurassicworldreborn.common.blocks.entities.ModBlockEntities.modScreenTypes.modScreenTypes;
+import static net.gamma02.jurassicworldreborn.common.blocks.entities.ModBlockEntities.ModScreenTypes.modScreenTypes;
 import static net.gamma02.jurassicworldreborn.common.recipies.cleaner.CleaningRecipie.CLEANING_RECIPE_TYPE;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -191,6 +193,10 @@ public class Jurassicworldreborn {
 
     }
 
+    private void clientSetup(FMLClientSetupEvent event) {
+        JurassicClient.clientSetup(event);
+    }
+
     private void setup(final FMLCommonSetupEvent event) {
         // some preinit code
         LOGGER.info("HELLO FROM PREINIT");
@@ -209,50 +215,7 @@ public class Jurassicworldreborn {
 
 
 
-    public void clientSetup(final FMLClientSetupEvent evt){
 
-//        profilerFiller = Minecraft.getInstance().getProfiler();
-
-        SoundHandler.init();
-        //wood type rendering
-        evt.enqueueWork(() -> {
-
-            Sheets.addWoodType(CommonRegistries.AraucariaType);
-            Sheets.addWoodType(CommonRegistries.CalamitesType);
-            Sheets.addWoodType(CommonRegistries.GinkgoType);
-            Sheets.addWoodType(CommonRegistries.PhoenixType);
-            Sheets.addWoodType(CommonRegistries.PsaroniusType);
-        });
-
-        SoundHandler.registrer.register(FMLJavaModLoadingContext.get().getModEventBus());
-
-
-        //Binding screens to types
-        MenuScreens.<CleanerMenu, CleanerScreen>register(ModBlockEntities.modScreenTypes.CleanerMenuType.get(), CleanerScreen::new);
-        MenuScreens.<DNACombinatorHybridizerMenu, DNACombinatorHybridizerScreen>register(ModBlockEntities.modScreenTypes.COMBINATOR_MENU_TYPE.get(), DNACombinatorHybridizerScreen::new);
-        MenuScreens.register(ModBlockEntities.modScreenTypes.FOSSIL_GRINDER_MENU_TYPE.get(), FossilGrinderScreen::new);
-        MenuScreens.register(ModBlockEntities.modScreenTypes.DNA_SEQUENCER_MENU_TYPE.get(), DNASequencerScreen::new);
-        MenuScreens.register(ModBlockEntities.modScreenTypes.DNA_EXTRACTOR_MENU_TYPE.get(), DNAExtractorScreen::new);
-        MenuScreens.register(ModBlockEntities.modScreenTypes.DNA_SYNTHESIZER_MENU_TYPE.get(), DNASynthesizerScreen::new);
-        MenuScreens.register(ModBlockEntities.modScreenTypes.INCUBATOR_MENU_TYPE.get(), IncubatorScreen::new);
-
-        ModScreens.<CleanerBlockEntity, CleanerMenu, CleanerScreen>register(ModBlockEntities.CLEANING_STATION.get(), CleanerScreen::new);
-        ModScreens.<DNACombinatorHybridizerBlockEntity, DNACombinatorHybridizerMenu, DNACombinatorHybridizerScreen>register(ModBlockEntities.DNA_COMBINATOR_HYBRIDIZER.get(), DNACombinatorHybridizerScreen::new);
-//        ModScreens.<FossilGrinderBlockEntity, FossilGrinderMenu, FossilGrinderScreen>register(ModBlockEntities.FOSSIL_GRINDER_BLOCK_ENTITY.get(), FossilGrinderScreen::new);
-
-
-
-
-        for (Block b:
-             renderlayers.keySet()) {
-            //noinspection removal
-            ItemBlockRenderTypes.setRenderLayer(b, renderlayers.get(b));
-        }
-
-        FMLJavaModLoadingContext.get().getModEventBus().register(RenderingHandler.class);
-
-
-    }
 
     public static Logger getLogger(){
         return LOGGER;
@@ -278,6 +241,7 @@ public class Jurassicworldreborn {
         });
 
     }
+
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent

@@ -1,6 +1,7 @@
 package net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNAExtractor;
 
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
+import net.gamma02.jurassicworldreborn.common.blocks.base.BaseMachineBlock;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -25,7 +26,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-public class DNAExtractorBlock extends BaseEntityBlock {
+public class DNAExtractorBlock extends BaseMachineBlock {
 
     public static DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
@@ -37,8 +38,7 @@ public class DNAExtractorBlock extends BaseEntityBlock {
 
     public DNAExtractorBlock(Properties p_52591_) {
         super(p_52591_);
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
-        Jurassicworldreborn.setRenderType(this, RenderType.cutoutMipped());
+        this.registerDefaultState(this.getSetDefaultValues());
     }
 
     @Override
@@ -77,14 +77,14 @@ public class DNAExtractorBlock extends BaseEntityBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(FACING);
+        super.createBlockStateDefinition(pBuilder);
     }
 
-    @Nullable
-    @Override
-    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
-        return this.defaultBlockState().setValue(FACING, pContext.getHorizontalDirection().getOpposite());
-    }
+//    @Nullable
+//    @Override
+//    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
+//        return this.defaultBlockState().setValue(FACING, pContext.getHorizontalDirection().getOpposite());
+//    }
 
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {

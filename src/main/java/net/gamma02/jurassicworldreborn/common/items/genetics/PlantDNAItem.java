@@ -3,6 +3,7 @@ package net.gamma02.jurassicworldreborn.common.items.genetics;
 import net.gamma02.jurassicworldreborn.common.items.ModItems;
 import net.gamma02.jurassicworldreborn.common.items.TabHandler;
 import net.gamma02.jurassicworldreborn.common.plants.Plant;
+import net.gamma02.jurassicworldreborn.common.plants.PlantHandler;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -31,8 +32,13 @@ public class PlantDNAItem extends Item {
     }
 
     public Plant getPlant(ItemStack stack) {
+        if(stack.getItem() == this)
+            return this.plant;
+        if(stack.getItem() instanceof PlantDNAItem i){
+            return i.getPlant(stack);
+        }
 
-        return plant;
+        return PlantHandler.EMPTY;
     }
 
     @Override

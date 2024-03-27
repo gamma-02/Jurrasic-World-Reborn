@@ -2,6 +2,8 @@ package net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNASequ
 
 import net.gamma02.jurassicworldreborn.common.blocks.entities.MachineBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.ModBlockEntities;
+import net.gamma02.jurassicworldreborn.common.items.ModItems;
+import net.gamma02.jurassicworldreborn.common.items.genetics.SoftTissueItem;
 import net.gamma02.jurassicworldreborn.common.network.Network;
 import net.gamma02.jurassicworldreborn.common.util.api.SequencableItem;
 import net.minecraft.core.BlockPos;
@@ -21,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class DNASequencerBlockEntity extends MachineBlockEntity<DNASequencerBlockEntity> {
@@ -130,25 +133,44 @@ public class DNASequencerBlockEntity extends MachineBlockEntity<DNASequencerBloc
         return 9;
     }
 
-    protected void sequenceItem(ItemStack tissue, int input){
+    //see superclass for explanation :D
+    public @NotNull List<ItemStack> processItem(ItemStack... inputs){
+        NonNullList<ItemStack> outputs = NonNullList.create();
+        ItemStack tissue = inputs[0];
+        ItemStack disc = inputs[1];
+
         RandomSource rand = Objects.requireNonNull(this.level).getRandom();
 
 //        this.mergeStack(process + 6, SequencableItem.getSequencableItem(sequencableStack).getSequenceOutput(sequencableStack, rand));
-        ItemStack output = SequencableItem.getSequencableItem(tissue).getSequenceOutput( tissue, rand );
-        this.setItem(OUTPUTS[(input+1)/2], output);
+        outputs.add(SequencableItem.getSequencableItem(tissue).getSequenceOutput( tissue, rand ));
+//        this.setItem(OUTPUTS[(input+1)/2], output); | future gamma: how the hell did this work, what??? | 20 seconds later future gamma: ohHHH im so stupid
         tissue.shrink(1);
-        this.setItem(input, tissue);
-        ItemStack disc = this.getItem(input + 1);
+        outputs.add(tissue);//please please be at index 1
+//        ItemStack disc = this.getItem(input + 1);
         disc.shrink(1);
-        this.setItem(input + 1, disc);
+//        this.setItem(input + 1, disc);
+        outputs.add(disc); //please please be at index 2
 //        BlockPos pos = this.pos;
+        return outputs;
     }
 
-    public boolean canProcess(int slot){
-        return !this.getItem(slot).isEmpty() && !this.getItem(slot + 1).isEmpty() && this.getItem(OUTPUTS[(slot+1)/2]).isEmpty();
+    //We can assume that
+    public boolean canProcess(ItemStack... inputs){
+        return (!inputs[0].isEmpty() && inputs[0].getItem() instanceof SoftTissueItem) && (!inputs[1].isEmpty() && inputs[1].getItem() == ModItems.STORAGE_DISC.get()) && inputs[2].isEmpty();
     }
 
-
+    /**
+     * @param flags list of indices following: [tissue slot index, disc slot index, output slot index]
+     * @return ready ItemStack array for passing into Process functions. Should follow: [ItemStack#getItem instanceof SoftTissueItem, Empty StorageDiscItem, ItemStack.EMPTY]
+     */
+    @Override
+    public ItemStack[] collectInputs(int... flags) {
+        return new ItemStack[]{
+                this.getItem(flags[0]),
+                this.getItem(flags[1]),
+                this.getItem(flags[2])
+        };
+    }
 
     @Override
     public void tick(Level pLevel, BlockPos pPos, BlockState pState, DNASequencerBlockEntity pBlockEntity) {
@@ -159,7 +181,23 @@ public class DNASequencerBlockEntity extends MachineBlockEntity<DNASequencerBloc
             int time = this.sequencingTime[input];
             int dna = DNA_INPUT[input];
 
-            if(!canProcess(dna)){
+            ItemStack[] processInputs = collectInputs(dna, dna + 1, OUTPUTS[input]);
+
+
+            if(time >= 2000 && this.canProcess(processInputs)){
+                var list = this.processItem(processInputs);
+                this.mergeStack(OUTPUTS[input], list.get(0) );
+
+                this.setItem(dna, list.get(1));
+                this.setItem(dna + 1, list.get(2));
+                time = 0;
+                this.sequencingTime[input] = time;
+
+                processInputs = collectInputs(dna, dna + 1, OUTPUTS[input] );
+
+            }
+
+            if(!canProcess(processInputs)){
                 this.sequencingTime[input] = 0;
                 continue;
             }else{
@@ -167,12 +205,7 @@ public class DNASequencerBlockEntity extends MachineBlockEntity<DNASequencerBloc
                 this.sequencingTime[input] = time;
             }
 
-            if(time >= 2000){
-                this.sequenceItem(this.getItem(dna), dna);
-                time = 0;
-                this.sequencingTime[input] = time;
 
-            }
 
 
 

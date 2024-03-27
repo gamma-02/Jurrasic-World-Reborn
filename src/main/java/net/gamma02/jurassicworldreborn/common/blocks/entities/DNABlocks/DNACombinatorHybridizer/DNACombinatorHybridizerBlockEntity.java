@@ -156,7 +156,9 @@ public class DNACombinatorHybridizerBlockEntity extends MachineBlockEntity<DNACo
         }
     }
 
-    protected boolean canProcess() {
+
+    //this should be made to be complient with the docs listed in the superclass at SOME POINT:tm: but im not doing that rn
+    public boolean canProcess(ItemStack... inputs) {
         if (!this.getMode()) {
             return this.inventory.get(10).isEmpty() && this.getHybrid() != null;
         } else {
@@ -193,10 +195,9 @@ public class DNACombinatorHybridizerBlockEntity extends MachineBlockEntity<DNACo
         }
     }
 
-
-    protected void processItem() {
+    public @NotNull List<ItemStack> processItem(ItemStack... inputs) {
         if(this.level == null)
-            return;
+            return List.of(ItemStack.EMPTY);
 
         if (this.canProcess()) {
             if (!this.getMode()) {
@@ -226,7 +227,7 @@ public class DNACombinatorHybridizerBlockEntity extends MachineBlockEntity<DNACo
                     DinoDNA dna2 = DinoDNA.readFromNBT(this.inventory.get(9).getTag());
 
                     if(dna1 == null || dna2 == null)//this shouldn't happen but the game shouldn't crash if it does
-                        return;
+                        return List.of(ItemStack.EMPTY);
 
                     int newQuality = dna1.getDNAQuality() + dna2.getDNAQuality();
 
@@ -245,7 +246,7 @@ public class DNACombinatorHybridizerBlockEntity extends MachineBlockEntity<DNACo
                     PlantDNA dna2 = PlantDNA.readFromNBT(this.inventory.get(9).getTag());
 
                     if(dna1 == null || dna2 == null)//this shouldn't happen but the game shouldn't crash if it does
-                        return;
+                        return List.of(ItemStack.EMPTY);
 
                     int newQuality = dna1.getDNAQuality() + dna2.getDNAQuality();
 
@@ -266,6 +267,7 @@ public class DNACombinatorHybridizerBlockEntity extends MachineBlockEntity<DNACo
                 this.decreaseStackSize(9);
             }
         }
+        return List.of(ItemStack.EMPTY);
     }
 
     protected void mergeStack(int slot, ItemStack stack) {
@@ -341,6 +343,10 @@ public class DNACombinatorHybridizerBlockEntity extends MachineBlockEntity<DNACo
         CompoundTag machineData = (CompoundTag) data;
         this.processTime = machineData.getInt("ProcessTime");
     }
+
+
+
+
 
 
     @Override

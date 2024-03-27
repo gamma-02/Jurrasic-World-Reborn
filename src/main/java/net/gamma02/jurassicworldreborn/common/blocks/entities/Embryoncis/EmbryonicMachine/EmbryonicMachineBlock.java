@@ -1,15 +1,25 @@
-package net.gamma02.jurassicworldreborn.common.blocks.entities.Embryoncis;
+package net.gamma02.jurassicworldreborn.common.blocks.entities.Embryoncis.EmbryonicMachine;
 
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.common.blocks.base.BaseMachineBlock;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNASynthesizer.DNASynthesizerBlock;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNASynthesizer.DNASynthesizerBlockEntity;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -116,7 +126,7 @@ public class EmbryonicMachineBlock extends BaseMachineBlock {
     //todo: recipies, blocks
     public EmbryonicMachineBlock(Properties p_52591_) {
         super(p_52591_);
-        this.registerDefaultState(this.getStateDefinition().any().setValue(TEST_TUBES, true).setValue(PETRI_DISH, false));
+        this.registerDefaultState(this.getSetDefaultValues().setValue(TEST_TUBES, true).setValue(PETRI_DISH, false));
         Jurassicworldreborn.setRenderType(this, RenderType.cutoutMipped());
     }
 
@@ -145,5 +155,36 @@ public class EmbryonicMachineBlock extends BaseMachineBlock {
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext pContext) {
         return this.defaultBlockState().setValue(FACING, pContext.getHorizontalDirection().getOpposite());
+    }
+
+    @Override
+    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+
+        if (pLevel.isClientSide) {
+            return InteractionResult.SUCCESS;
+        } else {
+//                MenuProvider menuprovider = this.getMenuProvider(pState, pLevel, pPos);
+            if (pLevel.getBlockEntity(pPos) instanceof EmbryonicMachineBlockEntity e ) {
+                pPlayer.openMenu(e);
+            }
+
+            return InteractionResult.CONSUME;
+        }
+    }
+
+    @Override
+    public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
+        return new EmbryonicMachineBlockEntity(pPos, pState);
+    }
+
+    @Override
+    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
+        return (pLevel1, pPos, pState1, pBlockEntity) -> {
+            if(pLevel1.getBlockEntity(pPos) instanceof EmbryonicMachineBlockEntity dnaSequencer){
+                dnaSequencer.tick(pLevel1, pPos, pState1, dnaSequencer);
+            }else{
+                EmbryonicMachineBlock.super.getTicker(pLevel, pState, pBlockEntityType);
+            }
+        };
     }
 }

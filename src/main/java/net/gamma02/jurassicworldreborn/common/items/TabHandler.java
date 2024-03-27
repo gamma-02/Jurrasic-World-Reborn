@@ -14,6 +14,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class TabHandler {
+
     public static ArrayList<CreativeModeTab> tabs = new ArrayList<>();
 
 
@@ -30,7 +31,17 @@ public class TabHandler {
     });
 
     public static final CreativeModeTab ITEMS = makeTab("jurassicworldreborn.items", () -> ModItems.APHID_AMBER.get(), () -> ModItems.MOSQUITO_AMBER.get());
+    public static final CreativeModeTab CREATIVE = makeTab(new CreativeModeTab("jurassicworldreborn.creative") {
+        @Override
+        public ItemStack makeIcon() {
+            return ModItems.BIRTHING_WAND.get().getDefaultInstance();
+        }
 
+        @Override
+        public boolean hasSearchBar() {
+            return true;
+        }
+    });
     public static final CreativeModeTab BLOCKS = makeTab("jurassicworldreborn.blocks", () -> ModItems.GYPSUM_BRICKS.get());
 
     public static final CreativeModeTab DECORATIONS = makeTab("jurassicworldreborn.decorations", () -> ModItems.DISPLAY_BLOCK.get());
@@ -40,6 +51,8 @@ public class TabHandler {
     public static final CreativeModeTab FOSSILS = makeTab("jurassicworldreborn.fossils", () -> ModItems.FAUNA_FOSSIL_BLOCK.get());
 
     public static final CreativeModeTab FOODS = makeTab("jurassicworldreborn.foods", () -> ModItems.ALL_MEATS);
+
+    public static final CreativeModeTab PLANTS = makeTab("jurassicworldreborn.plants", () -> ModItems.PLANT_CALLUS.get());
 
     public static CreativeModeTab makeTab(String name, Supplier<Item>... icon){
         CreativeModeTab tab = new CreativeModeTab(name){
@@ -137,6 +150,10 @@ public class TabHandler {
                 return suppliers.get(0).get().getDefaultInstance();
             }
         };
+        tabs.add(tab);
+        return tab;
+    }
+    public static CreativeModeTab makeTab(CreativeModeTab tab){
         tabs.add(tab);
         return tab;
     }

@@ -68,7 +68,7 @@ public class DNASynthesizerBlock extends BaseMachineBlock {
 
     public DNASynthesizerBlock(Properties p_52591_) {
         super(p_52591_);
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, false));
+        this.registerDefaultState(this.getSetDefaultValues());
     }
 
     @Override

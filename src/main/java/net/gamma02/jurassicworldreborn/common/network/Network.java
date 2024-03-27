@@ -54,6 +54,11 @@ public class Network {
                 SwitchHybridizerCombinatorMode::write,
                 SwitchHybridizerCombinatorMode::read,
                 SwitchHybridizerCombinatorMode::handle);
+        this.channel.registerMessage(id++, SetIncubatorTempServerboundPacket.class,
+                SetIncubatorTempServerboundPacket::write,
+                SetIncubatorTempServerboundPacket::read,
+                SetIncubatorTempServerboundPacket::handle,
+                Optional.of(NetworkDirection.PLAY_TO_SERVER));
     }
 
     public static Network INSTANCE;
@@ -214,6 +219,11 @@ public class Network {
     @OnlyIn(Dist.CLIENT)
     public static void switchHybridizerCombinerMode(boolean mode, BlockPos pos, ResourceKey<Level> dimension){
         INSTANCE.channel.sendToServer(new SwitchHybridizerCombinatorMode(mode, pos, dimension));
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static void setIncubatorTemperature(BlockPos incubator, int slot, int temp, ResourceKey<Level> dimension){
+        INSTANCE.channel.sendToServer(new SetIncubatorTempServerboundPacket(incubator, slot, temp, dimension));
     }
 
     public static void removeRemovedEntities(){

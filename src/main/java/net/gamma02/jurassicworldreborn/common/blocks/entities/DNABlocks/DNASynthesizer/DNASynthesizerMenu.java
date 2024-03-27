@@ -26,7 +26,7 @@ public class DNASynthesizerMenu extends AbstractContainerMenu {
         this(pContainerId, new SimpleContainer(7), new SimpleContainerData(1), playerInventory);
     }
     public DNASynthesizerMenu(int containerId, Container dnaSequencer, ContainerData sequencerData, Inventory playerInventory){
-        super(ModBlockEntities.modScreenTypes.DNA_SYNTHESIZER_MENU_TYPE.get(), containerId);
+        super(ModBlockEntities.ModScreenTypes.DNA_SYNTHESIZER_MENU_TYPE.get(), containerId);
 
         this.DNASynthesizer = dnaSequencer;
         this.SynthesizerData = sequencerData;

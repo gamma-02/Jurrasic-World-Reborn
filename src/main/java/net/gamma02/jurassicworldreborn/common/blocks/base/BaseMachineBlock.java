@@ -1,9 +1,11 @@
 package net.gamma02.jurassicworldreborn.common.blocks.base;
 
+import com.mojang.datafixers.util.Pair;
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -14,10 +16,13 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public abstract class BaseMachineBlock extends BaseEntityBlock implements EntityBlock, SimpleWaterloggedBlock {
 
@@ -28,8 +33,11 @@ public abstract class BaseMachineBlock extends BaseEntityBlock implements Entity
     //TODO: mechanics of this lol
     public BaseMachineBlock(Properties p_52591_) {
         super(p_52591_);
-        this.registerDefaultState(this.getStateDefinition().any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, false));
         Jurassicworldreborn.setRenderType(this, RenderType.cutoutMipped());
+    }
+
+    public BlockState getSetDefaultValues(){
+        return this.getStateDefinition().any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, false);
     }
 
     @Override
@@ -63,5 +71,11 @@ public abstract class BaseMachineBlock extends BaseEntityBlock implements Entity
 
     public @NotNull FluidState getFluidState(BlockState pState) {
         return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(pState);
+    }
+
+    @Nullable
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
+        return this.defaultBlockState().setValue(FACING, pContext.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, pContext.getLevel().getFluidState(pContext.getClickedPos()).getType() == Fluids.WATER);
     }
 }

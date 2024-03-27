@@ -27,6 +27,8 @@ public class AncientCrop extends CropBlock {
     public AncientCrop(Properties pProperties, int dif) {
         super(pProperties);
         this.ageChoice = 1;
+        Jurassicworldreborn.setRenderType(this, RenderType.cutout());
+
     }
     @Override
     public IntegerProperty getAgeProperty() {

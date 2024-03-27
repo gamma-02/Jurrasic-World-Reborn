@@ -35,7 +35,7 @@ public class DNACombinatorHybridizerBlock extends BaseMachineBlock {
 
     public DNACombinatorHybridizerBlock(Properties p_52591_) {
         super(p_52591_);
-        this.registerDefaultState(this.getStateDefinition().any().setValue(MODE, false));
+        this.registerDefaultState(this.getSetDefaultValues().setValue(MODE, false));
         Jurassicworldreborn.setRenderType(this, RenderType.translucent());
 
     }

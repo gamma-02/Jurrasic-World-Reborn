@@ -157,6 +157,6 @@ public class CleanerBlock extends BaseEntityBlock {
 //    @Nullable
 //    @Override
 //    public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
-//        return ModBlockEntities.modScreenTypes.CleanerMenuType.get().create(pContainerId, pPlayerInventory);
+//        return ModBlockEntities.ModScreenTypes.CleanerMenuType.get().create(pContainerId, pPlayerInventory);
 //    }
 }

@@ -10,7 +10,7 @@ import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNAExtra
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNASequencer.DNASequencerBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNASynthesizer.DNASynthesizerBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.Embryoncis.EmbryoCalcificationMachine.EmbryoCalcificationMachineBlock;
-import net.gamma02.jurassicworldreborn.common.blocks.entities.Embryoncis.EmbryonicMachineBlock;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.Embryoncis.EmbryonicMachine.EmbryonicMachineBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.bugcrate.BugCrate;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerBlock;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cultivator.CultivatorBottomBlock;

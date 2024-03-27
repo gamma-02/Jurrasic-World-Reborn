@@ -153,16 +153,9 @@ public class DNASequencerBlock extends BaseMachineBlock {
 
     public DNASequencerBlock(Properties p_52591_) {
         super(p_52591_);
-
-//        this.registerDefaultState(this.getStateDefinition().any().setValue(FACING, Direction.NORTH));
-
-//        Jurassicworldreborn.setRenderType(this, RenderType.cutoutMipped());
     }
 
-//    @Override
-//    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-//        pBuilder.add(FACING);
-//    }
+
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
         switch (pState.getValue(FACING)){
@@ -194,11 +187,6 @@ public class DNASequencerBlock extends BaseMachineBlock {
         }
     }
 
-    @Nullable
-    @Override
-    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
-        return this.defaultBlockState().setValue(FACING, pContext.getHorizontalDirection().getOpposite());
-    }
 
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {

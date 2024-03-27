@@ -1,9 +1,11 @@
 package net.gamma02.jurassicworldreborn.common.blocks.entities.incubator;
 
+import net.gamma02.jurassicworldreborn.common.blocks.entities.DNABlocks.DNASequencer.DNASequencerMenu;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.ModBlockEntities;
 import net.gamma02.jurassicworldreborn.common.items.IncubatorEnvironmentItem;
 import net.gamma02.jurassicworldreborn.common.items.genetics.DinosaurEggItem;
 import net.gamma02.jurassicworldreborn.common.util.slot.CustomSlot;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -24,11 +26,11 @@ public class IncubatorMenu extends AbstractContainerMenu {
     protected ContainerData ownerData;
 
     public IncubatorMenu(int pContainerId, Inventory playerInventory){
-        this(pContainerId, playerInventory, new SimpleContainer(6), new SimpleContainerData(10));
+        this(pContainerId, playerInventory, new SimpleContainer(6), new SimpleContainerData(13));
     }
 
     protected IncubatorMenu(int pContainerId, Inventory playerInventory, Container owner, ContainerData ownerData) {
-        super(ModBlockEntities.modScreenTypes.INCUBATOR_MENU_TYPE.get(), pContainerId);
+        super(ModBlockEntities.ModScreenTypes.INCUBATOR_MENU_TYPE.get(), pContainerId);
         this.owner = owner;
         this.ownerData = ownerData;
 
@@ -39,22 +41,12 @@ public class IncubatorMenu extends AbstractContainerMenu {
         this.addSlot(new CustomSlot(this.owner, 2, 79, 14, eggPredicate));
         this.addSlot(new CustomSlot(this.owner, 3, 102, 21, eggPredicate));
         this.addSlot(new CustomSlot(this.owner, 4, 125, 28, eggPredicate));
-
         this.addSlot(new CustomSlot(this.owner, 5, 79, 49, stack -> stack.getItem() instanceof IncubatorEnvironmentItem));
+        DNASequencerMenu.addPlayerInventory(playerInventory, this::addSlot);
 
         this.addDataSlots(this.ownerData);
 
-        int i;
 
-        for (i = 0; i < 3; ++i) {
-            for (int j = 0; j < 9; ++j) {
-                this.addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
-            }
-        }
-
-        for (i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
-        }
     }
 
     @Override
@@ -84,6 +76,10 @@ public class IncubatorMenu extends AbstractContainerMenu {
         }
 
         return transferred;
+    }
+
+    public BlockPos getBlockPos(){
+        return new BlockPos(this.ownerData.get(10), this.ownerData.get(11), this.ownerData.get(12));
     }
 
     public int getField(int index){

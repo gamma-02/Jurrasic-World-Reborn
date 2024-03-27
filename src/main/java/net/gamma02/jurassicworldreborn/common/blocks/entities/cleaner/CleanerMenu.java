@@ -35,7 +35,7 @@ public class CleanerMenu extends AbstractContainerMenu {
 
     public CleanerMenu(int pContainerId, Inventory inventory, Container cleaningStation, ContainerData stationData) {
 
-        super(ModBlockEntities.modScreenTypes.CleanerMenuType.get(), pContainerId);
+        super(ModBlockEntities.ModScreenTypes.CleanerMenuType.get(), pContainerId);
 
 
         this.cleaningStation = cleaningStation;

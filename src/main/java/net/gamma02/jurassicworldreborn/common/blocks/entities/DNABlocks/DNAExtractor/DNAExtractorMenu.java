@@ -25,7 +25,7 @@ public class DNAExtractorMenu extends AbstractContainerMenu {
         this(pContainerId, new SimpleContainer(6), new SimpleContainerData(1), playerInventory);
     }
     public DNAExtractorMenu(int containerId, Container dnaSequencer, ContainerData sequencerData, Inventory playerInventory){
-        super(ModBlockEntities.modScreenTypes.DNA_EXTRACTOR_MENU_TYPE.get(), containerId);
+        super(ModBlockEntities.ModScreenTypes.DNA_EXTRACTOR_MENU_TYPE.get(), containerId);
 
         this.dnaExtractor = dnaSequencer;
         this.dnaExtractorData = sequencerData;

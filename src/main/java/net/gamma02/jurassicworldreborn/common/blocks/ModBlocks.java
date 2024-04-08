@@ -99,7 +99,7 @@ public class ModBlocks {
 
     public static RegistryObject<CultivatorTopBlock> CULTIVATOR_TOP = modBlocks.register("cultivate_top", () -> new CultivatorTopBlock(defaultMachine()));
 
-    public static RegistryObject<CultivatorBottomBlock> CULTIVATOR_BOTTOM = modBlocks.register("cultivator_bottom", () -> new CultivatorBottomBlock(defaultMachine()));
+    public static RegistryObject<CultivatorBottomBlock> CULTIVATOR_BOTTOM = modBlocks.register("cultivate_bottom", () -> new CultivatorBottomBlock(defaultMachine()));
 
     public static RegistryObject<ClearGlassBlock> CLEAR_GLASS = modBlocks.register("clear_glass", () -> new ClearGlassBlock(BlockBehaviour.Properties.of(Material.GLASS).strength(0.2F)));
 

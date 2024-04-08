@@ -174,6 +174,8 @@ public class DNASequencerBlockEntity extends MachineBlockEntity<DNASequencerBloc
 
     @Override
     public void tick(Level pLevel, BlockPos pPos, BlockState pState, DNASequencerBlockEntity pBlockEntity) {
+        super.tick(pLevel, pPos, pState, pBlockEntity);
+
         if(pLevel.isClientSide){
             return;
         }

@@ -165,6 +165,8 @@ public class DNASynthesizerBlockEntity extends MachineBlockEntity<DNASynthesizer
 
     @Override
     public void tick(@NotNull Level pLevel, @NotNull BlockPos pPos, @NotNull BlockState pState, @NotNull DNASynthesizerBlockEntity pBlockEntity) {
+        super.tick(pLevel, pPos, pState, pBlockEntity);
+
         if(pLevel.isClientSide)
             return;
 

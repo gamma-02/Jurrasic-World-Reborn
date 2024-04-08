@@ -154,6 +154,7 @@ public class PoseHandler<ENTITY extends LivingEntity & Animatable> {
         return uri.toString();
     }
 
+    //this creates in an instance of an entity animation handler
     @OnlyIn(Dist.CLIENT)
     public JabelarAnimationHandler<ENTITY> createAnimationHandler(ENTITY entity, AnimatableModel model, GrowthStage growthStage, boolean useInertialTweens) {
         ModelData growthModel = this.modelData.get(growthStage);

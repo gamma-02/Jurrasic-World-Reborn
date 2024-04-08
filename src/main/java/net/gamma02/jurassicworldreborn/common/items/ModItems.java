@@ -18,6 +18,7 @@ import net.gamma02.jurassicworldreborn.common.items.Fossils.FossilItem;
 import net.gamma02.jurassicworldreborn.common.items.Fossils.PlasterAndBandageItem;
 import net.gamma02.jurassicworldreborn.common.items.genetics.*;
 import net.gamma02.jurassicworldreborn.common.items.misc.ActionFigureItem;
+import net.gamma02.jurassicworldreborn.common.items.misc.CultivatorItem;
 import net.gamma02.jurassicworldreborn.common.items.misc.SwarmItem;
 import net.gamma02.jurassicworldreborn.common.items.misc.UseOnEntityItem;
 import net.gamma02.jurassicworldreborn.common.plants.Plant;
@@ -39,6 +40,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import javax.annotation.Nullable;
+import javax.xml.xpath.XPathFactory;
 import java.rmi.registry.Registry;
 import java.util.*;
 import java.util.function.Supplier;
@@ -124,7 +126,7 @@ public class ModItems {
 
     public static final RegistryObject<BlockItem> GYPSUM_BRICKS = registerBlockItem("gypsum_bricks", ModBlocks.GYPSUM_BRICKS);
 
-    public static final RegistryObject<ActionFigureItem> DISPLAY_BLOCK = modItems.register("display_block_item", () -> new ActionFigureItem(new Item.Properties().tab(TabHandler.DECORATIONS)));
+//    public static final RegistryObject<ActionFigureItem> DISPLAY_BLOCK = modItems.register("display_block_item", () -> new ActionFigureItem(new Item.Properties().tab(TabHandler.DECORATIONS)));
 
     public static final RegistryObject<Item> FROZEN_LEECH_ITEM = modItems.register("frozen_leech", () -> new Item(new Item.Properties().tab(TabHandler.ITEMS)));
 
@@ -291,6 +293,10 @@ public class ModItems {
     public static HashMap<Dinosaur, RegistryObject<SoftTissueItem>> SOFT_TISSUE = new HashMap<>();
     public static HashMap<Dinosaur, RegistryObject<Item>> MEATS = new HashMap<>();
     public static HashMap<Dinosaur, RegistryObject<Item>> STEAKS = new HashMap<>();
+    public static HashMap<DyeColor, RegistryObject<CultivatorItem>> CULTIVATORS = new HashMap<>();
+    public static HashMap<Dinosaur, RegistryObject<ActionFigureItem>> ACTION_FIGURES = new HashMap<>();
+    public static HashMap<Dinosaur, RegistryObject<ActionFigureItem>> FOSSIL_SKELETONS = new HashMap<>();
+    public static HashMap<Dinosaur, RegistryObject<ActionFigureItem>> FRESH_SKELETONS = new HashMap<>();
 
     public static ArrayList<Supplier<Item>> ALL_MEATS = new ArrayList<>();
     public static ArrayList<String> USED_IDS = new ArrayList<>();
@@ -331,20 +337,31 @@ public class ModItems {
 
             if(!a.givesDirectBirth()) {
 
-                RegistryObject<DinosaurEggItem> egg = modItems.register("egg/egg_" + path, () -> new DinosaurEggItem(new Item.Properties(), a));
+                RegistryObject<DinosaurEggItem> egg = modItems.register("egg/egg_" + formattedName, () -> new DinosaurEggItem(new Item.Properties(), a));
                 dinoEggs.put(a, egg);
 
             }
             
-            RegistryObject<HatchedEggItem> hatchedEgg = modItems.register("hatched_egg/egg_" + path, () -> new HatchedEggItem(new Item.Properties(), a));
+            RegistryObject<HatchedEggItem> hatchedEgg = modItems.register("hatched_egg/egg_" + formattedName, () -> new HatchedEggItem(new Item.Properties(), a));
             RegistryObject<DNAItem> dinoDna = modItems.register("dna/dna_" + formattedName, () -> new DNAItem(new Item.Properties(), a));
             RegistryObject<SoftTissueItem> softTissue = modItems.register("soft_tissue/soft_tissue_" + formattedName, () -> new SoftTissueItem(new Item.Properties().tab(TabHandler.DNA), a));
             RegistryObject<SyringeItem> dinoSyringe = modItems.register("syringe/syringe_" + formattedName, () -> new SyringeItem(new Item.Properties().tab(TabHandler.DNA), a));
+
+            //Action figures
+            RegistryObject<ActionFigureItem> actionFigure = modItems.register("action_figure/action_figure_" + formattedName, () -> new ActionFigureItem(new Item.Properties().tab(TabHandler.DECORATIONS), a, false, true));
+            RegistryObject<ActionFigureItem> freshSkeleton = modItems.register("skeleton/fresh/skeleton_fresh_" + formattedName, () -> new ActionFigureItem(new Item.Properties().tab(TabHandler.DECORATIONS), a, true, true));
+            RegistryObject<ActionFigureItem> fossilSkeleton = modItems.register("skeleton/fossil/skeleton_fossil_" + formattedName, () -> new ActionFigureItem(new Item.Properties().tab(TabHandler.DECORATIONS), a, true, false));
+
+
 
             SOFT_TISSUE.put(a, softTissue);
             DINOSAUR_DNA.put(a, dinoDna);
             SYRINGES.put(a, dinoSyringe);
             hatchedDinoEggs.put(a, hatchedEgg);
+
+            ACTION_FIGURES.put(a, actionFigure);
+            FRESH_SKELETONS.put(a, freshSkeleton);
+            FOSSIL_SKELETONS.put(a, fossilSkeleton);
 
 
             //Register other dinosaur-dependent items
@@ -364,6 +381,13 @@ public class ModItems {
 
         }
 
+        for(DyeColor d : DyeColor.values()){
+            String name = "cultivate/cultivate_bottom_" + d.getName();
+            System.out.println(name);
+
+            CULTIVATORS.put(d, modItems.register(name, () -> new CultivatorItem(new Item.Properties().tab(TabHandler.BLOCKS), d)));
+        }
+
         modItems.register(bus);
 
 //        System.out.println("Registering blocks");
@@ -380,7 +404,11 @@ public class ModItems {
     }
 
     private static boolean compare(ResourceLocation location) {
-        return location.getPath().equals("display_block") || location.getPath().equals("gypsum_bricks") || location.getPath().equals("peat_moss") || modBlockItems.getEntries().contains(location);
+        return location.getPath().equals("display_block") || location.getPath().equals("gypsum_bricks")
+                || location.getPath().equals("peat_moss")
+                || location.getPath().equals("cultivator_bottom") || location.getPath().equals("cultivator_tob")
+                || location.getPath().equals("cultivate_bottom") || location.getPath().equals("cultivate_top")
+                || modBlockItems.getEntries().contains(location);
     }
 
 

@@ -1,10 +1,18 @@
 package net.gamma02.jurassicworldreborn.common.blocks.entities;
 
+import net.gamma02.jurassicworldreborn.common.util.networking.BlockUpdateUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.network.protocol.game.ClientboundBlockUpdatePacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.item.ItemStack;
@@ -13,7 +21,9 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import org.checkerframework.checker.units.qual.C;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -47,18 +57,27 @@ public abstract class MachineBlockEntity<T extends MachineBlockEntity<T>> extend
      * @param pTag Input tag provided by Minecraft
      */
     @Override
-    protected void saveAdditional(CompoundTag pTag) {
+    public void saveAdditional(CompoundTag pTag) {
         super.saveAdditional(pTag);
 
 
         CompoundTag machineData = new CompoundTag();
-        machineData.put("Data", this.getMachineData());
+        Tag tag = this.getMachineData();
+        if(tag != null)
+            machineData.put("Data", tag);
 
         ContainerHelper.saveAllItems(machineData, this.getItems());
 
 
         pTag.put("MachineData", machineData);
 
+    }
+
+    @Override
+    public void tick(Level world, BlockPos pPos, BlockState pState, T pBlockEntity) {
+        if(!world.isClientSide && world instanceof ServerLevel svlvl){
+            BlockUpdateUtils.broadcastBlockEntity(svlvl, this.getBlockPos());
+        }
     }
 
     /**
@@ -80,8 +99,8 @@ public abstract class MachineBlockEntity<T extends MachineBlockEntity<T>> extend
 
         }
 
-
-        this.readMachineData(data.get("Data"));
+        if(data.contains("Data"))
+            this.readMachineData(data.get("Data"));
 
 
 
@@ -144,4 +163,54 @@ public abstract class MachineBlockEntity<T extends MachineBlockEntity<T>> extend
     protected void decreaseStackSize(int index){
         this.decreaseStackSize(index, 1);
     }
+
+//    @Override
+//    public CompoundTag getUpdateTag() {
+//        return super.getUpdateTag();
+//    }
+
+
+    /**
+     * This method impliments a Packet to sync our BlockEntity's inventory with the client! this replaces the system I have in Network
+     *
+     * @return The packet that syncs our inevntory with the client's
+     */
+    @Nullable
+    @Override
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
+
+        return ClientboundBlockEntityDataPacket.create(this, (entity) -> {
+            CompoundTag entityData = new CompoundTag();
+            entity.saveAdditional(entityData);
+            return entityData;
+        });
+    }
+
+    @Override
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
+        CompoundTag data = pkt.getTag();
+
+        this.load(data);
+    }
+
+    /**
+     * Might want to figure this out right now, just make it private final and forget about it lmao
+     */
+    private final Packet<ClientGamePacketListener> SYNC_PACKET = new Packet<ClientGamePacketListener>() {
+        @Override
+        public void write(@NotNull FriendlyByteBuf pBuffer) {
+            //Write our
+            for(ItemStack s : MachineBlockEntity.this.getItems()){
+                pBuffer.writeItemStack(s, false);
+            }
+        }
+
+        @Override
+        public void handle(@NotNull ClientGamePacketListener pHandler) {
+//            NonNullList<ItemStack> recievedInventory = NonNullList.withSize(MachineBlockEntity.this.getItems().size(), ItemStack.EMPTY);
+//            for (int i = 0; i < recievedInventory.size(); i++) {//assume they're the same size
+//                ItemStack stack = pHandler.
+//            }
+        }
+    };
 }

@@ -81,6 +81,7 @@ public class JurassicClient {
         MenuScreens.register(ModBlockEntities.ModScreenTypes.INCUBATOR_MENU_TYPE.get(), IncubatorScreen::new);
         MenuScreens.register(ModBlockEntities.ModScreenTypes.EMBRYONIC_MACHINE_MENU_TYPE.get(), EmbryronicMachineScreen::new);
         MenuScreens.register(ModBlockEntities.ModScreenTypes.EMBRYO_CALCIFICATION_MACHINE_MENU_TYPE.get(), EmbryoCalcificationMachineScreen::new);
+        MenuScreens.register(ModBlockEntities.ModScreenTypes.CULTIVATOR_MENU_TYPE.get(), CultivatorScreen::new);
 
         ModScreens.<CleanerBlockEntity, CleanerMenu, CleanerScreen>register(ModBlockEntities.CLEANING_STATION.get(), CleanerScreen::new);
         ModScreens.<DNACombinatorHybridizerBlockEntity, DNACombinatorHybridizerMenu, DNACombinatorHybridizerScreen>register(ModBlockEntities.DNA_COMBINATOR_HYBRIDIZER.get(), DNACombinatorHybridizerScreen::new);

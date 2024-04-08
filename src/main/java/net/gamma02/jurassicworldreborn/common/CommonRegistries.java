@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableMap;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.gamma02.jurassicworldreborn.common.blocks.ModBlocks;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.cultivator.CultivatorBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.wood.DynamicWoodTypeRegistry;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
 import net.gamma02.jurassicworldreborn.common.worldgen.BiomeModification;
@@ -154,6 +155,8 @@ public class CommonRegistries {
     @SubscribeEvent
     public static void commonsetupevent(final FMLCommonSetupEvent evt){
         ConfiguredFeatureRegistries.init();
+
+        CultivatorBlockEntity.FoodNutrients.register();
 
 
         //do Json processing for dynamic wood registry models

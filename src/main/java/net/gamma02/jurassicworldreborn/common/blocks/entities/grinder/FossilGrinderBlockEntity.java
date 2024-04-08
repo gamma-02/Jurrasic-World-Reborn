@@ -191,6 +191,8 @@ public class FossilGrinderBlockEntity extends MachineBlockEntity<FossilGrinderBl
 
     @Override
     public void tick(Level pLevel, BlockPos pPos, BlockState pState, FossilGrinderBlockEntity pBlockEntity) {
+        super.tick(pLevel, pPos, pState, pBlockEntity);
+
         boolean isWorking = this.grindTime > 0;
 
         boolean hasInputs = this.hasInputs();

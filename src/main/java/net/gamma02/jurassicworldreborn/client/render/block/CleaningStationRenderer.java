@@ -118,7 +118,7 @@ public class CleaningStationRenderer implements BlockEntityRenderer<CleanerBlock
 
 //        VertexConsumer consumer = TEXTURE.buffer(pBufferSource, RenderType::entityCutout);
 
-        cleanable = Network.getSlotContents(blockEntity.getBlockPos(), 0);
+        cleanable = blockEntity.getItem(0);
 
         if(cleanable == null){
             cleanable = ItemStack.EMPTY;

@@ -2,6 +2,7 @@ package net.gamma02.jurassicworldreborn;
 
 import net.gamma02.jurassicworldreborn.client.JurassicClient;
 import net.gamma02.jurassicworldreborn.client.render.RenderingHandler;
+import net.gamma02.jurassicworldreborn.client.render.entity.animation.EntityAnimation;
 import net.gamma02.jurassicworldreborn.client.screens.*;
 import net.gamma02.jurassicworldreborn.client.sounds.SoundHandler;
 import net.gamma02.jurassicworldreborn.common.CommonRegistries;
@@ -52,6 +53,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import static net.gamma02.jurassicworldreborn.common.CommonRegistries.modFeatures;
@@ -100,6 +102,8 @@ public class Jurassicworldreborn {
     public static IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
     public Jurassicworldreborn() {
+
+
 
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
@@ -157,6 +161,7 @@ public class Jurassicworldreborn {
 
         Network.init();
 
+        System.out.println(toString(EntityAnimation.values()));
 
 //        HashMap<String, JsonObject> jsonMap = DynamicWoodTypeRegistry.getJsonBlockStateModelDefinitions();
 
@@ -197,9 +202,10 @@ public class Jurassicworldreborn {
         JurassicClient.clientSetup(event);
     }
 
-    private void setup(final FMLCommonSetupEvent event) {
+    @SubscribeEvent
+    public static void setup(final FMLCommonSetupEvent event) {
         // some preinit code
-        LOGGER.info("HELLO FROM PREINIT");
+        LOGGER.info("HELLO FROM PREINIT: UPDATED JWR VERSION 1");
         LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT);
 
     }
@@ -287,6 +293,38 @@ public class Jurassicworldreborn {
     public void serverTickEvent(TickEvent.ServerTickEvent evt){
         Network.removeRemovedEntities();
     }
+
+    public static String toString(Object[] a) {
+        if (a == null)
+            return "null";
+
+        int iMax = a.length - 1;
+        if (iMax == -1)
+            return "[]";
+
+        StringBuilder b = new StringBuilder();
+        b.append('[');
+        for (int i = 0; ; i++) {
+            b.append("\"");
+            b.append(String.valueOf(a[i]));
+            b.append("\"");
+
+
+            if (i == iMax)
+                return b.append(']').toString();
+            b.append(", ");
+        }
+    }
+
+
+    private static final String things_to_bring_up = """
+            1: Half-slab ActionFigrures: the challenges of hitboxes larger than one block pt. 1
+            2: Incubator: The challenges of hitboxes larger than one block pt. 2
+                -> collission is screwed, can I make it a multipart block like the cultivator
+            3:
+            
+            
+            """;
 
 
 

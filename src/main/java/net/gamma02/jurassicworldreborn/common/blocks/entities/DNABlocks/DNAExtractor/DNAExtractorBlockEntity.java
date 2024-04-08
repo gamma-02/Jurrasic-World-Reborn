@@ -173,6 +173,7 @@ public class DNAExtractorBlockEntity extends MachineBlockEntity<DNAExtractorBloc
 
     @Override
     public void tick(Level pLevel, BlockPos pPos, BlockState pState, DNAExtractorBlockEntity pBlockEntity) {
+        super.tick(pLevel, pPos, pState, pBlockEntity);
         if(pLevel.isClientSide){
             return;
         }

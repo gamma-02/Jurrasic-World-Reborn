@@ -1,18 +1,29 @@
 package net.gamma02.jurassicworldreborn.common.blocks.parkBlocks;
 
 import com.google.common.collect.Lists;
+import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.incubator.IncubatorBlock;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.incubator.IncubatorBlockEntity;
 import net.gamma02.jurassicworldreborn.common.entities.vheicle.VehicleEntity;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
@@ -29,13 +40,14 @@ public class TourRailBlock extends Block implements EntityBlock {
 
     public static EnumProperty<EnumRailDirection> SHAPE = EnumProperty.create("shape", EnumRailDirection.class);
 
-    public static final VoxelShape FLAT = Block.box(0.0D, 0.0D, 0.0D, 1.0D, 2.0D, 1.0D);
-    public static final VoxelShape ASCENDING = Block.box(0.0D, 0.0D, 0.0D, 1.0D, 8.0D, 1.0D);
+    public static final VoxelShape FLAT = Block.box(0.0D, 0.0D, 0.0D, 16D - 0.0001, 2.0D, 16.0D);
+    public static final VoxelShape ASCENDING = Block.box(0.0D, 0.0D, 0.0D, 16.0D-0.0001, 8.0D, 16.0D);
 
 
     public TourRailBlock(Properties p_49795_, TourRailBlock.SpeedType speed) {
         super(p_49795_);
         this.registerDefaultState(this.getStateDefinition().any().setValue(SHAPE, EnumRailDirection.NORTH_SOUTH));
+        Jurassicworldreborn.setRenderType(this, RenderType.translucent());
     }
 
     @Override
@@ -56,9 +68,91 @@ public class TourRailBlock extends Block implements EntityBlock {
     }
 
     @Override
+    public RenderShape getRenderShape(BlockState pState) {
+        return RenderShape.ENTITYBLOCK_ANIMATED;
+    }
+
+    @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
 
         return pState.getValue(SHAPE).isAscending() ? ASCENDING : FLAT;
+    }
+
+    @Override
+    public boolean canSurvive(BlockState pState, LevelReader worldIn, BlockPos pos) {
+        return worldIn.getBlockState(pos.below()).isFaceSturdy(worldIn, pos.below(), Direction.UP);
+    }
+
+    @Override
+    public void onPlace(BlockState pState, Level pLevel, BlockPos pPos, BlockState pOldState, boolean pIsMoving) {
+        this.updateDir(pLevel, pPos, pState, true);
+        if(pLevel.isClientSide)
+            return;
+        pState.neighborChanged(pLevel, pPos, this, pPos, pIsMoving);
+    }
+
+    @Override
+    public BlockState getStateAtViewpoint(BlockState state, BlockGetter level, BlockPos pos, Vec3 viewpoint) {
+        return level.getBlockEntity(pos) instanceof TourRailBlockEntity ? state.setValue(SHAPE, getRailDirection(level, pos)) : this.defaultBlockState();
+    }
+
+    public static TourRailBlock.EnumRailDirection getRailDirection(BlockGetter world, BlockPos pos) {
+        return world.getBlockEntity(pos) instanceof  TourRailBlockEntity entity? entity.getDirection() : EnumRailDirection.NORTH_SOUTH;
+    }
+
+    @Override
+    public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
+        super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
+        if (!pLevel.isClientSide) {
+            pLevel.markAndNotifyBlock(pPos, pLevel.getChunkAt(pPos), pState, pNewState, 3, 512);
+
+        }
+    }
+
+    private BlockState updateDir(Level worldIn, BlockPos pos, BlockState state, boolean initialPlacement)
+    {
+        return (new TourRailBlock.Rail(worldIn, pos, state)).place(initialPlacement).getBlockState();
+    }
+
+    @Override
+    public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean pIsMoving) {
+        if (worldIn.isClientSide)
+            return;
+
+        TourRailBlock.EnumRailDirection dir = getRailDirection(worldIn, pos);
+        boolean flag = false;
+
+        if (!worldIn.getBlockState(pos.below()).isFaceSturdy(worldIn, pos.below(), Direction.UP))
+        {
+            flag = true;
+        }
+
+        if (dir == TourRailBlock.EnumRailDirection.ASCENDING_EAST && !worldIn.getBlockState(pos.east()).isFaceSturdy(worldIn, pos.east(), Direction.UP))
+        {
+            flag = true;
+        }
+        else if (dir == TourRailBlock.EnumRailDirection.ASCENDING_WEST && !worldIn.getBlockState(pos.west()).isFaceSturdy(worldIn, pos.west(), Direction.UP))
+        {
+            flag = true;
+        }
+        else if (dir == TourRailBlock.EnumRailDirection.ASCENDING_NORTH && !worldIn.getBlockState(pos.north()).isFaceSturdy(worldIn, pos.north(), Direction.UP))
+        {
+            flag = true;
+        }
+        else if (dir == TourRailBlock.EnumRailDirection.ASCENDING_SOUTH && !worldIn.getBlockState(pos.south()).isFaceSturdy(worldIn, pos.south(), Direction.UP))
+        {
+            flag = true;
+        }
+
+        if (flag && !worldIn.getBlockState(pos).isAir()) {
+            worldIn.destroyBlock(pos, true);
+        }
+//        } else {
+//            worldIn.setBlock(pos, this.updateDir(worldIn, pos, state, true), 3);
+//        }
+
+
+
     }
 
     public static boolean isRailBlock(Level worldIn, BlockPos pos)
@@ -73,29 +167,33 @@ public class TourRailBlock extends Block implements EntityBlock {
     }
 
     public enum EnumRailDirection implements Serializable, StringRepresentable {
-        NORTH_SOUTH         ( 0,  0, -1,  0,  0,  1),
-        EAST_WEST           (-1,  0,  0,  1,  0,  0),
-        ASCENDING_EAST      (-1, -1,  0,  1,  0,  0),
-        ASCENDING_WEST      (-1,  0,  0,  1, -1,  0),
-        ASCENDING_NORTH     ( 0,  0, -1,  0, -1,  1),
-        ASCENDING_SOUTH     ( 0, -1, -1,  0,  0,  1),
-        SOUTH_EAST          ( 0,  0,  1,  1,  0,  0),
-        SOUTH_WEST          ( 0,  0,  1, -1,  0,  0),
-        NORTH_WEST          ( 0,  0, -1, -1,  0,  0),
-        NORTH_EAST          ( 0,  0, -1,  1,  0,  0),
+        NORTH_SOUTH         ( 0,  0, -1,  0,  0,  1, 0, "tour_rail_straight"),//0
+        EAST_WEST           (-1,  0,  0,  1,  0,  0, 90, "tour_rail_straight"),//1
 
-        DIAGONAL_NE_SW      ( 0.5F, 0, -0.5F, -0.5F, 0,  0.5F),
-        DIAGONAL_NW_SE      ( 0.5F, 0, 0.5F,  -0.5F, 0, -0.5F),
 
-        HORIZONTAL_NE       (NORTH, EAST, DIAGONAL_NE_SW, EAST_WEST),
-        HORIZONTAL_NW       (NORTH, WEST, DIAGONAL_NW_SE, EAST_WEST),
-        HORIZONTAL_SE       (SOUTH, EAST, DIAGONAL_NW_SE, EAST_WEST),
-        HORIZONTAL_SW       (SOUTH, WEST, DIAGONAL_NE_SW, EAST_WEST),
 
-        VERTICAL_NE         (NORTH, EAST, DIAGONAL_NE_SW, NORTH_SOUTH),
-        VERTICAL_NW         (NORTH, WEST, DIAGONAL_NW_SE, NORTH_SOUTH),
-        VERTICAL_SE         (SOUTH, EAST, DIAGONAL_NW_SE, NORTH_SOUTH),
-        VERTICAL_SW         (SOUTH, WEST, DIAGONAL_NE_SW, NORTH_SOUTH);
+        SOUTH_EAST          ( 0,  0,  1,  1,  0,  0, 270, "tour_rail_corner"),//2
+        SOUTH_WEST          ( 0,  0,  1, -1,  0,  0, 180, "tour_rail_corner"),//3
+        NORTH_WEST          ( 0,  0, -1, -1,  0,  0, 90, "tour_rail_corner"),//4
+        NORTH_EAST          ( 0,  0, -1,  1,  0,  0, 0, "tour_rail_corner"),//5
+
+        ASCENDING_EAST      (-1, -1,  0,  1,  0,  0, 90, "tour_rail_slope"),//6
+        ASCENDING_WEST      (-1,  0,  0,  1, -1,  0, 270, "tour_rail_slope"),//7
+        ASCENDING_NORTH     ( 0,  0, -1,  0, -1,  1, 180, "tour_rail_slope"),//8
+        ASCENDING_SOUTH     ( 0, -1, -1,  0,  0,  1, 0, "tour_rail_slope"),//9
+
+        DIAGONAL_NE_SW      ( 0.5F, 0, -0.5F, -0.5F, 0,  0.5F, 90, "tour_rail_diagonal"),
+        DIAGONAL_NW_SE      ( 0.5F, 0, 0.5F,  -0.5F, 0, -0.5F, 0, "tour_rail_diagonal"),
+
+        HORIZONTAL_NE       (NORTH, EAST, DIAGONAL_NE_SW, EAST_WEST, 90, "tour_rail_diagonal_turn_right"),//12
+        HORIZONTAL_NW       (NORTH, WEST, DIAGONAL_NW_SE, EAST_WEST, 270, "tour_rail_diagonal_turn_left"),//13
+        HORIZONTAL_SE       (SOUTH, EAST, DIAGONAL_NW_SE, EAST_WEST, 90, "tour_rail_diagonal_turn_left"),//14
+        HORIZONTAL_SW       (SOUTH, WEST, DIAGONAL_NE_SW, EAST_WEST, 270, "tour_rail_diagonal_turn_right"),//15
+
+        VERTICAL_NE         (NORTH, EAST, DIAGONAL_NE_SW, NORTH_SOUTH, 180, "tour_rail_diagonal_turn_left"),//16
+        VERTICAL_NW         (NORTH, WEST, DIAGONAL_NW_SE, NORTH_SOUTH, 180, "tour_rail_diagonal_turn_right"),//17
+        VERTICAL_SE         (SOUTH, EAST, DIAGONAL_NW_SE, NORTH_SOUTH, 0, "tour_rail_diagonal_turn_right"),//18
+        VERTICAL_SW         (SOUTH, WEST, DIAGONAL_NE_SW, NORTH_SOUTH, 0, "tour_rail_diagonal_turn_left");//18
 
         private final Type type;
 
@@ -109,8 +207,10 @@ public class TourRailBlock extends Block implements EntityBlock {
         private Predicate<Direction> facingPredicate; //Dosnt really need to be a predicate
         private EnumRailDirection diagonalDirection;
         private EnumRailDirection straightDirection;
+        public final int rotation;
+        public final String modelName;
 
-        EnumRailDirection(float forwardX, float forward_y, float forward_z, float backwards_x, float backwards_y, float backwards_z) {
+        EnumRailDirection(float forwardX, float forward_y, float forward_z, float backwards_x, float backwards_y, float backwards_z, int rotation, String modelId) {
             this.forwardX = forwardX;
             this.forwardY = forward_y;
             this.forwardZ = forward_z;
@@ -118,13 +218,17 @@ public class TourRailBlock extends Block implements EntityBlock {
             this.backwardsY = backwards_y;
             this.backwardsZ = backwards_z;
             this.type = Type.VALUE;
+            this.rotation = rotation;
+            this.modelName = modelId;
         }
 
-        EnumRailDirection(Direction facing, Direction facing2, EnumRailDirection diagonalDirection, EnumRailDirection straightDirection) {
+        EnumRailDirection(Direction facing, Direction facing2, EnumRailDirection diagonalDirection, EnumRailDirection straightDirection, int rotation, String modelId) {
             type = Type.COPYCAT;
             this.facingPredicate = face -> face == facing || face == facing2;
             this.diagonalDirection = diagonalDirection;
             this.straightDirection = straightDirection;
+            this.rotation = rotation;
+            this.modelName = modelId;
         }
 
         public boolean isAscending() {
@@ -187,6 +291,17 @@ public class TourRailBlock extends Block implements EntityBlock {
             }
             return backwardsZ;
         }
+
+        public Direction getFacing(){
+            return switch (this){
+                case ASCENDING_EAST -> EAST;
+                case ASCENDING_WEST -> WEST;
+                case ASCENDING_NORTH -> NORTH;
+                case ASCENDING_SOUTH -> SOUTH;
+                default -> NORTH;
+            };
+        }
+
 
         @Override
         public String getSerializedName() {
@@ -409,7 +524,7 @@ public class TourRailBlock extends Block implements EntityBlock {
 
         private boolean canConnectTo(TourRailBlock.Rail rail)
         {
-            return this.isConnectedToRail(rail) || this.connectedRails.size() != 2;
+            return this.isConnectedToRail(rail) || this.connectedRails.size() <= 2;
         }
 
         private void connectTo(TourRailBlock.Rail rail)
@@ -729,6 +844,8 @@ public class TourRailBlock extends Block implements EntityBlock {
             return this;
         }
 
+
+
         public BlockState getBlockState()
         {
             return this.state;
@@ -754,9 +871,19 @@ public class TourRailBlock extends Block implements EntityBlock {
             return speed == null ? defaultSpeed : speed;
         }
 
+
         @Nonnull
         public int getColor() {
             return this.color;
         }
     }
+
+//    @Override
+//    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
+//        return (pLevel1, pPos, pState1, pBlockEntity) -> {
+//            if(pLevel1.getBlockEntity(pPos) instanceof TourRailBlockEntity rail){
+//                pState1.getBlock().neighborChanged(pState1, pLevel1, pPos, pState1.getBlock(), null, false);
+//            }
+//        };
+//    }
 }

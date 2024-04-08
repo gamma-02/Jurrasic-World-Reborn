@@ -35,10 +35,10 @@ public class DisplayBlockRendererWithoutLevel extends BlockEntityWithoutLevelRen
         Item item = pStack.getItem();
         if (item != null) {
             BlockEntity blockentity = null;
-            if(item == ModItems.DISPLAY_BLOCK.get()){
-                ActionFigureBlockEntity actionFigureBlockEntity = new ActionFigureBlockEntity(BlockPos.ZERO, ModBlocks.DISPLAY_BLOCK.get().defaultBlockState());
-                actionFigureBlockEntity.setDinosaur(ActionFigureItem.getDinosaurID(pStack), ActionFigureItem.getVariant(pStack) > 0 ? ActionFigureItem.getVariant(pStack) == 1 : new Random().nextBoolean(), ActionFigureItem.isSkeleton(pStack));
-                blockentity = actionFigureBlockEntity;
+            if(item instanceof ActionFigureItem afi){
+//                ActionFigureBlockEntity actionFigureBlockEntity = new ActionFigureBlockEntity(BlockPos.ZERO, ModBlocks.DISPLAY_BLOCK.get().defaultBlockState());
+//                actionFigureBlockEntity.setDinosaur(afi.getDinosaur(), ActionFigureItem.getVariant(pStack) > 0 ? ActionFigureItem.getVariant(pStack) == 1 : new Random().nextBoolean(), ActionFigureItem.isSkeleton(pStack));
+//                blockentity = actionFigureBlockEntity;
             }
 
 

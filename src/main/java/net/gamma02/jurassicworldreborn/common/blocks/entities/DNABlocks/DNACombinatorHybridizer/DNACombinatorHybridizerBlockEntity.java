@@ -492,6 +492,8 @@ public class DNACombinatorHybridizerBlockEntity extends MachineBlockEntity<DNACo
 
     @Override
     public void tick(Level level, @NotNull BlockPos pPos, @NotNull BlockState pState, @NotNull DNACombinatorHybridizerBlockEntity pBlockEntity) {
+
+        super.tick(level, pPos, pState, pBlockEntity);
         NonNullList<ItemStack> slots = this.getInventory();
         if (level.isClientSide)
             return;

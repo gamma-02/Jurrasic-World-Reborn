@@ -244,6 +244,8 @@ public class IncubatorBlockEntity extends MachineBlockEntity<IncubatorBlockEntit
 
     @Override
     public void tick(@NotNull Level pLevel, @NotNull BlockPos pPos, @NotNull BlockState pState, @NotNull IncubatorBlockEntity pBlockEntity) {
+        super.tick(pLevel, pPos, pState, pBlockEntity);
+
         if(pLevel.isClientSide){
             return;
         }

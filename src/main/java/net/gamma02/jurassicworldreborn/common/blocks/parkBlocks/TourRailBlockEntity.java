@@ -10,15 +10,22 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
+import software.bernie.geckolib3.GeckoLib;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 
 import java.util.Objects;
 
-public class TourRailBlockEntity extends BlockEntity {
+public class TourRailBlockEntity extends BlockEntity implements IAnimatable {
     private TourRailBlock.EnumRailDirection direction;
 
-    public TourRailBlockEntity(BlockEntityType<?> pType, BlockPos pWorldPosition, BlockState pBlockState) {
-        super(pType, pWorldPosition, pBlockState);
-    }
     public TourRailBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.TOUR_RAIL_BLOCK_ENTITY.get(), pos, state);//TODO!!!!!!!
 
@@ -36,9 +43,8 @@ public class TourRailBlockEntity extends BlockEntity {
     }
 
     @Override
-    public CompoundTag getUpdateTag() {
-        CompoundTag nbt = this.serializeNBT();
-        return nbt;
+    public @NotNull CompoundTag getUpdateTag() {
+        return this.serializeNBT();
     }
 
     @Override
@@ -74,5 +80,23 @@ public class TourRailBlockEntity extends BlockEntity {
     public void setDirection(TourRailBlock.EnumRailDirection direction) {
         this.direction = direction;
         checkNonNull();
+    }
+
+    private final AnimationFactory animFactory = GeckoLibUtil.createFactory(this);
+
+    @Override
+    public void registerControllers(AnimationData animationData) {
+        animationData.addAnimationController(new AnimationController<>(this, "controller", 16, this::controller));
+    }
+
+    private final AnimationBuilder ANIMATION = new AnimationBuilder().addAnimation("animation.model.idle");//this is the default animation on all of the models--thus, switching them around shouldn't cause issues
+    protected <E extends TourRailBlockEntity> PlayState controller(final AnimationEvent<E> event){
+        event.getController().setAnimation(ANIMATION);
+        return PlayState.CONTINUE;
+    }
+
+    @Override
+    public AnimationFactory getFactory() {
+        return animFactory;
     }
 }

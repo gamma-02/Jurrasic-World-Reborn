@@ -66,7 +66,7 @@ public class DNAExtractorRenderer extends GeoBlockRenderer<DNAExtractorBlockEnti
 //        slots.push(Network.getSlotContents(blockEntity.getBlockPos(), 2));
 //        slots.push(Network.getSlotContents(blockEntity.getBlockPos(), 4));
 
-        ItemStack stack = Network.getSlotContents(blockEntity.getBlockPos(), 0);
+        ItemStack stack = blockEntity.getItem(0);
         slots.push(stack);
 
 

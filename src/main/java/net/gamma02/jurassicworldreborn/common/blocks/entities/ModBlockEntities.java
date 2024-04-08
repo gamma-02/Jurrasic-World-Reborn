@@ -15,6 +15,9 @@ import net.gamma02.jurassicworldreborn.common.blocks.entities.Embryoncis.Embryon
 import net.gamma02.jurassicworldreborn.common.blocks.entities.Embryoncis.EmbryonicMachine.EmbryonicMachineMenu;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner.CleanerMenu;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.cultivator.CultivatorBlockEntity;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.cultivator.CultivatorMenu;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.cultivator.CultivatorTopBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.fence.ElectricFenceBaseBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.fence.ElectricFencePoleBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.fence.ElectricFenceWireBlockEntity;
@@ -74,6 +77,10 @@ public class ModBlockEntities<T extends BlockEntity> {
 
     public static RegistryObject<BlockEntityType<EmbryoCalcificationMachineBlockEntity>> EMBRYO_CALCIFICATION_MACHINE_BLOCK_ENTITY_TYPE = modBlockEntities.register("embryo_calcification_machine_block_entity", () -> BlockEntityType.Builder.of(EmbryoCalcificationMachineBlockEntity::new, ModBlocks.CALCIFICATION_MACHINE.get()).build(null));
 
+    public static RegistryObject<BlockEntityType<CultivatorTopBlockEntity>> CULTIVATOR_TOP_BLOCK_ENTITY_TYPE = modBlockEntities.register("cultivator_top_block_entity_type", () -> BlockEntityType.Builder.of(CultivatorTopBlockEntity::new, ModBlocks.CULTIVATOR_TOP.get()).build(null));
+
+    public static RegistryObject<BlockEntityType<CultivatorBlockEntity>> CULTIVATOR_BLOCK_ENTITY_TYPE = modBlockEntities.register("cultivator_block_entity_type", () -> BlockEntityType.Builder.of(CultivatorBlockEntity::new, ModBlocks.CULTIVATOR_BOTTOM.get()).build(null));
+
     public static class ModScreenTypes {
 
         public static HashMap<ResourceLocation, ModMenuSupplier<?>> modMenuSupplier = new HashMap<>();
@@ -95,6 +102,7 @@ public class ModBlockEntities<T extends BlockEntity> {
 
         public static RegistryObject<MenuType<EmbryonicMachineMenu>> EMBRYONIC_MACHINE_MENU_TYPE = modScreenTypes.register("embryonic_machine_menu_type", () -> new MenuType<>(EmbryonicMachineMenu::new));
         public static RegistryObject<MenuType<EmbryoCalcificationMachineMenu>> EMBRYO_CALCIFICATION_MACHINE_MENU_TYPE = modScreenTypes.register("embryo_calcification_machine_menu_type", () -> new MenuType<>(EmbryoCalcificationMachineMenu::new));
+        public static RegistryObject<MenuType<CultivatorMenu>> CULTIVATOR_MENU_TYPE = modScreenTypes.register("cultivator_menu_type", () -> new MenuType<>(CultivatorMenu::new));
 
 
 

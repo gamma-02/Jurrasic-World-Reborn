@@ -150,6 +150,31 @@
   "item.jurassicworldreborn.raw_crab_meat": "Raw Crab Meat",
   "item.jurassicworldreborn.raw_shark_meat": "Raw Shark Meat",
 
+  "item.jurassicworldreborn.cultivate.cultivate_bottom_white":  "White Cultivator",
+  "item.jurassicworldreborn.cultivate.cultivate_bottom_orange":  "Orange Cultivator",
+  "item.jurassicworldreborn.cultivate.cultivate_bottom_magenta":  "White Cultivator",
+  "item.jurassicworldreborn.cultivate.cultivate_bottom_light_blue":  "Light Blue Cultivator",
+  "item.jurassicworldreborn.cultivate.cultivate_bottom_yellow":  "Yellow Cultivator",
+  "item.jurassicworldreborn.cultivate.cultivate_bottom_lime":  "Lime Cultivator",
+  "item.jurassicworldreborn.cultivate.cultivate_bottom_pink":  "Pink Cultivator",
+  "item.jurassicworldreborn.cultivate.cultivate_bottom_gray":  "Gray Cultivator",
+  "item.jurassicworldreborn.cultivate.cultivate_bottom_light_gray":  "Light Gray Cultivator",
+  "item.jurassicworldreborn.cultivate.cultivate_bottom_cyan":  "Cyan Cultivator",
+  "item.jurassicworldreborn.cultivate.cultivate_bottom_purple":  "Purple Cultivator",
+  "item.jurassicworldreborn.cultivate.cultivate_bottom_blue":  "Blue Cultivator",
+  "item.jurassicworldreborn.cultivate.cultivate_bottom_brown":  "Brown Cultivator",
+  "item.jurassicworldreborn.cultivate.cultivate_bottom_green":  "Green Cultivator",
+  "item.jurassicworldreborn.cultivate.cultivate_bottom_red":  "Red Cultivator",
+  "item.jurassicworldreborn.cultivate.cultivate_bottom_black":  "Black Cultivator",
+
+
+
+
+
+
+
+
+
   "gender": "Gender",
 
 
@@ -505,7 +530,7 @@
   "block.jurassicworldreborn.reinforced_stone": "Reinforced Stone",
   "block.jurassicworldreborn.reinforced_bricks": "Reinforced Bricks",
 
-  "block.jurassicworldreborn.cultivate": "{color} Cultivator",
+  "block.jurassicworldreborn.cultivate": "%1$s Cultivator",
   "block.jurassicworldreborn.cultivator": "Cultivator",
 
   "block.jurassicworldreborn.clear_glass": "Clear Glass",
@@ -627,7 +652,7 @@
   "gender.female": "Female",
   "gender.random": "Random",
   "spawnegg.genderchange": "This egg will now spawn a {mode} gender.",
-  "actionfigure.genderchange": "This action figure will now spawn a {mode} gender.",
+  "actionfigure.genderchange": "This action figure will now spawn a %1$s gender.",
   "amber.mosquito": "Mosquito",
   "amber.aphid": "Aphid",
 

@@ -1,12 +1,13 @@
 package net.gamma02.jurassicworldreborn.client.render.entity.animation;
 
-
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.Animatable;
 import net.minecraft.util.Mth;
+import org.checkerframework.checker.units.qual.A;
 
+import java.util.ArrayDeque;
 import java.util.Map;
 
 public class AnimationPass {
@@ -28,13 +29,13 @@ public class AnimationPass {
 
     protected AdvancedModelBox[] parts;
     protected PosedCuboid[] pose;
-    protected PosedCuboid[] prevPose;
+    protected ArrayDeque<PosedCuboid[]> prevPose = new ArrayDeque<>();
 
-    protected Animation animation;
+    protected ArrayDeque<Animation> animation = new ArrayDeque<>();
 
     protected boolean useInertia;
 
-    protected float inertiaFactor;
+    protected float inertiaFactor = 1.0f;
 
     protected float limbSwing;
     protected float limbSwingAmount;
@@ -56,7 +57,7 @@ public class AnimationPass {
         this.prevPosition = new float[parts.length][3];
 
 
-        this.animation = this.getRequestedAnimation(entity);
+        this.animation.add(this.getRequestedAnimation(entity));
         this.initPoseModel();
         this.initAnimation(entity, this.getRequestedAnimation(entity));
         this.initAnimationTicks(entity);
@@ -67,9 +68,9 @@ public class AnimationPass {
     }
 
     public void initPoseModel() {
-        float[][] pose = this.animations.get(this.animation);
+        float[][] pose = this.animations.get(this.animation.getFirst());
         if(this.pose != null){
-            this.prevPose = this.pose;
+            this.prevPose.add(this.pose);
         }
         if (pose != null) {
             this.poseCount = pose.length;
@@ -101,17 +102,18 @@ public class AnimationPass {
     }
 
     public void initAnimation(Animatable entity, Animation animation) {
-        this.animation = animation;
+        this.animation.add(animation);
 
         if (this.animations.get(animation) == null) {
-            this.animation = EntityAnimation.IDLE.get();
+            this.animation.remove(animation);
+            this.animation.add( EntityAnimation.IDLE.get() );
         }
     }
 
     protected float calculateInertiaFactor() {
         float inertiaFactor = this.animationTick / this.poseLength;
 
-        if (this.useInertia && EntityAnimation.getAnimation(this.animation).useInertia()) {
+        if (this.useInertia && EntityAnimation.getAnimation(this.animation.getFirst()).useInertia()) {
             inertiaFactor = (float) (Math.sin(Math.PI * (inertiaFactor - 0.5D)) * 0.5D + 0.5D);
         }
 
@@ -124,7 +126,7 @@ public class AnimationPass {
 
         Animation requestedAnimation = this.getRequestedAnimation(entity);
 
-        if (requestedAnimation != this.animation) {
+        if (requestedAnimation != this.animation.getFirst()) {
             this.setAnimation(entity, requestedAnimation);
         }
 
@@ -132,7 +134,7 @@ public class AnimationPass {
             this.poseIndex = this.poseCount - 1;
         }
 
-        this.inertiaFactor = this.calculateInertiaFactor();
+//        this.inertiaFactor = this.calculateInertiaFactor();
 
         if (this.pose == null) {
             Jurassicworldreborn.getLogger().error("Trying to animate to a null pose array");
@@ -160,7 +162,7 @@ public class AnimationPass {
         if (this.animationTick < 0.0F) {
             this.animationTick = 0.0F;
         }
-        if (!EntityAnimation.getAnimation(this.animation).shouldHold() || this.poseIndex < this.poseCount) {
+        if (!EntityAnimation.getAnimation(this.animation.getFirst()).shouldHold() || this.poseIndex < this.poseCount) {
             this.animationTick += incrementAmount;
 
             if (this.animationTick >= this.poseLength) {
@@ -197,14 +199,14 @@ public class AnimationPass {
         this.prevRotation[partIndex][1] = part.rotateAngleY;
         this.prevRotation[partIndex][2] = part.rotateAngleZ;
 
-        if(this.prevPose == null){
-            this.prevPose = this.pose;
-        }
+        if(prevPose.isEmpty())
+            prevPose.add(this.pose);
+
 
         //This sets the part's rotation angles to that of the pose's rotation angles. TODO: INTERPOLATION(either linear, customized bezier, or sine)
-        part.rotateAngleX = this.quadrinomialInterpolatePose(this.prevPose[partIndex].rotationX, this.pose[partIndex].rotationX);
-        part.rotateAngleY = this.quadrinomialInterpolatePose(this.prevPose[partIndex].rotationY, this.pose[partIndex].rotationY);
-        part.rotateAngleZ = this.quadrinomialInterpolatePose(this.prevPose[partIndex].rotationZ, this.pose[partIndex].rotationZ);
+        part.rotateAngleX = this.quadrinomialInterpolatePose(this.prevPose.getFirst()[partIndex].rotationX, this.pose[partIndex].rotationX);
+        part.rotateAngleY = this.quadrinomialInterpolatePose(this.prevPose.getFirst()[partIndex].rotationY, this.pose[partIndex].rotationY);
+        part.rotateAngleZ = this.quadrinomialInterpolatePose(this.prevPose.getFirst()[partIndex].rotationZ, this.pose[partIndex].rotationZ);
     }
 
     protected void applyTranslations(int partIndex) {
@@ -221,33 +223,33 @@ public class AnimationPass {
         this.prevPosition[partIndex][2] = part.rotationPointZ;
 
         //This sets the part's rotation points(?) to that of the pose's rotation points(?). TODO: INTERPOLATION(either linear, customized bezier, or sine)
-        part.rotationPointX = this.quadrinomialInterpolatePose(this.prevPose[partIndex].positionX, this.pose[partIndex].positionX);
-        part.rotationPointY = this.quadrinomialInterpolatePose(this.prevPose[partIndex].positionY, this.pose[partIndex].positionY);
-        part.rotationPointZ = this.quadrinomialInterpolatePose(this.prevPose[partIndex].positionZ, this.pose[partIndex].positionZ);
+        part.rotationPointX = this.quadrinomialInterpolatePose(this.prevPose.getFirst()[partIndex].positionX, this.pose[partIndex].positionX);
+        part.rotationPointY = this.quadrinomialInterpolatePose(this.prevPose.getFirst()[partIndex].positionY, this.pose[partIndex].positionY);
+        part.rotationPointZ = this.quadrinomialInterpolatePose(this.prevPose.getFirst()[partIndex].positionZ, this.pose[partIndex].positionZ);
     }
 
     protected void setPose(int poseIndex) {
-        this.poseCount = this.animations.get(this.animation).length;
+        this.poseCount = this.animations.get(this.animation.getFirst()).length;
         this.poseIndex = poseIndex;
-        this.prevPose = this.pose;
-        this.pose = this.poses[(int) this.animations.get(this.animation)[this.poseIndex][0]];
+        this.prevPose.add(this.pose);
+        this.pose = this.poses[(int) this.animations.get(this.animation.getFirst())[this.poseIndex][0]];
     }
 
     protected void initAnimationTicks(Animatable entity) {
         this.startAnimation(entity);
-        if (EntityAnimation.getAnimation(this.animation).shouldHold()) {
+        if (EntityAnimation.getAnimation(this.animation.getFirst()).shouldHold()) {
             this.poseIndex = this.poseCount - 1;
-            this.animationTick = this.animations.get(this.animation)[this.poseIndex][1];
+            this.animationTick = this.animations.get(this.animation.getFirst())[this.poseIndex][1];
         } else {
             this.animationTick = 0;
         }
     }
 
     protected void startAnimation(Animatable entity) {
-        float[][] pose = this.animations.get(this.animation);
+        float[][] pose = this.animations.get(this.animation.getFirst());
         if (pose != null) {
 //            this.prevPose = this.pose;
-            this.pose = this.poses[(int) this.animations.get(this.animation)[this.poseIndex][0]];
+            this.pose = this.poses[(int) this.animations.get(this.animation.getFirst())[this.poseIndex][0]];
             this.poseLength = Math.max(1, pose[this.poseIndex][1]);
             this.animationTick = 0;
 
@@ -257,8 +259,8 @@ public class AnimationPass {
 
     protected void setPose(Animatable entity, float ticks) {
 //        this.prevPose = this.pose;
-        this.pose = this.poses[(int) this.animations.get(this.animation)[this.poseIndex][0]];
-        this.poseLength = this.animations.get(this.animation)[this.poseIndex][1];
+        this.pose = this.poses[(int) this.animations.get(this.animation.getFirst())[this.poseIndex][0]];
+        this.poseLength = this.animations.get(this.animation.getFirst())[this.poseIndex][1];
         this.animationTick = 0;
         this.prevTicks = ticks;
         this.initIncrements(entity);
@@ -271,12 +273,17 @@ public class AnimationPass {
             this.updatePreviousPose();
         }
         this.setPose(entity, ticks);
+        this.prevPose.pop();
+        this.animation.pop();
+        if(this.animation.isEmpty()){
+            this.animation.add(EntityAnimation.IDLE.get());
+        }
     }
 
     public boolean incrementPose() {
         this.poseIndex++;
         if (this.poseIndex >= this.poseCount) {
-            EntityAnimation animation = EntityAnimation.getAnimation(this.animation);
+            EntityAnimation animation = EntityAnimation.getAnimation(this.animation.getFirst());
             if (animation != null && animation.shouldHold()) {
                 this.poseIndex = this.poseCount - 1;
             } else {
@@ -290,10 +297,10 @@ public class AnimationPass {
     protected void setAnimation(Animatable entity, Animation requestedAnimation) {
         this.updatePreviousPose();
 
-        if (this.animations.get(requestedAnimation) != null && !(this.animation != EntityAnimation.IDLE.get() && this.animation == requestedAnimation && !this.isLooping())) {
-            this.animation = requestedAnimation;
+        if (this.animations.get(requestedAnimation) != null && !(this.animation.getFirst() != EntityAnimation.IDLE.get() && this.animation.getFirst() == requestedAnimation && !this.isLooping())) {
+            this.animation.add(requestedAnimation);
         } else {
-            this.animation = EntityAnimation.IDLE.get();
+            this.animation.add(EntityAnimation.IDLE.get());
         }
 
         this.setPose(0);
@@ -305,9 +312,9 @@ public class AnimationPass {
 
     protected void updatePreviousPose() {
         for (int partIndex = 0; partIndex < this.parts.length; partIndex++) {
-            this.prevRotationIncrements[partIndex][0] = this.rotationIncrements[partIndex][0] * this.inertiaFactor;
-            this.prevRotationIncrements[partIndex][1] = this.rotationIncrements[partIndex][1] * this.inertiaFactor;
-            this.prevRotationIncrements[partIndex][2] = this.rotationIncrements[partIndex][2] * this.inertiaFactor;
+            this.prevRotationIncrements[partIndex][0] += this.rotationIncrements[partIndex][0] * this.inertiaFactor;
+            this.prevRotationIncrements[partIndex][1] += this.rotationIncrements[partIndex][1] * this.inertiaFactor;
+            this.prevRotationIncrements[partIndex][2] += this.rotationIncrements[partIndex][2] * this.inertiaFactor;
 
             this.prevPositionIncrements[partIndex][0] += this.positionIncrements[partIndex][0] * this.inertiaFactor;
             this.prevPositionIncrements[partIndex][1] += this.positionIncrements[partIndex][1] * this.inertiaFactor;
@@ -362,7 +369,7 @@ public class AnimationPass {
                 ( this.animationTick / (this.poseLength) ),
                 0,
                 1
-                );
+        );
     }
 
     /**

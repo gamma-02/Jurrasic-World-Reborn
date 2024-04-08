@@ -20,16 +20,6 @@ public class TabHandler {
 
     public static HashMap<String, ArrayDeque<Item>> SCROLLING_TAB_ITEMS = new HashMap<>();
 
-    public static Supplier<ItemStack> currentDisplayFigure = ((Supplier<ItemStack>)() -> {
-
-     var a = ModItems.DISPLAY_BLOCK.get().getDefaultInstance();
-     if( a == null)
-     {
-         return Items.AIR.getDefaultInstance();
-     }
-     return a;
-    });
-
     public static final CreativeModeTab ITEMS = makeTab("jurassicworldreborn.items", () -> ModItems.APHID_AMBER.get(), () -> ModItems.MOSQUITO_AMBER.get());
     public static final CreativeModeTab CREATIVE = makeTab(new CreativeModeTab("jurassicworldreborn.creative") {
         @Override
@@ -44,7 +34,7 @@ public class TabHandler {
     });
     public static final CreativeModeTab BLOCKS = makeTab("jurassicworldreborn.blocks", () -> ModItems.GYPSUM_BRICKS.get());
 
-    public static final CreativeModeTab DECORATIONS = makeTab("jurassicworldreborn.decorations", () -> ModItems.DISPLAY_BLOCK.get());
+    public static final CreativeModeTab DECORATIONS = makeTab("jurassicworldreborn.decorations", () -> new ArrayList(ModItems.ACTION_FIGURES.values()));
 
     public static final CreativeModeTab DNA = makeTab("jurassicworldreborn.dna", () -> ModItems.DINOSAUR_DNA.get(DinosaurHandler.VELOCIRAPTOR).get());
 
@@ -63,15 +53,7 @@ public class TabHandler {
             public ItemStack getIconItem() {//this bit in particular makes the icon scroll/change between the specified items, or registered dinosaur display cases
                 if(!SCROLLING_TAB_ITEMS.containsKey(name) && !name.equals("jurassicworldreborn.decorations")) {
                     return super.getIconItem();
-                } else if(name.equals("jurassicworldreborn.decorations")) {
-                    Calendar c = Calendar.getInstance();
-                    if(System.currentTimeMillis() >= prev + 5000){
-                        int i = Dinosaur.DINOS.indexOf(Dinosaur.getDinosaurByName(ActionFigureItem.getDinosaurID(currentDisplayFigure.get())));
-                        ActionFigureItem.setDinosaurID(currentDisplayFigure.get(), Dinosaur.DINOS.get(i).getName());
-                        prev = System.currentTimeMillis();
-                    }
-                    return currentDisplayFigure.get();
-                } else{
+                }else{
 
                     if(System.currentTimeMillis() >= prev + 5000){
                         Item i = SCROLLING_TAB_ITEMS.get(name).poll();
@@ -105,16 +87,8 @@ public class TabHandler {
 
             @Override
             public ItemStack getIconItem() {//this bit in particular makes the icon scroll/change between the specified items, or registered dinosaur display cases
-                if(!SCROLLING_TAB_ITEMS.containsKey(name) && !name.equals("jurassicworldreborn.decorations")) {
+                if(!SCROLLING_TAB_ITEMS.containsKey(name) ) {
                     return super.getIconItem();
-                } else if(name.equals("jurassicworldreborn.decorations")) {
-                    Calendar c = Calendar.getInstance();
-                    if(System.currentTimeMillis() >= prev + 5000){
-                        int i = Dinosaur.DINOS.indexOf(Dinosaur.getDinosaurByName(ActionFigureItem.getDinosaurID(currentDisplayFigure.get())));
-                        ActionFigureItem.setDinosaurID(currentDisplayFigure.get(), Dinosaur.DINOS.get(i).getName());
-                        prev = System.currentTimeMillis();
-                    }
-                    return currentDisplayFigure.get();
                 } else{
 
                     if(System.currentTimeMillis() >= prev + 5000){

@@ -38,7 +38,7 @@ public class FaunaFossilBlockEntity extends BlockEntity {
 
 
     @Override
-    protected void saveAdditional(CompoundTag pTag) {
+    public void saveAdditional(CompoundTag pTag) {
         super.saveAdditional(pTag);
 
         pTag.putString("Dinosaur", dinosaur.getName());

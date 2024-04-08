@@ -1,16 +1,21 @@
 package net.gamma02.jurassicworldreborn.common.blocks.entities.cleaner;
 
+import net.gamma02.jurassicworldreborn.common.blocks.entities.MachineBlockEntity;
 import net.gamma02.jurassicworldreborn.common.blocks.entities.ModBlockEntities;
 import net.gamma02.jurassicworldreborn.common.items.ModItems;
 import net.gamma02.jurassicworldreborn.common.network.Network;
 import net.gamma02.jurassicworldreborn.common.recipies.cleaner.CleaningRecipie;
 import net.gamma02.jurassicworldreborn.common.util.api.CleanableItem;
+import net.gamma02.jurassicworldreborn.common.util.networking.BlockUpdateUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.MenuProvider;
@@ -24,17 +29,20 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import org.checkerframework.checker.units.qual.C;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.List;
 
-public class CleanerBlockEntity extends BlockEntity implements BlockEntityTicker<CleanerBlockEntity>, Container, IFluidTank, MenuProvider {
+public class CleanerBlockEntity extends MachineBlockEntity<CleanerBlockEntity> implements IFluidTank {
 
     @Nullable CleaningRecipie currentRecipe;
     private boolean usingCleaningRecipe = true;
@@ -81,7 +89,9 @@ public class CleanerBlockEntity extends BlockEntity implements BlockEntityTicker
     @Override
     @ParametersAreNonnullByDefault
     public void tick(Level world, BlockPos pos, BlockState state, CleanerBlockEntity instance) {
+        super.tick(world, pos, state, instance);
         ItemStack input = this.getItem(0);
+
         if(progress >= 200 && this.currentRecipe != null){
 
             this.addItem(this.currentRecipe.assemble(this));
@@ -204,6 +214,16 @@ public class CleanerBlockEntity extends BlockEntity implements BlockEntityTicker
         this.inventory.clear();
     }
 
+    @Override
+    protected NonNullList<ItemStack> getItems() {
+        return this.inventory;
+    }
+
+    @Override
+    protected void setItems(NonNullList<ItemStack> nonNullList) {
+        this.inventory = nonNullList;
+    }
+
     @Nonnull
     @Override
     public FluidStack getFluid() {
@@ -253,43 +273,65 @@ public class CleanerBlockEntity extends BlockEntity implements BlockEntityTicker
         return stack;
     }
 
-    @org.jetbrains.annotations.Nullable
-    @Override
-    public AbstractContainerMenu createMenu(int id, Inventory inv, Player player) {
-        return new CleanerMenu(id, inv, this, this.dataAccess);
-    }
+
 
     @Override
-    public @NotNull Component getDisplayName() {
+    protected AbstractContainerMenu createMenu(int i, Inventory inventory) {
+        return new CleanerMenu(i, inventory, this, this.dataAccess);
+    }
+
+
+    @Override
+    protected Component getDefaultName() {
         return MutableComponent.create(new TranslatableContents("block.jurassicworldreborn.cleaner_block_name"));
     }
 
     @Override
-    protected void saveAdditional(CompoundTag pTag) {
-
+    public Tag getMachineData() {
+        CompoundTag pTag = new CompoundTag();
         pTag.putInt("Progress", this.progress);
         CompoundTag fluid = new CompoundTag();
         this.fluid.writeToNBT(fluid);
         pTag.put("Fluid", fluid);
         ContainerHelper.saveAllItems(pTag, this.inventory, true);
-        super.saveAdditional(pTag);
+        return pTag;
     }
 
     @Override
-    public CompoundTag getUpdateTag() {
-        
-        return super.getUpdateTag();
+    public void readMachineData(Tag machineData) {
+        if(machineData instanceof CompoundTag pTag) {
+            int progress = pTag.getInt("Progress");
+            var fluid = FluidStack.loadFluidStackFromNBT(pTag.getCompound("Fluid"));
+            NonNullList<ItemStack> inventory = NonNullList.withSize(8, ItemStack.EMPTY);
+            ContainerHelper.loadAllItems(pTag, inventory);
+            this.progress = progress;
+            this.fluid = fluid;
+            this.inventory = inventory;
+        }
     }
 
     @Override
-    public void load(CompoundTag pTag) {
-        int progress = pTag.getInt("Progress");
-        var fluid = FluidStack.loadFluidStackFromNBT(pTag.getCompound("Fluid"));
-        NonNullList<ItemStack> inventory = NonNullList.withSize(8, ItemStack.EMPTY);
-        ContainerHelper.loadAllItems(pTag, inventory);
-        this.progress = progress;
-        this.fluid = fluid;
-        this.inventory = inventory;
-        super.load(pTag);
+    public boolean canProcess(ItemStack... inputs) {
+        return false;
+    }
+
+    @Override
+    public @NotNull List<ItemStack> processItem(ItemStack... inputs) {
+        return null;
+    }
+
+    @Override
+    public int[] getSlotsForFace(Direction direction) {
+        return new int[0];
+    }
+
+    @Override
+    public boolean canPlaceItemThroughFace(int i, ItemStack itemStack, @org.jetbrains.annotations.Nullable Direction direction) {
+        return false;
+    }
+
+    @Override
+    public boolean canTakeItemThroughFace(int i, ItemStack itemStack, Direction direction) {
+        return false;
     }
 }

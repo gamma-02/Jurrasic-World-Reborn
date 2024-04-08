@@ -56,6 +56,9 @@ public class RenderingHandler{
         event.registerBlockEntityRenderer(ModBlockEntities.DNA_EXTRACTOR_BLOCK_ENTITY.get(), helper.makeProvider(DNAExtractorRenderer::new));
         event.registerBlockEntityRenderer(ModBlockEntities.INCUBATOR_BLOCK_ENTITY.get(), helper.makeProvider(IncubatorRenderer::new));
         event.registerBlockEntityRenderer(ModBlockEntities.DNA_SEQUENCER_BLOCK_ENTITY.get(), helper.makeProvider(DNASequencerRenderer::new));
+        event.registerBlockEntityRenderer(ModBlockEntities.TOUR_RAIL_BLOCK_ENTITY.get(), helper.makeProvider(TourRailBlockEntityRenderer::new));
+
+
 
     }
 

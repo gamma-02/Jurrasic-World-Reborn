@@ -35,7 +35,7 @@ public class EncasedFaunaFossilBlockEntity extends BlockEntity {
 
 
     @Override
-    protected void saveAdditional(CompoundTag pTag) {
+    public void saveAdditional(CompoundTag pTag) {
         super.saveAdditional(pTag);
 
         pTag.putString(DINO_KEY, dino != null ? dino.getName() : Dinosaur.EMPTY.getName());

@@ -25,7 +25,7 @@ public class MovementAnimationPass extends AnimationPass {
     protected float getAnimationDegree(Animatable entity) {
         float degree;
 
-        if (this.animation == EntityAnimation.WALKING.get() || this.animation == EntityAnimation.RUNNING.get() || this.animation == EntityAnimation.SWIMMING.get() || this.animation == EntityAnimation.CLIMBING.get()) {
+        if (this.animation.getFirst() == EntityAnimation.WALKING.get() || this.animation.getFirst() == EntityAnimation.RUNNING.get() || this.animation.getFirst() == EntityAnimation.SWIMMING.get() || this.animation.getFirst() == EntityAnimation.CLIMBING.get()) {
             if (entity.inWater() || entity.inLava()) {
                 degree = this.limbSwingAmount * 4.0F;
             } else {

@@ -177,6 +177,8 @@ public class EmbryoCalcificationMachineBlockEntity extends MachineBlockEntity<Em
 
     @Override
     public void tick(@NotNull Level pLevel, @NotNull BlockPos pPos, @NotNull BlockState pState, @NotNull EmbryoCalcificationMachineBlockEntity pBlockEntity) {
+        super.tick(pLevel, pPos, pState, pBlockEntity);
+
         if (pLevel.isClientSide)
             return;
 

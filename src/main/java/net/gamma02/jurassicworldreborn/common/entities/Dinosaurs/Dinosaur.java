@@ -9,11 +9,14 @@ import net.gamma02.jurassicworldreborn.client.render.entity.animation.PoseHandle
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.*;
 import net.gamma02.jurassicworldreborn.common.legacy.tabula.TabulaModelHelper;
+import net.gamma02.jurassicworldreborn.common.util.LangUtil;
 import net.gamma02.jurassicworldreborn.common.util.TimePeriod;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.level.biome.Biome;
+import org.jetbrains.annotations.NotNull;
 
 import javax.vecmath.Matrix4d;
 import javax.vecmath.Vector3d;
@@ -121,7 +124,7 @@ public abstract class Dinosaur implements Comparable<Dinosaur> {
     public static Dinosaur EMPTY = new EmptyDinosaur();
 
 
-    public static Dinosaur getDinosaurByName(String name) {
+    public static @NotNull Dinosaur getDinosaurByName(String name) {
         if(name == null){
             return EMPTY;
         }
@@ -155,6 +158,10 @@ public abstract class Dinosaur implements Comparable<Dinosaur> {
         }
 
 
+    }
+
+    public MutableComponent getTranslatedName(){
+        return LangUtil.getDinoName(this);
     }
 
     public static Matrix4d getParentRotationMatrix(TabulaModelContainer model, TabulaCubeContainer cube, boolean includeParents, boolean ignoreSelf, float rot) {

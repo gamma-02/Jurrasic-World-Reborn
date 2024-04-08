@@ -1,6 +1,8 @@
 package net.gamma02.jurassicworldreborn.common.blocks.entities;
 
 import net.gamma02.jurassicworldreborn.Jurassicworldreborn;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.Embryoncis.EmbryonicMachine.EmbryonicMachineBlock;
+import net.gamma02.jurassicworldreborn.common.blocks.entities.Embryoncis.EmbryonicMachine.EmbryonicMachineBlockEntity;
 import net.gamma02.jurassicworldreborn.common.entities.DinosaurEntity;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.DinosaurHandler;
 import net.gamma02.jurassicworldreborn.common.entities.Dinosaurs.Dinosaur;
@@ -22,13 +24,18 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -39,7 +46,7 @@ public class ActionFigureBlock extends Block implements EntityBlock
 {
     public ActionFigureBlock(Properties p_49795_) {
         super(p_49795_);
-        Jurassicworldreborn.setRenderType(this, RenderType.cutoutMipped());
+        Jurassicworldreborn.setRenderType(this, RenderType.cutout());
     }
 
     @Nullable
@@ -54,6 +61,11 @@ public class ActionFigureBlock extends Block implements EntityBlock
         return getBounds(pLevel, pPos);
     }
 
+    @Override
+    public boolean propagatesSkylightDown(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
+        return true;
+    }
+
 
 
     private static VoxelShape getBounds(BlockGetter world, BlockPos pos) {
@@ -61,7 +73,7 @@ public class ActionFigureBlock extends Block implements EntityBlock
         if (entity instanceof ActionFigureBlockEntity displayEntity) {
             DinosaurEntity dinoEntity = displayEntity.getEntity();
             if(dinoEntity == null)
-                return Block.box(0, 0, 0, 16, 16, 16);
+                return Shapes.empty();
             Dinosaur dinosaur = dinoEntity.getDinosaur();
             if (!displayEntity.isSkeleton()) {
                 Dinosaur metadata = dinosaur;
@@ -71,10 +83,12 @@ public class ActionFigureBlock extends Block implements EntityBlock
                 width *= 16;//converts these values from 1.12 system to 1.18 system - gamma
                 height *= 16;
                 halfWidth *= 16;
-                return Block.box(0.5 - halfWidth, 0, 0.5 - halfWidth, halfWidth + 0.5, height, halfWidth + 0.5);
+                return Block.box(8 - halfWidth, 0, 8 - halfWidth, halfWidth + 8, height, halfWidth + 8);
+            }else{
+                return Block.box(0.01, 0.01, 0.01, 15.99, 15.99, 15.99);
             }
         }
-        return Block.box(0, 0, 0, 16, 16, 16);
+        return Shapes.empty();
     }
 
 
@@ -110,11 +124,6 @@ public class ActionFigureBlock extends Block implements EntityBlock
         return world.getBlockState(pos.below()).getMaterial().isSolid();
     }
 
-    @Override
-    public Item asItem() {
-        return ModItems.DISPLAY_BLOCK.get();
-    }
-
 
 
     @Override
@@ -123,17 +132,6 @@ public class ActionFigureBlock extends Block implements EntityBlock
     }
 
     public ActionFigureBlockEntity getTile(Level world, BlockPos pos) {return (ActionFigureBlockEntity) world.getBlockEntity(pos);}
-
-
-
-
-
-
-
-
-
-
-
 
 
     private static ItemStack getItemFromTile(ActionFigureBlockEntity tile) {
@@ -146,9 +144,19 @@ public class ActionFigureBlock extends Block implements EntityBlock
         boolean skeleton = tile.isSkeleton();
 
 
+        ActionFigureItem item;
+        if(skeleton){
+            if(tile.isFossile())
+                item = ModItems.FOSSIL_SKELETONS.get(dino).get();
+            else
+                item = ModItems.FRESH_SKELETONS.get(dino).get();
+        }
+        item = ModItems.ACTION_FIGURES.get(dino).get();
 
-        ItemStack stack = new ItemStack(ModItems.DISPLAY_BLOCK.get(), 1, new NbtBuilder().putString(ActionFigureItem.DINOSAUR_ID_TAG, dino.getName()).putBoolean(ActionFigureItem.SKELETON_TAG, skeleton).putInt(ActionFigureItem.VARIANT_TAG, variant).putByte(ActionFigureItem.VARIANT_TAG, variant).build());
-        CompoundTag nbt = new NbtBuilder().putByte("Gender",  (byte) (tile.isMale() ? 1 : 2)).putByte("Variant", tile.getVariant()).putByte("Variant", tile.getVariant()).build();
+
+
+        ItemStack stack = new ItemStack(item);
+        CompoundTag nbt = new NbtBuilder().putByte("Gender",  (byte) (tile.isMale() ? 1 : 2)).build();
         return stack;
     }
 
@@ -165,6 +173,19 @@ public class ActionFigureBlock extends Block implements EntityBlock
         return drops;
     }
 
+    @Override
+    public RenderShape getRenderShape(BlockState pState) {
+        return RenderShape.ENTITYBLOCK_ANIMATED;
+    }
 
 
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
+        return (pLevel1, pPos, pState1, pBlockEntity) -> {
+            if(pLevel1.getBlockEntity(pPos) instanceof ActionFigureBlockEntity actionFigure){
+                actionFigure.tick(pLevel1, pPos, pState1, actionFigure);
+            }
+        };
+    }
 }

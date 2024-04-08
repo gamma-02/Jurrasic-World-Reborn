@@ -25,12 +25,8 @@ public abstract class EntityAnimator<ENTITY extends LivingEntity & Animatable> i
 
     private JabelarAnimationHandler<ENTITY> getAnimationHelper(ENTITY entity, AnimatableModel model, boolean useInertialTweens) {
         GrowthStage growth = entity.getGrowthStage();
-        Map<ENTITY, JabelarAnimationHandler<ENTITY>> growthToRender = this.animationHandlers.get(growth);
 
-        if (growthToRender == null) {
-            growthToRender = new WeakHashMap<>();//WHAT THE FUCK IS A WEAK HASH MAP - gamma
-            this.animationHandlers.put(growth, growthToRender);
-        }
+        Map<ENTITY, JabelarAnimationHandler<ENTITY>> growthToRender = this.animationHandlers.computeIfAbsent(growth, k -> new WeakHashMap<>());
 
         JabelarAnimationHandler<ENTITY> render = growthToRender.get(entity);
 
@@ -45,21 +41,21 @@ public abstract class EntityAnimator<ENTITY extends LivingEntity & Animatable> i
     @Override
     public final void setRotationAngles(TabulaModel model, ENTITY entity, float limbSwing, float limbSwingAmount, float ticks, float rotationYaw, float rotationPitch, float scale) {
         this.getAnimationHelper(entity, (AnimatableModel) model, entity.shouldUseInertia()).performAnimations(entity, limbSwing, limbSwingAmount, ticks);
-        for(int i = 0;true;i++) {
-            AdvancedModelBox cube = model.getCube("neck" + i++);
-            if(cube == null) {
-                cube = model.getCube("throat" + i++);
-            }
-//            Arrays.stream(((AnimatableModel) model).getCubeIdentifierArray()).forEach(Jurassicworldreborn::checkCubeId);
-            float j = 1 - (i * 0.00001F);
-            if(cube != null ) {
-                cube.scaleX *= j;
-                cube.scaleY *= j;
-                cube.scaleZ *= j;
-
-            }
-            break;
-        }
+//        for(int i = 0;true;i++) {
+//            AdvancedModelBox cube = model.getCube("neck" + i++);
+//            if(cube == null) {
+//                cube = model.getCube("throat" + i++);
+//            }
+////            Arrays.stream(((AnimatableModel) model).getCubeIdentifierArray()).forEach(Jurassicworldreborn::checkCubeId);
+//            float j = 1 - (i * 0.00001F);
+//            if(cube != null ) {
+//                cube.scaleX *= j;
+//                cube.scaleY *= j;
+//                cube.scaleZ *= j;
+//
+//            }
+//            break;
+//        }
         this.performAnimations((AnimatableModel) model, entity, limbSwing, limbSwingAmount, ticks, rotationYaw, rotationPitch, scale);
     }
 

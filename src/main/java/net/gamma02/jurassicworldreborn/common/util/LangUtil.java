@@ -16,10 +16,11 @@ import java.util.function.Supplier;
  */
 public class LangUtil {
 
-    public static final String LORE = "lore.%s.name";
+    public static final String LORE = "lore.%s";
+    public static final String GENDER_CHANGE = "%s.genderchange";
 
 
-    public static Component getDinoName(Dinosaur dino){
+    public static MutableComponent getDinoName(Dinosaur dino){
         return Component.translatable(getEntityKey(dino.getName().replace(" ", "_").toLowerCase(Locale.ENGLISH)));
     }
 
@@ -28,10 +29,10 @@ public class LangUtil {
     }
 
     public static Component replaceWithDinosaurName(Dinosaur name, String key){
-        return replaceInKey(name::getName, "{dinosaur}", key);
+        return replaceInKey(() -> name.getTranslatedName().getString(), "{dinosaur}", key);
     }
     public static MutableComponent replaceWithDinoName(Dinosaur name, String key){
-        return replaceInKey(name::getName, "{dino}", key);
+        return replaceInKey(() -> name.getTranslatedName().getString(), "{dino}", key);
     }
 
 
@@ -45,6 +46,20 @@ public class LangUtil {
 
     public static Component getFormattedGenetics(String genetics) {
         return genetics.isEmpty() ? Component.literal("???").withStyle(ChatFormatting.OBFUSCATED) : Component.literal(genetics);
+    }
+
+    public static MutableComponent getGender(int gender){
+        String genderKey = "";
+        if(gender == 0){
+            genderKey = "random";
+        }else if(gender == 1){
+            genderKey = "male";
+        }else if(gender == 2){
+            genderKey = "female";
+        }
+
+        return Component.translatable("gender." + genderKey);
+
     }
 
 }

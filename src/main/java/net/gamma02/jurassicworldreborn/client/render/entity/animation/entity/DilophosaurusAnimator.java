@@ -66,21 +66,22 @@ public class DilophosaurusAnimator extends EntityAnimator<DilophosaurusEntity> {
         float globalSpeed = 1.0F;
         float globalDegree = 1.0F;
 
-        model.bob(body3, globalSpeed * 0.5F, globalDegree * 1.0F, false, limbSwing, limbSwingAmount);
-        model.bob(rightThigh, globalSpeed * 0.5F, globalDegree * 1.0F, false, limbSwing, limbSwingAmount);
-        model.bob(leftThigh, globalSpeed * 0.5F, globalDegree * 1.0F, false, limbSwing, limbSwingAmount);
+//        model.bob(body3, globalSpeed * 0.5F, globalDegree, false, limbSwing, limbSwingAmount);
+//        model.bob(rightThigh, globalSpeed * 0.5F, globalDegree, false, limbSwing, limbSwingAmount);
+//        model.bob(leftThigh, globalSpeed * 0.5F, globalDegree, false, limbSwing, limbSwingAmount);
 
-        model.chainWave(tailParts, globalSpeed * 0.5F, globalDegree * 0.05F, 1, limbSwing, limbSwingAmount);
-        model.chainSwing(tailParts, globalSpeed * 0.5F, globalDegree * 0.1F, 2, limbSwing, limbSwingAmount);
-        model.chainWave(bodyParts, globalSpeed * 0.5F, globalDegree * 0.025F, 3, limbSwing, limbSwingAmount);
+//        model.chainWave(tailParts, globalSpeed * 0.5F, globalDegree * 0.05F, 1, limbSwing, limbSwingAmount);
+//        model.chainSwing(tailParts, globalSpeed * 0.5F, globalDegree * 0.1F, 2, limbSwing, limbSwingAmount);
+//        model.chainWave(bodyParts, globalSpeed * 0.5F, globalDegree * 0.025F, 3, limbSwing, limbSwingAmount);
+//
+//        model.chainWave(tailParts, 0.15F, -0.03F, 2, ticks, 0.25F);
+//        model.chainWave(bodyParts, 0.15F, 0.03F, 3.5F, ticks, 0.25F);
+//        model.chainWave(armRight, 0.15F, -0.1F, 4, ticks, 0.25F);
+//        model.chainWave(armLeft, 0.15F, -0.1F, 4, ticks, 0.25F);
+//        model.chainSwing(tailParts, 0.15F, -0.1F, 3, ticks, 0.25F);
 
-        model.chainWave(tailParts, 0.15F, -0.03F, 2, ticks, 0.25F);
-        model.chainWave(bodyParts, 0.15F, 0.03F, 3.5F, ticks, 0.25F);
-        model.chainWave(armRight, 0.15F, -0.1F, 4, ticks, 0.25F);
-        model.chainWave(armLeft, 0.15F, -0.1F, 4, ticks, 0.25F);
-        model.chainSwing(tailParts, 0.15F, -0.1F, 3, ticks, 0.25F);
-
-        model.faceTarget(rotationYaw, rotationPitch, 1.0F, neck1, head);
+        if(!entity.isNoAi())
+            model.faceTarget(rotationYaw, rotationPitch, 1.0F, neck1, head);
 
         entity.tailBuffer.applyChainSwingBuffer(tailParts);
     }

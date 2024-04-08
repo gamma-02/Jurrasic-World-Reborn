@@ -58,7 +58,8 @@ public class VelociraptorAnimator extends EntityAnimator<VelociraptorEntity> {
         model.chainWave(rightArmParts, 0.1F, -0.1F, 4, ticks, 0.25F);
         model.chainWave(leftArmParts, 0.1F, -0.1F, 4, ticks, 0.25F);
 
-        model.faceTarget(rotationYaw, rotationPitch, 2.0F, neck1, head);
+        if(!entity.isNoAi())
+            model.faceTarget(rotationYaw, rotationPitch, 2.0F, neck1, head);
 
         entity.tailBuffer.applyChainSwingBuffer(tailParts);
     }

@@ -62,7 +62,7 @@ public class DNASequencerRenderer implements BlockEntityRenderer<DNASequencerBlo
 
         for (int i : DNASequencerBlockEntity.DNA_INPUT) {
             ItemStack stack = ItemStack.EMPTY;
-            var st = Network.getSlotContents(blockEntity.getBlockPos(), i);
+            var st = blockEntity.getItem(i);
             if(st != null){
                 stack = st;
             }

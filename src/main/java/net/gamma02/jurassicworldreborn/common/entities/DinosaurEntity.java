@@ -18,13 +18,16 @@ import net.gamma02.jurassicworldreborn.common.entities.EntityUtils.ai.*;
 import net.gamma02.jurassicworldreborn.common.genetics.GeneticsHelper;
 import net.gamma02.jurassicworldreborn.common.util.ItemsUtil;
 import net.gamma02.jurassicworldreborn.common.util.ai.OnionTraverser;
+import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -675,7 +678,10 @@ public abstract class DinosaurEntity extends PathfinderMob implements IEntityAdd
             item.setDefaultPickUpDelay();
 
             if (this.shouldDropExperience()) {
-                this.captureDrops().add(item);
+                var thingie = this.captureDrops();
+                if (thingie != null) {
+                    thingie.add(item);
+                }
             } else {
                 this.level.addFreshEntity(item);
             }
@@ -1470,9 +1476,10 @@ public abstract class DinosaurEntity extends PathfinderMob implements IEntityAdd
 //                    player.(this.inventory); todo: inventories
                      } else {
                     if (this.level.isClientSide) {
-//                        TranslatableContents denied = new TranslatableContents("message.too_young.name");todo: translations
+//                        TranslatableContents denied = new TranslatableContents("message.too_young.name");
 //                        denied.getStyle().applyFormat(ChatFormatting.RED);
 //                        Minecraft.getInstance().player.sendMessage(denied, null);
+                        Minecraft.getInstance().player.sendSystemMessage(Component.translatable("message.too_young").withStyle(ChatFormatting.RED));
                     }
                 }
             } else {
@@ -1565,6 +1572,7 @@ public abstract class DinosaurEntity extends PathfinderMob implements IEntityAdd
 
     @Override
     public void setAnimation(Animation newAnimation) {
+        var anim = newAnimation;
         if (this.isSleeping()) {
             newAnimation = EntityAnimation.SLEEPING.get();
         }
@@ -1574,6 +1582,10 @@ public abstract class DinosaurEntity extends PathfinderMob implements IEntityAdd
         }
         Animation oldAnimation = this.animation;
         this.animation = newAnimation;
+
+        if(EntityAnimation.getAnimation(anim) == EntityAnimation.IDLE)
+            newAnimation = anim;
+
         if (oldAnimation != newAnimation) {
             this.animationTick = 0;
             this.animationLength = (int) this.dinosaur.getPoseHandler().getAnimationLength(newAnimation, this.getGrowthStage());

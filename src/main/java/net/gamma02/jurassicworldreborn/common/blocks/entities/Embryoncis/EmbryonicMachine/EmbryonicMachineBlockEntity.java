@@ -201,6 +201,8 @@ public class EmbryonicMachineBlockEntity extends MachineBlockEntity<EmbryonicMac
 
     @Override
     public void tick(Level pLevel, BlockPos pPos, BlockState pState, EmbryonicMachineBlockEntity pBlockEntity) {
+        super.tick(pLevel, pPos, pState, pBlockEntity);
+
         if(pLevel.isClientSide)
             return;
 
